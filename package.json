@@ -4,6 +4,9 @@
   "private": true,
   "description": "TypeScript monorepo",
   "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:citadel": "pnpm --filter @forge/citadel dev",
+    "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "clean": "pnpm -r clean && rm -rf node_modules"
   },
