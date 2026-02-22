@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+
+# Generated files
+*.js
+*.d.ts
+*.tsbuildinfo
+
+# Config files
+*.config.js
+*.config.ts
