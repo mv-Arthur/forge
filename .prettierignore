@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+
+# Generated files
+*.d.ts
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# GitHub workflows
+.github/
+
+# IDE
+.vscode/
+.idea/

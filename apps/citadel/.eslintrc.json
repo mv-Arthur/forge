@@ -1,13 +1,13 @@
 {
-  "extends": "../../.eslintrc.json",
-  "rules": {
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        "js": "always",
-        "ts": "never"
-      }
-    ]
-  }
+    "extends": "../../.eslintrc.json",
+    "rules": {
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "always",
+                "ts": "never"
+            }
+        ]
+    }
 }
