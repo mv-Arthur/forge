@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "nest start --watch",
         "build": "nest build",
-        "start": "node dist/main.js",
+        "bundle": "nest build && node esbuild.config.mjs",
+        "start": "node bundle/main.js",
         "debug": "nest start --debug --watch",
         "clean": "rm -rf dist"
     },
@@ -24,6 +25,7 @@
         "@swc/cli": "^0.8.0",
         "@swc/core": "^1.15.13",
         "@types/node": "^25.3.0",
+        "esbuild": "^0.27.3",
         "ts-node": "^10.9.2",
         "typescript": "^5.0.0"
     }
