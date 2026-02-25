@@ -3,14 +3,12 @@
     "version": "0.0.0",
     "private": true,
     "description": "Telegram account management service",
-    "type": "module",
     "scripts": {
         "dev": "nest start --watch",
         "build": "nest build",
         "start": "node dist/main.js",
-        "start:prod": "node dist/main.js",
-        "typecheck": "tsc --noEmit",
-        "clean": "rm -rf dist tsconfig.tsbuildinfo"
+        "debug": "nest start --debug --watch",
+        "clean": "rm -rf dist"
     },
     "dependencies": {
         "@forge/shared": "workspace:*",
@@ -23,6 +21,8 @@
     "devDependencies": {
         "@nestjs/cli": "^11.0.16",
         "@nestjs/schematics": "^11.0.9",
+        "@swc/cli": "^0.8.0",
+        "@swc/core": "^1.15.13",
         "@types/node": "^25.3.0",
         "ts-node": "^10.9.2",
         "typescript": "^5.0.0"
