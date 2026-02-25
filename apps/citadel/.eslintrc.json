@@ -1,13 +1,6 @@
 {
     "extends": "../../.eslintrc.json",
     "rules": {
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-                "js": "always",
-                "ts": "never"
-            }
-        ]
+        "@typescript-eslint/consistent-type-imports": "off"
     }
 }
