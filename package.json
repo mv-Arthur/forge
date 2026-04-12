@@ -6,6 +6,8 @@
     "scripts": {
         "dev": "pnpm -r --parallel dev",
         "dev:citadel": "pnpm --filter @forge/citadel dev",
+        "dev:ncottage": "pnpm --filter @forge/ncottage dev",
+        "build:ncottage": "pnpm --filter @forge/ncottage build",
         "build": "pnpm -r build",
         "typecheck": "pnpm -r typecheck",
         "lint": "eslint .",
