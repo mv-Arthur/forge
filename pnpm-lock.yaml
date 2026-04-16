@@ -82,7 +82,7 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
-  apps/ncottage:
+  apps/nc_presentation:
     dependencies:
       react:
         specifier: ^18.3.1
