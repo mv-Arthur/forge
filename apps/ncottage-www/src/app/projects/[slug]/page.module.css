@@ -1,0 +1,158 @@
+.page {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.hero {
+    position: relative;
+    height: 400px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 48px;
+}
+
+.heroImage {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-bg-card);
+}
+
+.heroOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(10, 15, 13, 0.9) 0%,
+        rgba(10, 15, 13, 0.3) 60%
+    );
+}
+
+.heroContent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px;
+    z-index: 1;
+}
+
+.back {
+    display: inline-block;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+    transition: color var(--transition-fast);
+}
+
+.back:hover {
+    color: var(--color-accent);
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.dims {
+    font-weight: 400;
+    color: var(--color-text-muted);
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+/* Content */
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 48px;
+    align-items: start;
+}
+
+.main {
+    /* text content */
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    margin-top: 32px;
+}
+
+.sectionTitle:first-child {
+    margin-top: 0;
+}
+
+.description {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.specs {
+    display: flex;
+    flex-direction: column;
+}
+
+.specRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+}
+
+.specLabel {
+    color: var(--color-text-muted);
+}
+
+/* Sidebar */
+
+.sidebar {
+    position: sticky;
+    top: 120px;
+}
+
+.cta {
+    padding: 32px;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ctaPrice {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.ctaNote {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+}
+
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        height: 300px;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+}

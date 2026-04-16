@@ -1,0 +1,207 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #fff;
+}
+
+/* Top bar — logo + contacts */
+
+.topBar {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.topBarInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.contacts {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--color-text-light);
+    font-size: 12px;
+}
+
+.schedule {
+    font-size: 12px;
+}
+
+.email {
+    color: var(--color-green);
+    font-size: 12px;
+}
+
+.phones {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.phone {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    transition: color var(--transition);
+}
+
+.phone:hover {
+    color: var(--color-green);
+}
+
+.callBtn {
+    padding: 8px 22px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background-color: var(--color-green);
+    border: 2px solid var(--color-green);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.callBtn:hover {
+    background-color: var(--color-green-hover);
+    border-color: var(--color-green-hover);
+}
+
+/* Green nav bar */
+
+.navBar {
+    background-color: var(--color-green);
+    padding: 0;
+}
+
+.navBarInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-right: 30px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex: 1;
+}
+
+.navItem {
+    position: relative;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    height: 45px;
+    padding: 0 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color var(--transition);
+}
+
+.navLink:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Dropdown */
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    padding: 10px 0;
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.dropdownLink {
+    display: block;
+    padding: 8px 20px;
+    font-size: 14px;
+    color: var(--color-text);
+    transition: all var(--transition);
+}
+
+.dropdownLink:hover {
+    color: var(--color-green);
+    background-color: #f8f8f8;
+}
+
+/* Burger */
+
+.burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+}
+
+.burger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 1px;
+}
+
+/* Mobile menu */
+
+.mobileMenu {
+    display: none;
+    background-color: #fff;
+    border-top: 1px solid var(--color-border);
+    padding: 15px 0 25px;
+}
+
+.mobileLink {
+    display: block;
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.mobileSubLink {
+    display: block;
+    padding: 8px 0 8px 20px;
+    font-size: 13px;
+    color: var(--color-text);
+}
+
+@media (max-width: 1024px) {
+    .nav {
+        display: none;
+    }
+
+    .burger {
+        display: flex;
+    }
+
+    .mobileMenu {
+        display: block;
+    }
+
+    .topBar {
+        display: none;
+    }
+}

@@ -1,0 +1,170 @@
+[
+    {
+        "slug": "nord",
+        "name": "Норд",
+        "technology": "gas-concrete",
+        "area": 156,
+        "floors": 2,
+        "bedrooms": 4,
+        "bathrooms": 2,
+        "price": 4850000,
+        "image": "/images/projects/nord.jpg",
+        "images": ["/images/projects/nord.jpg"],
+        "description": "Современный двухэтажный дом из газобетона с панорамными окнами и просторной террасой.",
+        "specs": {
+            "dimensions": "10x13",
+            "roofType": "Двускатная",
+            "foundation": "Ленточный",
+            "wallMaterial": "Газобетон D400",
+            "buildTime": "4-5 месяцев"
+        },
+        "featured": true
+    },
+    {
+        "slug": "alaster",
+        "name": "Аластер",
+        "technology": "brick",
+        "area": 210,
+        "floors": 2,
+        "bedrooms": 5,
+        "bathrooms": 3,
+        "price": 7200000,
+        "image": "/images/projects/alaster.jpg",
+        "images": ["/images/projects/alaster.jpg"],
+        "description": "Классический кирпичный дом с мансардой, гаражом и вторым светом в гостиной.",
+        "specs": {
+            "dimensions": "13x16",
+            "roofType": "Вальмовая",
+            "foundation": "Плитный",
+            "wallMaterial": "Кирпич",
+            "buildTime": "6-8 месяцев"
+        },
+        "featured": true
+    },
+    {
+        "slug": "valter",
+        "name": "Вальтер",
+        "technology": "gas-concrete",
+        "area": 180,
+        "floors": 2,
+        "bedrooms": 4,
+        "bathrooms": 2,
+        "price": 5600000,
+        "image": "/images/projects/valter.jpg",
+        "images": ["/images/projects/valter.jpg"],
+        "description": "Элегантный дом с плоской кровлей в стиле хай-тек. Большая терраса и второй свет.",
+        "specs": {
+            "dimensions": "12x14",
+            "roofType": "Плоская",
+            "foundation": "Монолитная плита",
+            "wallMaterial": "Газобетон D500",
+            "buildTime": "5-6 месяцев"
+        },
+        "featured": true
+    },
+    {
+        "slug": "eliot",
+        "name": "Элиот",
+        "technology": "frame",
+        "area": 120,
+        "floors": 1,
+        "bedrooms": 3,
+        "bathrooms": 1,
+        "price": 3200000,
+        "image": "/images/projects/eliot.jpg",
+        "images": ["/images/projects/eliot.jpg"],
+        "description": "Компактный одноэтажный каркасный дом для постоянного проживания семьи из 3-4 человек.",
+        "specs": {
+            "dimensions": "10x12",
+            "roofType": "Двускатная",
+            "foundation": "Свайно-винтовой",
+            "wallMaterial": "Каркас + утеплитель 200мм",
+            "buildTime": "2-3 месяца"
+        },
+        "featured": true
+    },
+    {
+        "slug": "faust",
+        "name": "Фауст",
+        "technology": "frame",
+        "area": 95,
+        "floors": 1,
+        "bedrooms": 2,
+        "bathrooms": 1,
+        "price": 2400000,
+        "image": "/images/projects/faust.jpg",
+        "images": ["/images/projects/faust.jpg"],
+        "description": "Уютный каркасный дом для загородного отдыха с открытой планировкой.",
+        "specs": {
+            "dimensions": "8x12",
+            "roofType": "Двускатная",
+            "foundation": "Свайно-винтовой",
+            "wallMaterial": "Каркас + утеплитель 150мм",
+            "buildTime": "2 месяца"
+        },
+        "featured": false
+    },
+    {
+        "slug": "berg",
+        "name": "Берг",
+        "technology": "sip",
+        "area": 140,
+        "floors": 2,
+        "bedrooms": 4,
+        "bathrooms": 2,
+        "price": 3800000,
+        "image": "/images/projects/berg.jpg",
+        "images": ["/images/projects/berg.jpg"],
+        "description": "Энергоэффективный дом из СИП-панелей с быстрой сборкой и отличной теплоизоляцией.",
+        "specs": {
+            "dimensions": "10x12",
+            "roofType": "Двускатная",
+            "foundation": "Ленточный",
+            "wallMaterial": "СИП-панели 174мм",
+            "buildTime": "2-3 месяца"
+        },
+        "featured": true
+    },
+    {
+        "slug": "karl",
+        "name": "Карл",
+        "technology": "brick",
+        "area": 240,
+        "floors": 2,
+        "bedrooms": 5,
+        "bathrooms": 3,
+        "price": 8500000,
+        "image": "/images/projects/karl.jpg",
+        "images": ["/images/projects/karl.jpg"],
+        "description": "Просторный кирпичный дом премиум-класса с бассейном и сауной.",
+        "specs": {
+            "dimensions": "14x18",
+            "roofType": "Многоскатная",
+            "foundation": "Монолитная плита",
+            "wallMaterial": "Кирпич + утеплитель",
+            "buildTime": "8-10 месяцев"
+        },
+        "featured": true
+    },
+    {
+        "slug": "otto",
+        "name": "Отто",
+        "technology": "gas-concrete",
+        "area": 130,
+        "floors": 1,
+        "bedrooms": 3,
+        "bathrooms": 2,
+        "price": 4100000,
+        "image": "/images/projects/otto.jpg",
+        "images": ["/images/projects/otto.jpg"],
+        "description": "Одноэтажный дом из газобетона с панорамным остеклением и террасой.",
+        "specs": {
+            "dimensions": "12x11",
+            "roofType": "Плоская",
+            "foundation": "Ленточный",
+            "wallMaterial": "Газобетон D400",
+            "buildTime": "3-4 месяца"
+        },
+        "featured": false
+    }
+]

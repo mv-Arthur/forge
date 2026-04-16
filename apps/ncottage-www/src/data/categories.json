@@ -1,0 +1,37 @@
+[
+    {
+        "slug": "brick",
+        "title": "Кирпичные дома",
+        "count": 90,
+        "image": "/images/categories/brick.jpg",
+        "technology": "brick"
+    },
+    {
+        "slug": "gas-concrete",
+        "title": "Газобетонные дома",
+        "count": 100,
+        "image": "/images/categories/gas-concrete.jpg",
+        "technology": "gas-concrete"
+    },
+    {
+        "slug": "frame",
+        "title": "Каркасные дома",
+        "count": 76,
+        "image": "/images/categories/frame.jpg",
+        "technology": "frame"
+    },
+    {
+        "slug": "sip",
+        "title": "Дома из СИП-панелей",
+        "count": 83,
+        "image": "/images/categories/sip.jpg",
+        "technology": "sip"
+    },
+    {
+        "slug": "fachwerk",
+        "title": "Фахверковые дома",
+        "count": 4,
+        "image": "/images/categories/fachwerk.jpg",
+        "technology": "fachwerk"
+    }
+]

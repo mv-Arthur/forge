@@ -1,0 +1,114 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/Montserrat-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/Montserrat-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/Montserrat-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/Montserrat-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* Colors — original ncottage.ru palette */
+    --color-green: #479332;
+    --color-green-hover: #52a73a;
+    --color-green-dark: #438630;
+    --color-red: #e84836;
+
+    --color-bg: #ffffff;
+    --color-bg-light: #f8f8f8;
+    --color-bg-green: #479332;
+
+    --color-text: #535353;
+    --color-text-dark: #2c2c2c;
+    --color-text-light: #838383;
+    --color-text-white: #ffffff;
+
+    --color-border: #e2e2e2;
+    --color-border-light: #c4c4c4;
+
+    /* Spacing */
+    --container-width: 1170px;
+    --section-padding: 60px 0;
+
+    /* Transitions */
+    --transition: 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+input,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    outline: none;
+}
