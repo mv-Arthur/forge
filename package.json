@@ -8,6 +8,8 @@
         "dev:citadel": "pnpm --filter @forge/citadel dev",
         "dev:nc_presentation": "pnpm --filter @forge/nc_presentation dev",
         "build:nc_presentation": "pnpm --filter @forge/nc_presentation build",
+        "dev:ncottage-www": "pnpm --filter @forge/ncottage-www dev",
+        "build:ncottage-www": "pnpm --filter @forge/ncottage-www build",
         "build": "pnpm -r build",
         "typecheck": "pnpm -r typecheck",
         "lint": "eslint .",

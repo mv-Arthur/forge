@@ -1,0 +1,40 @@
+.section {
+    padding: 60px 0;
+    background-color: var(--color-green);
+}
+
+.inner {
+    text-align: center;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.text {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 30px;
+}
+
+.button {
+    display: inline-block;
+    padding: 16px 40px;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-green);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.button:hover {
+    background-color: var(--color-text-dark);
+    color: #fff;
+}
