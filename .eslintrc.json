@@ -6,7 +6,7 @@
         "sourceType": "module",
         "project": "./tsconfig.json"
     },
-    "plugins": ["@typescript-eslint", "import"],
+    "plugins": ["@typescript-eslint", "import", "react"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -24,9 +24,38 @@
                 "varsIgnorePattern": "^_"
             }
         ],
-        "no-console": "off"
+        "no-console": "off",
+        "react/function-component-definition": [
+            "error",
+            {
+                "namedComponents": "function-declaration",
+                "unnamedComponents": "arrow-function"
+            }
+        ],
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "TSTypeReference[typeName.name='FC']",
+                "message": "Don't use FC. Type props directly in the function signature."
+            },
+            {
+                "selector": "TSTypeReference[typeName.name='FunctionComponent']",
+                "message": "Don't use FunctionComponent. Type props directly in the function signature."
+            },
+            {
+                "selector": "TSQualifiedName[left.name='React'][right.name='FC']",
+                "message": "Don't use React.FC. Type props directly in the function signature."
+            },
+            {
+                "selector": "TSQualifiedName[left.name='React'][right.name='FunctionComponent']",
+                "message": "Don't use React.FunctionComponent. Type props directly in the function signature."
+            }
+        ]
     },
     "settings": {
+        "react": {
+            "version": "19"
+        },
         "import/resolver": {
             "typescript": {
                 "alwaysTryTypes": true,
