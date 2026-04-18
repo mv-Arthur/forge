@@ -1,6 +1,17 @@
 export const COMPANY_NAME = "Новый Коттедж";
 
-export const PHONES = {
+export type CityCode = "spb" | "msk";
+
+export type City = { code: CityCode; label: string };
+
+export type Phone = { number: string; display: string };
+
+export const CITIES: City[] = [
+    { code: "spb", label: "Санкт-Петербург" },
+    { code: "msk", label: "Москва" },
+];
+
+export const PHONES: Record<CityCode, Phone> = {
     spb: { number: "+78123093818", display: "+7 (812) 309-38-18" },
     msk: { number: "+74952043856", display: "+7 (495) 204-38-56" },
 };

@@ -4,12 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import {
-    PHONES,
-    EMAIL,
-    ADDRESSES,
-    WORK_HOURS,
-} from "@/lib/constants";
+import type { City, CityCode, Phone } from "@/lib/constants";
 import {
     ChevronDownIcon,
     ClockIcon,
@@ -19,20 +14,31 @@ import {
 } from "./icons";
 import styles from "./Header.module.css";
 
-type CityCode = "spb" | "msk";
+interface HeaderProps {
+    cities: City[];
+    phones: Record<CityCode, Phone>;
+    addresses: Record<CityCode, string>;
+    email: string;
+    workHours: string;
+    initialCity?: CityCode;
+}
 
-const CITIES: { code: CityCode; label: string }[] = [
-    { code: "spb", label: "Санкт-Петербург" },
-    { code: "msk", label: "Москва" },
-];
-
-export function Header() {
-    const [city, setCity] = useState<CityCode>("spb");
+export function Header({
+    cities,
+    phones,
+    addresses,
+    email,
+    workHours,
+    initialCity,
+}: HeaderProps) {
+    const [city, setCity] = useState<CityCode>(
+        initialCity ?? cities[0].code
+    );
     const [cityOpen, setCityOpen] = useState(false);
 
-    const activePhone = PHONES[city];
-    const address = ADDRESSES[city];
-    const activeCityLabel = CITIES.find((c) => c.code === city)?.label;
+    const activePhone = phones[city];
+    const address = addresses[city];
+    const activeCityLabel = cities.find((c) => c.code === city)?.label;
 
     return (
         <header className={styles.header}>
@@ -60,9 +66,9 @@ export function Header() {
                             <span>{activeCityLabel}</span>
                             <ChevronDownIcon className={styles.cityChevron} />
                         </button>
-                        {cityOpen && (
+                        {cityOpen && cities.length > 1 && (
                             <ul className={styles.cityOptions} role="listbox">
-                                {CITIES.map((c) => (
+                                {cities.map((c) => (
                                     <li
                                         key={c.code}
                                         className={styles.cityOption}
@@ -85,14 +91,14 @@ export function Header() {
                 <div className={styles.contacts}>
                     <span className={styles.contactItem}>
                         <ClockIcon className={styles.contactIcon} />
-                        <span>{WORK_HOURS}</span>
+                        <span>{workHours}</span>
                     </span>
                     <a
-                        href={`mailto:${EMAIL}`}
+                        href={`mailto:${email}`}
                         className={`${styles.contactItem} ${styles.email}`}
                     >
                         <EmailIcon className={styles.contactIcon} />
-                        <span>{EMAIL}</span>
+                        <span>{email}</span>
                     </a>
                 </div>
 
@@ -120,7 +126,7 @@ export function Header() {
                         <PhoneIcon />
                     </a>
                     <a
-                        href={`mailto:${EMAIL}`}
+                        href={`mailto:${email}`}
                         aria-label="Написать"
                         className={styles.mobileIcon}
                     >
