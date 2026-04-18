@@ -4,135 +4,137 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { PHONES, EMAIL, NAV_ITEMS } from "@/lib/constants";
+import {
+    PHONES,
+    EMAIL,
+    ADDRESSES,
+    WORK_HOURS,
+} from "@/lib/constants";
+import {
+    ChevronDownIcon,
+    ClockIcon,
+    EmailIcon,
+    PhoneIcon,
+    SearchIcon,
+} from "./icons";
 import styles from "./Header.module.css";
 
+type CityCode = "spb" | "msk";
+
+const CITIES: { code: CityCode; label: string }[] = [
+    { code: "spb", label: "Санкт-Петербург" },
+    { code: "msk", label: "Москва" },
+];
+
 export function Header() {
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-    const [mobileOpen, setMobileOpen] = useState(false);
+    const [city, setCity] = useState<CityCode>("spb");
+    const [cityOpen, setCityOpen] = useState(false);
+
+    const activePhone = PHONES[city];
+    const address = ADDRESSES[city];
+    const activeCityLabel = CITIES.find((c) => c.code === city)?.label;
 
     return (
         <header className={styles.header}>
-            {/* Top bar: logo + address + contacts + CTA */}
-            <div className={styles.topBar}>
-                <Container className={styles.topBarInner}>
-                    <Link href="/" className={styles.logo}>
-                        <Image
-                            src="/images/logo.png"
-                            alt="Новый Коттедж"
-                            width={160}
-                            height={45}
-                            priority
-                        />
-                    </Link>
-                    <div className={styles.contacts}>
-                        <span className={styles.schedule}>
-                            Пн-Пт: 10:00 до 19:00
-                        </span>
-                        <a href={`mailto:${EMAIL}`} className={styles.email}>
-                            {EMAIL}
-                        </a>
-                    </div>
-                    <div className={styles.phones}>
-                        <a
-                            href={`tel:${PHONES.spb.number}`}
-                            className={styles.phone}
+            <Container className={styles.topBarInner}>
+                <Link href="/" className={styles.logo}>
+                    <Image
+                        src="/images/logo.png"
+                        alt="Новый Коттедж"
+                        width={160}
+                        height={45}
+                        priority
+                    />
+                </Link>
+
+                <div className={styles.cityBlock}>
+                    <span className={styles.cityLabel}>Как найти нас:</span>
+                    <div className={styles.cityRow}>
+                        <button
+                            type="button"
+                            className={styles.citySelect}
+                            onClick={() => setCityOpen((v) => !v)}
+                            aria-haspopup="listbox"
+                            aria-expanded={cityOpen}
                         >
-                            {PHONES.spb.display}
-                        </a>
-                        <a
-                            href={`tel:${PHONES.msk.number}`}
-                            className={styles.phone}
-                        >
-                            {PHONES.msk.display}
-                        </a>
-                        <button className={styles.callBtn}>
-                            Заказать звонок
+                            <span>{activeCityLabel}</span>
+                            <ChevronDownIcon className={styles.cityChevron} />
                         </button>
-                    </div>
-                </Container>
-            </div>
-
-            {/* Green nav bar */}
-            <div className={styles.navBar}>
-                <Container className={styles.navBarInner}>
-                    <nav className={styles.nav}>
-                        {NAV_ITEMS.map((item) => (
-                            <div
-                                key={item.href}
-                                className={styles.navItem}
-                                onMouseEnter={() =>
-                                    item.children
-                                        ? setOpenDropdown(item.href)
-                                        : undefined
-                                }
-                                onMouseLeave={() => setOpenDropdown(null)}
-                            >
-                                <Link
-                                    href={item.href}
-                                    className={styles.navLink}
-                                >
-                                    {item.label}
-                                </Link>
-                                {item.children &&
-                                    openDropdown === item.href && (
-                                        <div className={styles.dropdown}>
-                                            {item.children.map((child) => (
-                                                <Link
-                                                    key={child.href}
-                                                    href={child.href}
-                                                    className={
-                                                        styles.dropdownLink
-                                                    }
-                                                >
-                                                    {child.label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    )}
-                            </div>
-                        ))}
-                    </nav>
-
-                    <button
-                        className={styles.burger}
-                        onClick={() => setMobileOpen(!mobileOpen)}
-                        aria-label="Меню"
-                    >
-                        <span />
-                        <span />
-                        <span />
-                    </button>
-                </Container>
-            </div>
-
-            {mobileOpen && (
-                <div className={styles.mobileMenu}>
-                    <Container>
-                        {NAV_ITEMS.map((item) => (
-                            <div key={item.href}>
-                                <Link
-                                    href={item.href}
-                                    className={styles.mobileLink}
-                                    onClick={() => setMobileOpen(false)}
-                                >
-                                    {item.label}
-                                </Link>
-                                {item.children?.map((child) => (
-                                    <Link
-                                        key={child.href}
-                                        href={child.href}
-                                        className={styles.mobileSubLink}
-                                        onClick={() => setMobileOpen(false)}
+                        {cityOpen && (
+                            <ul className={styles.cityOptions} role="listbox">
+                                {CITIES.map((c) => (
+                                    <li
+                                        key={c.code}
+                                        className={styles.cityOption}
+                                        role="option"
+                                        aria-selected={c.code === city}
+                                        onClick={() => {
+                                            setCity(c.code);
+                                            setCityOpen(false);
+                                        }}
                                     >
-                                        {child.label}
-                                    </Link>
+                                        {c.label}
+                                    </li>
                                 ))}
-                            </div>
-                        ))}
-                    </Container>
+                            </ul>
+                        )}
+                    </div>
+                    <p className={styles.address}>{address}</p>
                 </div>
-            )}
+
+                <div className={styles.contacts}>
+                    <span className={styles.contactItem}>
+                        <ClockIcon className={styles.contactIcon} />
+                        <span>{WORK_HOURS}</span>
+                    </span>
+                    <a
+                        href={`mailto:${EMAIL}`}
+                        className={`${styles.contactItem} ${styles.email}`}
+                    >
+                        <EmailIcon className={styles.contactIcon} />
+                        <span>{EMAIL}</span>
+                    </a>
+                </div>
+
+                <div className={styles.phones}>
+                    <div className={styles.phoneRow}>
+                        <PhoneIcon className={styles.phoneIcon} />
+                        <a
+                            href={`tel:${activePhone.number}`}
+                            className={styles.phone}
+                        >
+                            {activePhone.display}
+                        </a>
+                    </div>
+                    <button type="button" className={styles.callBtn}>
+                        Заказать звонок
+                    </button>
+                </div>
+
+                <div className={styles.mobileIcons}>
+                    <a
+                        href={`tel:${activePhone.number}`}
+                        aria-label="Позвонить"
+                        className={styles.mobileIcon}
+                    >
+                        <PhoneIcon />
+                    </a>
+                    <a
+                        href={`mailto:${EMAIL}`}
+                        aria-label="Написать"
+                        className={styles.mobileIcon}
+                    >
+                        <EmailIcon />
+                    </a>
+                    <button
+                        type="button"
+                        aria-label="Поиск"
+                        className={`${styles.mobileIcon} ${styles.searchMobileIcon}`}
+                    >
+                        <SearchIcon />
+                    </button>
+                </div>
+            </Container>
         </header>
     );
 }

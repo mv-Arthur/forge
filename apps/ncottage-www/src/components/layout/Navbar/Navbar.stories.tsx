@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Header } from "./Header";
+import { Navbar } from "./Navbar";
 
-const meta: Meta<typeof Header> = {
-    title: "Layout/Header",
-    component: Header,
+const meta: Meta<typeof Navbar> = {
+    title: "Layout/Navbar",
+    component: Navbar,
     parameters: { layout: "fullscreen" },
 };
 
 export default meta;
-type Story = StoryObj<typeof Header>;
+type Story = StoryObj<typeof Navbar>;
 
 export const Desktop: Story = {
     globals: { viewport: { value: "1440-900", isRotated: false } },
