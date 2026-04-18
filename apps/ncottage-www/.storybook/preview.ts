@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/react";
+import { INITIAL_VIEWPORTS } from "storybook/viewport";
 import "../src/app/globals.css";
 
 const preview: Preview = {
@@ -13,6 +14,7 @@ const preview: Preview = {
             ],
         },
         layout: "centered",
+        viewport: { options: INITIAL_VIEWPORTS },
     },
 };
 
