@@ -1,7 +1,4 @@
 .header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
     padding: 14px 0;
     background-color: #fff;
     border-bottom: 1px solid var(--color-border);
@@ -36,66 +33,6 @@
     font-weight: 600;
     line-height: 1.4;
     color: var(--color-text-dark);
-}
-
-.cityRow {
-    position: relative;
-}
-
-.citySelect {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--color-green);
-    text-decoration: underline;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.cityChevron {
-    color: var(--color-green);
-    transition: transform var(--transition);
-}
-
-.citySelect[aria-expanded="true"] .cityChevron {
-    transform: rotate(180deg);
-}
-
-.cityOptions {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    min-width: 220px;
-    padding: 6px 0;
-    margin: 0;
-    list-style: none;
-    background-color: #fff;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-}
-
-.cityOption {
-    padding: 8px 14px;
-    font-size: 15px;
-    color: var(--color-text);
-    cursor: pointer;
-    transition: background-color var(--transition);
-}
-
-.cityOption:hover {
-    background-color: #f8f8f8;
-    color: var(--color-green);
-}
-
-.cityOption[aria-selected="true"] {
-    color: var(--color-green);
-    font-weight: 600;
 }
 
 .address {
@@ -222,6 +159,55 @@
     color: var(--color-green-hover);
 }
 
+.burgerMobileIcon {
+    display: none;
+}
+
+.burgerBars {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 18px;
+}
+
+.burgerBars > span {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    margin-top: -1px;
+    background-color: currentColor;
+    border-radius: 1px;
+    transition:
+        transform 260ms ease,
+        opacity 180ms ease;
+}
+
+.burgerBars > span:nth-child(1) {
+    transform: translateY(-6px);
+}
+
+.burgerBars > span:nth-child(2) {
+    transform: translateY(0);
+}
+
+.burgerBars > span:nth-child(3) {
+    transform: translateY(6px);
+}
+
+.burgerBarsOpen > span:nth-child(1) {
+    transform: translateY(0) rotate(45deg);
+}
+
+.burgerBarsOpen > span:nth-child(2) {
+    opacity: 0;
+}
+
+.burgerBarsOpen > span:nth-child(3) {
+    transform: translateY(0) rotate(-45deg);
+}
+
 /* Tablet: 768–1199px — hide schedule/email, keep logo + city + phone + CTA */
 
 @media (max-width: 1199px) {
@@ -232,6 +218,10 @@
 
     .mobileIcons {
         display: flex;
+    }
+
+    .burgerMobileIcon {
+        display: inline-flex;
     }
 
     .cityBlock {
@@ -252,13 +242,7 @@
         padding: 10px 0;
     }
 
-    .cityBlock,
-    .contacts,
-    .phones {
+    .cityBlock {
         display: none;
-    }
-
-    .mobileIcons {
-        display: flex;
     }
 }
