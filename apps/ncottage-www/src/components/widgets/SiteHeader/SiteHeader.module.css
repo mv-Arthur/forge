@@ -1,0 +1,30 @@
+.stickyWrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.mobileCityStrip {
+    display: none;
+    padding: 8px 0;
+    background-color: var(--color-bg-light);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.mobileCityInner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mobileCityLabel {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-light);
+}
+
+@media (max-width: 767px) {
+    .mobileCityStrip {
+        display: block;
+    }
+}

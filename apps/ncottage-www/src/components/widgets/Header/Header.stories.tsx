@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "storybook/test";
 import { Header } from "./Header";
 
 const defaultArgs = {
@@ -11,11 +12,13 @@ const defaultArgs = {
         msk: { number: "+74952043856", display: "+7 (495) 204-38-56" },
     },
     addresses: {
-        spb: "г. Санкт-Петербург, ул. Заставская, д. 31, к. 2, оф. 413",
+        spb: "ул. Заставская, д. 31, к. 2, оф. 413",
         msk: "Варшавское ш. 35 с1, БЦ Ривер Плаза, оф. 412",
     },
     email: "info@ncottage.ru",
     workHours: "Пн–Пт: 10:00–19:00",
+    activeCity: "spb" as const,
+    onCityChange: fn(),
 };
 
 const meta: Meta<typeof Header> = {
@@ -44,12 +47,5 @@ export const OneCity: Story = {
     globals: { viewport: { value: "1440-900", isRotated: false } },
     args: {
         cities: [{ code: "spb", label: "Санкт-Петербург" }],
-    },
-};
-
-export const MoscowSelected: Story = {
-    globals: { viewport: { value: "1440-900", isRotated: false } },
-    args: {
-        initialCity: "msk",
     },
 };

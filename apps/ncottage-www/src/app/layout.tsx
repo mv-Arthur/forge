@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/layout/Header";
-import { Navbar } from "@/components/layout/Navbar";
+import { SiteHeader } from "@/components/widgets/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import {
     ADDRESSES,
     CITIES,
     EMAIL,
+    NAV_ITEMS,
     PHONES,
     WORK_HOURS,
 } from "@/lib/constants";
+
+const CITY_ADDRESSES = {
+    spb: ADDRESSES.spb,
+    msk: ADDRESSES.msk,
+};
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,14 +30,14 @@ export default function RootLayout({
     return (
         <html lang="ru">
             <body>
-                <Header
+                <SiteHeader
                     cities={CITIES}
                     phones={PHONES}
-                    addresses={{ spb: ADDRESSES.spb, msk: ADDRESSES.msk }}
+                    addresses={CITY_ADDRESSES}
                     email={EMAIL}
                     workHours={WORK_HOURS}
+                    navItems={NAV_ITEMS}
                 />
-                <Navbar />
                 <main>{children}</main>
                 <Footer />
             </body>

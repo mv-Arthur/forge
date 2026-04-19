@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { CitySelector } from "@/components/shared/CitySelector";
 import type { City, CityCode, Phone } from "@/lib/constants";
 import {
-    ChevronDownIcon,
     ClockIcon,
     EmailIcon,
     PhoneIcon,
@@ -20,7 +19,10 @@ interface HeaderProps {
     addresses: Record<CityCode, string>;
     email: string;
     workHours: string;
-    initialCity?: CityCode;
+    activeCity: CityCode;
+    onCityChange: (code: CityCode) => void;
+    mobileMenuOpen?: boolean;
+    onBurgerClick?: () => void;
 }
 
 export function Header({
@@ -29,16 +31,13 @@ export function Header({
     addresses,
     email,
     workHours,
-    initialCity,
+    activeCity,
+    onCityChange,
+    mobileMenuOpen,
+    onBurgerClick,
 }: HeaderProps) {
-    const [city, setCity] = useState<CityCode>(
-        initialCity ?? cities[0].code
-    );
-    const [cityOpen, setCityOpen] = useState(false);
-
-    const activePhone = phones[city];
-    const address = addresses[city];
-    const activeCityLabel = cities.find((c) => c.code === city)?.label;
+    const activePhone = phones[activeCity];
+    const address = addresses[activeCity];
 
     return (
         <header className={styles.header}>
@@ -55,36 +54,11 @@ export function Header({
 
                 <div className={styles.cityBlock}>
                     <span className={styles.cityLabel}>Как найти нас:</span>
-                    <div className={styles.cityRow}>
-                        <button
-                            type="button"
-                            className={styles.citySelect}
-                            onClick={() => setCityOpen((v) => !v)}
-                            aria-haspopup="listbox"
-                            aria-expanded={cityOpen}
-                        >
-                            <span>{activeCityLabel}</span>
-                            <ChevronDownIcon className={styles.cityChevron} />
-                        </button>
-                        {cityOpen && cities.length > 1 && (
-                            <ul className={styles.cityOptions} role="listbox">
-                                {cities.map((c) => (
-                                    <li
-                                        key={c.code}
-                                        className={styles.cityOption}
-                                        role="option"
-                                        aria-selected={c.code === city}
-                                        onClick={() => {
-                                            setCity(c.code);
-                                            setCityOpen(false);
-                                        }}
-                                    >
-                                        {c.label}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
+                    <CitySelector
+                        cities={cities}
+                        activeCity={activeCity}
+                        onCityChange={onCityChange}
+                    />
                     <p className={styles.address}>{address}</p>
                 </div>
 
@@ -139,6 +113,23 @@ export function Header({
                     >
                         <SearchIcon />
                     </button>
+                    {onBurgerClick && (
+                        <button
+                            type="button"
+                            aria-label={mobileMenuOpen ? "Закрыть меню" : "Меню"}
+                            aria-expanded={mobileMenuOpen}
+                            className={`${styles.mobileIcon} ${styles.burgerMobileIcon}`}
+                            onClick={onBurgerClick}
+                        >
+                            <span
+                                className={`${styles.burgerBars} ${mobileMenuOpen ? styles.burgerBarsOpen : ""}`}
+                            >
+                                <span />
+                                <span />
+                                <span />
+                            </span>
+                        </button>
+                    )}
                 </div>
             </Container>
         </header>
