@@ -8,6 +8,7 @@ import { GallerySection } from "@/components/sections/GallerySection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { HERO } from "@/lib/constants";
 import { getReviews, getGallery } from "@/lib/data";
 
 export default function HomePage() {
@@ -16,7 +17,13 @@ export default function HomePage() {
 
     return (
         <>
-            <HeroSection />
+            <HeroSection
+                subtitle={HERO.subtitle}
+                title={HERO.title}
+                text={HERO.text}
+                cta={HERO.cta}
+                image={HERO.image}
+            />
             <CategoriesSection />
             <AdvantagesSection />
             <PopularProjects />

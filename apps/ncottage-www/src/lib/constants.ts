@@ -201,6 +201,22 @@ export const PROJECT_CATEGORIES: NavMegaMenuColumn[] = [
     },
 ];
 
+export type HeroContent = {
+    subtitle: string;
+    title: string;
+    text: string;
+    cta: { label: string; href: string };
+    image: { src: string; alt: string };
+};
+
+export const HERO: HeroContent = {
+    subtitle: "Строительная компания Новый Коттедж",
+    title: "Строительство домов",
+    text: "стильная эргономика и комфорт загородной жизни",
+    cta: { label: "Каталог проектов", href: "/projects" },
+    image: { src: "/images/hero/banner.jpg", alt: "" },
+};
+
 export const NAV_ITEMS: NavItem[] = [
     {
         label: "Проекты",
