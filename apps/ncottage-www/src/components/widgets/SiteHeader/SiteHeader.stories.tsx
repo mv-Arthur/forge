@@ -19,7 +19,7 @@ const defaultArgs = {
 };
 
 const meta: Meta<typeof SiteHeader> = {
-    title: "Layout/SiteHeader",
+    title: "Widgets/SiteHeader",
     component: SiteHeader,
     parameters: { layout: "fullscreen" },
     args: defaultArgs,

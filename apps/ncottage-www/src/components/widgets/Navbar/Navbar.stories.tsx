@@ -4,7 +4,7 @@ import { NAV_ITEMS } from "@/lib/constants";
 import { Navbar } from "./Navbar";
 
 const meta: Meta<typeof Navbar> = {
-    title: "Layout/Navbar",
+    title: "Widgets/Navbar",
     component: Navbar,
     parameters: { layout: "fullscreen" },
     args: {
