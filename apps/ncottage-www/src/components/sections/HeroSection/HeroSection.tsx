@@ -1,29 +1,41 @@
 import Link from "next/link";
-import { Container } from "@/components/ui/Container";
+import type { HeroContent } from "@/lib/constants";
 import styles from "./HeroSection.module.css";
 
-export function HeroSection() {
+interface HeroSectionProps {
+    subtitle: HeroContent["subtitle"];
+    title: HeroContent["title"];
+    text: HeroContent["text"];
+    cta: HeroContent["cta"];
+    image: HeroContent["image"];
+}
+
+export function HeroSection({
+    subtitle,
+    title,
+    text,
+    cta,
+    image,
+}: HeroSectionProps) {
     return (
         <section className={styles.banner}>
             <div className={styles.bg}>
                 <img
-                    src="/images/hero/banner.jpg"
-                    alt=""
+                    src={image.src}
+                    alt={image.alt}
                     className={styles.bgImage}
                 />
             </div>
-            <Container className={styles.content}>
-                <p className={styles.subtitle}>
-                    Строительная компания Новый Коттедж
-                </p>
-                <h1 className={styles.title}>Строительство домов</h1>
-                <p className={styles.text}>
-                    стильная эргономика и комфорт загородной жизни
-                </p>
-                <Link href="/projects" className={styles.button}>
-                    Каталог проектов
-                </Link>
-            </Container>
+            <div className={styles.content}>
+                <p className={styles.subtitle}>{subtitle}</p>
+                <h1 className={styles.title}>{title}</h1>
+                <p className={styles.text}>{text}</p>
+                <div className={styles.buttonWrap}>
+                    <Link href={cta.href} className={styles.button}>
+                        {cta.label}
+                    </Link>
+                </div>
+            </div>
         </section>
     );
 }
