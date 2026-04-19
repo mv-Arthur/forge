@@ -22,7 +22,7 @@ const defaultArgs = {
 };
 
 const meta: Meta<typeof Header> = {
-    title: "Layout/Header",
+    title: "Widgets/Header",
     component: Header,
     parameters: { layout: "fullscreen" },
     args: defaultArgs,
