@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/sections/HeroSection";
+import { ProjectPicker } from "@/components/sections/ProjectPicker";
 import { CategoriesSection } from "@/components/sections/CategoriesSection";
 import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
 import { PopularProjects } from "@/components/sections/PopularProjects";
@@ -8,7 +9,7 @@ import { GallerySection } from "@/components/sections/GallerySection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { HERO } from "@/lib/constants";
+import { HERO, PROJECT_PICKER } from "@/lib/constants";
 import { getReviews, getGallery } from "@/lib/data";
 
 export default function HomePage() {
@@ -23,6 +24,16 @@ export default function HomePage() {
                 text={HERO.text}
                 cta={HERO.cta}
                 image={HERO.image}
+            />
+            <ProjectPicker
+                title={PROJECT_PICKER.title}
+                text={PROJECT_PICKER.text}
+                price={PROJECT_PICKER.price}
+                area={PROJECT_PICKER.area}
+                technologies={PROJECT_PICKER.technologies}
+                floors={PROJECT_PICKER.floors}
+                submitLabel={PROJECT_PICKER.submitLabel}
+                overlap
             />
             <CategoriesSection />
             <AdvantagesSection />

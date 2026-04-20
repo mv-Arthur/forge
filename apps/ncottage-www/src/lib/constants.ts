@@ -217,6 +217,41 @@ export const HERO: HeroContent = {
     image: { src: "/images/hero/banner.jpg", alt: "" },
 };
 
+export type RangeBounds = { min: number; max: number };
+
+export type SelectOption = { value: string; label: string };
+
+export type ProjectPickerContent = {
+    title: string;
+    text: string;
+    price: RangeBounds;
+    area: RangeBounds;
+    technologies: SelectOption[];
+    floors: SelectOption[];
+    submitLabel: string;
+};
+
+export const PROJECT_PICKER: ProjectPickerContent = {
+    title: "Подберите проект",
+    text: "Из более 50 готовых проектов на нашем сайте",
+    price: { min: 3_160_780, max: 36_946_370 },
+    area: { min: 67, max: 679 },
+    technologies: [
+        { value: "", label: "Не имеет значения" },
+        { value: "sip", label: "Дом из SIP-панелей" },
+        { value: "aerocrete", label: "Дом из газобетона" },
+        { value: "brick", label: "Дом из кирпича" },
+        { value: "frame", label: "Каркасный дом" },
+        { value: "fachwerk", label: "Фахверковые дома" },
+    ],
+    floors: [
+        { value: "", label: "Не имеет значения" },
+        { value: "1", label: "1" },
+        { value: "2", label: "2" },
+    ],
+    submitLabel: "Подобрать подходящий проект",
+};
+
 export const NAV_ITEMS: NavItem[] = [
     {
         label: "Проекты",

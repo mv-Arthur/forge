@@ -15,6 +15,7 @@ const preview: Preview = {
         },
         layout: "centered",
         viewport: { options: INITIAL_VIEWPORTS },
+        nextjs: { appDirectory: true },
     },
 };
 
