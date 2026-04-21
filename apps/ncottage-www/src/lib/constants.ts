@@ -231,6 +231,24 @@ export type ProjectPickerContent = {
     submitLabel: string;
 };
 
+export type CategoriesSectionContent = {
+    title: string;
+    cta: {
+        title: string;
+        text: string;
+        ctaLabel: string;
+    };
+};
+
+export const CATEGORIES_SECTION: CategoriesSectionContent = {
+    title: "Строительство домов в СПб и ЛО",
+    cta: {
+        title: "Не знаете, что выбрать?",
+        text: "Оставьте заявку и наши специалисты свяжутся с вами в самое ближайшее время!",
+        ctaLabel: "Бесплатная консультация",
+    },
+};
+
 export const PROJECT_PICKER: ProjectPickerContent = {
     title: "Подберите проект",
     text: "Из более 50 готовых проектов на нашем сайте",

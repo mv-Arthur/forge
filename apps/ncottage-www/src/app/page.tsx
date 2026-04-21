@@ -9,10 +9,11 @@ import { GallerySection } from "@/components/sections/GallerySection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { HERO, PROJECT_PICKER } from "@/lib/constants";
-import { getReviews, getGallery } from "@/lib/data";
+import { CATEGORIES_SECTION, HERO, PROJECT_PICKER } from "@/lib/constants";
+import { getCategories, getReviews, getGallery } from "@/lib/data";
 
 export default function HomePage() {
+    const categories = getCategories();
     const reviews = getReviews();
     const gallery = getGallery();
 
@@ -35,7 +36,11 @@ export default function HomePage() {
                 submitLabel={PROJECT_PICKER.submitLabel}
                 overlap
             />
-            <CategoriesSection />
+            <CategoriesSection
+                title={CATEGORIES_SECTION.title}
+                categories={categories}
+                cta={CATEGORIES_SECTION.cta}
+            />
             <AdvantagesSection />
             <PopularProjects />
             <CalculatorWizard />
