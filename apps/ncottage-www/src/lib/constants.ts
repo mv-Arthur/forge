@@ -249,6 +249,268 @@ export const CATEGORIES_SECTION: CategoriesSectionContent = {
     },
 };
 
+export type QuizSpeaker = {
+    name: string;
+    role: string;
+    avatar: string;
+};
+
+export type QuizImageOption = {
+    value: string;
+    label: string;
+    image: string;
+};
+
+export type QuizTextOption = {
+    value: string;
+    label: string;
+};
+
+export type QuizStep =
+    | {
+          kind: "image-choice";
+          fieldId: string;
+          label: string;
+          cloud: string;
+          options: QuizImageOption[];
+          showConsultation?: boolean;
+      }
+    | {
+          kind: "range";
+          fieldId: string;
+          label: string;
+          cloud: string;
+          min: number;
+          max: number;
+          step: number;
+          default: number;
+          unit: string;
+      }
+    | {
+          kind: "text-radio";
+          fieldId: string;
+          label: string;
+          cloud: string;
+          options: QuizTextOption[];
+          required?: boolean;
+      }
+    | {
+          kind: "contact";
+          cloud: string;
+          heading: string;
+          nameLabel: string;
+          namePlaceholder: string;
+          phoneLabel: string;
+          phonePlaceholder: string;
+      };
+
+export type QuizSectionContent = {
+    title: string;
+    speaker: QuizSpeaker;
+    consultationLabel: string;
+    prevLabel: string;
+    nextLabel: string;
+    submitLabel: string;
+    lastStepLabel: string;
+    successTitle: string;
+    successText: string;
+    steps: QuizStep[];
+};
+
+export const QUIZ_SECTION: QuizSectionContent = {
+    title: "Ответьте на 6 вопросов ниже и узнайте предварительную смету под ваш бюджет и параметры",
+    speaker: {
+        name: "Антон",
+        role: "специалист по строительству",
+        avatar: "/images/quiz/anton.webp",
+    },
+    consultationLabel: "Не знаю, нужна консультация",
+    prevLabel: "Назад",
+    nextLabel: "Далее",
+    submitLabel: "Получить расчёт",
+    lastStepLabel: "Заключительный шаг",
+    successTitle: "Заявка отправлена",
+    successText:
+        "Мы рассчитаем стоимость и свяжемся с вами в течение 15 минут.",
+    steps: [
+        {
+            kind: "image-choice",
+            fieldId: "floors",
+            label: "Этаж дома",
+            cloud: "Расскажите, сколько этажей будет в вашем доме? Выберите один из вариантов ответа.",
+            showConsultation: true,
+            options: [
+                {
+                    value: "1 этаж",
+                    label: "1 этаж",
+                    image: "/images/quiz/1floor.jpg",
+                },
+                {
+                    value: "1 этаж с мансардой",
+                    label: "1 этаж с мансардой",
+                    image: "/images/quiz/1floor-mansard.jpg",
+                },
+                {
+                    value: "2 этажа",
+                    label: "2 этажа",
+                    image: "/images/quiz/2floor.jpg",
+                },
+            ],
+        },
+        {
+            kind: "range",
+            fieldId: "area",
+            label: "Площадь дома",
+            cloud: "Отлично! Теперь укажите желаемую площадь дома.",
+            min: 50,
+            max: 400,
+            step: 10,
+            default: 250,
+            unit: "м²",
+        },
+        {
+            kind: "image-choice",
+            fieldId: "foundation",
+            label: "Фундамент дома",
+            cloud: "Супер! Осталось всего 3 шага, чтобы узнать предварительную смету под ваш бюджет.",
+            showConsultation: true,
+            options: [
+                {
+                    value: "Сваи",
+                    label: "Сваи",
+                    image: "/images/quiz/foundation-piles.jpg",
+                },
+                {
+                    value: "Монолитная плита",
+                    label: "Монолитная плита",
+                    image: "/images/quiz/foundation-slab.jpg",
+                },
+                {
+                    value: "Утеплённая монолитная плита",
+                    label: "Утеплённая монолитная плита",
+                    image: "/images/quiz/foundation-insulated-slab.jpg",
+                },
+                {
+                    value: "Утеплённая шведская плита",
+                    label: "Утеплённая шведская плита",
+                    image: "/images/quiz/foundation-ushp.jpg",
+                },
+                {
+                    value: "Монолитная плита ребра вниз",
+                    label: "Монолитная плита ребра вниз",
+                    image: "/images/quiz/foundation-ribs-down.jpg",
+                },
+                {
+                    value: "Комбинированный фундамент",
+                    label: "Комбинированный фундамент",
+                    image: "/images/quiz/foundation-combined.jpg",
+                },
+            ],
+        },
+        {
+            kind: "image-choice",
+            fieldId: "roof",
+            label: "Тип кровли",
+            cloud: "Осталось совсем немножко. Давай теперь выберем тип кровли.",
+            showConsultation: true,
+            options: [
+                {
+                    value: "Металлочерепица",
+                    label: "Металлочерепица",
+                    image: "/images/quiz/roof-metal-tile.jpg",
+                },
+                {
+                    value: "Фальцевая металлочерепица",
+                    label: "Фальцевая металлочерепица",
+                    image: "/images/quiz/roof-standing-seam.jpg",
+                },
+                {
+                    value: "Мягкая битумная черепица",
+                    label: "Мягкая битумная черепица",
+                    image: "/images/quiz/roof-soft-bitumen.jpg",
+                },
+                {
+                    value: "Цементно песчаная черепица",
+                    label: "Цементно песчаная черепица",
+                    image: "/images/quiz/roof-cement-sand.jpg",
+                },
+                {
+                    value: "Наплавляемая кровля",
+                    label: "Наплавляемая кровля",
+                    image: "/images/quiz/roof-rolled.jpg",
+                },
+                {
+                    value: "Мембранная кровля",
+                    label: "Мембранная кровля",
+                    image: "/images/quiz/roof-membrane.jpg",
+                },
+            ],
+        },
+        {
+            kind: "text-radio",
+            fieldId: "budget",
+            label: "Бюджет на строительство Вашего дома",
+            cloud: "В какой бюджет вы хотели бы уложиться по строительству вашего дома под ключ?",
+            required: true,
+            options: [
+                {
+                    value: "4 000 000 - 5 000 000 руб.",
+                    label: "4 000 000 – 5 000 000 руб.",
+                },
+                {
+                    value: "5 000 000 - 6 000 000 руб.",
+                    label: "5 000 000 – 6 000 000 руб.",
+                },
+                {
+                    value: "6 000 000 - 7 500 000 руб.",
+                    label: "6 000 000 – 7 500 000 руб.",
+                },
+                {
+                    value: "7 500 000 - 10 000 000 руб.",
+                    label: "7 500 000 – 10 000 000 руб.",
+                },
+                {
+                    value: "Более 10 000 000 руб.",
+                    label: "Более 10 000 000 руб.",
+                },
+            ],
+        },
+        {
+            kind: "text-radio",
+            fieldId: "timeline",
+            label: "Начало строительства дома",
+            cloud: "Ура! Уже последний вопрос. Когда хотите начать строить себе дом?",
+            options: [
+                {
+                    value: "В ближайшее время, выбираю подрядчика",
+                    label: "В ближайшее время, выбираю подрядчика",
+                },
+                {
+                    value: "В течении 3-6 месяцев, ищу подходящий проект дома",
+                    label: "В течении 3–6 месяцев, ищу подходящий проект дома",
+                },
+                {
+                    value: "Позже чем через 6 мес., пока не определился/прицениваюсь",
+                    label: "Позже чем через 6 мес., пока не определился/прицениваюсь",
+                },
+                {
+                    value: "Смотрю на перспективу",
+                    label: "Смотрю на перспективу",
+                },
+            ],
+        },
+        {
+            kind: "contact",
+            cloud: "Вот и всё! Оставьте ваши контакты и мы перезвоним в течение 15 минут.",
+            heading: "Как с вами связаться?",
+            nameLabel: "Ваше имя",
+            namePlaceholder: "Ваше имя*",
+            phoneLabel: "Ваш телефон",
+            phonePlaceholder: "Ваш телефон*",
+        },
+    ],
+};
+
 export const PROJECT_PICKER: ProjectPickerContent = {
     title: "Подберите проект",
     text: "Из более 50 готовых проектов на нашем сайте",
