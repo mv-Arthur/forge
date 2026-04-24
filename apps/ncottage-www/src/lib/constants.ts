@@ -258,7 +258,7 @@ export type QuizSpeaker = {
 export type QuizImageOption = {
     value: string;
     label: string;
-    image: string;
+    image?: string;
 };
 
 export type QuizTextOption = {
@@ -273,7 +273,6 @@ export type QuizStep =
           label: string;
           cloud: string;
           options: QuizImageOption[];
-          showConsultation?: boolean;
       }
     | {
           kind: "range";
@@ -307,7 +306,6 @@ export type QuizStep =
 export type QuizSectionContent = {
     title: string;
     speaker: QuizSpeaker;
-    consultationLabel: string;
     prevLabel: string;
     nextLabel: string;
     submitLabel: string;
@@ -324,7 +322,6 @@ export const QUIZ_SECTION: QuizSectionContent = {
         role: "специалист по строительству",
         avatar: "/images/quiz/anton.webp",
     },
-    consultationLabel: "Не знаю, нужна консультация",
     prevLabel: "Назад",
     nextLabel: "Далее",
     submitLabel: "Получить расчёт",
@@ -338,7 +335,6 @@ export const QUIZ_SECTION: QuizSectionContent = {
             fieldId: "floors",
             label: "Этаж дома",
             cloud: "Расскажите, сколько этажей будет в вашем доме? Выберите один из вариантов ответа.",
-            showConsultation: true,
             options: [
                 {
                     value: "1 этаж",
@@ -354,6 +350,10 @@ export const QUIZ_SECTION: QuizSectionContent = {
                     value: "2 этажа",
                     label: "2 этажа",
                     image: "/images/quiz/2floor.jpg",
+                },
+                {
+                    value: "unknown",
+                    label: "Не знаю, нужна консультация",
                 },
             ],
         },
@@ -373,7 +373,6 @@ export const QUIZ_SECTION: QuizSectionContent = {
             fieldId: "foundation",
             label: "Фундамент дома",
             cloud: "Супер! Осталось всего 3 шага, чтобы узнать предварительную смету под ваш бюджет.",
-            showConsultation: true,
             options: [
                 {
                     value: "Сваи",
@@ -405,6 +404,10 @@ export const QUIZ_SECTION: QuizSectionContent = {
                     label: "Комбинированный фундамент",
                     image: "/images/quiz/foundation-combined.jpg",
                 },
+                {
+                    value: "unknown",
+                    label: "Не знаю, нужна консультация",
+                },
             ],
         },
         {
@@ -412,7 +415,6 @@ export const QUIZ_SECTION: QuizSectionContent = {
             fieldId: "roof",
             label: "Тип кровли",
             cloud: "Осталось совсем немножко. Давай теперь выберем тип кровли.",
-            showConsultation: true,
             options: [
                 {
                     value: "Металлочерепица",
@@ -443,6 +445,10 @@ export const QUIZ_SECTION: QuizSectionContent = {
                     value: "Мембранная кровля",
                     label: "Мембранная кровля",
                     image: "/images/quiz/roof-membrane.jpg",
+                },
+                {
+                    value: "unknown",
+                    label: "Не знаю, нужна консультация",
                 },
             ],
         },

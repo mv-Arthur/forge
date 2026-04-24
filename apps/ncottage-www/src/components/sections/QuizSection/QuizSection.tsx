@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer } from "react";
+import { useMemo, useReducer } from "react";
 import { Container } from "@/components/ui/Container";
 import type { QuizSectionContent, QuizStep } from "@/lib/constants";
 import styles from "./QuizSection.module.css";
@@ -9,7 +9,6 @@ export type QuizAnswer = string | number | null;
 
 export type QuizData = {
     values: Record<string, QuizAnswer>;
-    consultation: Record<string, boolean>;
     name: string;
     phone: string;
 };
@@ -18,7 +17,6 @@ interface QuizSectionProps {
     title: QuizSectionContent["title"];
     speaker: QuizSectionContent["speaker"];
     steps: QuizSectionContent["steps"];
-    consultationLabel: QuizSectionContent["consultationLabel"];
     prevLabel: QuizSectionContent["prevLabel"];
     nextLabel: QuizSectionContent["nextLabel"];
     submitLabel: QuizSectionContent["submitLabel"];
@@ -31,7 +29,6 @@ interface QuizSectionProps {
 interface QuizState {
     step: number;
     values: Record<string, QuizAnswer>;
-    consultation: Record<string, boolean>;
     name: string;
     phone: string;
     submitted: boolean;
@@ -39,7 +36,6 @@ interface QuizState {
 
 type QuizAction =
     | { type: "SET_VALUE"; fieldId: string; value: QuizAnswer }
-    | { type: "TOGGLE_CONSULTATION"; fieldId: string }
     | { type: "SET_NAME"; value: string }
     | { type: "SET_PHONE"; value: string }
     | { type: "NEXT"; max: number }
@@ -58,11 +54,24 @@ function createInitialState(steps: QuizStep[]): QuizState {
     return {
         step: 0,
         values,
-        consultation: {},
         name: "",
         phone: "",
         submitted: false,
     };
+}
+
+function isStepComplete(step: QuizStep, state: QuizState): boolean {
+    switch (step.kind) {
+        case "image-choice":
+        case "text-radio": {
+            const value = state.values[step.fieldId];
+            return typeof value === "string" && value.length > 0;
+        }
+        case "range":
+            return true;
+        case "contact":
+            return state.name.trim() !== "" && state.phone.trim() !== "";
+    }
 }
 
 function reducer(state: QuizState, action: QuizAction): QuizState {
@@ -71,14 +80,6 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
             return {
                 ...state,
                 values: { ...state.values, [action.fieldId]: action.value },
-            };
-        case "TOGGLE_CONSULTATION":
-            return {
-                ...state,
-                consultation: {
-                    ...state.consultation,
-                    [action.fieldId]: !state.consultation[action.fieldId],
-                },
             };
         case "SET_NAME":
             return { ...state, name: action.value };
@@ -93,15 +94,10 @@ function reducer(state: QuizState, action: QuizAction): QuizState {
     }
 }
 
-function formatPercent(current: number, total: number) {
-    return `${Math.round((current / total) * 100)}%`;
-}
-
 export function QuizSection({
     title,
     speaker,
     steps,
-    consultationLabel,
     prevLabel,
     nextLabel,
     submitLabel,
@@ -116,11 +112,23 @@ export function QuizSection({
     const questionCount = steps.filter((s) => s.kind !== "contact").length;
     const currentStep = steps[state.step];
     const isLast = state.step === totalSteps - 1;
+    const canAdvance = isStepComplete(currentStep, state);
+
+    const preloadImages = useMemo(() => {
+        const urls: string[] = [];
+        for (const s of steps) {
+            if (s.kind === "image-choice") {
+                for (const option of s.options) {
+                    if (option.image) urls.push(option.image);
+                }
+            }
+        }
+        return urls;
+    }, [steps]);
 
     function handleSubmit() {
         onSubmit?.({
             values: state.values,
-            consultation: state.consultation,
             name: state.name,
             phone: state.phone,
         });
@@ -151,16 +159,28 @@ export function QuizSection({
                                         <label
                                             className={styles.imageChoiceLabel}
                                         >
-                                            <span
-                                                className={
-                                                    styles.imageChoiceImage
-                                                }
-                                            >
-                                                <img
-                                                    src={option.image}
-                                                    alt={option.label}
-                                                />
-                                            </span>
+                                            {option.image ? (
+                                                <span
+                                                    className={
+                                                        styles.imageChoiceImage
+                                                    }
+                                                >
+                                                    <img
+                                                        src={option.image}
+                                                        alt={option.label}
+                                                        decoding="sync"
+                                                    />
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className={
+                                                        styles.imageChoiceImagePlaceholder
+                                                    }
+                                                    aria-hidden="true"
+                                                >
+                                                    ?
+                                                </span>
+                                            )}
                                             <input
                                                 type="radio"
                                                 name={step.fieldId}
@@ -187,23 +207,6 @@ export function QuizSection({
                                 );
                             })}
                         </ul>
-                        {step.showConsultation && (
-                            <label className={styles.consultation}>
-                                <input
-                                    type="checkbox"
-                                    checked={Boolean(
-                                        state.consultation[step.fieldId]
-                                    )}
-                                    onChange={() =>
-                                        dispatch({
-                                            type: "TOGGLE_CONSULTATION",
-                                            fieldId: step.fieldId,
-                                        })
-                                    }
-                                />
-                                <span>{consultationLabel}</span>
-                            </label>
-                        )}
                     </>
                 );
             }
@@ -340,16 +343,16 @@ export function QuizSection({
                 <div className={styles.cloud}>{step.cloud}</div>
                 <div className={styles.stepCounter}>
                     {step.kind === "contact" ? (
-                        <span className={styles.stepCounterText}>
+                        <span className={styles.stepCounterFinal}>
                             {lastStepLabel}
                         </span>
                     ) : (
                         <>
-                            <span className={styles.stepCounterText}>
-                                {stepNumber} шаг
+                            <span className={styles.stepCounterNumber}>
+                                {stepNumber}
                             </span>
-                            <span className={styles.stepCounterText}>
-                                из {questionCount}
+                            <span className={styles.stepCounterLabel}>
+                                шаг из {questionCount}
                             </span>
                         </>
                     )}
@@ -374,25 +377,21 @@ export function QuizSection({
 
     return (
         <section className={styles.section}>
+            <div aria-hidden="true" className={styles.preload}>
+                {preloadImages.map((src) => (
+                    <img key={src} src={src} alt="" />
+                ))}
+            </div>
             <Container>
                 <h2 className={styles.title}>{title}</h2>
                 <div className={styles.quiz}>
-                    <div className={styles.progress}>
-                        <span className={styles.progressLabel}>
-                            {formatPercent(state.step, totalSteps - 1)}
-                        </span>
-                        <span className={styles.progressSep}> - </span>
-                        <span className={styles.progressSteps}>
-                            Step {state.step + 1} of {totalSteps}
-                        </span>
-                        <div className={styles.progressBarWrap}>
-                            <div
-                                className={styles.progressBar}
-                                style={{
-                                    width: `${((state.step + 1) / totalSteps) * 100}%`,
-                                }}
-                            />
-                        </div>
+                    <div className={styles.progressBarWrap}>
+                        <div
+                            className={styles.progressBar}
+                            style={{
+                                width: `${((state.step + 1) / totalSteps) * 100}%`,
+                            }}
+                        />
                     </div>
                     <div className={styles.layout}>
                         <div className={styles.main}>
@@ -414,6 +413,7 @@ export function QuizSection({
                                         type="button"
                                         className={`${styles.navButton} ${styles.navSubmit}`}
                                         onClick={handleSubmit}
+                                        disabled={!canAdvance}
                                     >
                                         {submitLabel}
                                     </button>
@@ -427,6 +427,7 @@ export function QuizSection({
                                                 max: totalSteps - 1,
                                             })
                                         }
+                                        disabled={!canAdvance}
                                     >
                                         {nextLabel}
                                     </button>

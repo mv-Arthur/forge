@@ -11,7 +11,6 @@ const meta: Meta<typeof QuizSection> = {
         title: QUIZ_SECTION.title,
         speaker: QUIZ_SECTION.speaker,
         steps: QUIZ_SECTION.steps,
-        consultationLabel: QUIZ_SECTION.consultationLabel,
         prevLabel: QUIZ_SECTION.prevLabel,
         nextLabel: QUIZ_SECTION.nextLabel,
         submitLabel: QUIZ_SECTION.submitLabel,
