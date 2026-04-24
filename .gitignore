@@ -33,6 +33,7 @@ Thumbs.db
 *.swo
 *~
 .sublime-*
+*.code-workspace
 
 # Logs
 logs/
