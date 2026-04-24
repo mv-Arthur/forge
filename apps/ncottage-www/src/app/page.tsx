@@ -3,13 +3,18 @@ import { ProjectPicker } from "@/components/sections/ProjectPicker";
 import { CategoriesSection } from "@/components/sections/CategoriesSection";
 import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
 import { PopularProjects } from "@/components/sections/PopularProjects";
-import { CalculatorWizard } from "@/components/sections/CalculatorWizard";
+import { QuizSection } from "@/components/sections/QuizSection";
 import { StagesSection } from "@/components/sections/StagesSection";
 import { GallerySection } from "@/components/sections/GallerySection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { CATEGORIES_SECTION, HERO, PROJECT_PICKER } from "@/lib/constants";
+import {
+    CATEGORIES_SECTION,
+    HERO,
+    PROJECT_PICKER,
+    QUIZ_SECTION,
+} from "@/lib/constants";
 import { getCategories, getReviews, getGallery } from "@/lib/data";
 
 export default function HomePage() {
@@ -43,7 +48,18 @@ export default function HomePage() {
             />
             <AdvantagesSection />
             <PopularProjects />
-            <CalculatorWizard />
+            <QuizSection
+                title={QUIZ_SECTION.title}
+                speaker={QUIZ_SECTION.speaker}
+                steps={QUIZ_SECTION.steps}
+                consultationLabel={QUIZ_SECTION.consultationLabel}
+                prevLabel={QUIZ_SECTION.prevLabel}
+                nextLabel={QUIZ_SECTION.nextLabel}
+                submitLabel={QUIZ_SECTION.submitLabel}
+                lastStepLabel={QUIZ_SECTION.lastStepLabel}
+                successTitle={QUIZ_SECTION.successTitle}
+                successText={QUIZ_SECTION.successText}
+            />
             <StagesSection />
             <GallerySection items={gallery} />
             <ReviewsSection reviews={reviews} />
