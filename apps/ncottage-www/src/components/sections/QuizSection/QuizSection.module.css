@@ -3,6 +3,15 @@
     background-color: #f8f8f8;
 }
 
+.preload {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+}
+
 .title {
     font-size: 26px;
     font-weight: 700;
@@ -21,20 +30,8 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 }
 
-.progress {
-    margin-bottom: 25px;
-    font-size: 13px;
-    color: var(--color-text);
-}
-
-.progressLabel,
-.progressSteps,
-.progressSep {
-    display: inline;
-}
-
 .progressBarWrap {
-    margin-top: 8px;
+    margin-bottom: 25px;
     height: 6px;
     background-color: #e2e2e2;
     border-radius: 3px;
@@ -121,6 +118,19 @@
     object-fit: cover;
 }
 
+.imageChoiceImagePlaceholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #eef4ea;
+    color: var(--color-green);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+}
+
 .imageChoiceText {
     display: block;
     padding: 10px 12px;
@@ -143,32 +153,6 @@
     border: 0;
 }
 
-/* Consultation checkbox */
-
-.consultation {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    font-size: 13px;
-    color: var(--color-text);
-    cursor: pointer;
-    transition: border-color var(--transition);
-}
-
-.consultation:hover {
-    border-color: var(--color-green);
-}
-
-.consultation input[type="checkbox"] {
-    accent-color: var(--color-green);
-    width: 16px;
-    height: 16px;
-    margin: 0;
-}
-
 /* Range slider */
 
 .range {
@@ -186,7 +170,6 @@
     background-size: 50% 100%;
     outline: none;
     margin: 25px 0 15px;
-    transition: background-size 0.1s linear;
 }
 
 .range::-webkit-slider-thumb {
@@ -337,10 +320,16 @@
     margin-left: auto;
 }
 
-.navNext:hover,
-.navSubmit:hover {
+.navNext:hover:not(:disabled),
+.navSubmit:hover:not(:disabled) {
     background-color: var(--color-green-hover);
     border-color: var(--color-green-hover);
+}
+
+.navNext:disabled,
+.navSubmit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* Sidebar */
@@ -412,14 +401,27 @@
 .stepCounter {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2px;
-    font-size: 13px;
-    color: var(--color-text);
     text-align: center;
 }
 
-.stepCounterText {
-    display: block;
+.stepCounterNumber {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-green);
+}
+
+.stepCounterLabel {
+    font-size: 13px;
+    color: var(--color-text);
+}
+
+.stepCounterFinal {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-dark);
 }
 
 /* Success */
@@ -472,8 +474,13 @@
 
     .stepCounter {
         flex-direction: row;
-        gap: 6px;
+        align-items: center;
+        gap: 8px;
         margin-left: auto;
+    }
+
+    .stepCounterNumber {
+        font-size: 32px;
     }
 }
 
