@@ -416,6 +416,26 @@ export const VIEW_REQUEST_SECTION: ViewRequestSectionContent = {
     successText: "Мы свяжемся с вами в течение 15 минут.",
 };
 
+export type CtaSectionContent = {
+    title: string;
+    text: string;
+    buttonLabel: string;
+    image: {
+        src: string;
+        alt: string;
+    };
+};
+
+export const CTA_SECTION: CtaSectionContent = {
+    title: "Хотите оригинальный дом, не похожий ни на один другой?",
+    text: "Закажите разработку индивидуального проекта с учетом всех ваших пожеланий и предпочтений!",
+    buttonLabel: "Оставить заявку на проектирование",
+    image: {
+        src: "https://ncottage.ru/app/uploads/2019/10/house.png",
+        alt: "Проект дома",
+    },
+};
+
 export type Review = {
     id: string;
     author: string;
