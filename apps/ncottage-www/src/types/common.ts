@@ -24,3 +24,10 @@ export interface Category {
     image: string;
     technology: string;
 }
+
+export interface BuiltObject {
+    id: string;
+    title: string;
+    image: string;
+    href: string;
+}
