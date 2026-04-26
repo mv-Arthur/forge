@@ -79,11 +79,6 @@ export function FeaturedProjectCard({
 
     return (
         <article className={styles.card}>
-            <Link
-                href={`/projects/${project.slug}`}
-                className={styles.cardLink}
-                aria-label={`${cardTitle} — ${project.name}`}
-            />
             <div className={styles.imageWrapper}>
                 <div
                     className={styles.image}
@@ -119,7 +114,14 @@ export function FeaturedProjectCard({
                     <CompareIcon />
                 </button>
             </div>
-            <h3 className={styles.title}>{cardTitle}</h3>
+            <h3 className={styles.title}>
+                <Link
+                    href={`/projects/${project.slug}`}
+                    className={styles.titleLink}
+                >
+                    {cardTitle}
+                </Link>
+            </h3>
             <ul className={styles.stats}>
                 <li className={styles.stat}>
                     <img
