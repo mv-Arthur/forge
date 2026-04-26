@@ -13,6 +13,7 @@ import { ViewRequestSection } from "@/components/sections/ViewRequestSection";
 import {
     ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
+    CTA_SECTION,
     HERO,
     OUR_WORKS_SECTION,
     POPULAR_PROJECTS_SECTION,
@@ -111,7 +112,12 @@ export default function HomePage() {
                 nextLabel={REVIEWS_SECTION.nextLabel}
                 reviews={REVIEWS_SECTION.reviews}
             />
-            <CtaSection />
+            <CtaSection
+                title={CTA_SECTION.title}
+                text={CTA_SECTION.text}
+                buttonLabel={CTA_SECTION.buttonLabel}
+                image={CTA_SECTION.image}
+            />
             <ContactForm />
         </>
     );
