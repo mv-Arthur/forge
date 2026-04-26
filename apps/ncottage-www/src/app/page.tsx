@@ -5,7 +5,6 @@ import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
 import { PopularProjects } from "@/components/sections/PopularProjects";
 import { QuizSection } from "@/components/sections/QuizSection";
 import { StagesSection } from "@/components/sections/StagesSection";
-import { GallerySection } from "@/components/sections/GallerySection";
 import { OurWorksSection } from "@/components/sections/OurWorksSection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
@@ -25,14 +24,12 @@ import {
 } from "@/lib/constants";
 import {
     getCategories,
-    getGallery,
     getFeaturedProjects,
     getBuiltObjects,
 } from "@/lib/data";
 
 export default function HomePage() {
     const categories = getCategories();
-    const gallery = getGallery();
     const featuredProjects = getFeaturedProjects();
     const builtObjects = getBuiltObjects();
 
@@ -107,7 +104,6 @@ export default function HomePage() {
                 title={STAGES_SECTION.title}
                 stages={STAGES_SECTION.stages}
             />
-            <GallerySection items={gallery} />
             <ReviewsSection
                 title={REVIEWS_SECTION.title}
                 showMoreLabel={REVIEWS_SECTION.showMoreLabel}

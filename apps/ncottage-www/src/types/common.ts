@@ -11,12 +11,6 @@ export interface Stage {
     description: string;
 }
 
-export interface GalleryItem {
-    id: string;
-    title: string;
-    image: string;
-}
-
 export interface Category {
     slug: string;
     title: string;
