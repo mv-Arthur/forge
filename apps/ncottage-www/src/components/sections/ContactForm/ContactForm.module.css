@@ -138,7 +138,7 @@
     border-radius: 5px;
     outline: none;
     appearance: none;
-    resize: vertical;
+    resize: none;
     font-family: inherit;
     font-weight: 400;
     font-size: 16px;
