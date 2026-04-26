@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { REVIEWS_SECTION } from "@/lib/constants";
-import { getReviews } from "@/lib/data";
 import { ReviewsSection } from "./ReviewsSection";
 
 const meta: Meta<typeof ReviewsSection> = {
@@ -12,7 +11,7 @@ const meta: Meta<typeof ReviewsSection> = {
         showMoreLabel: REVIEWS_SECTION.showMoreLabel,
         prevLabel: REVIEWS_SECTION.prevLabel,
         nextLabel: REVIEWS_SECTION.nextLabel,
-        reviews: getReviews(),
+        reviews: REVIEWS_SECTION.reviews,
     },
 };
 

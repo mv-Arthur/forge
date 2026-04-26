@@ -1,6 +1,5 @@
 import type { Project } from "@/types/project";
 import type { Service } from "@/types/service";
-import type { Review } from "@/types/review";
 import type {
     Advantage,
     Stage,
@@ -11,7 +10,6 @@ import type {
 
 import projectsData from "@/data/projects.json";
 import servicesData from "@/data/services.json";
-import reviewsData from "@/data/reviews.json";
 import advantagesData from "@/data/advantages.json";
 import stagesData from "@/data/stages.json";
 import galleryData from "@/data/gallery.json";
@@ -36,10 +34,6 @@ export function getServices(): Service[] {
 
 export function getServiceBySlug(slug: string): Service | undefined {
     return getServices().find((s) => s.slug === slug);
-}
-
-export function getReviews(): Review[] {
-    return reviewsData as Review[];
 }
 
 export function getAdvantages(): Advantage[] {

@@ -25,7 +25,6 @@ import {
 } from "@/lib/constants";
 import {
     getCategories,
-    getReviews,
     getGallery,
     getFeaturedProjects,
     getBuiltObjects,
@@ -33,7 +32,6 @@ import {
 
 export default function HomePage() {
     const categories = getCategories();
-    const reviews = getReviews();
     const gallery = getGallery();
     const featuredProjects = getFeaturedProjects();
     const builtObjects = getBuiltObjects();
@@ -115,7 +113,7 @@ export default function HomePage() {
                 showMoreLabel={REVIEWS_SECTION.showMoreLabel}
                 prevLabel={REVIEWS_SECTION.prevLabel}
                 nextLabel={REVIEWS_SECTION.nextLabel}
-                reviews={reviews}
+                reviews={REVIEWS_SECTION.reviews}
             />
             <CtaSection />
             <ContactForm />

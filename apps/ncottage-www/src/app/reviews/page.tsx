@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { getReviews } from "@/lib/data";
+import { REVIEWS_SECTION } from "@/lib/constants";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function ReviewsPage() {
-    const reviews = getReviews();
+    const reviews = REVIEWS_SECTION.reviews;
 
     return (
         <section className={styles.page}>

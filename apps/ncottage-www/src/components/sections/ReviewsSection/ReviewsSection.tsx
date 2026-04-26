@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ReviewsSectionContent } from "@/lib/constants";
-import type { Review } from "@/types/review";
 import styles from "./ReviewsSection.module.css";
 
 interface ReviewsSectionProps {
@@ -10,7 +9,7 @@ interface ReviewsSectionProps {
     showMoreLabel: ReviewsSectionContent["showMoreLabel"];
     prevLabel: ReviewsSectionContent["prevLabel"];
     nextLabel: ReviewsSectionContent["nextLabel"];
-    reviews: Review[];
+    reviews: ReviewsSectionContent["reviews"];
 }
 
 const SCROLL_STEP = 415;
