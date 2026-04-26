@@ -9,11 +9,13 @@ import { OurWorksSection } from "@/components/sections/OurWorksSection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { ContactsMap } from "@/components/sections/ContactsMap";
 import { ViewRequestSection } from "@/components/sections/ViewRequestSection";
 import {
     ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
     CONTACT_FORM,
+    CONTACTS_MAP,
     CTA_SECTION,
     HERO,
     OUR_WORKS_SECTION,
@@ -96,15 +98,15 @@ export default function HomePage() {
                 cta={POPULAR_PROJECTS_SECTION.cta}
                 projects={featuredProjects}
             />
+            <StagesSection
+                title={STAGES_SECTION.title}
+                stages={STAGES_SECTION.stages}
+            />
             <OurWorksSection
                 title={OUR_WORKS_SECTION.title}
                 tabs={OUR_WORKS_SECTION.tabs}
                 cta={OUR_WORKS_SECTION.cta}
                 objects={builtObjects}
-            />
-            <StagesSection
-                title={STAGES_SECTION.title}
-                stages={STAGES_SECTION.stages}
             />
             <ReviewsSection
                 title={REVIEWS_SECTION.title}
@@ -133,6 +135,15 @@ export default function HomePage() {
                 image={CONTACT_FORM.image}
                 successTitle={CONTACT_FORM.successTitle}
                 successText={CONTACT_FORM.successText}
+            />
+            <ContactsMap
+                title={CONTACTS_MAP.title}
+                addresses={CONTACTS_MAP.addresses}
+                phones={CONTACTS_MAP.phones}
+                email={CONTACTS_MAP.email}
+                hours={CONTACTS_MAP.hours}
+                mapUrl={CONTACTS_MAP.mapUrl}
+                mapTitle={CONTACTS_MAP.mapTitle}
             />
         </>
     );
