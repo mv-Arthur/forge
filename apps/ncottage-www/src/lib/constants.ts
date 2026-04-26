@@ -300,6 +300,38 @@ export const ADVANTAGES_SECTION: AdvantagesSectionContent = {
     ],
 };
 
+export type ViewRequestSectionContent = {
+    title: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    phoneLabel: string;
+    phonePlaceholder: string;
+    submitLabel: string;
+    privacy: {
+        text: string;
+        linkLabel: string;
+        linkHref: string;
+    };
+    successTitle: string;
+    successText: string;
+};
+
+export const VIEW_REQUEST_SECTION: ViewRequestSectionContent = {
+    title: "Оставить заявку на просмотр построенных домов",
+    nameLabel: "Ваше имя",
+    namePlaceholder: "Ваше имя",
+    phoneLabel: "Телефон",
+    phonePlaceholder: "Телефон *",
+    submitLabel: "Отправить",
+    privacy: {
+        text: "Нажимая на кнопку «Отправить», вы даёте согласие на обработку своих персональных данных. Ознакомиться с",
+        linkLabel: "политикой конфиденциальности.",
+        linkHref: "/privacy",
+    },
+    successTitle: "Заявка отправлена",
+    successText: "Мы свяжемся с вами в течение 15 минут.",
+};
+
 export type QuizSpeaker = {
     name: string;
     role: string;

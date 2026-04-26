@@ -9,12 +9,14 @@ import { GallerySection } from "@/components/sections/GallerySection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { ViewRequestSection } from "@/components/sections/ViewRequestSection";
 import {
     ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
     HERO,
     PROJECT_PICKER,
     QUIZ_SECTION,
+    VIEW_REQUEST_SECTION,
 } from "@/lib/constants";
 import { getCategories, getReviews, getGallery } from "@/lib/data";
 
@@ -66,6 +68,17 @@ export default function HomePage() {
             />
             <PopularProjects />
             <StagesSection />
+            <ViewRequestSection
+                title={VIEW_REQUEST_SECTION.title}
+                nameLabel={VIEW_REQUEST_SECTION.nameLabel}
+                namePlaceholder={VIEW_REQUEST_SECTION.namePlaceholder}
+                phoneLabel={VIEW_REQUEST_SECTION.phoneLabel}
+                phonePlaceholder={VIEW_REQUEST_SECTION.phonePlaceholder}
+                submitLabel={VIEW_REQUEST_SECTION.submitLabel}
+                privacy={VIEW_REQUEST_SECTION.privacy}
+                successTitle={VIEW_REQUEST_SECTION.successTitle}
+                successText={VIEW_REQUEST_SECTION.successText}
+            />
             <GallerySection items={gallery} />
             <ReviewsSection reviews={reviews} />
             <CtaSection />
