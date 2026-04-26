@@ -19,12 +19,12 @@ import {
     POPULAR_PROJECTS_SECTION,
     PROJECT_PICKER,
     QUIZ_SECTION,
+    REVIEWS_SECTION,
     STAGES_SECTION,
     VIEW_REQUEST_SECTION,
 } from "@/lib/constants";
 import {
     getCategories,
-    getReviews,
     getGallery,
     getFeaturedProjects,
     getBuiltObjects,
@@ -32,7 +32,6 @@ import {
 
 export default function HomePage() {
     const categories = getCategories();
-    const reviews = getReviews();
     const gallery = getGallery();
     const featuredProjects = getFeaturedProjects();
     const builtObjects = getBuiltObjects();
@@ -109,7 +108,13 @@ export default function HomePage() {
                 stages={STAGES_SECTION.stages}
             />
             <GallerySection items={gallery} />
-            <ReviewsSection reviews={reviews} />
+            <ReviewsSection
+                title={REVIEWS_SECTION.title}
+                showMoreLabel={REVIEWS_SECTION.showMoreLabel}
+                prevLabel={REVIEWS_SECTION.prevLabel}
+                nextLabel={REVIEWS_SECTION.nextLabel}
+                reviews={REVIEWS_SECTION.reviews}
+            />
             <CtaSection />
             <ContactForm />
         </>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { getReviews } from "@/lib/data";
+import { REVIEWS_SECTION } from "@/lib/constants";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function ReviewsPage() {
-    const reviews = getReviews();
+    const reviews = REVIEWS_SECTION.reviews;
 
     return (
         <section className={styles.page}>
@@ -22,10 +22,6 @@ export default function ReviewsPage() {
                 <div className={styles.grid}>
                     {reviews.map((review) => (
                         <div key={review.id} className={styles.card}>
-                            <div className={styles.stars}>
-                                {"★".repeat(review.rating)}
-                                {"☆".repeat(5 - review.rating)}
-                            </div>
                             <p className={styles.text}>{review.text}</p>
                             <div className={styles.author}>
                                 <div className={styles.avatar}>
@@ -35,10 +31,7 @@ export default function ReviewsPage() {
                                     <p className={styles.name}>
                                         {review.author}
                                     </p>
-                                    <p className={styles.project}>
-                                        {review.project} &middot;{" "}
-                                        {review.date}
-                                    </p>
+                                    <p className={styles.date}>{review.date}</p>
                                 </div>
                             </div>
                         </div>
