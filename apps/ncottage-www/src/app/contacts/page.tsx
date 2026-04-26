@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { PHONES, EMAIL, ADDRESSES, WORK_HOURS } from "@/lib/constants";
+import {
+    ADDRESSES,
+    CONTACT_FORM,
+    EMAIL,
+    PHONES,
+    WORK_HOURS,
+} from "@/lib/constants";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -55,7 +61,21 @@ export default function ContactsPage() {
                     </div>
                 </Container>
             </section>
-            <ContactForm />
+            <ContactForm
+                title={CONTACT_FORM.title}
+                subtitle={CONTACT_FORM.subtitle}
+                nameLabel={CONTACT_FORM.nameLabel}
+                namePlaceholder={CONTACT_FORM.namePlaceholder}
+                phoneLabel={CONTACT_FORM.phoneLabel}
+                phonePlaceholder={CONTACT_FORM.phonePlaceholder}
+                messageLabel={CONTACT_FORM.messageLabel}
+                messagePlaceholder={CONTACT_FORM.messagePlaceholder}
+                submitLabel={CONTACT_FORM.submitLabel}
+                privacy={CONTACT_FORM.privacy}
+                image={CONTACT_FORM.image}
+                successTitle={CONTACT_FORM.successTitle}
+                successText={CONTACT_FORM.successText}
+            />
         </>
     );
 }
