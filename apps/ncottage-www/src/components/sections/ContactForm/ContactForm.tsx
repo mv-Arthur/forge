@@ -50,14 +50,12 @@ export function ContactForm({
     return (
         <section className={styles.section}>
             <div className={styles.wrapper}>
-                <div className={styles.photo}>
-                    <img
-                        className={styles.photoImg}
-                        src={image.src}
-                        alt={image.alt}
-                        decoding="async"
-                    />
-                </div>
+                <img
+                    className={styles.photo}
+                    src={image.src}
+                    alt={image.alt}
+                    decoding="async"
+                />
                 <div className={styles.formWrapper}>
                     {submitted ? (
                         <div className={styles.success} role="status">

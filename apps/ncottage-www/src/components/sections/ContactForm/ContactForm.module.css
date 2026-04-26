@@ -9,11 +9,11 @@
 .wrapper {
     position: relative;
     display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: stretch;
     width: 100%;
     max-width: 1230px;
+    min-height: 482px;
     margin: 0 auto;
     background: #f8f8f8;
     border-radius: 5px;
@@ -21,16 +21,6 @@
 }
 
 .photo {
-    position: relative;
-    width: 100%;
-    max-width: 50%;
-    max-height: 482px;
-    overflow: hidden;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-}
-
-.photoImg {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -242,8 +232,7 @@
 
 @media (max-width: 989px) {
     .wrapper {
-        flex-direction: column;
-        align-items: stretch;
+        min-height: 0;
     }
 
     .photo {
