@@ -19,6 +19,7 @@ import {
     POPULAR_PROJECTS_SECTION,
     PROJECT_PICKER,
     QUIZ_SECTION,
+    STAGES_SECTION,
     VIEW_REQUEST_SECTION,
 } from "@/lib/constants";
 import {
@@ -103,7 +104,10 @@ export default function HomePage() {
                 cta={OUR_WORKS_SECTION.cta}
                 objects={builtObjects}
             />
-            <StagesSection />
+            <StagesSection
+                title={STAGES_SECTION.title}
+                stages={STAGES_SECTION.stages}
+            />
             <GallerySection items={gallery} />
             <ReviewsSection reviews={reviews} />
             <CtaSection />

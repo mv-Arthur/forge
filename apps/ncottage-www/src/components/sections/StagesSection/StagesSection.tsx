@@ -1,31 +1,27 @@
-import { Container } from "@/components/ui/Container";
+import type { StagesSectionContent } from "@/lib/constants";
 import styles from "./StagesSection.module.css";
 
-const STAGES = [
-    { num: "01", title: "Встреча в офисе" },
-    { num: "02", title: "Заключение договора" },
-    { num: "03", title: "Разработка проекта" },
-    { num: "04", title: "Строительство дома" },
-    { num: "05", title: "Технический надзор" },
-    { num: "06", title: "Сдача дома" },
-];
+interface StagesSectionProps {
+    title: StagesSectionContent["title"];
+    stages: StagesSectionContent["stages"];
+}
 
-export function StagesSection() {
+export function StagesSection({ title, stages }: StagesSectionProps) {
     return (
         <section className={styles.section}>
-            <Container>
-                <h2 className={styles.title}>Этапы работы с нами</h2>
-                <div className={styles.grid}>
-                    {STAGES.map((stage) => (
+            <div className={styles.wrapper}>
+                <h2 className={styles.title}>{title}</h2>
+                <div className={styles.list}>
+                    {stages.map((stage) => (
                         <div key={stage.num} className={styles.item}>
-                            <span className={styles.num}>{stage.num}</span>
-                            <span className={styles.itemTitle}>
+                            <div className={styles.num}>{stage.num}</div>
+                            <div className={styles.itemTitle}>
                                 {stage.title}
-                            </span>
+                            </div>
                         </div>
                     ))}
                 </div>
-            </Container>
+            </div>
         </section>
     );
 }
