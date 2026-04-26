@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
 import { StagesSection } from "@/components/sections/StagesSection";
+import { ADVANTAGES_SECTION } from "@/lib/constants";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -60,15 +61,20 @@ export default function AboutPage() {
                     <div className={styles.textBlock} id="payment">
                         <h2 className={styles.subtitle}>Оплата</h2>
                         <p className={styles.text}>
-                            Поэтапная оплата по мере выполнения работ.
-                            Принимаем оплату наличными, банковским переводом,
-                            а также работаем с ипотекой и материнским
-                            капиталом. Стоимость фиксируется в договоре.
+                            Поэтапная оплата по мере выполнения работ. Принимаем
+                            оплату наличными, банковским переводом, а также
+                            работаем с ипотекой и материнским капиталом.
+                            Стоимость фиксируется в договоре.
                         </p>
                     </div>
                 </Container>
             </section>
-            <AdvantagesSection />
+            <AdvantagesSection
+                title={ADVANTAGES_SECTION.title}
+                text={ADVANTAGES_SECTION.text}
+                background={ADVANTAGES_SECTION.background}
+                items={ADVANTAGES_SECTION.items}
+            />
             <StagesSection />
         </>
     );
