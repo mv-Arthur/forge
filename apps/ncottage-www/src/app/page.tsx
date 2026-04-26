@@ -9,11 +9,13 @@ import { OurWorksSection } from "@/components/sections/OurWorksSection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { ContactsMap } from "@/components/sections/ContactsMap";
 import { ViewRequestSection } from "@/components/sections/ViewRequestSection";
 import {
     ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
     CONTACT_FORM,
+    CONTACTS_MAP,
     CTA_SECTION,
     HERO,
     OUR_WORKS_SECTION,
@@ -118,6 +120,15 @@ export default function HomePage() {
                 text={CTA_SECTION.text}
                 buttonLabel={CTA_SECTION.buttonLabel}
                 image={CTA_SECTION.image}
+            />
+            <ContactsMap
+                title={CONTACTS_MAP.title}
+                addresses={CONTACTS_MAP.addresses}
+                phones={CONTACTS_MAP.phones}
+                email={CONTACTS_MAP.email}
+                hours={CONTACTS_MAP.hours}
+                mapUrl={CONTACTS_MAP.mapUrl}
+                mapTitle={CONTACTS_MAP.mapTitle}
             />
             <ContactForm
                 title={CONTACT_FORM.title}
