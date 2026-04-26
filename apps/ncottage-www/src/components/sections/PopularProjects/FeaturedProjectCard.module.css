@@ -1,4 +1,5 @@
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -7,7 +8,6 @@
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
     color: var(--color-text);
     transition: box-shadow var(--transition);
 }
@@ -20,6 +20,8 @@
     position: relative;
     width: 100%;
     height: 250px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     overflow: hidden;
 }
 
@@ -36,19 +38,70 @@
     transform: scale(1.04);
 }
 
-.badge {
+.actions {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    padding: 4px 12px;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+    color: var(--color-bg-green);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition:
+        background-color var(--transition),
+        color var(--transition);
+}
+
+.action:hover {
     background-color: var(--color-bg-green);
     color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 18px;
+}
+
+.actionActive {
+    background-color: var(--color-bg-green);
+    color: #fff;
+}
+
+.badge {
+    position: absolute;
+    top: 195px;
+    right: 0;
+    padding: 8px 24px;
+    background-color: var(--color-bg-green);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
     text-transform: uppercase;
-    border-radius: 3px;
-    letter-spacing: 0.5px;
+    box-shadow: -1px 1px 2px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.cardLink {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 5px;
+    text-decoration: none;
+    text-indent: -9999px;
+}
+
+.cardLink:focus-visible {
+    outline: 2px solid var(--color-bg-green);
+    outline-offset: 2px;
 }
 
 .title {
