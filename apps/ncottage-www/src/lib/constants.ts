@@ -416,6 +416,134 @@ export const VIEW_REQUEST_SECTION: ViewRequestSectionContent = {
     successText: "Мы свяжемся с вами в течение 15 минут.",
 };
 
+export type FooterMenuItem = {
+    label: string;
+    href: string;
+};
+
+export type FooterMenu = {
+    title: string;
+    items: FooterMenuItem[];
+};
+
+export type FooterOffice = {
+    address: string;
+    mapHref: string;
+    hours: string;
+    email: string;
+    phone: Phone;
+};
+
+export type FooterBottomLink = {
+    label: string;
+    href: string;
+    external?: boolean;
+};
+
+export type FooterContent = {
+    projects: FooterMenu;
+    company: FooterMenu;
+    services: FooterMenu;
+    contactsTitle: string;
+    socialLabel: string;
+    legal: { ogrn: string; inn: string; kpp: string };
+    offices: FooterOffice[];
+    bottomLinks: FooterBottomLink[];
+    copyright: string;
+    disclaimer: string;
+    mapLinkLabel: string;
+    toTopLabel: string;
+};
+
+export const FOOTER: FooterContent = {
+    projects: {
+        title: "Проекты",
+        items: [
+            { label: "Дома из газобетона", href: "/projects/aerocrete" },
+            { label: "Кирпичные дома", href: "/projects/brick" },
+            { label: "Каркасные дома", href: "/projects/frame" },
+            { label: "Дома из СИП-панелей", href: "/projects/sip" },
+            { label: "Проекты домов", href: "/projects" },
+            { label: "Дома из блоков", href: "/projects/foam-block" },
+            {
+                label: "Жилые дома для постоянного проживания",
+                href: "/projects/permanent",
+            },
+            {
+                label: "Готовые одноэтажные проекты",
+                href: "/projects/one-story",
+            },
+            {
+                label: "Строительство теплых деревянных домов",
+                href: "/services/construction",
+            },
+            { label: "Стоимость строительных работ", href: "/projects" },
+        ],
+    },
+    company: {
+        title: "Компания",
+        items: [
+            { label: "О компании", href: "/about" },
+            { label: "Наши работы", href: "/our-works" },
+            { label: "Гарантия на постройку", href: "/about#guarantee" },
+            { label: "Акции", href: "/promotions" },
+            { label: "Вакансии", href: "/about/vacancy" },
+            { label: "Реквизиты", href: "/about/legal" },
+        ],
+    },
+    services: {
+        title: "Услуги",
+        items: [
+            {
+                label: "Индивидуальное проектирование",
+                href: "/services/design",
+            },
+            {
+                label: "Строительство коттеджей под ключ",
+                href: "/services/construction",
+            },
+            { label: "Возведение фундамента", href: "/services/foundation" },
+            { label: "Отделка загородных домов", href: "/services/finishing" },
+            { label: "Монтаж инженерных сетей", href: "/services/engineering" },
+        ],
+    },
+    contactsTitle: "Контакты",
+    socialLabel: "Мы в соц. сетях:",
+    legal: LEGAL,
+    offices: [
+        {
+            address:
+                "г. Санкт-Петербург, Комендантский проспект, д. 4, офис 405",
+            mapHref: "/contacts",
+            hours: "Пн-Пт, с 10:00 до 19:00",
+            email: EMAIL,
+            phone: PHONES.spb,
+        },
+        {
+            address: "Москва, 1-й Нагатинский проезд, д. 2, офис 6",
+            mapHref: "/contacts",
+            hours: "Пн-Пт, с 10:00 до 19:00",
+            email: EMAIL,
+            phone: PHONES.msk,
+        },
+    ],
+    bottomLinks: [
+        { label: "Обработка персональных данных", href: "/privacy" },
+        {
+            label: "Политика конфиденциальности",
+            href: "/privacy",
+            external: true,
+        },
+        { label: "Карта сайта", href: "/sitemap" },
+    ],
+    copyright:
+        '© 2008 - 2026 Компания "Новый Коттедж" - в работе используются современные строительные материалы, технологии и конструкции.',
+    disclaimer:
+        "Публичная оферта. Вся представленная на сайте информация носит информационный характер и ни при каких условиях не является публичной офертой, определяемой положением Статьи 437(2) Гражданского кодекса РФ.",
+    mapLinkLabel: "Смотреть на карте",
+    toTopLabel: "Наверх",
+};
+
 export type ContactsMapContent = {
     title: string;
     addresses: string[];
