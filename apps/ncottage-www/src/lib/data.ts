@@ -1,18 +1,11 @@
 import type { Project } from "@/types/project";
 import type { Service } from "@/types/service";
-import type {
-    Advantage,
-    Stage,
-    GalleryItem,
-    Category,
-    BuiltObject,
-} from "@/types/common";
+import type { Advantage, Stage, Category, BuiltObject } from "@/types/common";
 
 import projectsData from "@/data/projects.json";
 import servicesData from "@/data/services.json";
 import advantagesData from "@/data/advantages.json";
 import stagesData from "@/data/stages.json";
-import galleryData from "@/data/gallery.json";
 import categoriesData from "@/data/categories.json";
 import builtObjectsData from "@/data/built-objects.json";
 
@@ -42,10 +35,6 @@ export function getAdvantages(): Advantage[] {
 
 export function getStages(): Stage[] {
     return stagesData as Stage[];
-}
-
-export function getGallery(): GalleryItem[] {
-    return galleryData as GalleryItem[];
 }
 
 export function getCategories(): Category[] {

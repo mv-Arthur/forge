@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GallerySection } from "@/components/sections/GallerySection";
-import { getGallery } from "@/lib/data";
 
 export const metadata: Metadata = {
     title: "Наши работы — Новый Коттедж",
@@ -10,8 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function OurWorksPage() {
-    const gallery = getGallery();
-
     return (
         <section style={{ paddingTop: 120 }}>
             <Container>
@@ -21,7 +17,6 @@ export default function OurWorksPage() {
                     description="Более 200 домов в Санкт-Петербурге и Ленинградской области."
                 />
             </Container>
-            <GallerySection items={gallery} />
         </section>
     );
 }
