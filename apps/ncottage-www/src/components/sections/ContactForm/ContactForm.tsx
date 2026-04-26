@@ -1,85 +1,154 @@
 "use client";
 
 import { useState } from "react";
-import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
+import type { ContactFormContent } from "@/lib/constants";
 import styles from "./ContactForm.module.css";
 
-export function ContactForm() {
+interface ContactFormProps {
+    title: ContactFormContent["title"];
+    subtitle: ContactFormContent["subtitle"];
+    nameLabel: ContactFormContent["nameLabel"];
+    namePlaceholder: ContactFormContent["namePlaceholder"];
+    phoneLabel: ContactFormContent["phoneLabel"];
+    phonePlaceholder: ContactFormContent["phonePlaceholder"];
+    messageLabel: ContactFormContent["messageLabel"];
+    messagePlaceholder: ContactFormContent["messagePlaceholder"];
+    submitLabel: ContactFormContent["submitLabel"];
+    privacy: ContactFormContent["privacy"];
+    image: ContactFormContent["image"];
+    successTitle: ContactFormContent["successTitle"];
+    successText: ContactFormContent["successText"];
+}
+
+export function ContactForm({
+    title,
+    subtitle,
+    nameLabel,
+    namePlaceholder,
+    phoneLabel,
+    phonePlaceholder,
+    messageLabel,
+    messagePlaceholder,
+    submitLabel,
+    privacy,
+    image,
+    successTitle,
+    successText,
+}: ContactFormProps) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
+    const [message, setMessage] = useState("");
     const [submitted, setSubmitted] = useState(false);
 
-    function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        if (!name.trim() || !phone.trim()) return;
-        console.log("Contact form:", { name, phone });
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        if (!phone.trim()) return;
+        console.log("ContactForm submit:", { name, phone, message });
         setSubmitted(true);
     }
 
     return (
         <section className={styles.section}>
-            <Container>
-                <div className={styles.inner}>
-                    <div className={styles.info}>
-                        <SectionHeading
-                            align="left"
-                            label="Обратная связь"
-                            title="Оставьте заявку"
-                            description="Мы свяжемся с вами в течение 30 минут в рабочее время и ответим на все вопросы."
-                        />
-                        <ul className={styles.benefits}>
-                            <li>Бесплатная консультация</li>
-                            <li>Расчёт стоимости за 24 часа</li>
-                            <li>Выезд на участок</li>
-                        </ul>
-                    </div>
-                    <div className={styles.formWrapper}>
-                        {submitted ? (
-                            <div className={styles.success}>
-                                <p className={styles.successTitle}>
-                                    Заявка отправлена
-                                </p>
-                                <p className={styles.successText}>
-                                    Мы свяжемся с вами в ближайшее время.
-                                </p>
+            <div className={styles.wrapper}>
+                <img
+                    className={styles.photo}
+                    src={image.src}
+                    alt={image.alt}
+                    decoding="async"
+                />
+                <div className={styles.formWrapper}>
+                    {submitted ? (
+                        <div className={styles.success} role="status">
+                            <p className={styles.successTitle}>
+                                {successTitle}
+                            </p>
+                            <p className={styles.successText}>{successText}</p>
+                        </div>
+                    ) : (
+                        <form
+                            className={styles.form}
+                            onSubmit={handleSubmit}
+                            noValidate
+                        >
+                            <div className={styles.formTitle}>{title}</div>
+                            <div className={styles.formSubtitle}>
+                                {subtitle}
                             </div>
-                        ) : (
-                            <form
-                                className={styles.form}
-                                onSubmit={handleSubmit}
-                            >
-                                <input
-                                    className={styles.input}
-                                    type="text"
-                                    placeholder="Ваше имя"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                />
-                                <input
-                                    className={styles.input}
-                                    type="tel"
-                                    placeholder="Телефон"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    required
-                                />
-                                <Button type="submit" size="lg">
-                                    Отправить заявку
-                                </Button>
+                            <div className={styles.formGrid}>
+                                <div className={styles.rows}>
+                                    <label className={styles.field}>
+                                        <span className={styles.srOnly}>
+                                            {nameLabel}
+                                        </span>
+                                        <input
+                                            className={styles.input}
+                                            type="text"
+                                            name="name"
+                                            autoComplete="name"
+                                            placeholder={namePlaceholder}
+                                            value={name}
+                                            onChange={(event) =>
+                                                setName(event.target.value)
+                                            }
+                                        />
+                                    </label>
+                                    <label className={styles.field}>
+                                        <span className={styles.srOnly}>
+                                            {phoneLabel}
+                                        </span>
+                                        <input
+                                            className={styles.input}
+                                            type="tel"
+                                            name="phone"
+                                            autoComplete="tel"
+                                            placeholder={phonePlaceholder}
+                                            value={phone}
+                                            onChange={(event) =>
+                                                setPhone(event.target.value)
+                                            }
+                                            required
+                                        />
+                                    </label>
+                                </div>
+                                <div className={styles.text}>
+                                    <label className={styles.field}>
+                                        <span className={styles.srOnly}>
+                                            {messageLabel}
+                                        </span>
+                                        <textarea
+                                            className={styles.textarea}
+                                            name="message"
+                                            rows={4}
+                                            placeholder={messagePlaceholder}
+                                            value={message}
+                                            onChange={(event) =>
+                                                setMessage(event.target.value)
+                                            }
+                                        />
+                                    </label>
+                                </div>
                                 <p className={styles.privacy}>
-                                    Нажимая кнопку, вы соглашаетесь с{" "}
-                                    <a href="/privacy">
-                                        политикой обработки персональных данных
+                                    {privacy.text}{" "}
+                                    <a
+                                        className={styles.privacyLink}
+                                        href={privacy.linkHref}
+                                    >
+                                        {privacy.linkLabel}
                                     </a>
                                 </p>
-                            </form>
-                        )}
-                    </div>
+                                <div className={styles.submitWrap}>
+                                    <button
+                                        type="submit"
+                                        className={styles.submit}
+                                    >
+                                        {submitLabel}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    )}
                 </div>
-            </Container>
+            </div>
         </section>
     );
 }

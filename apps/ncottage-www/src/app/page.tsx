@@ -13,6 +13,7 @@ import { ViewRequestSection } from "@/components/sections/ViewRequestSection";
 import {
     ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
+    CONTACT_FORM,
     CTA_SECTION,
     HERO,
     OUR_WORKS_SECTION,
@@ -118,7 +119,21 @@ export default function HomePage() {
                 buttonLabel={CTA_SECTION.buttonLabel}
                 image={CTA_SECTION.image}
             />
-            <ContactForm />
+            <ContactForm
+                title={CONTACT_FORM.title}
+                subtitle={CONTACT_FORM.subtitle}
+                nameLabel={CONTACT_FORM.nameLabel}
+                namePlaceholder={CONTACT_FORM.namePlaceholder}
+                phoneLabel={CONTACT_FORM.phoneLabel}
+                phonePlaceholder={CONTACT_FORM.phonePlaceholder}
+                messageLabel={CONTACT_FORM.messageLabel}
+                messagePlaceholder={CONTACT_FORM.messagePlaceholder}
+                submitLabel={CONTACT_FORM.submitLabel}
+                privacy={CONTACT_FORM.privacy}
+                image={CONTACT_FORM.image}
+                successTitle={CONTACT_FORM.successTitle}
+                successText={CONTACT_FORM.successText}
+            />
         </>
     );
 }

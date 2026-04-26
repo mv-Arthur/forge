@@ -416,6 +416,52 @@ export const VIEW_REQUEST_SECTION: ViewRequestSectionContent = {
     successText: "Мы свяжемся с вами в течение 15 минут.",
 };
 
+export type ContactFormContent = {
+    title: string;
+    subtitle: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    phoneLabel: string;
+    phonePlaceholder: string;
+    messageLabel: string;
+    messagePlaceholder: string;
+    submitLabel: string;
+    privacy: {
+        text: string;
+        linkLabel: string;
+        linkHref: string;
+    };
+    image: {
+        src: string;
+        alt: string;
+    };
+    successTitle: string;
+    successText: string;
+};
+
+export const CONTACT_FORM: ContactFormContent = {
+    title: "Остались вопросы?",
+    subtitle: "Оставьте номер телефона, мы перезвоним Вам в течение 15 минут!",
+    nameLabel: "Ваше имя",
+    namePlaceholder: "Ваше имя",
+    phoneLabel: "Телефон",
+    phonePlaceholder: "Телефон *",
+    messageLabel: "Сообщение",
+    messagePlaceholder: "Сообщение",
+    submitLabel: "Задать вопрос специалистам",
+    privacy: {
+        text: 'Нажимая на кнопку "Задать вопрос специалистам", вы даете согласие на обработку своих персональных данных. Ознакомиться с',
+        linkLabel: "политикой конфиденциальности.",
+        linkHref: "/privacy",
+    },
+    image: {
+        src: "https://ncottage.ru/app/themes/sage/dist/images/svg/devyshka-photo-form.svg",
+        alt: "Менеджер по работе с клиентами",
+    },
+    successTitle: "Заявка отправлена",
+    successText: "Мы свяжемся с вами в течение 15 минут.",
+};
+
 export type CtaSectionContent = {
     title: string;
     text: string;

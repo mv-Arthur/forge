@@ -1,100 +1,298 @@
 .section {
-    padding: var(--section-padding);
-    background-color: #f8f8f8;
-}
-
-.inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
-}
-
-.benefits {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    width: 100%;
+    padding: 59px 0;
 }
 
-.benefits li {
-    font-size: 14px;
-    color: var(--color-text);
-    padding-left: 20px;
+.wrapper {
     position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1230px;
+    min-height: 482px;
+    margin: 0 auto;
+    background: #f8f8f8;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.benefits li::before {
-    content: "";
+.photo {
     position: absolute;
     left: 0;
-    top: 7px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--color-green);
+    bottom: 0;
+    width: 100%;
+    max-width: 723px;
+    max-height: 482px;
+    height: auto;
+    object-fit: cover;
+    z-index: 1;
 }
 
 .formWrapper {
-    padding: 35px;
-    background-color: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: 5px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 60%;
 }
 
 .form {
+    width: 100%;
+    padding: 25px;
+    border-radius: 5px;
+}
+
+.formTitle {
+    margin-bottom: 10px;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    text-transform: uppercase;
+    color: #535353;
+}
+
+.formSubtitle {
+    margin-bottom: 28px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+    color: #535353;
+    letter-spacing: 0.08px;
+}
+
+.formGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.rows,
+.text {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    align-items: flex-start;
+    width: 100%;
+    max-width: calc((100% - 14px) / 2);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.field + .field {
+    margin-top: 20px;
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .input {
-    padding: 12px 15px;
-    font-size: 14px;
-    background-color: #f8f8f8;
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    color: var(--color-text-dark);
-    transition: border-color var(--transition);
+    width: 100%;
+    height: 48px;
+    padding-left: 23.5px;
+    background: #fff;
+    border: 1px solid #b7b7b7;
+    border-radius: 5px;
+    outline: none;
+    appearance: none;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.5px;
+    letter-spacing: 0.08px;
+    color: var(--color-text);
 }
 
 .input::placeholder {
     color: var(--color-text-light);
+    opacity: 1;
 }
 
 .input:focus {
-    border-color: var(--color-green);
+    border-color: var(--color-bg-green);
 }
 
-.privacy {
-    font-size: 11px;
-    color: var(--color-text-light);
-    line-height: 1.5;
-}
-
-.privacy a {
-    color: var(--color-green);
-    text-decoration: underline;
-}
-
-.success {
-    text-align: center;
-    padding: 30px 0;
-}
-
-.successTitle {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--color-green);
-    margin-bottom: 8px;
-}
-
-.successText {
+.textarea {
+    width: 100%;
+    height: 116px;
+    padding: 13px 23.5px;
+    background: #fff;
+    border: 1px solid #b7b7b7;
+    border-radius: 5px;
+    outline: none;
+    appearance: none;
+    resize: none;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.5px;
+    letter-spacing: 0.08px;
     color: var(--color-text);
 }
 
-@media (max-width: 768px) {
-    .inner {
-        grid-template-columns: 1fr;
-        gap: 25px;
+.textarea::placeholder {
+    color: var(--color-text-light);
+    opacity: 1;
+}
+
+.textarea:focus {
+    border-color: var(--color-bg-green);
+}
+
+.privacy {
+    width: 100%;
+    max-width: calc((100% - 14px) / 2);
+    margin-top: 15px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--color-text);
+}
+
+.privacyLink {
+    color: var(--color-text);
+    text-decoration: underline;
+}
+
+.privacyLink:hover {
+    text-decoration: none;
+}
+
+.submitWrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: calc((100% - 14px) / 2);
+    margin-top: 15px;
+}
+
+.submit {
+    width: 100%;
+    height: 48px;
+    background: var(--color-green);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 33px;
+    letter-spacing: 0.08px;
+    text-align: center;
+    color: #fff;
+    transition: background-color var(--transition);
+}
+
+.submit:hover {
+    background: var(--color-green-hover);
+}
+
+.submit:active {
+    background: var(--color-green-dark);
+}
+
+.success {
+    width: 100%;
+    padding: 40px 25px;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.successTitle {
+    margin-bottom: 8px;
+    font-weight: 900;
+    font-size: 22px;
+    line-height: 28px;
+    text-transform: uppercase;
+}
+
+.successText {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+@media (max-width: 989px) {
+    .wrapper {
+        min-height: 0;
+    }
+
+    .photo {
+        display: none;
+    }
+
+    .formWrapper {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 559px) {
+    .section {
+        padding: 34px 0;
+    }
+
+    .wrapper {
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0 15px;
+    }
+
+    .form {
+        padding: 28px 15px 35px;
+        background: #f8f8f8;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .formTitle {
+        font-size: 22px;
+        line-height: 29px;
+        margin-bottom: 5px;
+    }
+
+    .formSubtitle {
+        margin-bottom: 24px;
+        font-size: 16px;
+        line-height: 23px;
+    }
+
+    .formGrid {
+        flex-direction: column;
+    }
+
+    .rows,
+    .text,
+    .privacy,
+    .submitWrap {
+        max-width: 100%;
+    }
+
+    .text,
+    .privacy,
+    .submitWrap {
+        margin-top: 15px;
+    }
+
+    .submit {
+        height: 43px;
+        line-height: 33px;
     }
 }
