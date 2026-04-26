@@ -98,15 +98,15 @@ export default function HomePage() {
                 cta={POPULAR_PROJECTS_SECTION.cta}
                 projects={featuredProjects}
             />
+            <StagesSection
+                title={STAGES_SECTION.title}
+                stages={STAGES_SECTION.stages}
+            />
             <OurWorksSection
                 title={OUR_WORKS_SECTION.title}
                 tabs={OUR_WORKS_SECTION.tabs}
                 cta={OUR_WORKS_SECTION.cta}
                 objects={builtObjects}
-            />
-            <StagesSection
-                title={STAGES_SECTION.title}
-                stages={STAGES_SECTION.stages}
             />
             <ReviewsSection
                 title={REVIEWS_SECTION.title}
@@ -120,15 +120,6 @@ export default function HomePage() {
                 text={CTA_SECTION.text}
                 buttonLabel={CTA_SECTION.buttonLabel}
                 image={CTA_SECTION.image}
-            />
-            <ContactsMap
-                title={CONTACTS_MAP.title}
-                addresses={CONTACTS_MAP.addresses}
-                phones={CONTACTS_MAP.phones}
-                email={CONTACTS_MAP.email}
-                hours={CONTACTS_MAP.hours}
-                mapUrl={CONTACTS_MAP.mapUrl}
-                mapTitle={CONTACTS_MAP.mapTitle}
             />
             <ContactForm
                 title={CONTACT_FORM.title}
@@ -144,6 +135,15 @@ export default function HomePage() {
                 image={CONTACT_FORM.image}
                 successTitle={CONTACT_FORM.successTitle}
                 successText={CONTACT_FORM.successText}
+            />
+            <ContactsMap
+                title={CONTACTS_MAP.title}
+                addresses={CONTACTS_MAP.addresses}
+                phones={CONTACTS_MAP.phones}
+                email={CONTACTS_MAP.email}
+                hours={CONTACTS_MAP.hours}
+                mapUrl={CONTACTS_MAP.mapUrl}
+                mapTitle={CONTACTS_MAP.mapTitle}
             />
         </>
     );

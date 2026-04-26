@@ -11,15 +11,6 @@ export const metadata: Metadata = {
 export default function ContactsPage() {
     return (
         <>
-            <ContactsMap
-                title={CONTACTS_MAP.title}
-                addresses={CONTACTS_MAP.addresses}
-                phones={CONTACTS_MAP.phones}
-                email={CONTACTS_MAP.email}
-                hours={CONTACTS_MAP.hours}
-                mapUrl={CONTACTS_MAP.mapUrl}
-                mapTitle={CONTACTS_MAP.mapTitle}
-            />
             <ContactForm
                 title={CONTACT_FORM.title}
                 subtitle={CONTACT_FORM.subtitle}
@@ -34,6 +25,15 @@ export default function ContactsPage() {
                 image={CONTACT_FORM.image}
                 successTitle={CONTACT_FORM.successTitle}
                 successText={CONTACT_FORM.successText}
+            />
+            <ContactsMap
+                title={CONTACTS_MAP.title}
+                addresses={CONTACTS_MAP.addresses}
+                phones={CONTACTS_MAP.phones}
+                email={CONTACTS_MAP.email}
+                hours={CONTACTS_MAP.hours}
+                mapUrl={CONTACTS_MAP.mapUrl}
+                mapTitle={CONTACTS_MAP.mapTitle}
             />
         </>
     );
