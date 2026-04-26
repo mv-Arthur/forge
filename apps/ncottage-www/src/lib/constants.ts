@@ -300,6 +300,66 @@ export const ADVANTAGES_SECTION: AdvantagesSectionContent = {
     ],
 };
 
+export const TECHNOLOGY_GENITIVE: Record<string, string> = {
+    "gas-concrete": "газобетона",
+    brick: "кирпича",
+    frame: "каркаса",
+    sip: "СИП-панелей",
+    fachwerk: "фахверка",
+    "foam-block": "пеноблоков",
+    modular: "модулей",
+    combined: "комбинированных материалов",
+};
+
+export type PopularProjectsTab = {
+    id: string;
+    label: string;
+    technology: string | null;
+};
+
+export type PopularProjectsSectionContent = {
+    title: string;
+    tabs: PopularProjectsTab[];
+    titlePrefix: string;
+    priceLabel: string;
+    statLabels: {
+        area: string;
+        bedrooms: string;
+        bathrooms: string;
+        floors: string;
+        size: string;
+    };
+    cta: { label: string; href: string };
+};
+
+export const POPULAR_PROJECTS_SECTION: PopularProjectsSectionContent = {
+    title: "Популярные проекты",
+    titlePrefix: "Дом из",
+    priceLabel: "Цена от:",
+    tabs: [
+        { id: "all", label: "Загородные дома", technology: null },
+        {
+            id: "gas-concrete",
+            label: "Дома из газобетона",
+            technology: "gas-concrete",
+        },
+        { id: "brick", label: "Кирпичные дома", technology: "brick" },
+        { id: "frame", label: "Каркасные дома", technology: "frame" },
+        { id: "sip", label: "СИП дома", technology: "sip" },
+    ],
+    statLabels: {
+        area: "Площадь",
+        bedrooms: "Спальни",
+        bathrooms: "Санузлов",
+        floors: "Этажей",
+        size: "Размер",
+    },
+    cta: {
+        label: "Смотреть больше проектов",
+        href: "/projects",
+    },
+};
+
 export type ViewRequestSectionContent = {
     title: string;
     nameLabel: string;

@@ -1,0 +1,129 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 430px;
+    padding-bottom: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    color: var(--color-text);
+    transition: box-shadow var(--transition);
+}
+
+.card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: #f8f8f8;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .image {
+    transform: scale(1.04);
+}
+
+.badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 12px;
+    background-color: var(--color-bg-green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+}
+
+.title {
+    margin: 14px 27px 0;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 24px;
+    color: var(--color-text);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px 12px;
+    margin: 15px 27px 0;
+    list-style: none;
+}
+
+.stat {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    padding-right: 8px;
+    border-right: 1px solid var(--color-border-light);
+}
+
+.stat:nth-child(3),
+.stat:nth-child(5) {
+    border-right: none;
+}
+
+.statIcon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.statValue {
+    margin-left: 9px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text);
+}
+
+.statLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto 27px 0;
+    padding-top: 16px;
+}
+
+.priceLabel {
+    font-size: 14px;
+    color: var(--color-text);
+}
+
+.priceValue {
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 30px;
+    color: var(--color-bg-green);
+}
