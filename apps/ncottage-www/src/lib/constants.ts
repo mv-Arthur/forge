@@ -249,6 +249,57 @@ export const CATEGORIES_SECTION: CategoriesSectionContent = {
     },
 };
 
+export type AdvantageItem = {
+    icon: string;
+    title: string;
+    text: string;
+};
+
+export type AdvantagesSectionContent = {
+    title: string;
+    text: string;
+    background: string;
+    items: AdvantageItem[];
+};
+
+export const ADVANTAGES_SECTION: AdvantagesSectionContent = {
+    title: "6 причин обратиться в компанию «Новый Коттедж»",
+    text: "Наша миссия — обеспечить людей желающих перебраться жить на природу недорогим, качественным загородным жильём.",
+    background: "/images/advantages/bg.png",
+    items: [
+        {
+            icon: "/images/advantages/i1.png",
+            title: "Квалифицированные инженеры",
+            text: "Делаем расчёт нагрузок и закладываем запас прочности, чтобы дом получился надёжным и служил долго.",
+        },
+        {
+            icon: "/images/advantages/i2.png",
+            title: "Опытные строители",
+            text: "Специалисты с высшим строительным образованием. Постоянные монтажные бригады с опытом более 10 лет.",
+        },
+        {
+            icon: "/images/advantages/i3.png",
+            title: "Прозрачное ценообразование",
+            text: "Мы считаем строительные объёмы каждого проекта, а не привязываемся к квадратному метру.",
+        },
+        {
+            icon: "/images/advantages/i4.png",
+            title: "Закрытая смета",
+            text: "Никаких скрытых платежей и увеличения стоимости сверх оговоренных расходов.",
+        },
+        {
+            icon: "/images/advantages/i5.png",
+            title: "Контроль качества",
+            text: "Видеонаблюдение на объекте и надзор за соблюдением проектных решений.",
+        },
+        {
+            icon: "/images/advantages/i6.png",
+            title: "Официально и с гарантиями",
+            text: "Работаем по договору, в котором прописаны сроки выполнения работ и состав проекта.",
+        },
+    ],
+};
+
 export type QuizSpeaker = {
     name: string;
     role: string;

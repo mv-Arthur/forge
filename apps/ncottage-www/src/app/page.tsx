@@ -10,6 +10,7 @@ import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
 import {
+    ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
     HERO,
     PROJECT_PICKER,
@@ -57,7 +58,12 @@ export default function HomePage() {
                 successTitle={QUIZ_SECTION.successTitle}
                 successText={QUIZ_SECTION.successText}
             />
-            <AdvantagesSection />
+            <AdvantagesSection
+                title={ADVANTAGES_SECTION.title}
+                text={ADVANTAGES_SECTION.text}
+                background={ADVANTAGES_SECTION.background}
+                items={ADVANTAGES_SECTION.items}
+            />
             <PopularProjects />
             <StagesSection />
             <GallerySection items={gallery} />
