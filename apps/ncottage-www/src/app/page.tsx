@@ -46,8 +46,6 @@ export default function HomePage() {
                 categories={categories}
                 cta={CATEGORIES_SECTION.cta}
             />
-            <AdvantagesSection />
-            <PopularProjects />
             <QuizSection
                 title={QUIZ_SECTION.title}
                 speaker={QUIZ_SECTION.speaker}
@@ -59,6 +57,8 @@ export default function HomePage() {
                 successTitle={QUIZ_SECTION.successTitle}
                 successText={QUIZ_SECTION.successText}
             />
+            <AdvantagesSection />
+            <PopularProjects />
             <StagesSection />
             <GallerySection items={gallery} />
             <ReviewsSection reviews={reviews} />

@@ -13,18 +13,18 @@
 }
 
 .title {
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 700;
-    line-height: 32px;
+    line-height: 38px;
     color: var(--color-text-dark);
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 40px;
 }
 
 .quiz {
-    max-width: 960px;
+    max-width: 1140px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 40px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
@@ -58,10 +58,10 @@
 
 .fieldLabel {
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--color-text-dark);
-    margin-bottom: 18px;
+    margin-bottom: 22px;
 }
 
 .required {
@@ -126,15 +126,15 @@
     aspect-ratio: 4 / 3;
     background-color: #eef4ea;
     color: var(--color-green);
-    font-size: 48px;
+    font-size: 56px;
     font-weight: 700;
     line-height: 1;
 }
 
 .imageChoiceText {
     display: block;
-    padding: 10px 12px;
-    font-size: 13px;
+    padding: 12px 14px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--color-text-dark);
     text-align: center;
@@ -195,12 +195,12 @@
 }
 
 .rangeHint {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--color-text-dark);
 }
 
 .rangeHint b {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     color: var(--color-green);
 }
@@ -220,10 +220,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 16px;
+    padding: 14px 18px;
     border: 1px solid var(--color-border);
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-text-dark);
     cursor: pointer;
     transition:
@@ -248,10 +248,10 @@
 /* Contact */
 
 .contactHeading {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--color-text-dark);
-    margin-bottom: 18px;
+    margin-bottom: 22px;
 }
 
 .contactInputs {
@@ -261,8 +261,8 @@
 }
 
 .input {
-    padding: 14px 16px;
-    font-size: 14px;
+    padding: 16px 18px;
+    font-size: 16px;
     color: var(--color-text-dark);
     background-color: #fff;
     border: 1px solid var(--color-border);
@@ -290,8 +290,8 @@
 }
 
 .navButton {
-    padding: 12px 28px;
-    font-size: 14px;
+    padding: 14px 32px;
+    font-size: 16px;
     font-weight: 500;
     border-radius: 4px;
     cursor: pointer;
@@ -378,10 +378,10 @@
 
 .cloud {
     position: relative;
-    padding: 15px 18px;
+    padding: 16px 20px;
     background-color: var(--color-green);
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.4;
     border-radius: 8px;
 }
@@ -407,14 +407,14 @@
 }
 
 .stepCounterNumber {
-    font-size: 48px;
+    font-size: 56px;
     font-weight: 700;
     line-height: 1;
     color: var(--color-green);
 }
 
 .stepCounterLabel {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--color-text);
 }
 
