@@ -360,6 +360,30 @@ export const POPULAR_PROJECTS_SECTION: PopularProjectsSectionContent = {
     },
 };
 
+export type OurWorksSectionTab = {
+    id: string;
+    label: string;
+    href?: string;
+};
+
+export type OurWorksSectionContent = {
+    title: string;
+    tabs: OurWorksSectionTab[];
+    cta: { label: string; href: string };
+};
+
+export const OUR_WORKS_SECTION: OurWorksSectionContent = {
+    title: "Наши работы",
+    tabs: [
+        { id: "objects", label: "Построенные объекты" },
+        { id: "map", label: "Объекты на карте", href: "/map" },
+    ],
+    cta: {
+        label: "Смотреть все построенные объекты",
+        href: "/our-works",
+    },
+};
+
 export type ViewRequestSectionContent = {
     title: string;
     nameLabel: string;

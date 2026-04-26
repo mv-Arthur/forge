@@ -6,6 +6,7 @@ import { PopularProjects } from "@/components/sections/PopularProjects";
 import { QuizSection } from "@/components/sections/QuizSection";
 import { StagesSection } from "@/components/sections/StagesSection";
 import { GallerySection } from "@/components/sections/GallerySection";
+import { OurWorksSection } from "@/components/sections/OurWorksSection";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ContactForm } from "@/components/sections/ContactForm";
@@ -14,6 +15,7 @@ import {
     ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
     HERO,
+    OUR_WORKS_SECTION,
     POPULAR_PROJECTS_SECTION,
     PROJECT_PICKER,
     QUIZ_SECTION,
@@ -24,6 +26,7 @@ import {
     getReviews,
     getGallery,
     getFeaturedProjects,
+    getBuiltObjects,
 } from "@/lib/data";
 
 export default function HomePage() {
@@ -31,6 +34,7 @@ export default function HomePage() {
     const reviews = getReviews();
     const gallery = getGallery();
     const featuredProjects = getFeaturedProjects();
+    const builtObjects = getBuiltObjects();
 
     return (
         <>
@@ -92,6 +96,12 @@ export default function HomePage() {
                 tabs={POPULAR_PROJECTS_SECTION.tabs}
                 cta={POPULAR_PROJECTS_SECTION.cta}
                 projects={featuredProjects}
+            />
+            <OurWorksSection
+                title={OUR_WORKS_SECTION.title}
+                tabs={OUR_WORKS_SECTION.tabs}
+                cta={OUR_WORKS_SECTION.cta}
+                objects={builtObjects}
             />
             <StagesSection />
             <GallerySection items={gallery} />
