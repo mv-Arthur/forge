@@ -1,51 +1,198 @@
 .section {
-    padding: 60px 0;
-    background-color: var(--color-green);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 280px;
+    padding: 43px 0 60px;
+    background: linear-gradient(
+        270deg,
+        rgba(71, 147, 50, 0.95) 0%,
+        rgba(71, 147, 50, 0.95) 53.09%,
+        rgba(71, 147, 50, 0.95) 100.93%
+    );
+    color: #fff;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1230px;
+    padding: 0 15px;
+    margin: 0 auto;
 }
 
 .title {
-    font-size: 30px;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 27px;
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 45px;
+    text-transform: uppercase;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 15px;
+.list {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .item {
-    text-align: center;
-    padding: 20px 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: calc(100% / 6);
+    padding-left: 9px;
+    border-bottom: 2px solid #fff;
+}
+
+.item::after {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #479332;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    content: "";
+}
+
+.item:first-child::after {
+    background-color: #c4c4c4;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item:last-child::after {
+    bottom: -3px;
 }
 
 .num {
-    display: block;
-    font-size: 48px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.3);
-    line-height: 1;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+    font-weight: 900;
+    font-size: 34px;
+    line-height: 24px;
 }
 
 .itemTitle {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
+    max-width: 110px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
 }
 
-@media (max-width: 768px) {
-    .grid {
-        grid-template-columns: repeat(3, 1fr);
+@media (min-width: 769px) and (max-width: 989px) {
+    .section {
+        padding: 40px 0;
+    }
+
+    .title {
+        font-size: 24px;
+        line-height: 40px;
+        margin-bottom: 25px;
+    }
+
+    .item {
+        width: calc(100% / 5);
+    }
+
+    .itemTitle {
+        max-width: 100%;
     }
 }
 
-@media (max-width: 480px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
+@media (min-width: 660px) and (max-width: 768px) {
+    .section {
+        padding: 40px 0;
+    }
+
+    .title {
+        font-size: 24px;
+        line-height: 40px;
+        margin-bottom: 25px;
+    }
+
+    .item {
+        width: calc(100% / 5);
+    }
+
+    .num {
+        margin-bottom: 10px;
+    }
+
+    .itemTitle {
+        font-size: 18px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 659px) {
+    .section {
+        padding: 38px 0;
+    }
+
+    .title {
+        font-size: 22px;
+        line-height: 35px;
+        margin-bottom: 27px;
+    }
+
+    .list {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .item {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-end;
+        width: 100%;
+        min-height: 30px;
+        margin-bottom: 20px;
+        padding-left: 19px;
+        border-bottom: none;
+    }
+
+    .item::before {
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        width: 2px;
+        height: 43px;
+        background-color: #fff;
+        content: "";
+    }
+
+    .item:first-child::before {
+        content: none;
+    }
+
+    .item::after {
+        bottom: 0;
+        left: -4px;
+    }
+
+    .item:last-child::after {
+        bottom: 0;
+    }
+
+    .num {
+        margin-right: 9px;
+        margin-bottom: 0;
+    }
+
+    .itemTitle {
+        max-width: 100%;
+        margin-bottom: 0;
+        font-size: 18px;
     }
 }

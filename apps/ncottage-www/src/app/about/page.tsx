@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
 import { StagesSection } from "@/components/sections/StagesSection";
-import { ADVANTAGES_SECTION } from "@/lib/constants";
+import { ADVANTAGES_SECTION, STAGES_SECTION } from "@/lib/constants";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -75,7 +75,10 @@ export default function AboutPage() {
                 background={ADVANTAGES_SECTION.background}
                 items={ADVANTAGES_SECTION.items}
             />
-            <StagesSection />
+            <StagesSection
+                title={STAGES_SECTION.title}
+                stages={STAGES_SECTION.stages}
+            />
         </>
     );
 }

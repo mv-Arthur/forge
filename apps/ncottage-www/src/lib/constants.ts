@@ -416,6 +416,28 @@ export const VIEW_REQUEST_SECTION: ViewRequestSectionContent = {
     successText: "Мы свяжемся с вами в течение 15 минут.",
 };
 
+export type StagesSectionStage = {
+    num: string;
+    title: string;
+};
+
+export type StagesSectionContent = {
+    title: string;
+    stages: StagesSectionStage[];
+};
+
+export const STAGES_SECTION: StagesSectionContent = {
+    title: "Этапы работы с нами",
+    stages: [
+        { num: "01", title: "Встреча в офисе" },
+        { num: "02", title: "Заключение договора" },
+        { num: "03", title: "Разработка проекта" },
+        { num: "04", title: "Строительство дома" },
+        { num: "05", title: "Технический надзор" },
+        { num: "06", title: "Сдача дома" },
+    ],
+};
+
 export type QuizSpeaker = {
     name: string;
     role: string;
