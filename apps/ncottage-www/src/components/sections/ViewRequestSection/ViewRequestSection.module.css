@@ -1,0 +1,158 @@
+.section {
+    width: 100%;
+    min-height: 220px;
+    padding: 53px 0 59px;
+    background: linear-gradient(
+        270deg,
+        rgba(71, 147, 50, 0.95) 0%,
+        rgba(71, 147, 50, 0.95) 53.09%,
+        rgba(71, 147, 50, 0.95) 100.93%
+    );
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    width: 100%;
+    margin-bottom: 31px;
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 32px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.form {
+    width: 100%;
+}
+
+.fields {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    gap: 30px;
+}
+
+.field {
+    width: 100%;
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.input {
+    width: 100%;
+    height: 43px;
+    padding-left: 23px;
+    background: #fff;
+    border: 1px solid #b7b7b7;
+    border-radius: 5px;
+    outline: none;
+    appearance: none;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.5px;
+    color: var(--color-text);
+}
+
+.input::placeholder {
+    color: var(--color-text);
+    opacity: 1;
+}
+
+.input:focus {
+    border-color: var(--color-bg-green);
+}
+
+.submit {
+    width: 100%;
+    height: 43px;
+    background: var(--color-red);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: #fff;
+    transition: background-color var(--transition);
+}
+
+.submit:hover {
+    background: #fa5341;
+}
+
+.submit:active {
+    background: #d64332;
+}
+
+.privacy {
+    width: 100%;
+    margin-top: 15px;
+    font-size: 13px;
+    line-height: 20px;
+    color: #fff;
+}
+
+.privacyLink {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.privacyLink:hover {
+    text-decoration: none;
+}
+
+.success {
+    width: 100%;
+    color: #fff;
+    text-align: center;
+}
+
+.successTitle {
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 28px;
+    text-transform: uppercase;
+}
+
+.successText {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 38px 0 50px;
+    }
+
+    .title {
+        font-size: 22px;
+        line-height: 26px;
+    }
+
+    .fields {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
