@@ -50,14 +50,30 @@
 .menus {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
-    gap: 20px;
+    gap: 30px;
 }
 
 .menuBlock {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.projectsBlock {
+    max-width: 304px;
+}
+
+.companyBlock {
+    max-width: 164px;
+}
+
+.servicesBlock {
+    max-width: 253px;
+    flex-shrink: 0;
 }
 
 .menuTitle {

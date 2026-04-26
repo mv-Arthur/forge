@@ -33,8 +33,14 @@ export function Footer({ content = FOOTER, vkHref = SOCIAL.vk }: FooterProps) {
                 <div className={styles.top}>
                     <div className={styles.left}>
                         <div className={styles.menus}>
-                            <Menu menu={content.projects} />
-                            <Menu menu={content.company} />
+                            <Menu
+                                menu={content.projects}
+                                variantClass={styles.projectsBlock}
+                            />
+                            <Menu
+                                menu={content.company}
+                                variantClass={styles.companyBlock}
+                            />
                         </div>
                         <div className={styles.underMenu}>
                             <div className={styles.social}>
@@ -60,7 +66,10 @@ export function Footer({ content = FOOTER, vkHref = SOCIAL.vk }: FooterProps) {
                         </div>
                     </div>
                     <div className={styles.right}>
-                        <Menu menu={content.services} />
+                        <Menu
+                            menu={content.services}
+                            variantClass={styles.servicesBlock}
+                        />
                         <div className={styles.contactBlock}>
                             <div className={styles.menuTitle}>
                                 {content.contactsTitle}
@@ -142,9 +151,18 @@ export function Footer({ content = FOOTER, vkHref = SOCIAL.vk }: FooterProps) {
     );
 }
 
-function Menu({ menu }: { menu: FooterMenu }) {
+function Menu({
+    menu,
+    variantClass,
+}: {
+    menu: FooterMenu;
+    variantClass?: string;
+}) {
+    const className = variantClass
+        ? `${styles.menuBlock} ${variantClass}`
+        : styles.menuBlock;
     return (
-        <div className={styles.menuBlock}>
+        <div className={className}>
             <div className={styles.menuTitle}>{menu.title}</div>
             <ul className={styles.menuList}>
                 {menu.items.map((item) => (
