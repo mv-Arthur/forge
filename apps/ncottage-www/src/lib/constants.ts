@@ -416,6 +416,20 @@ export const VIEW_REQUEST_SECTION: ViewRequestSectionContent = {
     successText: "Мы свяжемся с вами в течение 15 минут.",
 };
 
+export type ReviewsSectionContent = {
+    title: string;
+    showMoreLabel: string;
+    prevLabel: string;
+    nextLabel: string;
+};
+
+export const REVIEWS_SECTION: ReviewsSectionContent = {
+    title: "Отзывы о нашей работе:",
+    showMoreLabel: "Весь отзыв",
+    prevLabel: "Предыдущий отзыв",
+    nextLabel: "Следующий отзыв",
+};
+
 export type StagesSectionStage = {
     num: string;
     title: string;

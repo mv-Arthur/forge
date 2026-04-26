@@ -22,10 +22,6 @@ export default function ReviewsPage() {
                 <div className={styles.grid}>
                     {reviews.map((review) => (
                         <div key={review.id} className={styles.card}>
-                            <div className={styles.stars}>
-                                {"★".repeat(review.rating)}
-                                {"☆".repeat(5 - review.rating)}
-                            </div>
                             <p className={styles.text}>{review.text}</p>
                             <div className={styles.author}>
                                 <div className={styles.avatar}>
@@ -35,10 +31,7 @@ export default function ReviewsPage() {
                                     <p className={styles.name}>
                                         {review.author}
                                     </p>
-                                    <p className={styles.project}>
-                                        {review.project} &middot;{" "}
-                                        {review.date}
-                                    </p>
+                                    <p className={styles.date}>{review.date}</p>
                                 </div>
                             </div>
                         </div>

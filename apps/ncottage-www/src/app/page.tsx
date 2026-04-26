@@ -19,6 +19,7 @@ import {
     POPULAR_PROJECTS_SECTION,
     PROJECT_PICKER,
     QUIZ_SECTION,
+    REVIEWS_SECTION,
     STAGES_SECTION,
     VIEW_REQUEST_SECTION,
 } from "@/lib/constants";
@@ -109,7 +110,13 @@ export default function HomePage() {
                 stages={STAGES_SECTION.stages}
             />
             <GallerySection items={gallery} />
-            <ReviewsSection reviews={reviews} />
+            <ReviewsSection
+                title={REVIEWS_SECTION.title}
+                showMoreLabel={REVIEWS_SECTION.showMoreLabel}
+                prevLabel={REVIEWS_SECTION.prevLabel}
+                nextLabel={REVIEWS_SECTION.nextLabel}
+                reviews={reviews}
+            />
             <CtaSection />
             <ContactForm />
         </>

@@ -3,6 +3,6 @@ export interface Review {
     author: string;
     date: string;
     text: string;
-    project: string;
-    rating: number;
+    image?: string;
+    videoUrl?: string;
 }
