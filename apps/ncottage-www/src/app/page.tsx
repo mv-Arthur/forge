@@ -14,16 +14,23 @@ import {
     ADVANTAGES_SECTION,
     CATEGORIES_SECTION,
     HERO,
+    POPULAR_PROJECTS_SECTION,
     PROJECT_PICKER,
     QUIZ_SECTION,
     VIEW_REQUEST_SECTION,
 } from "@/lib/constants";
-import { getCategories, getReviews, getGallery } from "@/lib/data";
+import {
+    getCategories,
+    getReviews,
+    getGallery,
+    getFeaturedProjects,
+} from "@/lib/data";
 
 export default function HomePage() {
     const categories = getCategories();
     const reviews = getReviews();
     const gallery = getGallery();
+    const featuredProjects = getFeaturedProjects();
 
     return (
         <>
@@ -77,7 +84,15 @@ export default function HomePage() {
                 successTitle={VIEW_REQUEST_SECTION.successTitle}
                 successText={VIEW_REQUEST_SECTION.successText}
             />
-            <PopularProjects />
+            <PopularProjects
+                title={POPULAR_PROJECTS_SECTION.title}
+                titlePrefix={POPULAR_PROJECTS_SECTION.titlePrefix}
+                priceLabel={POPULAR_PROJECTS_SECTION.priceLabel}
+                statLabels={POPULAR_PROJECTS_SECTION.statLabels}
+                tabs={POPULAR_PROJECTS_SECTION.tabs}
+                cta={POPULAR_PROJECTS_SECTION.cta}
+                projects={featuredProjects}
+            />
             <StagesSection />
             <GallerySection items={gallery} />
             <ReviewsSection reviews={reviews} />
