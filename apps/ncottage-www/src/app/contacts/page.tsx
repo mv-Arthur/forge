@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/sections/ContactForm";
-import {
-    ADDRESSES,
-    CONTACT_FORM,
-    EMAIL,
-    PHONES,
-    WORK_HOURS,
-} from "@/lib/constants";
-import styles from "./page.module.css";
+import { ContactsMap } from "@/components/sections/ContactsMap";
+import { CONTACT_FORM, CONTACTS_MAP } from "@/lib/constants";
 
 export const metadata: Metadata = {
     title: "Контакты — Новый Коттедж",
@@ -19,48 +11,15 @@ export const metadata: Metadata = {
 export default function ContactsPage() {
     return (
         <>
-            <section className={styles.page}>
-                <Container>
-                    <SectionHeading
-                        label="Контакты"
-                        title="Свяжитесь с нами"
-                        description="Приезжайте в офис или оставьте заявку — мы перезвоним."
-                    />
-                    <div className={styles.grid}>
-                        <div className={styles.card}>
-                            <h3 className={styles.cardTitle}>
-                                Санкт-Петербург
-                            </h3>
-                            <a
-                                href={`tel:${PHONES.spb.number}`}
-                                className={styles.phone}
-                            >
-                                {PHONES.spb.display}
-                            </a>
-                            <p className={styles.address}>{ADDRESSES.spb}</p>
-                        </div>
-                        <div className={styles.card}>
-                            <h3 className={styles.cardTitle}>Москва</h3>
-                            <a
-                                href={`tel:${PHONES.msk.number}`}
-                                className={styles.phone}
-                            >
-                                {PHONES.msk.display}
-                            </a>
-                        </div>
-                        <div className={styles.card}>
-                            <h3 className={styles.cardTitle}>Email</h3>
-                            <a
-                                href={`mailto:${EMAIL}`}
-                                className={styles.email}
-                            >
-                                {EMAIL}
-                            </a>
-                            <p className={styles.hours}>{WORK_HOURS}</p>
-                        </div>
-                    </div>
-                </Container>
-            </section>
+            <ContactsMap
+                title={CONTACTS_MAP.title}
+                addresses={CONTACTS_MAP.addresses}
+                phones={CONTACTS_MAP.phones}
+                email={CONTACTS_MAP.email}
+                hours={CONTACTS_MAP.hours}
+                mapUrl={CONTACTS_MAP.mapUrl}
+                mapTitle={CONTACTS_MAP.mapTitle}
+            />
             <ContactForm
                 title={CONTACT_FORM.title}
                 subtitle={CONTACT_FORM.subtitle}

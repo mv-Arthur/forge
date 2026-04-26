@@ -19,10 +19,10 @@ export const PHONES: Record<CityCode, Phone> = {
 export const EMAIL = "info@ncottage.ru";
 
 export const ADDRESSES = {
-    spb: "ул. Заставская, д. 31, к. 2, оф. 413",
-    msk: "Варшавское ш. 35 с1, БЦ Ривер Плаза, оф. 412",
-    lenobl: "Ленинградская область",
-    novobl: "Новгородская область",
+    spb: "Санкт-Петербург, Комендантский проспект, д. 4",
+    msk: "Варшавское шоссе 35 с1, БЦ Ривер Плаза, офис 412",
+    lenobl: "Ленинградская область, Всеволожский район, д. Лепсари, промзона Спутник 4 проезд",
+    novobl: "Новгородская область, Окуловский район, с/п Боровёнковское",
 };
 
 export const SOCIAL = {
@@ -414,6 +414,31 @@ export const VIEW_REQUEST_SECTION: ViewRequestSectionContent = {
     },
     successTitle: "Заявка отправлена",
     successText: "Мы свяжемся с вами в течение 15 минут.",
+};
+
+export type ContactsMapContent = {
+    title: string;
+    addresses: string[];
+    phones: Phone[];
+    email: string;
+    hours: string;
+    mapUrl: string;
+    mapTitle: string;
+};
+
+export const CONTACTS_MAP: ContactsMapContent = {
+    title: "Наши контакты",
+    addresses: [
+        ADDRESSES.spb,
+        ADDRESSES.msk,
+        ADDRESSES.lenobl,
+        ADDRESSES.novobl,
+    ],
+    phones: [PHONES.spb, PHONES.msk],
+    email: EMAIL,
+    hours: "10:00-19:00",
+    mapUrl: "https://yandex.ru/map-widget/v1/?um=constructor%3A2d90c25ab0936eb15651abcde0660b4d6c2d3ab5fbe77c29046669dfcb0394ab&source=constructor",
+    mapTitle: "Наши офисы на карте",
 };
 
 export type ContactFormContent = {
