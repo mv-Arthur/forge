@@ -32,16 +32,14 @@
 }
 
 .fields {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    gap: 30px;
 }
 
 .field {
-    flex: 1 1 380px;
-    max-width: 380px;
+    width: 100%;
 }
 
 .srOnly {
@@ -82,10 +80,9 @@
 }
 
 .submit {
-    flex: 1 1 380px;
-    max-width: 380px;
+    width: 100%;
     height: 43px;
-    background: #e84836;
+    background: var(--color-red);
     border: none;
     border-radius: 5px;
     outline: none;
@@ -100,17 +97,12 @@
     transition: background-color var(--transition);
 }
 
-.submit:hover:not(:disabled) {
+.submit:hover {
     background: #fa5341;
 }
 
-.submit:active:not(:disabled) {
+.submit:active {
     background: #d64332;
-}
-
-.submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
 }
 
 .privacy {
@@ -160,18 +152,7 @@
     }
 
     .fields {
-        flex-direction: column;
-        gap: 0;
-    }
-
-    .field,
-    .submit {
-        flex: 1 1 auto;
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .field {
-        margin-bottom: 20px;
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 }

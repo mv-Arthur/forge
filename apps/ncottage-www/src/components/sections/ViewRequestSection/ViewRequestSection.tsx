@@ -84,11 +84,7 @@ export function ViewRequestSection({
                                     required
                                 />
                             </label>
-                            <button
-                                type="submit"
-                                className={styles.submit}
-                                disabled={!phone.trim()}
-                            >
+                            <button type="submit" className={styles.submit}>
                                 {submitLabel}
                             </button>
                         </div>

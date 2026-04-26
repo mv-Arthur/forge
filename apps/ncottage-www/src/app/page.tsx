@@ -66,8 +66,6 @@ export default function HomePage() {
                 background={ADVANTAGES_SECTION.background}
                 items={ADVANTAGES_SECTION.items}
             />
-            <PopularProjects />
-            <StagesSection />
             <ViewRequestSection
                 title={VIEW_REQUEST_SECTION.title}
                 nameLabel={VIEW_REQUEST_SECTION.nameLabel}
@@ -79,6 +77,8 @@ export default function HomePage() {
                 successTitle={VIEW_REQUEST_SECTION.successTitle}
                 successText={VIEW_REQUEST_SECTION.successText}
             />
+            <PopularProjects />
+            <StagesSection />
             <GallerySection items={gallery} />
             <ReviewsSection reviews={reviews} />
             <CtaSection />
