@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ProjectFilter } from "@/components/sections/ProjectFilter";
+import { ProjectsCatalog } from "@/components/sections/ProjectsCatalog";
 import { getProjects } from "@/lib/data";
 
 export const metadata: Metadata = {
     title: "Проекты домов — Новый Коттедж",
     description:
-        "Каталог готовых проектов загородных домов. Фильтр по технологии, площади и бюджету.",
+        "Каталог готовых проектов загородных домов. Фильтр по технологии, площади, цене, спальням и стилю.",
+    alternates: { canonical: "/projects" },
 };
 
 export default function ProjectsPage() {
@@ -21,7 +22,7 @@ export default function ProjectsPage() {
                     title="Проекты домов"
                     description="Выберите проект и адаптируем его под ваш участок. Все цены фиксированные."
                 />
-                <ProjectFilter projects={projects} />
+                <ProjectsCatalog projects={projects} />
             </Container>
         </section>
     );

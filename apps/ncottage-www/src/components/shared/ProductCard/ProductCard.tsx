@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { Project } from "@/types/project";
 import { TECHNOLOGY_GENITIVE } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
-import styles from "./FeaturedProjectCard.module.css";
+import styles from "./ProductCard.module.css";
 
 const STAT_ICONS = {
     area: "/images/projects/icons/ploshhad-doma.svg",
@@ -15,11 +15,19 @@ const STAT_ICONS = {
     size: "/images/projects/icons/razmer-doma.svg",
 };
 
-interface FeaturedProjectCardProps {
+const DEFAULT_STAT_LABELS = {
+    area: "Площадь",
+    bedrooms: "Спальни",
+    bathrooms: "Санузлов",
+    floors: "Этажей",
+    size: "Размер",
+};
+
+interface ProductCardProps {
     project: Project;
-    titlePrefix: string;
-    priceLabel: string;
-    statLabels: {
+    titlePrefix?: string;
+    priceLabel?: string;
+    statLabels?: {
         area: string;
         bedrooms: string;
         bathrooms: string;
@@ -64,12 +72,12 @@ function CompareIcon() {
     );
 }
 
-export function FeaturedProjectCard({
+export function ProductCard({
     project,
-    titlePrefix,
-    priceLabel,
-    statLabels,
-}: FeaturedProjectCardProps) {
+    titlePrefix = "Дом из",
+    priceLabel = "Цена от:",
+    statLabels = DEFAULT_STAT_LABELS,
+}: ProductCardProps) {
     const [favorited, setFavorited] = useState(false);
     const [compared, setCompared] = useState(false);
 

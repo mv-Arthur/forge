@@ -1,0 +1,116 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px;
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+}
+
+.sidebarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.sidebarTitle {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.resetButton {
+    padding: 6px 10px;
+    font-size: 13px;
+    color: var(--color-bg-green);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+.resetButton:hover {
+    text-decoration: underline;
+}
+
+.group {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.group:last-child {
+    border-bottom: none;
+}
+
+.groupHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.groupHeader:hover {
+    color: var(--color-bg-green);
+}
+
+.chevron {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform var(--transition);
+}
+
+.chevronOpen {
+    transform: rotate(-135deg);
+}
+
+.groupBody {
+    padding: 0 0 16px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text);
+    background-color: #f3f5f1;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+}
+
+.chip:hover {
+    border-color: var(--color-bg-green);
+}
+
+.chipActive {
+    background-color: var(--color-bg-green);
+    color: #fff;
+    border-color: var(--color-bg-green);
+}
+
+.chipActive:hover {
+    border-color: var(--color-bg-green);
+}

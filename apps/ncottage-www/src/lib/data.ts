@@ -2,7 +2,7 @@ import type { Project } from "@/types/project";
 import type { Service } from "@/types/service";
 import type { Advantage, Stage, Category, BuiltObject } from "@/types/common";
 
-import projectsData from "@/data/projects.json";
+import { PROJECTS } from "@/lib/constants";
 import servicesData from "@/data/services.json";
 import advantagesData from "@/data/advantages.json";
 import stagesData from "@/data/stages.json";
@@ -10,7 +10,7 @@ import categoriesData from "@/data/categories.json";
 import builtObjectsData from "@/data/built-objects.json";
 
 export function getProjects(): Project[] {
-    return projectsData as Project[];
+    return PROJECTS;
 }
 
 export function getFeaturedProjects(): Project[] {
