@@ -36,11 +36,16 @@ function ArrowIcon() {
 }
 
 function CategoryTile({ category }: { category: ProjectCategoryInfo }) {
+    const isAccent = category.slug === "all";
     return (
         <Link
             href={`/projects/${category.slug}`}
-            className={`${styles.tile} ${TILE_VARIANT[category.slug]}`}
-            style={{ backgroundImage: `url(${category.image})` }}
+            className={`${styles.tile} ${TILE_VARIANT[category.slug]} ${isAccent ? styles.tileAccent : ""}`}
+            style={
+                isAccent
+                    ? undefined
+                    : { backgroundImage: `url(${category.image})` }
+            }
         >
             <span className={styles.gradient} aria-hidden="true" />
             <span className={styles.arrow} aria-hidden="true">
