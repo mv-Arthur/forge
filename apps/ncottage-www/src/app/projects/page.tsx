@@ -1,28 +1,28 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ProjectsCatalog } from "@/components/sections/ProjectsCatalog";
-import { getProjects } from "@/lib/data";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { ProjectsHub } from "@/components/sections/ProjectsHub";
+import styles from "./hub.module.css";
 
 export const metadata: Metadata = {
-    title: "Проекты домов — Новый Коттедж",
+    title: "Наши проекты — каталог загородных домов | Новый Коттедж",
     description:
-        "Каталог готовых проектов загородных домов. Фильтр по технологии, площади, цене, спальням и стилю.",
+        "Каталог проектов загородных домов: газобетон, кирпич, каркас, СИП-панели, фахверк. Выберите категорию и подберите проект под свой бюджет.",
     alternates: { canonical: "/projects" },
 };
 
 export default function ProjectsPage() {
-    const projects = getProjects();
-
     return (
-        <section style={{ padding: "120px 0 80px" }}>
+        <section className={styles.page}>
             <Container>
-                <SectionHeading
-                    label="Каталог"
-                    title="Проекты домов"
-                    description="Выберите проект и адаптируем его под ваш участок. Все цены фиксированные."
+                <Breadcrumbs
+                    items={[
+                        { label: "Главная", href: "/" },
+                        { label: "Наши проекты" },
+                    ]}
                 />
-                <ProjectsCatalog projects={projects} />
+                <h1 className={styles.title}>Наши проекты</h1>
+                <ProjectsHub />
             </Container>
         </section>
     );

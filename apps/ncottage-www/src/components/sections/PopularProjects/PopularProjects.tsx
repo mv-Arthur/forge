@@ -10,9 +10,6 @@ import styles from "./PopularProjects.module.css";
 
 interface PopularProjectsProps {
     title: PopularProjectsSectionContent["title"];
-    titlePrefix: PopularProjectsSectionContent["titlePrefix"];
-    priceLabel: PopularProjectsSectionContent["priceLabel"];
-    statLabels: PopularProjectsSectionContent["statLabels"];
     tabs: PopularProjectsSectionContent["tabs"];
     cta: PopularProjectsSectionContent["cta"];
     projects: Project[];
@@ -20,9 +17,6 @@ interface PopularProjectsProps {
 
 export function PopularProjects({
     title,
-    titlePrefix,
-    priceLabel,
-    statLabels,
     tabs,
     cta,
     projects,
@@ -67,9 +61,6 @@ export function PopularProjects({
                             <ProductCard
                                 key={project.slug}
                                 project={project}
-                                titlePrefix={titlePrefix}
-                                priceLabel={priceLabel}
-                                statLabels={statLabels}
                             />
                         ))}
                     </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
     PROJECT_FEATURE_LABELS,
     PROJECT_LIVING_TYPE_LABELS,
@@ -14,10 +13,7 @@ import type {
     Technology,
 } from "@/types/project";
 import { RangeSlider } from "./RangeSlider";
-import type {
-    FilterBounds,
-    FiltersState,
-} from "./useProjectsFilter";
+import type { FilterBounds, FiltersState } from "./useProjectsFilter";
 import styles from "./FilterSidebar.module.css";
 
 interface FilterSidebarProps {
@@ -26,31 +22,19 @@ interface FilterSidebarProps {
     sizeOptions: string[];
     onChange: (patch: Partial<FiltersState>) => void;
     onReset: () => void;
+    hideTechnology?: boolean;
 }
 
 interface FilterGroupProps {
     title: string;
-    defaultOpen?: boolean;
     children: React.ReactNode;
 }
 
-function FilterGroup({ title, defaultOpen = true, children }: FilterGroupProps) {
-    const [open, setOpen] = useState(defaultOpen);
+function FilterGroup({ title, children }: FilterGroupProps) {
     return (
         <div className={styles.group}>
-            <button
-                type="button"
-                className={styles.groupHeader}
-                onClick={() => setOpen((v) => !v)}
-                aria-expanded={open}
-            >
-                <span>{title}</span>
-                <span
-                    className={`${styles.chevron} ${open ? styles.chevronOpen : ""}`}
-                    aria-hidden="true"
-                />
-            </button>
-            {open && <div className={styles.groupBody}>{children}</div>}
+            <h3 className={styles.groupTitle}>{title}</h3>
+            <div className={styles.groupBody}>{children}</div>
         </div>
     );
 }
@@ -93,7 +77,9 @@ function Chips<T extends string | number>({
     );
 }
 
-const TECHNOLOGY_OPTIONS = (Object.keys(PROJECT_TECHNOLOGY_LABELS) as Technology[])
+const TECHNOLOGY_OPTIONS = (
+    Object.keys(PROJECT_TECHNOLOGY_LABELS) as Technology[]
+)
     .filter((t) =>
         ["gas-concrete", "brick", "frame", "sip", "fachwerk"].includes(t)
     )
@@ -143,6 +129,7 @@ export function FilterSidebar({
     sizeOptions,
     onChange,
     onReset,
+    hideTechnology = false,
 }: FilterSidebarProps) {
     return (
         <div className={styles.sidebar}>
@@ -157,27 +144,21 @@ export function FilterSidebar({
                 </button>
             </div>
 
-            <FilterGroup title="Технология">
-                <Chips
-                    options={TECHNOLOGY_OPTIONS}
-                    selected={filters.technology}
-                    onChange={(technology) => onChange({ technology })}
-                />
-            </FilterGroup>
+            {!hideTechnology && (
+                <FilterGroup title="Технология">
+                    <Chips
+                        options={TECHNOLOGY_OPTIONS}
+                        selected={filters.technology}
+                        onChange={(technology) => onChange({ technology })}
+                    />
+                </FilterGroup>
+            )}
 
             <FilterGroup title="Этажность">
                 <Chips
                     options={FLOOR_OPTIONS}
                     selected={filters.floors}
                     onChange={(floors) => onChange({ floors })}
-                />
-            </FilterGroup>
-
-            <FilterGroup title="Размеры" defaultOpen={false}>
-                <Chips
-                    options={sizeOptions.map((s) => ({ value: s, label: s }))}
-                    selected={filters.sizes}
-                    onChange={(sizes) => onChange({ sizes })}
                 />
             </FilterGroup>
 
@@ -207,7 +188,7 @@ export function FilterSidebar({
                 />
             </FilterGroup>
 
-            <FilterGroup title="Спальни" defaultOpen={false}>
+            <FilterGroup title="Спальни">
                 <Chips
                     options={BEDROOM_OPTIONS}
                     selected={filters.bedrooms}
@@ -215,7 +196,7 @@ export function FilterSidebar({
                 />
             </FilterGroup>
 
-            <FilterGroup title="Санузлы" defaultOpen={false}>
+            <FilterGroup title="Санузлы">
                 <Chips
                     options={BATHROOM_OPTIONS}
                     selected={filters.bathrooms}
@@ -223,7 +204,15 @@ export function FilterSidebar({
                 />
             </FilterGroup>
 
-            <FilterGroup title="Тип проживания" defaultOpen={false}>
+            <FilterGroup title="Размеры">
+                <Chips
+                    options={sizeOptions.map((s) => ({ value: s, label: s }))}
+                    selected={filters.sizes}
+                    onChange={(sizes) => onChange({ sizes })}
+                />
+            </FilterGroup>
+
+            <FilterGroup title="Тип проживания">
                 <Chips
                     options={LIVING_TYPE_OPTIONS}
                     selected={filters.livingType}
@@ -231,7 +220,7 @@ export function FilterSidebar({
                 />
             </FilterGroup>
 
-            <FilterGroup title="Стиль" defaultOpen={false}>
+            <FilterGroup title="Стиль">
                 <Chips
                     options={STYLE_OPTIONS}
                     selected={filters.styles}
@@ -239,7 +228,7 @@ export function FilterSidebar({
                 />
             </FilterGroup>
 
-            <FilterGroup title="Особенности" defaultOpen={false}>
+            <FilterGroup title="Особенности">
                 <Chips
                     options={FEATURE_OPTIONS}
                     selected={filters.features}

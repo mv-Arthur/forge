@@ -1,18 +1,16 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 14px;
     padding: 24px;
-    background-color: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
+    background-color: #f3f5f1;
+    border-radius: 12px;
 }
 
 .sidebarHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
 }
 
 .sidebarTitle {
@@ -23,7 +21,7 @@
 }
 
 .resetButton {
-    padding: 6px 10px;
+    padding: 4px 0;
     font-size: 13px;
     color: var(--color-bg-green);
     background: none;
@@ -37,47 +35,23 @@
 }
 
 .group {
-    border-bottom: 1px solid var(--color-border);
+    padding: 16px 18px;
+    background-color: #fff;
+    border-radius: 10px;
 }
 
-.group:last-child {
-    border-bottom: none;
-}
-
-.groupHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 14px 0;
-    font-size: 15px;
+.groupTitle {
+    margin: 0 0 12px;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--color-text);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-}
-
-.groupHeader:hover {
-    color: var(--color-bg-green);
-}
-
-.chevron {
-    width: 8px;
-    height: 8px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg);
-    transition: transform var(--transition);
-}
-
-.chevronOpen {
-    transform: rotate(-135deg);
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .groupBody {
-    padding: 0 0 16px;
+    display: flex;
+    flex-direction: column;
 }
 
 .chips {
@@ -87,7 +61,7 @@
 }
 
 .chip {
-    padding: 6px 14px;
+    padding: 7px 14px;
     font-size: 13px;
     font-weight: 500;
     color: var(--color-text);

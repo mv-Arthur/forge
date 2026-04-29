@@ -11,9 +11,6 @@ const meta: Meta<typeof PopularProjects> = {
     parameters: { layout: "fullscreen" },
     args: {
         title: POPULAR_PROJECTS_SECTION.title,
-        titlePrefix: POPULAR_PROJECTS_SECTION.titlePrefix,
-        priceLabel: POPULAR_PROJECTS_SECTION.priceLabel,
-        statLabels: POPULAR_PROJECTS_SECTION.statLabels,
         tabs: POPULAR_PROJECTS_SECTION.tabs,
         cta: POPULAR_PROJECTS_SECTION.cta,
         projects,

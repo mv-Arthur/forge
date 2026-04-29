@@ -17,14 +17,24 @@ const meta: Meta<typeof ProductCard> = {
 export default meta;
 type Story = StoryObj<typeof ProductCard>;
 
-export const Default: Story = {
-    args: { project: PROJECTS[0] },
+export const Grid: Story = {
+    args: { project: PROJECTS[0], variant: "grid" },
 };
 
-export const OneFloor: Story = {
-    args: { project: PROJECTS.find((p) => p.floors === 1) ?? PROJECTS[0] },
+export const List: Story = {
+    args: { project: PROJECTS[0], variant: "list" },
+    decorators: [
+        (Story) => (
+            <div style={{ width: 800 }}>
+                <Story />
+            </div>
+        ),
+    ],
 };
 
 export const Premium: Story = {
-    args: { project: PROJECTS.find((p) => p.slug === "karl") ?? PROJECTS[0] },
+    args: {
+        project: PROJECTS.find((p) => p.slug === "karl") ?? PROJECTS[0],
+        variant: "grid",
+    },
 };

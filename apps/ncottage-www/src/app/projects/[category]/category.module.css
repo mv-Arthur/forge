@@ -1,0 +1,33 @@
+.page {
+    padding: 110px 0 80px;
+}
+
+.title {
+    margin: 8px 0 6px;
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-text);
+}
+
+.lead {
+    margin: 0 0 28px;
+    max-width: 760px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-text-light);
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding: 90px 0 60px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .lead {
+        font-size: 14px;
+    }
+}

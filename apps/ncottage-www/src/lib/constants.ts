@@ -61,7 +61,7 @@ export const PROJECT_CATEGORIES: NavMegaMenuColumn[] = [
         items: [
             { label: "Каркасные дома", href: "/projects/frame" },
             { label: "Дома из кирпича", href: "/projects/brick" },
-            { label: "Дома из газобетона", href: "/projects/aerocrete" },
+            { label: "Дома из газобетона", href: "/projects/gas-concrete" },
             { label: "Дома из СИП панелей", href: "/projects/sip" },
             { label: "Дома из пеноблоков", href: "/projects/foam-block" },
             { label: "Быстровозводимые", href: "/projects/prefab" },
@@ -359,6 +359,73 @@ export const PROJECT_LIVING_TYPE_LABELS: Record<ProjectLivingType, string> = {
     seasonal: "Дачные",
 };
 
+export type ProjectCategorySlug =
+    | "all"
+    | "gas-concrete"
+    | "brick"
+    | "frame"
+    | "sip"
+    | "fachwerk";
+
+export interface ProjectCategoryInfo {
+    slug: ProjectCategorySlug;
+    title: string;
+    description: string;
+    image: string;
+    technology: Technology | null;
+    feature?: boolean;
+}
+
+export const PROJECT_HUB_CATEGORIES: ProjectCategoryInfo[] = [
+    {
+        slug: "all",
+        title: "Все проекты",
+        description:
+            "Полная коллекция готовых проектов под ключ — фиксированная цена и сроки",
+        image: "/images/projects/nord.jpg",
+        technology: null,
+        feature: true,
+    },
+    {
+        slug: "gas-concrete",
+        title: "Дома из газобетона",
+        description: "Тёплые и долговечные дома с быстрой сборкой",
+        image: "/images/projects/otto.jpg",
+        technology: "gas-concrete",
+    },
+    {
+        slug: "brick",
+        title: "Дома из кирпича",
+        description:
+            "Классические дома с долгим сроком службы и премиальной отделкой",
+        image: "/images/projects/karl.jpg",
+        technology: "brick",
+        feature: true,
+    },
+    {
+        slug: "frame",
+        title: "Каркасные дома",
+        description: "Энергоэффективные дома для постоянного проживания",
+        image: "/images/projects/eliot.jpg",
+        technology: "frame",
+    },
+    {
+        slug: "sip",
+        title: "Дома из СИП-панелей",
+        description: "Быстрая сборка и отличная теплоизоляция",
+        image: "/images/projects/berg.jpg",
+        technology: "sip",
+        feature: true,
+    },
+    {
+        slug: "fachwerk",
+        title: "Фахверковые дома",
+        description: "Современный стиль с панорамным остеклением",
+        image: "/images/projects/valter.jpg",
+        technology: "fachwerk",
+    },
+];
+
 export const PROJECTS: Project[] = [
     {
         slug: "nord",
@@ -578,22 +645,11 @@ export type PopularProjectsTab = {
 export type PopularProjectsSectionContent = {
     title: string;
     tabs: PopularProjectsTab[];
-    titlePrefix: string;
-    priceLabel: string;
-    statLabels: {
-        area: string;
-        bedrooms: string;
-        bathrooms: string;
-        floors: string;
-        size: string;
-    };
     cta: { label: string; href: string };
 };
 
 export const POPULAR_PROJECTS_SECTION: PopularProjectsSectionContent = {
     title: "Популярные проекты",
-    titlePrefix: "Дом из",
-    priceLabel: "Цена от:",
     tabs: [
         { id: "all", label: "Загородные дома", technology: null },
         {
@@ -605,13 +661,6 @@ export const POPULAR_PROJECTS_SECTION: PopularProjectsSectionContent = {
         { id: "frame", label: "Каркасные дома", technology: "frame" },
         { id: "sip", label: "СИП дома", technology: "sip" },
     ],
-    statLabels: {
-        area: "Площадь",
-        bedrooms: "Спальни",
-        bathrooms: "Санузлов",
-        floors: "Этажей",
-        size: "Размер",
-    },
     cta: {
         label: "Смотреть больше проектов",
         href: "/projects",
@@ -717,7 +766,7 @@ export const FOOTER: FooterContent = {
     projects: {
         title: "Проекты",
         items: [
-            { label: "Дома из газобетона", href: "/projects/aerocrete" },
+            { label: "Дома из газобетона", href: "/projects/gas-concrete" },
             { label: "Кирпичные дома", href: "/projects/brick" },
             { label: "Каркасные дома", href: "/projects/frame" },
             { label: "Дома из СИП-панелей", href: "/projects/sip" },
