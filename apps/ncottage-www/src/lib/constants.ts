@@ -373,7 +373,6 @@ export interface ProjectCategoryInfo {
     description: string;
     image: string;
     technology: Technology | null;
-    feature?: boolean;
 }
 
 export const PROJECT_HUB_CATEGORIES: ProjectCategoryInfo[] = [
@@ -384,7 +383,6 @@ export const PROJECT_HUB_CATEGORIES: ProjectCategoryInfo[] = [
             "Полная коллекция готовых проектов под ключ — фиксированная цена и сроки",
         image: "/images/projects/nord.jpg",
         technology: null,
-        feature: true,
     },
     {
         slug: "gas-concrete",
@@ -400,7 +398,6 @@ export const PROJECT_HUB_CATEGORIES: ProjectCategoryInfo[] = [
             "Классические дома с долгим сроком службы и премиальной отделкой",
         image: "/images/projects/karl.jpg",
         technology: "brick",
-        feature: true,
     },
     {
         slug: "frame",
@@ -415,7 +412,6 @@ export const PROJECT_HUB_CATEGORIES: ProjectCategoryInfo[] = [
         description: "Быстрая сборка и отличная теплоизоляция",
         image: "/images/projects/berg.jpg",
         technology: "sip",
-        feature: true,
     },
     {
         slug: "fachwerk",

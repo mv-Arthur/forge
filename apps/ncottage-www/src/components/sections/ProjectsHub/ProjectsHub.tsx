@@ -29,7 +29,7 @@ function CategoryTile({ category }: { category: ProjectCategoryInfo }) {
     return (
         <Link
             href={`/projects/${category.slug}`}
-            className={`${styles.tile} ${category.feature ? styles.tileTall : ""}`}
+            className={styles.tile}
             style={{ backgroundImage: `url(${category.image})` }}
         >
             <span className={styles.gradient} aria-hidden="true" />
