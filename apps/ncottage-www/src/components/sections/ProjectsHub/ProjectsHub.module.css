@@ -25,11 +25,31 @@
 }
 
 .tileAccent {
-    background-color: var(--color-bg-green);
+    background-color: #eaf0e2;
+    color: var(--color-text);
 }
 
 .tileAccent .gradient {
     display: none;
+}
+
+.tileAccent .title {
+    color: var(--color-text);
+    text-shadow: none;
+}
+
+.tileAccent .description {
+    color: var(--color-text-light);
+}
+
+.tileAccent .arrow {
+    background-color: var(--color-bg-green);
+    color: #fff;
+}
+
+.tileAccent:hover .arrow {
+    background-color: var(--color-text);
+    color: #fff;
 }
 
 .tileGasConcrete {
