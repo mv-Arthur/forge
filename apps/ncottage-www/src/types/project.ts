@@ -12,6 +12,30 @@ export type TechnologyLabel = {
     [K in Technology]: string;
 };
 
+export type ProjectStyle =
+    | "modern"
+    | "finnish"
+    | "german"
+    | "loft"
+    | "chalet"
+    | "hi-tech"
+    | "minimalism";
+
+export type ProjectFeature =
+    | "panoramic-windows"
+    | "second-light"
+    | "guest"
+    | "with-utilities"
+    | "ready"
+    | "balcony"
+    | "bay-window"
+    | "boiler-room"
+    | "garage"
+    | "terrace"
+    | "attic";
+
+export type ProjectLivingType = "permanent" | "seasonal";
+
 export interface ProjectSpecs {
     dimensions: string;
     roofType: string;
@@ -33,14 +57,8 @@ export interface Project {
     images: string[];
     description: string;
     specs: ProjectSpecs;
+    style: ProjectStyle;
+    features: ProjectFeature[];
+    livingType: ProjectLivingType;
     featured: boolean;
-}
-
-export interface ProjectFilter {
-    priceMin: number | null;
-    priceMax: number | null;
-    areaMin: number | null;
-    areaMax: number | null;
-    technology: Technology | null;
-    floors: number | null;
 }

@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import type { PopularProjectsSectionContent } from "@/lib/constants";
 import type { Project } from "@/types/project";
-import { FeaturedProjectCard } from "./FeaturedProjectCard";
+import { ProductCard } from "@/components/shared/ProductCard";
 import styles from "./PopularProjects.module.css";
 
 interface PopularProjectsProps {
@@ -64,7 +64,7 @@ export function PopularProjects({
                 ) : (
                     <div className={styles.grid}>
                         {filtered.map((project) => (
-                            <FeaturedProjectCard
+                            <ProductCard
                                 key={project.slug}
                                 project={project}
                                 titlePrefix={titlePrefix}
