@@ -2,8 +2,18 @@ import Link from "next/link";
 import {
     PROJECT_HUB_CATEGORIES,
     type ProjectCategoryInfo,
+    type ProjectCategorySlug,
 } from "@/lib/constants";
 import styles from "./ProjectsHub.module.css";
+
+const TILE_VARIANT: Record<ProjectCategorySlug, string> = {
+    all: styles.tileAll,
+    "gas-concrete": styles.tileGasConcrete,
+    brick: styles.tileBrick,
+    frame: styles.tileFrame,
+    sip: styles.tileSip,
+    fachwerk: styles.tileFachwerk,
+};
 
 function ArrowIcon() {
     return (
@@ -29,7 +39,7 @@ function CategoryTile({ category }: { category: ProjectCategoryInfo }) {
     return (
         <Link
             href={`/projects/${category.slug}`}
-            className={styles.tile}
+            className={`${styles.tile} ${TILE_VARIANT[category.slug]}`}
             style={{ backgroundImage: `url(${category.image})` }}
         >
             <span className={styles.gradient} aria-hidden="true" />
