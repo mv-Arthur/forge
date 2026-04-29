@@ -1,49 +1,94 @@
 .card {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 430px;
-    padding-bottom: 15px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    color: var(--color-text);
-    transition: box-shadow var(--transition);
+    display: block;
+    overflow: hidden;
+    border-radius: 14px;
+    background-color: #1a1a1a;
+    color: #fff;
+    isolation: isolate;
+    transition: transform var(--transition);
 }
 
 .card:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
 }
 
-.imageWrapper {
-    position: relative;
-    width: 100%;
-    height: 250px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    overflow: hidden;
+.grid {
+    aspect-ratio: 16 / 11;
+}
+
+.list {
+    aspect-ratio: 21 / 8;
+}
+
+.cardLink {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.cardLink:focus-visible {
+    outline: 3px solid var(--color-bg-green);
+    outline-offset: -3px;
+    border-radius: 14px;
 }
 
 .image {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    inset: 0;
+    background-color: #2a2a2a;
     background-size: cover;
     background-position: center;
-    background-color: #f8f8f8;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s ease;
+    z-index: 0;
 }
 
 .card:hover .image {
     transform: scale(1.04);
 }
 
+.gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.18) 0%,
+        rgba(0, 0, 0, 0) 35%,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
+    z-index: 0;
+    pointer-events: none;
+}
+
+.tags {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    z-index: 2;
+}
+
+.tag {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    background-color: rgba(20, 20, 20, 0.55);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    line-height: 1;
+}
+
 .actions {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 14px;
+    right: 14px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     z-index: 2;
 }
 
@@ -51,23 +96,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     padding: 0;
     background-color: #fff;
+    color: var(--color-bg-green);
     border: none;
     border-radius: 50%;
-    color: var(--color-bg-green);
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
     transition:
         background-color var(--transition),
-        color var(--transition);
+        color var(--transition),
+        transform var(--transition);
 }
 
 .action:hover {
-    background-color: var(--color-bg-green);
-    color: #fff;
+    transform: scale(1.06);
 }
 
 .actionActive {
@@ -75,125 +120,86 @@
     color: #fff;
 }
 
-.badge {
+.body {
     position: absolute;
-    top: 195px;
-    right: 0;
-    padding: 8px 24px;
-    background-color: var(--color-bg-green);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.4;
-    text-transform: uppercase;
-    box-shadow: -1px 1px 2px rgba(0, 0, 0, 0.4);
+    left: 24px;
+    right: 24px;
+    bottom: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
     z-index: 2;
+    pointer-events: none;
+}
+
+.bodyMain {
+    min-width: 0;
 }
 
 .title {
-    margin: 14px 27px 0;
-    font-weight: 900;
-    font-size: 20px;
-    line-height: 24px;
-    color: var(--color-text);
-}
-
-.titleLink {
-    color: inherit;
-    text-decoration: none;
-    transition: color var(--transition);
-}
-
-.titleLink:hover {
-    color: var(--color-bg-green);
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px 12px;
-    margin: 15px 27px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin: 10px 0 0;
+    padding: 0;
     list-style: none;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.88);
 }
 
 .stat {
     position: relative;
-    display: flex;
-    align-items: center;
-    height: 30px;
-    padding-right: 8px;
-    border-right: 1px solid var(--color-border-light);
 }
 
-.stat:nth-child(3),
-.stat:nth-child(5) {
-    border-right: none;
-}
-
-.statIcon {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
-    flex-shrink: 0;
-}
-
-.statValue {
-    margin-left: 9px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    color: var(--color-text);
-}
-
-.statLabel {
+.stat + .stat::before {
+    content: "•";
     position: absolute;
-    top: 0;
-    left: 5px;
-    padding: 5px 10px;
-    background-color: #86c232;
-    color: #fff;
-    font-size: 14px;
-    line-height: 1;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    z-index: 3;
+    left: -10px;
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.statLabel::after {
-    content: "";
-    position: absolute;
-    left: 10px;
-    bottom: -10px;
-    border: 5px solid transparent;
-    border-top: 5px solid var(--color-bg-green);
-}
-
-.stat:hover .statLabel,
-.stat:focus-within .statLabel {
-    top: -25px;
-    opacity: 1;
-    visibility: visible;
-}
-
-.footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: auto 27px 0;
-    padding-top: 16px;
-}
-
-.priceLabel {
-    font-size: 14px;
-    color: var(--color-text);
-}
-
-.priceValue {
-    font-weight: 900;
+.price {
     font-size: 20px;
-    line-height: 30px;
-    color: var(--color-bg-green);
+    font-weight: 700;
+    white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 1024px) {
+    .list {
+        aspect-ratio: 16 / 9;
+    }
+}
+
+@media (max-width: 640px) {
+    .grid,
+    .list {
+        aspect-ratio: 4 / 3;
+    }
+
+    .body {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .price {
+        font-size: 18px;
+    }
 }

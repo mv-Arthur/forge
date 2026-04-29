@@ -17,6 +17,8 @@ export type SortKey =
     | "area-asc"
     | "area-desc";
 
+export type ViewMode = "grid" | "list";
+
 export interface FilterBounds {
     areaMin: number;
     areaMax: number;
@@ -39,6 +41,7 @@ export interface FiltersState {
     priceMax: number;
     search: string;
     sort: SortKey;
+    view: ViewMode;
 }
 
 const SORT_KEYS: SortKey[] = [
@@ -87,6 +90,8 @@ function parseFiltersFromParams(
     const sort: SortKey = SORT_KEYS.includes(sortRaw as SortKey)
         ? (sortRaw as SortKey)
         : "featured";
+    const viewRaw = params.get("view");
+    const view: ViewMode = viewRaw === "list" ? "list" : "grid";
 
     const areaMin = Number(params.get("areaMin"));
     const areaMax = Number(params.get("areaMax"));
@@ -114,6 +119,7 @@ function parseFiltersFromParams(
                 : bounds.priceMax,
         search: params.get("q") ?? "",
         sort,
+        view,
     };
 }
 
@@ -143,6 +149,7 @@ function serializeFilters(
         sp.set("priceMax", String(filters.priceMax));
     if (filters.search.trim()) sp.set("q", filters.search.trim());
     if (filters.sort !== "featured") sp.set("sort", filters.sort);
+    if (filters.view !== "grid") sp.set("view", filters.view);
     return sp.toString();
 }
 
