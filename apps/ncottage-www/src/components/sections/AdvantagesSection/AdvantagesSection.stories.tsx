@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ADVANTAGES_SECTION } from "@/lib/constants";
+import { ADVANTAGES_SECTION } from "@/content/home";
 import { AdvantagesSection } from "./AdvantagesSection";
 
 const meta: Meta<typeof AdvantagesSection> = {
@@ -7,9 +7,10 @@ const meta: Meta<typeof AdvantagesSection> = {
     component: AdvantagesSection,
     parameters: { layout: "fullscreen" },
     args: {
+        eyebrow: ADVANTAGES_SECTION.eyebrow,
         title: ADVANTAGES_SECTION.title,
-        text: ADVANTAGES_SECTION.text,
-        background: ADVANTAGES_SECTION.background,
+        titleAccent: ADVANTAGES_SECTION.titleAccent,
+        lead: ADVANTAGES_SECTION.lead,
         items: ADVANTAGES_SECTION.items,
     },
 };
@@ -27,11 +28,4 @@ export const Tablet: Story = {
 
 export const Mobile: Story = {
     globals: { viewport: { value: "iphone14", isRotated: false } },
-};
-
-export const NoBackground: Story = {
-    globals: { viewport: { value: "1440-900", isRotated: false } },
-    args: {
-        background: "",
-    },
 };

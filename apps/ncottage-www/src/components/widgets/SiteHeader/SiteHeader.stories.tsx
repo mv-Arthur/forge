@@ -1,12 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import {
-    ADDRESSES,
-    CITIES,
-    EMAIL,
-    NAV_ITEMS,
-    PHONES,
-    WORK_HOURS,
-} from "@/lib/constants";
+import { ADDRESSES, CITIES, EMAIL, PHONES, WORK_HOURS } from "@/content/contacts";
+import { NAV_ITEMS } from "@/content/site";
 import { SiteHeader } from "./SiteHeader";
 
 const defaultArgs = {

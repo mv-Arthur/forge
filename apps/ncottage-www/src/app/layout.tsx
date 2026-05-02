@@ -1,19 +1,30 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/widgets/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
-import {
-    ADDRESSES,
-    CITIES,
-    EMAIL,
-    NAV_ITEMS,
-    PHONES,
-    WORK_HOURS,
-} from "@/lib/constants";
+import { ADDRESSES, CITIES, EMAIL, PHONES, WORK_HOURS } from "@/content/contacts";
+import { NAV_ITEMS } from "@/content/site";
 
 const CITY_ADDRESSES = {
     spb: ADDRESSES.spb,
     msk: ADDRESSES.msk,
 };
+
+const inter = Inter({
+    subsets: ["latin", "cyrillic"],
+    weight: ["300", "400", "500", "600", "700"],
+    variable: "--font-sans",
+    display: "swap",
+});
+
+const playfair = Playfair_Display({
+    subsets: ["latin", "cyrillic"],
+    weight: ["400", "500", "600"],
+    style: ["normal", "italic"],
+    variable: "--font-display",
+    display: "swap",
+});
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +39,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="ru">
+        <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
             <body>
                 <SiteHeader
                     cities={CITIES}

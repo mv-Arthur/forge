@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { HERO } from "@/lib/constants";
+import { HERO } from "@/content/home";
 import { HeroSection } from "./HeroSection";
 
 const meta: Meta<typeof HeroSection> = {
@@ -7,10 +7,13 @@ const meta: Meta<typeof HeroSection> = {
     component: HeroSection,
     parameters: { layout: "fullscreen" },
     args: {
-        subtitle: HERO.subtitle,
+        eyebrow: HERO.eyebrow,
         title: HERO.title,
+        titleAccent: HERO.titleAccent,
         text: HERO.text,
-        cta: HERO.cta,
+        primaryCta: HERO.primaryCta,
+        secondaryCta: HERO.secondaryCta,
+        trust: HERO.trust,
         image: HERO.image,
     },
 };
@@ -33,9 +36,11 @@ export const Mobile: Story = {
 export const CustomCopy: Story = {
     globals: { viewport: { value: "1440-900", isRotated: false } },
     args: {
-        subtitle: "Индивидуальное проектирование",
-        title: "Дома под ключ",
-        text: "от фундамента до финишной отделки — один подрядчик",
-        cta: { label: "Оставить заявку", href: "/contacts" },
+        eyebrow: "Индивидуальное проектирование · СПб",
+        title: "Дом под ключ от",
+        titleAccent: "архитектора",
+        text: "От эскиза до финишной отделки — один подрядчик, один договор, фиксированная цена.",
+        primaryCta: { label: "Подобрать проект", href: "#" },
+        secondaryCta: { label: "Смотреть каталог", href: "#" },
     },
 };

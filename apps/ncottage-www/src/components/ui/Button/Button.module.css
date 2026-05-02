@@ -47,17 +47,6 @@
     color: var(--color-green);
 }
 
-.white {
-    background: transparent;
-    border: 2px solid #fff;
-    color: #fff;
-}
-
-.white:hover {
-    background-color: #fff;
-    color: var(--color-text-dark);
-}
-
 /* Sizes */
 
 .sm {

@@ -1,41 +1,90 @@
+import Image from "next/image";
 import Link from "next/link";
-import type { HeroContent } from "@/lib/constants";
+import { Container } from "@/components/ui/Container";
+import type { HeroContent } from "@/content/home";
 import styles from "./HeroSection.module.css";
 
 interface HeroSectionProps {
-    subtitle: HeroContent["subtitle"];
+    eyebrow: HeroContent["eyebrow"];
     title: HeroContent["title"];
+    titleAccent?: HeroContent["titleAccent"];
     text: HeroContent["text"];
-    cta: HeroContent["cta"];
+    primaryCta: HeroContent["primaryCta"];
+    secondaryCta?: HeroContent["secondaryCta"];
+    trust: HeroContent["trust"];
     image: HeroContent["image"];
 }
 
 export function HeroSection({
-    subtitle,
+    eyebrow,
     title,
+    titleAccent,
     text,
-    cta,
+    primaryCta,
+    secondaryCta,
+    trust,
     image,
 }: HeroSectionProps) {
     return (
-        <section className={styles.banner}>
-            <div className={styles.bg}>
-                <img
+        <section className={styles.hero}>
+            <div className={styles.media}>
+                <Image
                     src={image.src}
                     alt={image.alt}
-                    className={styles.bgImage}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className={styles.image}
                 />
+                <div className={styles.scrim} aria-hidden="true" />
             </div>
-            <div className={styles.content}>
-                <p className={styles.subtitle}>{subtitle}</p>
-                <h1 className={styles.title}>{title}</h1>
-                <p className={styles.text}>{text}</p>
-                <div className={styles.buttonWrap}>
-                    <Link href={cta.href} className={styles.button}>
-                        {cta.label}
-                    </Link>
+
+            <Container className={styles.inner}>
+                <div className={styles.content}>
+                    <span className={styles.eyebrow}>{eyebrow}</span>
+                    <h1 className={styles.title}>
+                        {title}
+                        {titleAccent && (
+                            <>
+                                {" "}
+                                <span className={styles.titleAccent}>
+                                    {titleAccent}
+                                </span>
+                            </>
+                        )}
+                    </h1>
+                    <p className={styles.text}>{text}</p>
+                    <div className={styles.actions}>
+                        <Link
+                            href={primaryCta.href}
+                            className={styles.primary}
+                        >
+                            {primaryCta.label}
+                        </Link>
+                        {secondaryCta && (
+                            <Link
+                                href={secondaryCta.href}
+                                className={styles.secondary}
+                            >
+                                {secondaryCta.label}
+                            </Link>
+                        )}
+                    </div>
                 </div>
-            </div>
+
+                <ul className={styles.trust}>
+                    {trust.map((item) => (
+                        <li key={item.label} className={styles.trustItem}>
+                            <span className={styles.trustValue}>
+                                {item.value}
+                            </span>
+                            <span className={styles.trustLabel}>
+                                {item.label}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+            </Container>
         </section>
     );
 }

@@ -1,9 +1,11 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import type { FooterContent, FooterMenu } from "@/lib/constants";
-import { FOOTER, SOCIAL } from "@/lib/constants";
+import { Container } from "@/components/ui/Container";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import type { FooterContent } from "@/content/site";
+import { FOOTER } from "@/content/site";
+import { SOCIAL } from "@/content/contacts";
+import { UpArrowIcon, VkIcon } from "./icons";
 import styles from "./Footer.module.css";
 
 interface FooterProps {
@@ -12,291 +14,153 @@ interface FooterProps {
 }
 
 export function Footer({ content = FOOTER, vkHref = SOCIAL.vk }: FooterProps) {
-    const [showToTop, setShowToTop] = useState(false);
-
-    useEffect(() => {
-        function update() {
-            setShowToTop(window.scrollY > 300);
-        }
-        update();
-        window.addEventListener("scroll", update, { passive: true });
-        return () => window.removeEventListener("scroll", update);
-    }, []);
-
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
     return (
         <footer className={styles.footer}>
-            <div className={styles.wrapper}>
+            <Container className={styles.inner}>
                 <div className={styles.top}>
-                    <div className={styles.left}>
-                        <div className={styles.menus}>
-                            <Menu
-                                menu={content.projects}
-                                variantClass={styles.projectsBlock}
+                    <div className={styles.brand}>
+                        <Link
+                            href="/"
+                            className={styles.logo}
+                            aria-label="Главная"
+                        >
+                            <Image
+                                src="/images/logo.png"
+                                alt="Новый Коттедж"
+                                width={160}
+                                height={36}
                             />
-                            <Menu
-                                menu={content.company}
-                                variantClass={styles.companyBlock}
-                            />
-                        </div>
-                        <div className={styles.underMenu}>
-                            <div className={styles.social}>
-                                <span className={styles.socialTitle}>
-                                    {content.socialLabel}
-                                </span>
-                                <div className={styles.socialButton}>
-                                    <a
-                                        href={vkHref}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        aria-label="ВКонтакте"
-                                    >
-                                        <VkIcon />
-                                    </a>
-                                </div>
-                            </div>
-                            <div className={styles.legal}>
-                                <p>ОГРН: {content.legal.ogrn}</p>
-                                <p>ИНН: {content.legal.inn}</p>
-                                <p>КПП: {content.legal.kpp}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.right}>
-                        <Menu
-                            menu={content.services}
-                            variantClass={styles.servicesBlock}
-                        />
-                        <div className={styles.contactBlock}>
-                            <div className={styles.menuTitle}>
-                                {content.contactsTitle}
-                            </div>
-                            {content.offices.map((office) => (
-                                <div
-                                    key={office.phone.number}
-                                    className={styles.contactsInfo}
-                                >
-                                    <span className={styles.addressBlock}>
-                                        <PinIcon />
-                                        <span className={styles.addressBox}>
-                                            <p>{office.address}</p>
-                                            <span className={styles.btnContact}>
-                                                <Link href={office.mapHref}>
-                                                    {content.mapLinkLabel}
-                                                </Link>
-                                            </span>
-                                        </span>
-                                    </span>
-                                    <p>
-                                        <ClockIcon />
-                                        {office.hours}
-                                    </p>
-                                    <span>
-                                        <MailIcon />
-                                        <a href={`mailto:${office.email}`}>
-                                            {office.email}
-                                        </a>
-                                    </span>
-                                    <span>
-                                        <PhoneIcon />
-                                        <a
-                                            href={`tel:${office.phone.number}`}
-                                            className={styles.phoneBtn}
-                                        >
-                                            {office.phone.display}
-                                        </a>
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.bottom}>
-                    <span>{content.copyright}</span>
-                    {content.bottomLinks.map((link, idx) => (
-                        <span key={link.label}>
+                        </Link>
+                        <p className={styles.tagline}>{content.tagline}</p>
+                        <div className={styles.social}>
+                            <span className={styles.socialLabel}>
+                                {content.socialLabel}
+                            </span>
                             <a
-                                href={link.href}
-                                target={link.external ? "_blank" : undefined}
-                                rel={
-                                    link.external
-                                        ? "noopener noreferrer"
-                                        : undefined
-                                }
+                                href={vkHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="ВКонтакте"
+                                className={styles.socialBtn}
                             >
-                                {link.label}
+                                <VkIcon />
                             </a>
-                            {idx < content.bottomLinks.length - 1 && (
-                                <span className={styles.delimiter}>|</span>
-                            )}
-                        </span>
-                    ))}
+                        </div>
+                    </div>
+
+                    <div className={styles.col}>
+                        <h4 className={styles.colTitle}>{content.nav.title}</h4>
+                        <ul className={styles.colList}>
+                            {content.nav.items.map((item) => (
+                                <li key={item.href + item.label}>
+                                    <Link
+                                        href={item.href}
+                                        className={styles.colLink}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className={styles.col}>
+                        <h4 className={styles.colTitle}>
+                            {content.contactsTitle}
+                        </h4>
+                        <ul className={styles.contactList}>
+                            {content.offices.map((office) => (
+                                <li
+                                    key={office.phone.number}
+                                    className={styles.contactItem}
+                                >
+                                    <span className={styles.contactCity}>
+                                        {office.label}
+                                    </span>
+                                    <a
+                                        href={`tel:${office.phone.number}`}
+                                        className={styles.contactPhone}
+                                    >
+                                        {office.phone.display}
+                                    </a>
+                                </li>
+                            ))}
+                            <li className={styles.contactItem}>
+                                <a
+                                    href={`mailto:${content.email}`}
+                                    className={styles.contactLink}
+                                >
+                                    {content.email}
+                                </a>
+                                <span className={styles.contactMute}>
+                                    {content.workHours}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className={styles.col}>
+                        <h4 className={styles.colTitle}>Офисы</h4>
+                        <ul className={styles.officeList}>
+                            {content.offices.map((office) => (
+                                <li
+                                    key={office.address}
+                                    className={styles.officeItem}
+                                >
+                                    <span className={styles.officeLabel}>
+                                        {office.label}
+                                    </span>
+                                    <span className={styles.officeAddress}>
+                                        {office.address}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
+
+                <div className={styles.middle}>
+                    <p className={styles.legal}>
+                        ОГРН {content.legal.ogrn} · ИНН {content.legal.inn} ·
+                        КПП {content.legal.kpp}
+                    </p>
+                    <p className={styles.disclaimer}>{content.disclaimer}</p>
+                </div>
+
                 <div className={styles.bottom}>
-                    <p>{content.disclaimer}</p>
+                    <span className={styles.copyright}>
+                        {content.copyright}
+                    </span>
+                    <ul className={styles.bottomLinks}>
+                        {content.bottomLinks.map((link) => (
+                            <li key={link.label}>
+                                <a
+                                    href={link.href}
+                                    className={styles.bottomLink}
+                                    target={
+                                        link.external ? "_blank" : undefined
+                                    }
+                                    rel={
+                                        link.external
+                                            ? "noopener noreferrer"
+                                            : undefined
+                                    }
+                                >
+                                    {link.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-                <button
-                    type="button"
-                    className={`${styles.toTop}${showToTop ? ` ${styles.toTopVisible}` : ""}`}
-                    onClick={scrollToTop}
-                    aria-label={content.toTopLabel}
-                >
-                    <UpArrowIcon />
-                </button>
-            </div>
+            </Container>
+
+            <ScrollToTop
+                className={styles.toTop}
+                visibleClassName={styles.toTopVisible}
+                label={content.toTopLabel}
+            >
+                <UpArrowIcon />
+            </ScrollToTop>
         </footer>
-    );
-}
-
-function Menu({
-    menu,
-    variantClass,
-}: {
-    menu: FooterMenu;
-    variantClass?: string;
-}) {
-    const className = variantClass
-        ? `${styles.menuBlock} ${variantClass}`
-        : styles.menuBlock;
-    return (
-        <div className={className}>
-            <div className={styles.menuTitle}>{menu.title}</div>
-            <ul className={styles.menuList}>
-                {menu.items.map((item) => (
-                    <li key={item.href + item.label}>
-                        <Link href={item.href}>{item.label}</Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-}
-
-function VkIcon() {
-    return (
-        <svg
-            width="24"
-            height="14"
-            viewBox="0 0 24 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-        >
-            <path
-                d="M21.2796 5.725C21.621 5.2838 21.8919 4.9298 22.092 4.66273C23.5331 2.74673 24.1578 1.52273 23.9663 0.989125L23.8912 0.864191C23.8414 0.789124 23.7119 0.720191 23.5039 0.657791C23.2955 0.595391 23.029 0.585391 22.7043 0.626591L19.1055 0.652058C19.0223 0.643658 18.9388 0.645658 18.8555 0.657791C18.7723 0.670458 18.7182 0.683124 18.6931 0.695258C18.6679 0.708058 18.6472 0.71819 18.6307 0.726457L18.5808 0.763924C18.5391 0.788857 18.4934 0.832724 18.4434 0.895391C18.3934 0.957925 18.3515 1.03059 18.3184 1.11419C17.9268 2.12206 17.4812 3.0594 16.9814 3.9258C16.6731 4.44233 16.3898 4.89033 16.1318 5.26887C15.8735 5.64833 15.657 5.92727 15.4819 6.10607C15.3071 6.28513 15.1487 6.42913 15.0072 6.537C14.8654 6.64567 14.7572 6.69127 14.6824 6.67474C14.6074 6.6582 14.5364 6.64167 14.4699 6.62447C14.3532 6.5498 14.2594 6.44793 14.1888 6.31847C14.1179 6.18967 14.0702 6.02713 14.045 5.83127C14.0202 5.63567 14.0054 5.46673 14.0015 5.325C13.997 5.1834 13.9992 4.98367 14.0078 4.72513C14.016 4.46686 14.0202 4.2922 14.0202 4.20033C14.0202 3.88406 14.0266 3.54033 14.0391 3.16953C14.0514 2.79899 14.0619 2.50513 14.0702 2.28846C14.0784 2.07219 14.0826 1.84286 14.0826 1.60113C14.0826 1.36006 14.068 1.17019 14.0386 1.03246C14.0094 0.895392 13.9655 0.762058 13.9076 0.632725C13.8491 0.503791 13.7639 0.403658 13.6512 0.333124C13.5387 0.262191 13.3994 0.20619 13.2327 0.16419C12.791 0.0640565 12.2287 0.0104569 11.5458 0.00165687C9.99628 -0.0143432 9.00068 0.0855233 8.55922 0.301924C8.38428 0.393791 8.22588 0.518457 8.08441 0.676857C7.93428 0.860324 7.91362 0.960457 8.02202 0.976457C8.52202 1.05152 8.87575 1.23086 9.08402 1.51393L9.15908 1.66379C9.21735 1.77246 9.27562 1.96406 9.33402 2.23873C9.39228 2.51366 9.42988 2.81766 9.44668 3.151C9.48828 3.75913 9.48828 4.27953 9.44668 4.713C9.40495 5.14647 9.36548 5.48353 9.32802 5.72473C9.29042 5.96647 9.23415 6.16207 9.15948 6.31193C9.08442 6.4622 9.03442 6.5538 9.00935 6.58727C8.98428 6.62033 8.96348 6.64127 8.94695 6.64967C8.83855 6.691 8.72628 6.71194 8.60962 6.71194C8.49282 6.71194 8.35122 6.6534 8.18468 6.53673C8.01801 6.4206 7.84495 6.25993 7.66615 6.0558C7.48681 5.85193 7.28508 5.56633 7.06001 5.19967C6.83508 4.83353 6.60161 4.40006 6.36028 3.90033L6.16041 3.5378C6.03548 3.305 5.86468 2.96526 5.64801 2.51966C5.43148 2.07406 5.2397 1.64313 5.07334 1.22619C5.00657 1.05153 4.90666 0.918325 4.77343 0.826325L4.71109 0.788858C4.66942 0.755791 4.60266 0.720191 4.51105 0.682857C4.41917 0.645391 4.32371 0.618324 4.22354 0.601524L0.799708 0.626324C0.449854 0.626324 0.212574 0.70579 0.0876002 0.864191L0.0376403 0.938991C0.0124003 0.980857 0 1.04766 0 1.13899C0 1.23086 0.0251069 1.34313 0.075067 1.47619C0.575001 2.65099 1.11859 3.78393 1.70572 4.87487C2.29316 5.96647 2.80334 6.84554 3.23651 7.5118C3.66969 8.17874 4.11114 8.80727 4.56118 9.39887C5.01121 9.99034 5.3089 10.3691 5.45454 10.5355C5.60028 10.7025 5.71481 10.8275 5.79814 10.9105L6.11041 11.2107C6.31028 11.4105 6.60415 11.6499 6.99148 11.9291C7.37881 12.2085 7.80761 12.4833 8.27868 12.7537C8.74908 13.0246 9.29708 13.245 9.92175 13.4161C10.5464 13.5871 11.1546 13.6558 11.746 13.6222H13.1831C13.4747 13.5974 13.6954 13.5061 13.8452 13.3474L13.8952 13.285C13.9283 13.2354 13.9598 13.1581 13.989 13.0541C14.0179 12.9501 14.033 12.8353 14.033 12.7106C14.0243 12.3525 14.0516 12.029 14.114 11.7421C14.1763 11.4546 14.2472 11.2383 14.3264 11.0921C14.4056 10.9466 14.495 10.8235 14.5951 10.7234C14.6951 10.6233 14.7658 10.5634 14.8076 10.5425C14.8492 10.5219 14.8827 10.5074 14.9076 10.4986C15.1074 10.4319 15.3427 10.4966 15.6136 10.6922C15.8843 10.8885 16.1384 11.1295 16.376 11.417C16.6132 11.7046 16.8986 12.0271 17.2319 12.3855C17.5648 12.7437 17.8564 13.0102 18.1064 13.185L18.3564 13.3355C18.5231 13.435 18.7394 13.5267 19.0063 13.6103C19.2728 13.6934 19.5062 13.7143 19.7059 13.6726L22.9048 13.6225C23.2214 13.6225 23.4672 13.5706 23.6422 13.4662C23.8171 13.3627 23.9212 13.2474 23.9546 13.1227C23.9876 12.9978 23.9899 12.8569 23.9608 12.6981C23.9316 12.5399 23.9024 12.4297 23.8735 12.3673C23.8443 12.3049 23.8171 12.2525 23.792 12.2111C23.3755 11.4614 22.5799 10.5407 21.4054 9.44954L21.3803 9.42461L21.3679 9.41194L21.3555 9.39981H21.343C20.8095 8.89154 20.4724 8.54994 20.3308 8.37474C20.0726 8.04207 20.014 7.7046 20.1559 7.363C20.2552 7.10407 20.6299 6.55833 21.2796 5.725Z"
-                fill="#363636"
-            />
-        </svg>
-    );
-}
-
-function PinIcon() {
-    return (
-        <svg
-            width="19"
-            height="24"
-            viewBox="0 0 19 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-        >
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M9.00026 1C11.9947 1 14.6866 2.39438 16.3851 4.82512C18.0753 7.24357 18.4655 10.3054 17.429 13.0154C17.1547 13.7482 16.7154 14.4651 16.1252 15.1415L9.5925 22.7292C9.44471 22.901 9.22818 23 9.00026 23C8.77234 23 8.55581 22.901 8.40802 22.7292L1.87345 15.1395C1.28586 14.4669 0.846062 13.7492 0.569389 13.0105C-0.464997 10.3054 -0.0747343 7.24357 1.61542 4.82512C3.31392 2.39438 6.00578 1 9.00026 1ZM14.9462 14.1387C15.4153 13.601 15.7607 13.042 15.9723 12.4767C16.8298 10.2344 16.5049 7.70282 15.1052 5.70001C13.7012 3.69075 11.4761 2.53845 9.00026 2.53845C6.52437 2.53845 4.29898 3.69079 2.89511 5.70001C1.49562 7.70282 1.17097 10.2344 2.02641 12.4715C2.24008 13.0423 2.58549 13.6013 3.05432 14.1385L9.00026 21.0444L14.9426 14.1428C14.9436 14.1413 14.9449 14.14 14.9462 14.1387L14.9462 14.1387Z"
-                fill="#cccccc"
-            />
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M5 10C5 7.79428 6.79452 6 9 6C11.2055 6 13 7.79452 13 10C13 12.2057 11.2057 14 9 14C6.79428 14 5 12.2057 5 10ZM6.42856 9.99996C6.42856 11.4178 7.58213 12.5714 9 12.5714C10.4179 12.5714 11.5714 11.4178 11.5714 9.99996C11.5714 8.58209 10.4179 7.42852 9 7.42852C7.58213 7.42852 6.42856 8.58209 6.42856 9.99996Z"
-                fill="#cccccc"
-            />
-        </svg>
-    );
-}
-
-function ClockIcon() {
-    return (
-        <svg
-            width="19"
-            height="19"
-            viewBox="0 0 19 19"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-        >
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0 9.5C0 4.26179 4.26179 0 9.5 0C14.7382 0 19 4.26179 19 9.5C19 14.7382 14.7382 19 9.5 19C4.26179 19 0 14.7382 0 9.5ZM1.18751 9.5C1.18751 14.0836 4.91641 17.8125 9.5 17.8125C14.0836 17.8125 17.8125 14.0836 17.8125 9.5C17.8125 4.91641 14.0836 1.18751 9.5 1.18751C4.91641 1.18751 1.18751 4.91641 1.18751 9.5Z"
-                fill="#cccccc"
-            />
-            <path
-                d="M10.2048 3.69434H8.97217V9.94499L12.8506 13.7221L13.7222 12.8734L10.2048 9.44794V3.69434Z"
-                fill="#cccccc"
-            />
-        </svg>
-    );
-}
-
-function MailIcon() {
-    return (
-        <svg
-            width="19"
-            height="15"
-            viewBox="0 0 19 15"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-        >
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M16.3125 1H1.68751C0.75696 1 0 1.75696 0 2.68751V12.8125C0 13.743 0.75696 14.5 1.68751 14.5H16.3125C17.243 14.5 18 13.743 18 12.8125V2.68751C18 1.75696 17.243 1 16.3125 1ZM16.3125 2.12499C16.3889 2.12499 16.4616 2.14085 16.5281 2.16854L9 8.69317L1.47188 2.16854C1.53834 2.14089 1.61105 2.12499 1.68747 2.12499H16.3125ZM1.125 12.8125C1.125 13.1228 1.37715 13.375 1.68751 13.375H16.3125C16.6228 13.375 16.875 13.1228 16.875 12.8125V3.35711L9.3686 9.86266C9.26256 9.95441 9.13128 9.99999 9 9.99999C8.86872 9.99999 8.73743 9.95437 8.6314 9.86266L1.125 3.35711V12.8125Z"
-                fill="#cccccc"
-            />
-        </svg>
-    );
-}
-
-function PhoneIcon() {
-    return (
-        <svg
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-        >
-            <path
-                d="M14,11.052a0.5,0.5,0,0,0-.03-0.209,1.758,1.758,0,0,0-.756-0.527C12.65,10,12.073,9.69,11.515,9.363a2.047,2.047,0,0,0-.886-0.457c-0.607,0-1.493,1.8-2.031,1.8a2.138,2.138,0,0,1-.856-0.388A9.894,9.894,0,0,1,3.672,6.253,2.134,2.134,0,0,1,3.283,5.4c0-.536,1.8-1.421,1.8-2.027a2.045,2.045,0,0,0-.458-0.885C4.3,1.932,3.99,1.355,3.672.789A1.755,1.755,0,0,0,3.144.034,0.5,0.5,0,0,0,2.935,0,4.427,4.427,0,0,0,1.551.312,2.62,2.62,0,0,0,.5,1.524,3.789,3.789,0,0,0-.011,3.372a7.644,7.644,0,0,0,.687,2.6A9.291,9.291,0,0,0,1.5,7.714a16.783,16.783,0,0,0,4.778,4.769,9.283,9.283,0,0,0,1.742.825,7.673,7.673,0,0,0,2.608.686,3.805,3.805,0,0,0,1.851-.507,2.62,2.62,0,0,0,1.214-1.052A4.418,4.418,0,0,0,14,11.052Z"
-                fill="#cccccc"
-            />
-        </svg>
-    );
-}
-
-function UpArrowIcon() {
-    return (
-        <svg
-            width="19"
-            height="12"
-            viewBox="0 0 19 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-        >
-            <path
-                d="M2.30774 10.8466L2.38024 10.923L2.45277 10.8467L9.44445 3.48746L16.4361 10.8453L16.5086 10.9216L16.5811 10.8453L17.9614 9.39245L18.0268 9.32357L17.9614 9.25469L10.4352 1.33424C10.4351 1.33422 10.4351 1.33419 10.4351 1.33417C10.3055 1.19695 10.1512 1.08776 9.98081 1.01314C9.81038 0.938501 9.62741 0.9 9.44249 0.9C9.25756 0.9 9.07459 0.938501 8.90416 1.01314C8.7338 1.08775 8.57947 1.19692 8.44992 1.33411C8.44988 1.33416 8.44984 1.3342 8.4498 1.33424L0.927486 9.25471L0.862103 9.32355L0.927465 9.39242L2.30774 10.8466Z"
-                fill="#50983C"
-                stroke="#50983C"
-                strokeWidth="0.2"
-            />
-        </svg>
     );
 }

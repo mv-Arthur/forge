@@ -1,180 +1,83 @@
 .section {
-    padding: 40px 0;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    padding: var(--section-padding);
+    background: var(--color-surface-alt);
 }
 
-.container {
-    color: var(--color-text);
-}
-
-.header {
-    display: flex;
-    margin-bottom: 35px;
-}
-
-.title {
-    width: 50%;
-    margin-right: 35px;
-    font-weight: 900;
-    font-size: 26px;
-    line-height: 45px;
-    text-transform: uppercase;
-    color: var(--color-text);
-}
-
-.text {
-    width: 50%;
-    font-size: 20px;
-    line-height: 28px;
+.head {
+    margin-bottom: 48px;
 }
 
 .grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
     list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 40px;
 }
 
 .item {
-    position: relative;
     display: flex;
-    align-items: center;
-    width: calc((100% / 2) - 15px);
-    min-height: 150px;
-    margin-bottom: 30px;
-    padding: 15px 10px 15px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px 24px 28px 0;
+    border-top: 1px solid var(--color-line);
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
+    transition:
+        opacity var(--duration-slow) var(--ease),
+        transform var(--duration-slow) var(--ease);
+    transition-delay: calc(var(--i, 0) * 60ms);
 }
 
 .gridVisible .item {
-    animation: fadeInUp 0.5s ease-out forwards;
-    animation-delay: calc(var(--i, 0) * 100ms);
+    opacity: 1;
+    transform: none;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .item {
-        opacity: 1;
-        transform: none;
-    }
-
-    .gridVisible .item {
-        animation: none;
-    }
-}
-
-.iconWrap {
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    height: 70px;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.icon {
-    max-width: 38px;
-    max-height: 38px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
-
-.body {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-left: 90px;
-    color: var(--color-text);
+.itemIndex {
+    font-family: var(--font-display-stack);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-2xl);
+    color: var(--color-accent);
+    letter-spacing: -0.01em;
+    line-height: 1;
 }
 
 .itemTitle {
-    margin-bottom: 10px;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
-    color: var(--color-text);
+    font-family: var(--font-sans-stack);
+    font-weight: 600;
+    font-size: var(--text-xl);
+    line-height: 1.25;
+    color: var(--color-ink);
+    margin: 0;
 }
 
 .itemText {
-    font-size: 16px;
-    line-height: 23px;
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--color-ink-muted);
+    margin: 0;
 }
 
-@media (max-width: 768px) {
-    .header {
-        flex-direction: column;
+@media (max-width: 1080px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .head {
+        margin-bottom: 40px;
     }
 
-    .title {
-        width: 100%;
-        margin-right: 0;
-        font-size: 22px;
-        line-height: 35px;
-    }
-
-    .text {
-        display: none;
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 
     .item {
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: flex-start;
-        width: 100%;
-        margin-bottom: 20px;
-        padding: 13px 10px;
-        padding-top: 75px;
-    }
-
-    .iconWrap {
-        top: 13px;
-        left: 10px;
-        transform: none;
-        width: 58px;
-        height: 58px;
-    }
-
-    .body {
-        position: static;
-        width: 100%;
-        padding-left: 0;
-    }
-
-    .itemTitle {
-        position: absolute;
-        top: 24px;
-        left: 80px;
-        margin-bottom: 0;
-        font-size: 16px;
-        line-height: 22px;
-    }
-
-    .itemText {
-        margin-top: 6px;
-        font-size: 14px;
-        line-height: 22px;
+        padding: 24px 0;
     }
 }

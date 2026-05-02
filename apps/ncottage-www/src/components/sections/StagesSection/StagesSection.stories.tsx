@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { STAGES_SECTION } from "@/lib/constants";
+import { STAGES_SECTION } from "@/content/home";
 import { StagesSection } from "./StagesSection";
 
 const meta: Meta<typeof StagesSection> = {

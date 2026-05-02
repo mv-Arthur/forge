@@ -1,39 +1,43 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import { NotFoundIllustration } from "@/components/layout/NotFoundIllustration";
+import styles from "./not-found.module.css";
+
+export const metadata = {
+    title: "Страница не найдена — Новый Коттедж",
+    robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
     return (
-        <section
-            style={{
-                padding: "200px 0",
-                textAlign: "center",
-            }}
-        >
+        <section className={styles.section}>
             <Container>
-                <h1
-                    style={{
-                        fontSize: "6rem",
-                        fontWeight: 800,
-                        color: "var(--color-accent)",
-                        lineHeight: 1,
-                        marginBottom: 16,
-                    }}
-                >
-                    404
-                </h1>
-                <p
-                    style={{
-                        fontSize: "1.25rem",
-                        color: "var(--color-text-secondary)",
-                        marginBottom: 32,
-                    }}
-                >
-                    Страница не найдена
-                </p>
-                <Link href="/">
-                    <Button size="lg">На главную</Button>
-                </Link>
+                <div className={styles.layout}>
+                    <div className={styles.illustration}>
+                        <NotFoundIllustration />
+                    </div>
+
+                    <div className={styles.content}>
+                        <span className={styles.hairline} aria-hidden="true" />
+                        <p className={styles.eyebrow}>Ошибка 404</p>
+                        <h1 className={styles.title}>
+                            Дом по этому адресу не найден.
+                        </h1>
+                        <p className={styles.lead}>
+                            Возможно, страница была перемещена или ссылка
+                            устарела. Загляните в каталог — у нас более 200
+                            готовых проектов под ключ.
+                        </p>
+                        <div className={styles.actions}>
+                            <Link href="/projects" className={styles.primary}>
+                                Каталог проектов
+                            </Link>
+                            <Link href="/" className={styles.secondary}>
+                                На главную
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </Container>
         </section>
     );

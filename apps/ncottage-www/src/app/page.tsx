@@ -1,147 +1,43 @@
-import { HeroSection } from "@/components/sections/HeroSection";
-import { ProjectPicker } from "@/components/sections/ProjectPicker";
-import { CategoriesSection } from "@/components/sections/CategoriesSection";
 import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
-import { PopularProjects } from "@/components/sections/PopularProjects";
-import { QuizSection } from "@/components/sections/QuizSection";
-import { StagesSection } from "@/components/sections/StagesSection";
+import { ContactSection } from "@/components/sections/ContactSection";
+import { FaqSection } from "@/components/sections/FaqSection";
+import { FeaturedProject } from "@/components/sections/FeaturedProject";
+import { GeographySection } from "@/components/sections/GeographySection";
+import { GuaranteesSection } from "@/components/sections/GuaranteesSection";
+import { HeroSection } from "@/components/sections/HeroSection";
 import { OurWorksSection } from "@/components/sections/OurWorksSection";
+import { ProjectPicker } from "@/components/sections/ProjectPicker";
+import { PullQuote } from "@/components/sections/PullQuote";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
-import { CtaSection } from "@/components/sections/CtaSection";
-import { ContactForm } from "@/components/sections/ContactForm";
-import { ContactsMap } from "@/components/sections/ContactsMap";
-import { ViewRequestSection } from "@/components/sections/ViewRequestSection";
-import {
-    ADVANTAGES_SECTION,
-    CATEGORIES_SECTION,
-    CONTACT_FORM,
-    CONTACTS_MAP,
-    CTA_SECTION,
-    HERO,
-    OUR_WORKS_SECTION,
-    POPULAR_PROJECTS_SECTION,
-    PROJECT_PICKER,
-    QUIZ_SECTION,
-    REVIEWS_SECTION,
-    STAGES_SECTION,
-    VIEW_REQUEST_SECTION,
-} from "@/lib/constants";
-import {
-    getCategories,
-    getFeaturedProjects,
-    getBuiltObjects,
-} from "@/lib/data";
+import { StagesSection } from "@/components/sections/StagesSection";
+import { Catalog } from "@/components/features/home-catalog";
+import { getHomeContent } from "@/content/home";
+import { getBuiltObjects } from "@/data/built-objects";
+import { getFeaturedProjects } from "@/data/projects";
 
-export default function HomePage() {
-    const categories = getCategories();
+export default async function HomePage() {
+    const home = await getHomeContent();
     const featuredProjects = getFeaturedProjects();
     const builtObjects = getBuiltObjects();
+    const featuredObject =
+        builtObjects.find((o) => o.id === home.featuredProject.objectId) ??
+        builtObjects[0];
 
     return (
         <>
-            <HeroSection
-                subtitle={HERO.subtitle}
-                title={HERO.title}
-                text={HERO.text}
-                cta={HERO.cta}
-                image={HERO.image}
-            />
-            <ProjectPicker
-                title={PROJECT_PICKER.title}
-                text={PROJECT_PICKER.text}
-                price={PROJECT_PICKER.price}
-                area={PROJECT_PICKER.area}
-                technologies={PROJECT_PICKER.technologies}
-                floors={PROJECT_PICKER.floors}
-                submitLabel={PROJECT_PICKER.submitLabel}
-                overlap
-            />
-            <CategoriesSection
-                title={CATEGORIES_SECTION.title}
-                categories={categories}
-                cta={CATEGORIES_SECTION.cta}
-            />
-            <QuizSection
-                title={QUIZ_SECTION.title}
-                speaker={QUIZ_SECTION.speaker}
-                steps={QUIZ_SECTION.steps}
-                prevLabel={QUIZ_SECTION.prevLabel}
-                nextLabel={QUIZ_SECTION.nextLabel}
-                submitLabel={QUIZ_SECTION.submitLabel}
-                lastStepLabel={QUIZ_SECTION.lastStepLabel}
-                successTitle={QUIZ_SECTION.successTitle}
-                successText={QUIZ_SECTION.successText}
-            />
-            <AdvantagesSection
-                title={ADVANTAGES_SECTION.title}
-                text={ADVANTAGES_SECTION.text}
-                background={ADVANTAGES_SECTION.background}
-                items={ADVANTAGES_SECTION.items}
-            />
-            <ViewRequestSection
-                title={VIEW_REQUEST_SECTION.title}
-                nameLabel={VIEW_REQUEST_SECTION.nameLabel}
-                namePlaceholder={VIEW_REQUEST_SECTION.namePlaceholder}
-                phoneLabel={VIEW_REQUEST_SECTION.phoneLabel}
-                phonePlaceholder={VIEW_REQUEST_SECTION.phonePlaceholder}
-                submitLabel={VIEW_REQUEST_SECTION.submitLabel}
-                privacy={VIEW_REQUEST_SECTION.privacy}
-                successTitle={VIEW_REQUEST_SECTION.successTitle}
-                successText={VIEW_REQUEST_SECTION.successText}
-            />
-            <PopularProjects
-                title={POPULAR_PROJECTS_SECTION.title}
-                tabs={POPULAR_PROJECTS_SECTION.tabs}
-                cta={POPULAR_PROJECTS_SECTION.cta}
-                projects={featuredProjects}
-            />
-            <StagesSection
-                title={STAGES_SECTION.title}
-                stages={STAGES_SECTION.stages}
-            />
-            <OurWorksSection
-                title={OUR_WORKS_SECTION.title}
-                tabs={OUR_WORKS_SECTION.tabs}
-                cta={OUR_WORKS_SECTION.cta}
-                objects={builtObjects}
-            />
-            <ReviewsSection
-                title={REVIEWS_SECTION.title}
-                showMoreLabel={REVIEWS_SECTION.showMoreLabel}
-                prevLabel={REVIEWS_SECTION.prevLabel}
-                nextLabel={REVIEWS_SECTION.nextLabel}
-                reviews={REVIEWS_SECTION.reviews}
-            />
-            <CtaSection
-                title={CTA_SECTION.title}
-                text={CTA_SECTION.text}
-                buttonLabel={CTA_SECTION.buttonLabel}
-                image={CTA_SECTION.image}
-            />
-            <ContactForm
-                title={CONTACT_FORM.title}
-                subtitle={CONTACT_FORM.subtitle}
-                nameLabel={CONTACT_FORM.nameLabel}
-                namePlaceholder={CONTACT_FORM.namePlaceholder}
-                phoneLabel={CONTACT_FORM.phoneLabel}
-                phonePlaceholder={CONTACT_FORM.phonePlaceholder}
-                messageLabel={CONTACT_FORM.messageLabel}
-                messagePlaceholder={CONTACT_FORM.messagePlaceholder}
-                submitLabel={CONTACT_FORM.submitLabel}
-                privacy={CONTACT_FORM.privacy}
-                image={CONTACT_FORM.image}
-                successTitle={CONTACT_FORM.successTitle}
-                successText={CONTACT_FORM.successText}
-            />
-            <ContactsMap
-                title={CONTACTS_MAP.title}
-                addresses={CONTACTS_MAP.addresses}
-                phones={CONTACTS_MAP.phones}
-                email={CONTACTS_MAP.email}
-                hours={CONTACTS_MAP.hours}
-                mapUrl={CONTACTS_MAP.mapUrl}
-                mapTitle={CONTACTS_MAP.mapTitle}
-            />
+            <HeroSection {...home.hero} />
+            <ProjectPicker {...home.projectPicker} />
+            <Catalog {...home.catalog} projects={featuredProjects} />
+            <AdvantagesSection {...home.advantages} />
+            <PullQuote {...home.pullQuote} />
+            <OurWorksSection {...home.ourWorks} objects={builtObjects} />
+            <StagesSection {...home.stages} />
+            <GeographySection {...home.geography} />
+            <ReviewsSection {...home.reviews} />
+            <FeaturedProject {...home.featuredProject} project={featuredObject} />
+            <GuaranteesSection {...home.guarantees} />
+            <FaqSection {...home.faq} />
+            <ContactSection {...home.contact} />
         </>
     );
 }

@@ -1,216 +1,213 @@
 .section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 42px 0 60px;
+    padding: var(--section-padding);
+    background: var(--color-bg);
+    overflow: hidden;
 }
 
-.wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 1230px;
-    padding: 0 15px;
-    margin: 0 auto;
+.head {
+    margin-bottom: 48px;
 }
 
-.title {
-    margin: 0;
-    font-weight: 900;
-    font-size: 26px;
-    line-height: 45px;
-    text-transform: uppercase;
-    color: var(--color-text);
-}
-
-.tabs {
-    display: flex;
-    align-items: center;
-    width: 414px;
-    height: 43px;
-    gap: 10px;
-}
-
-.tab {
-    flex: 1 1 50%;
-    height: 43px;
-    padding: 0 12px;
-    font-family: inherit;
-    font-size: 16px;
-    line-height: 39px;
-    letter-spacing: 0.005em;
-    text-align: center;
-    color: var(--color-text);
+.navBtn {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-line-strong);
     background: transparent;
-    border: 2px solid var(--color-bg-green);
-    border-radius: 2px;
-    text-decoration: none;
-    cursor: pointer;
-    box-sizing: border-box;
+    color: var(--color-ink);
+    font-size: var(--text-xl);
+    line-height: 1;
     transition:
-        color var(--transition),
-        background-color var(--transition);
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition);
 }
 
-.tab:hover {
-    color: #fff;
-    background-color: var(--color-bg-green);
+.navBtn:hover:not(:disabled) {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-ink-on-accent);
 }
 
-.tabActive {
-    color: #fff;
-    background-color: var(--color-bg-green);
-    cursor: default;
+.navBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
-.carousel {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100vw - 60px) / 3);
-    column-gap: 30px;
-    width: 100%;
-    margin-top: 45px;
-    margin-bottom: 38px;
-    padding: 4px max(calc((100vw - 1230px) / 2 + 15px), 15px);
+.track {
     overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: max(calc((100vw - 1230px) / 2 + 15px), 15px);
+    overflow-y: hidden;
     scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
-.carousel::-webkit-scrollbar {
+.track::-webkit-scrollbar {
     display: none;
 }
 
-.card {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 584 / 350;
-    overflow: hidden;
-    border-radius: 5px;
-    color: #fff;
-    text-decoration: none;
-    background-color: var(--color-bg-light);
-    scroll-snap-align: start;
-    isolation: isolate;
+.trackInner {
+    display: flex;
+    gap: 20px;
+    padding: 0
+        max(var(--container-padding), calc((100vw - var(--container-width)) / 2))
+        4px;
 }
 
-.image {
-    position: absolute;
-    inset: 0;
+.card {
+    flex: 0 0 380px;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    scroll-snap-align: start;
+    transition:
+        transform var(--transition),
+        border-color var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-line-strong);
+}
+
+.cardImage {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-surface-alt);
+}
+
+.cardImage img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: transform var(--duration-slow) var(--ease);
 }
 
-.card:hover .image {
-    transform: scale(1.06);
+.card:hover .cardImage img {
+    transform: scale(1.04);
 }
 
-.card::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    z-index: 2;
-    background: linear-gradient(
-        180.45deg,
-        rgba(0, 0, 0, 0) 1%,
-        rgba(0, 0, 0, 0.85) 99.84%
-    );
-    pointer-events: none;
+.cardBody {
+    padding: 20px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .cardTitle {
-    position: absolute;
-    bottom: 20px;
-    left: 17px;
-    right: 17px;
-    z-index: 4;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-ink);
     margin: 0;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
-    color: #fff;
-    text-align: left;
 }
 
-.more {
-    width: 338px;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 15px;
-    box-sizing: content-box;
-}
-
-.moreButton {
+.cardMeta {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 43px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 20px;
+    gap: 12px;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+}
+
+.metaArea {
+    font-family: var(--font-display-stack);
+    font-style: italic;
+    color: var(--color-accent);
+    font-size: var(--text-base);
+}
+
+.invite {
+    flex: 0 0 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 32px;
+    background: var(--color-ink);
+    color: var(--color-ink-on-accent);
+    border-radius: var(--radius-lg);
+    text-align: left;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition:
+        background-color var(--transition),
+        transform var(--transition);
+}
+
+.invite:hover {
+    background: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+.inviteEyebrow {
+    font-family: var(--font-display-stack);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-2xl);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+.inviteText {
+    font-size: var(--text-base);
+    line-height: 1.5;
+    color: rgba(250, 248, 243, 0.85);
+}
+
+.inviteCta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    font-size: var(--text-sm);
+    font-weight: 600;
     letter-spacing: 0.005em;
-    color: #fff;
-    background-color: var(--color-bg-green);
-    border-radius: 5px;
-    transition: background-color var(--transition);
 }
 
-.moreButton:hover {
-    background-color: var(--color-green-hover);
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }
 
-.moreButton:active {
-    background-color: var(--color-green-dark);
+.footerLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 24px;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition);
 }
 
-@media (max-width: 1200px) {
-    .carousel {
-        grid-auto-columns: calc((100vw - 50px) / 2.5);
-    }
+.footerLink:hover {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-ink-on-accent);
 }
 
 @media (max-width: 768px) {
-    .wrapper {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 20px;
+    .head {
+        margin-bottom: 32px;
     }
 
-    .title {
-        font-size: 22px;
-        line-height: 32px;
+    .card,
+    .invite {
+        flex-basis: 320px;
     }
 
-    .tabs {
-        width: 100%;
-    }
-
-    .tab {
-        font-size: 14px;
-    }
-
-    .carousel {
-        grid-auto-columns: 85%;
-        column-gap: 16px;
-        padding-left: 15px;
-        padding-right: 15px;
-        scroll-padding-left: 15px;
-    }
-
-    .cardTitle {
-        font-size: 16px;
-        line-height: 22px;
+    .invite {
+        padding: 28px;
     }
 }

@@ -11,17 +11,19 @@ type Story = StoryObj<typeof SectionHeading>;
 
 export const Centered: Story = {
     args: {
-        label: "Проекты",
-        title: "Популярные проекты домов",
-        description: "Готовые проекты с фиксированной стоимостью.",
+        eyebrow: "Каталог проектов",
+        title: "Готовые проекты домов",
+        titleAccent: "под ключ",
+        lead: "Более 50 готовых решений по технологии, площади и этажности.",
         align: "center",
     },
 };
 
 export const Left: Story = {
     args: {
-        label: "Отзывы",
-        title: "Что говорят наши клиенты",
+        eyebrow: "Отзывы клиентов",
+        title: "Что говорят те, кто уже",
+        titleAccent: "переехал",
         align: "left",
     },
 };
