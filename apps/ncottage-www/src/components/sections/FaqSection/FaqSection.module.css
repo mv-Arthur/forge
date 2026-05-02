@@ -1,0 +1,115 @@
+.section {
+    padding: var(--section-padding);
+    background: var(--color-bg);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.head {
+    position: sticky;
+    top: calc(var(--site-header-height) + 32px);
+}
+
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-line-strong);
+}
+
+.item {
+    border-bottom: 1px solid var(--color-line-strong);
+}
+
+.toggle {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 0;
+    text-align: left;
+    color: var(--color-ink);
+    transition: color var(--transition);
+}
+
+.toggle:hover {
+    color: var(--color-accent);
+}
+
+.question {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.chevron {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+    position: relative;
+}
+
+.chevron::before,
+.chevron::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: currentColor;
+    border-radius: 1px;
+    transform-origin: center;
+    transition: transform var(--transition);
+}
+
+.chevron::before {
+    width: 14px;
+    height: 1.5px;
+    transform: translate(-50%, -50%);
+}
+
+.chevron::after {
+    width: 1.5px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+}
+
+.itemOpen .chevron::after {
+    transform: translate(-50%, -50%) scaleY(0);
+}
+
+.panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--duration-slow) var(--ease);
+}
+
+.itemOpen .panel {
+    max-height: 600px;
+}
+
+.answer {
+    padding: 0 0 28px;
+    font-size: var(--text-base);
+    line-height: 1.65;
+    color: var(--color-ink-muted);
+    margin: 0;
+    max-width: 640px;
+}
+
+@media (max-width: 900px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .head {
+        position: static;
+    }
+}

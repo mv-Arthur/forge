@@ -1,21 +1,29 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { ReviewsSectionContent } from "@/lib/constants";
+import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import type { ReviewsSectionContent } from "@/content/home";
 import styles from "./ReviewsSection.module.css";
 
 interface ReviewsSectionProps {
+    eyebrow: ReviewsSectionContent["eyebrow"];
     title: ReviewsSectionContent["title"];
+    titleAccent?: ReviewsSectionContent["titleAccent"];
+    lead?: ReviewsSectionContent["lead"];
     showMoreLabel: ReviewsSectionContent["showMoreLabel"];
     prevLabel: ReviewsSectionContent["prevLabel"];
     nextLabel: ReviewsSectionContent["nextLabel"];
     reviews: ReviewsSectionContent["reviews"];
 }
 
-const SCROLL_STEP = 415;
+const SCROLL_STEP = 420;
 
 export function ReviewsSection({
+    eyebrow,
     title,
+    titleAccent,
+    lead,
     showMoreLabel,
     prevLabel,
     nextLabel,
@@ -58,77 +66,91 @@ export function ReviewsSection({
 
     return (
         <section className={styles.section}>
-            <div className={styles.wrapper}>
-                <div className={styles.title}>{title}</div>
-                <div className={styles.content}>
-                    <div className={styles.track} ref={trackRef}>
-                        {reviews.map((review) => {
-                            const isExpanded = expanded[review.id] ?? false;
-                            const descriptionClassName = isExpanded
-                                ? styles.description
-                                : `${styles.description} ${styles.descriptionHide}`;
-                            return (
-                                <div key={review.id} className={styles.cell}>
-                                    <article className={styles.card}>
-                                        {review.videoUrl ? (
-                                            <div className={styles.media}>
-                                                <iframe
-                                                    className={styles.iframe}
-                                                    src={review.videoUrl}
-                                                    title={`Отзыв ${review.author}`}
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowFullScreen
-                                                />
-                                            </div>
-                                        ) : review.image ? (
-                                            <img
-                                                className={styles.image}
-                                                src={review.image}
-                                                alt={`Отзыв ${review.author}`}
-                                                decoding="async"
-                                            />
-                                        ) : null}
-                                        <div className={styles.heading}>
-                                            <h4 className={styles.headingTitle}>
-                                                {review.author}
-                                            </h4>
-                                            <time
-                                                className={styles.headingTime}
-                                            >
-                                                {review.date}
-                                            </time>
-                                        </div>
-                                        <div className={descriptionClassName}>
-                                            <p>{review.text}</p>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            className={styles.showmore}
-                                            onClick={() =>
-                                                toggleExpand(review.id)
-                                            }
-                                        >
-                                            {showMoreLabel}
-                                        </button>
-                                    </article>
+            <Container>
+                <SectionHeading
+                    eyebrow={eyebrow}
+                    title={title}
+                    titleAccent={titleAccent}
+                    lead={lead}
+                    align="left"
+                    className={styles.head}
+                    actions={
+                        <>
+                            <button
+                                type="button"
+                                className={styles.navBtn}
+                                onClick={() => scrollBy(-1)}
+                                disabled={atStart}
+                                aria-label={prevLabel}
+                            >
+                                ←
+                            </button>
+                            <button
+                                type="button"
+                                className={styles.navBtn}
+                                onClick={() => scrollBy(1)}
+                                disabled={atEnd}
+                                aria-label={nextLabel}
+                            >
+                                →
+                            </button>
+                        </>
+                    }
+                />
+            </Container>
+
+            <div className={styles.track} ref={trackRef}>
+                <div className={styles.trackInner}>
+                    {reviews.map((review) => {
+                        const isExpanded = expanded[review.id] ?? false;
+                        return (
+                            <article key={review.id} className={styles.card}>
+                                {review.videoUrl ? (
+                                    <div className={styles.media}>
+                                        <iframe
+                                            className={styles.iframe}
+                                            src={review.videoUrl}
+                                            title={`Отзыв ${review.author}`}
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    </div>
+                                ) : review.image ? (
+                                    <div className={styles.media}>
+                                        <img
+                                            className={styles.image}
+                                            src={review.image}
+                                            alt={`Отзыв ${review.author}`}
+                                            decoding="async"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                ) : null}
+                                <div className={styles.cardBody}>
+                                    <div className={styles.cardHead}>
+                                        <h3 className={styles.author}>
+                                            {review.author}
+                                        </h3>
+                                        <time className={styles.date}>
+                                            {review.date}
+                                        </time>
+                                    </div>
+                                    <p
+                                        className={`${styles.text} ${isExpanded ? styles.textExpanded : ""}`}
+                                    >
+                                        {review.text}
+                                    </p>
+                                    <button
+                                        type="button"
+                                        className={styles.expand}
+                                        onClick={() => toggleExpand(review.id)}
+                                    >
+                                        {isExpanded ? "Свернуть" : showMoreLabel}
+                                    </button>
                                 </div>
-                            );
-                        })}
-                    </div>
-                    <button
-                        type="button"
-                        className={`${styles.nav} ${styles.navPrev}${atStart ? ` ${styles.navDisabled}` : ""}`}
-                        onClick={() => scrollBy(-1)}
-                        disabled={atStart}
-                        aria-label={prevLabel}
-                    />
-                    <button
-                        type="button"
-                        className={`${styles.nav} ${styles.navNext}${atEnd ? ` ${styles.navDisabled}` : ""}`}
-                        onClick={() => scrollBy(1)}
-                        disabled={atEnd}
-                        aria-label={nextLabel}
-                    />
+                            </article>
+                        );
+                    })}
                 </div>
             </div>
         </section>

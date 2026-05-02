@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ProductCard } from "./ProductCard";
-import { PROJECTS } from "@/lib/constants";
+import { PROJECTS } from "@/data/projects";
 
 const meta: Meta<typeof ProductCard> = {
     title: "Shared/ProductCard",

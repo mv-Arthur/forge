@@ -4,80 +4,121 @@
     align-items: center;
 }
 
-.select {
+.trigger {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 0;
-    font-family: inherit;
-    font-size: 16px;
+    gap: 6px;
+    padding: 4px 10px;
+    margin: -4px -10px;
+    font: inherit;
     font-weight: 500;
-    line-height: 1.4;
-    color: var(--color-green);
-    text-decoration: underline;
+    color: var(--color-ink);
     background: none;
-    border: none;
-    cursor: pointer;
+    border-radius: var(--radius-pill);
+    transition:
+        background-color var(--transition),
+        color var(--transition);
 }
 
-.select:disabled {
+.trigger:hover:not(:disabled),
+.trigger[aria-expanded="true"] {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+}
+
+.trigger:disabled {
     cursor: default;
-    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+.label {
+    text-decoration: underline dashed;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--transition);
+}
+
+.trigger:disabled .label,
+.trigger:hover:not(:disabled) .label,
+.trigger[aria-expanded="true"] .label {
+    text-decoration-color: transparent;
 }
 
 .chevron {
-    transition: transform var(--transition);
     flex-shrink: 0;
+    color: var(--color-ink-muted);
+    transition:
+        transform var(--transition),
+        color var(--transition);
 }
 
-.select[aria-expanded="true"] .chevron {
+.trigger:hover:not(:disabled) .chevron,
+.trigger[aria-expanded="true"] .chevron {
+    color: var(--color-accent);
+}
+
+.trigger[aria-expanded="true"] .chevron {
     transform: rotate(180deg);
 }
 
 .options {
     position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
+    top: calc(100% + 8px);
+    left: -10px;
     min-width: 220px;
-    padding: 6px 0;
     margin: 0;
+    padding: 6px;
     list-style: none;
-    background-color: #fff;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-pop);
     z-index: 150;
     opacity: 0;
-    transform: translateY(-4px) scale(0.98);
-    transform-origin: top left;
     visibility: hidden;
+    transform: translateY(-4px);
     pointer-events: none;
     transition:
-        opacity 180ms ease,
-        transform 180ms ease,
-        visibility 180ms;
+        opacity var(--transition),
+        transform var(--transition),
+        visibility var(--transition);
 }
 
 .optionsOpen {
     opacity: 1;
-    transform: translateY(0) scale(1);
     visibility: visible;
+    transform: translateY(0);
     pointer-events: auto;
 }
 
 .option {
-    padding: 8px 14px;
-    font-size: 15px;
-    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-ink);
     cursor: pointer;
-    transition: background-color var(--transition);
+    transition:
+        background-color var(--transition),
+        color var(--transition);
 }
 
 .option:hover {
-    background-color: #f8f8f8;
-    color: var(--color-green);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
 }
 
 .option[aria-selected="true"] {
-    color: var(--color-green);
-    font-weight: 600;
+    color: var(--color-accent);
+}
+
+.check {
+    flex-shrink: 0;
+    color: var(--color-accent);
 }

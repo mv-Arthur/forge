@@ -3,27 +3,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { Container } from "@/components/ui/Container";
-import { Header } from "@/components/widgets/Header";
-import { CitySelector } from "@/components/shared/CitySelector";
-import type {
-    City,
-    CityCode,
-    NavItem,
-    Phone,
-} from "@/lib/constants";
+import { TopBar } from "@/components/widgets/TopBar";
+import { MainNav } from "@/components/widgets/MainNav";
+import type { City, CityCode, Phone } from "@/content/contacts";
+import type { NavItem } from "@/content/site";
 import styles from "./SiteHeader.module.css";
 
-const Navbar = dynamic(
-    () => import("@/components/widgets/Navbar").then((mod) => mod.Navbar),
-    { ssr: true }
+const MobileMenu = dynamic(
+    () =>
+        import("@/components/widgets/MobileMenu").then((mod) => mod.MobileMenu),
+    { ssr: false }
 );
 
-const SearchModal = dynamic(
+const SiteSearch = dynamic(
     () =>
-        import("@/components/shared/SearchModal").then(
-            (mod) => mod.SearchModal
-        ),
+        import("@/components/shared/SiteSearch").then((mod) => mod.SiteSearch),
     { ssr: false }
 );
 
@@ -39,10 +33,11 @@ interface SiteHeaderProps {
     compareCount?: number;
 }
 
+const SCROLL_THRESHOLD = 24;
+
 export function SiteHeader({
     cities,
     phones,
-    addresses,
     email,
     workHours,
     initialCity,
@@ -50,13 +45,22 @@ export function SiteHeader({
     favouritesCount = 0,
     compareCount = 0,
 }: SiteHeaderProps) {
-    const [city, setCity] = useState<CityCode>(
-        initialCity ?? cities[0].code
-    );
+    const [city, setCity] = useState<CityCode>(initialCity ?? cities[0].code);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [isMobileViewport, setIsMobileViewport] = useState(false);
     const pathname = usePathname();
     const stickyRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const mql = window.matchMedia("(max-width: 1080px)");
+        setIsMobileViewport(mql.matches);
+        const onChange = (e: MediaQueryListEvent) =>
+            setIsMobileViewport(e.matches);
+        mql.addEventListener("change", onChange);
+        return () => mql.removeEventListener("change", onChange);
+    }, []);
 
     useEffect(() => {
         const node = stickyRef.current;
@@ -76,62 +80,70 @@ export function SiteHeader({
     }, []);
 
     useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    useEffect(() => {
         setMobileOpen(false);
         setSearchOpen(false);
     }, [pathname]);
 
     useEffect(() => {
-        const shouldLock = mobileOpen || searchOpen;
-        if (shouldLock) {
-            const prevOverflow = document.documentElement.style.overflow;
-            document.documentElement.style.overflow = "hidden";
-            return () => {
-                document.documentElement.style.overflow = prevOverflow;
-            };
-        }
-    }, [mobileOpen, searchOpen]);
+        if (!mobileOpen) return;
+        const prev = document.documentElement.style.overflow;
+        document.documentElement.style.overflow = "hidden";
+        return () => {
+            document.documentElement.style.overflow = prev;
+        };
+    }, [mobileOpen]);
 
     const toggleBurger = useCallback(() => setMobileOpen((v) => !v), []);
     const closeMobile = useCallback(() => setMobileOpen(false), []);
-    const openSearch = useCallback(() => setSearchOpen(true), []);
+    const toggleSearch = useCallback(() => setSearchOpen((v) => !v), []);
     const closeSearch = useCallback(() => setSearchOpen(false), []);
 
     return (
         <>
+            <TopBar
+                cities={cities}
+                activeCity={city}
+                onCityChange={setCity}
+                workHours={workHours}
+                email={email}
+            />
             <div ref={stickyRef} className={styles.stickyWrapper}>
-                <Header
-                    cities={cities}
+                <MainNav
+                    navItems={navItems}
                     phones={phones}
-                    addresses={addresses}
-                    email={email}
-                    workHours={workHours}
                     activeCity={city}
-                    onCityChange={setCity}
+                    favouritesCount={favouritesCount}
+                    compareCount={compareCount}
                     mobileMenuOpen={mobileOpen}
                     onBurgerClick={toggleBurger}
+                    onSearchClick={toggleSearch}
+                    searchOpen={searchOpen}
+                    scrolled={scrolled}
                 />
-                <Navbar
+                <SiteSearch open={searchOpen} onClose={closeSearch} />
+            </div>
+            {isMobileViewport && (
+                <MobileMenu
+                    open={mobileOpen}
+                    onClose={closeMobile}
                     navItems={navItems}
-                    mobileOpen={mobileOpen}
-                    onMobileClose={closeMobile}
-                    onSearchClick={openSearch}
+                    cities={cities}
+                    activeCity={city}
+                    onCityChange={setCity}
+                    phones={phones}
+                    email={email}
+                    workHours={workHours}
                     favouritesCount={favouritesCount}
                     compareCount={compareCount}
                 />
-                <div className={styles.mobileCityStrip}>
-                    <Container className={styles.mobileCityInner}>
-                        <span className={styles.mobileCityLabel}>
-                            Ваш город:
-                        </span>
-                        <CitySelector
-                            cities={cities}
-                            activeCity={city}
-                            onCityChange={setCity}
-                        />
-                    </Container>
-                </div>
-            </div>
-            <SearchModal open={searchOpen} onClose={closeSearch} />
+            )}
         </>
     );
 }

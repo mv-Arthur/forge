@@ -1,10 +1,33 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
-import { getProjects, getProjectBySlug } from "@/lib/data";
-import { formatPrice, formatArea } from "@/lib/utils";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import {
+    ProjectAbout,
+    ProjectAnchorNav,
+    ProjectFaq,
+    ProjectFloorPlans,
+    ProjectGallery,
+    ProjectLeadForm,
+    ProjectMobileBar,
+    ProjectMortgage,
+    ProjectOptions,
+    ProjectPackages,
+    ProjectQuickStats,
+    ProjectShowroom,
+    ProjectSpecsGrid,
+    ProjectStickyAside,
+    SimilarProjects,
+    pickSimilarProjects,
+} from "@/components/features/project-detail";
+import { getBuiltObjects } from "@/data/built-objects";
+import { getProjectBySlug, getProjects } from "@/data/projects";
+import {
+    PROJECT_HUB_CATEGORIES,
+    PROJECT_TECHNOLOGY_LABELS,
+} from "@/domain/technology";
+import { formatArea } from "@/lib/utils";
 import styles from "./page.module.css";
 
 interface Props {
@@ -30,122 +53,186 @@ export default async function ProjectPage({ params }: Props) {
     const project = getProjectBySlug(slug);
     if (!project) notFound();
 
+    const technologyCategory = PROJECT_HUB_CATEGORIES.find(
+        (c) => c.technology === project.technology
+    );
+    const allProjects = getProjects();
+    const similar = pickSimilarProjects(allProjects, project, 3);
+    const builtObjects = getBuiltObjects();
+    const showroomObjects = project.relatedObjectIds
+        ? builtObjects.filter((o) => project.relatedObjectIds!.includes(o.id))
+        : [];
+
+    const galleryImages =
+        project.images.length > 0 ? project.images : [project.image];
+
+    const anchors = [
+        { id: "overview", label: "О проекте" },
+        ...(project.floorPlans ? [{ id: "plans", label: "Планировки" }] : []),
+        { id: "specs", label: "Характеристики" },
+        ...(project.packages
+            ? [{ id: "packages", label: "Комплектации" }]
+            : []),
+        ...(project.options ? [{ id: "options", label: "Опции" }] : []),
+        ...(showroomObjects.length > 0
+            ? [{ id: "showroom", label: "Построенные" }]
+            : []),
+        { id: "faq", label: "Вопросы" },
+        ...(similar.length > 0 ? [{ id: "similar", label: "Похожие" }] : []),
+    ];
+
     return (
-        <section className={styles.page}>
+        <article className={styles.page}>
             <Container>
-                <div className={styles.hero}>
-                    <div
-                        className={styles.heroImage}
-                        style={{
-                            backgroundImage: `url(${project.image})`,
-                        }}
-                    />
-                    <div className={styles.heroOverlay} />
-                    <div className={styles.heroContent}>
-                        <Link href="/projects" className={styles.back}>
-                            &larr; Все проекты
-                        </Link>
-                        <h1 className={styles.title}>
-                            {project.name}{" "}
-                            <span className={styles.dims}>
-                                {project.specs.dimensions} м
-                            </span>
-                        </h1>
-                        <p className={styles.price}>
-                            от {formatPrice(project.price)}
-                        </p>
-                    </div>
-                </div>
+                <Breadcrumbs
+                    items={[
+                        { label: "Главная", href: "/" },
+                        { label: "Наши проекты", href: "/projects" },
+                        ...(technologyCategory
+                            ? [
+                                  {
+                                      label: technologyCategory.title,
+                                      href: `/projects/${technologyCategory.slug}`,
+                                  },
+                              ]
+                            : []),
+                        { label: project.name },
+                    ]}
+                />
 
-                <div className={styles.content}>
+                <header className={styles.headBlock}>
+                    <p className={styles.eyebrow}>
+                        {PROJECT_TECHNOLOGY_LABELS[project.technology]} ·{" "}
+                        {project.specs.dimensions} м
+                    </p>
+                    <h1 className={styles.title}>
+                        Проект{" "}
+                        <span className={styles.titleAccent}>
+                            «{project.name}»
+                        </span>
+                    </h1>
+                </header>
+
+                <ProjectGallery
+                    images={galleryImages}
+                    alt={`Проект «${project.name}»`}
+                />
+            </Container>
+
+            <div className={styles.anchorWrap}>
+                <Container>
+                    <ProjectAnchorNav items={anchors} />
+                </Container>
+            </div>
+
+            <Container>
+                <div className={styles.layout}>
                     <div className={styles.main}>
-                        <h2 className={styles.sectionTitle}>О проекте</h2>
-                        <p className={styles.description}>
-                            {project.description}
-                        </p>
+                        <section id="overview" className={styles.sectionFirst}>
+                            <ProjectQuickStats project={project} />
+                            <div className={styles.aboutWrap}>
+                                <ProjectAbout project={project} />
+                            </div>
+                        </section>
 
-                        <h2 className={styles.sectionTitle}>
-                            Характеристики
-                        </h2>
-                        <div className={styles.specs}>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Площадь
-                                </span>
-                                <span>{formatArea(project.area)}</span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Этажность
-                                </span>
-                                <span>
-                                    {project.floors}{" "}
-                                    {project.floors === 1
-                                        ? "этаж"
-                                        : "этажа"}
-                                </span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Спальни
-                                </span>
-                                <span>{project.bedrooms}</span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Санузлы
-                                </span>
-                                <span>{project.bathrooms}</span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Габариты
-                                </span>
-                                <span>{project.specs.dimensions} м</span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Кровля
-                                </span>
-                                <span>{project.specs.roofType}</span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Фундамент
-                                </span>
-                                <span>{project.specs.foundation}</span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Стены
-                                </span>
-                                <span>{project.specs.wallMaterial}</span>
-                            </div>
-                            <div className={styles.specRow}>
-                                <span className={styles.specLabel}>
-                                    Срок строительства
-                                </span>
-                                <span>{project.specs.buildTime}</span>
-                            </div>
-                        </div>
+                        {project.floorPlans && (
+                            <section id="plans" className={styles.section}>
+                                <SectionHeading
+                                    title="Планировки"
+                                    align="left"
+                                    className={styles.sectionHead}
+                                />
+                                <ProjectFloorPlans plans={project.floorPlans} />
+                            </section>
+                        )}
+
+                        <section id="specs" className={styles.section}>
+                            <SectionHeading
+                                title="Характеристики"
+                                align="left"
+                                className={styles.sectionHead}
+                            />
+                            <ProjectSpecsGrid project={project} />
+                        </section>
+
+                        {project.packages && (
+                            <section id="packages" className={styles.section}>
+                                <SectionHeading
+                                    title="Комплектации"
+                                    lead="Три уровня готовности дома — выбирайте под бюджет и задачу."
+                                    align="left"
+                                    className={styles.sectionHead}
+                                />
+                                <ProjectPackages packages={project.packages} />
+                            </section>
+                        )}
+
+                        <section className={styles.section}>
+                            <ProjectMortgage price={project.price} />
+                        </section>
+
+                        {project.options && (
+                            <section id="options" className={styles.section}>
+                                <SectionHeading
+                                    title="Опции и кастомизация"
+                                    lead="Расширьте проект под свои сценарии — каждая опция фиксируется в смете."
+                                    align="left"
+                                    className={styles.sectionHead}
+                                />
+                                <ProjectOptions options={project.options} />
+                            </section>
+                        )}
+
+                        {showroomObjects.length > 0 && (
+                            <section id="showroom" className={styles.section}>
+                                <SectionHeading
+                                    title="Посмотреть вживую"
+                                    lead="Похожие дома, которые мы построили — можно приехать и оценить качество."
+                                    align="left"
+                                    className={styles.sectionHead}
+                                />
+                                <ProjectShowroom objects={showroomObjects} />
+                            </section>
+                        )}
+
+                        <section id="faq" className={styles.section}>
+                            <SectionHeading
+                                title="Частые вопросы"
+                                align="left"
+                                className={styles.sectionHead}
+                            />
+                            <ProjectFaq />
+                        </section>
                     </div>
 
-                    <aside className={styles.sidebar}>
-                        <div className={styles.cta}>
-                            <p className={styles.ctaPrice}>
-                                от {formatPrice(project.price)}
-                            </p>
-                            <p className={styles.ctaNote}>
-                                Цена фиксируется в договоре
-                            </p>
-                            <Button size="lg">Заказать расчёт</Button>
-                            <Button variant="outline" size="lg">
-                                Задать вопрос
-                            </Button>
-                        </div>
-                    </aside>
+                    <ProjectStickyAside project={project} />
                 </div>
             </Container>
-        </section>
+
+            {similar.length > 0 && (
+                <section id="similar" className={styles.similar}>
+                    <Container>
+                        <SectionHeading
+                            eyebrow="Похожие проекты"
+                            title="Может подойти и это"
+                            align="left"
+                            className={styles.sectionHead}
+                        />
+                        <SimilarProjects projects={similar} />
+                    </Container>
+                </section>
+            )}
+
+            <section id="lead" className={styles.lead}>
+                <Container>
+                    <ProjectLeadForm
+                        projectName={project.name}
+                        projectPrice={project.price}
+                    />
+                </Container>
+            </section>
+
+            <ProjectMobileBar project={project} />
+        </article>
     );
 }

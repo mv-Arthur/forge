@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { ProjectsHub } from "@/components/sections/ProjectsHub";
+import { ProjectsHub } from "@/components/features/projects-hub";
 import styles from "./hub.module.css";
 
 export const metadata: Metadata = {

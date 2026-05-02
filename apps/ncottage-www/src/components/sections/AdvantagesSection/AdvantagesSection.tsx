@@ -1,62 +1,40 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
-import type { AdvantagesSectionContent } from "@/lib/constants";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import type { AdvantagesSectionContent } from "@/content/home";
 import styles from "./AdvantagesSection.module.css";
 
 interface AdvantagesSectionProps {
+    eyebrow: AdvantagesSectionContent["eyebrow"];
     title: AdvantagesSectionContent["title"];
-    text: AdvantagesSectionContent["text"];
-    background: AdvantagesSectionContent["background"];
+    titleAccent?: AdvantagesSectionContent["titleAccent"];
+    lead: AdvantagesSectionContent["lead"];
     items: AdvantagesSectionContent["items"];
 }
 
 export function AdvantagesSection({
+    eyebrow,
     title,
-    text,
-    background,
+    titleAccent,
+    lead,
     items,
 }: AdvantagesSectionProps) {
-    const gridRef = useRef<HTMLUListElement | null>(null);
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        const node = gridRef.current;
-        if (!node) return;
-        if (typeof IntersectionObserver === "undefined") {
-            setVisible(true);
-            return;
-        }
-        const observer = new IntersectionObserver(
-            (entries) => {
-                for (const entry of entries) {
-                    if (entry.isIntersecting) {
-                        setVisible(true);
-                        observer.disconnect();
-                        break;
-                    }
-                }
-            },
-            { threshold: 0.15 }
-        );
-        observer.observe(node);
-        return () => observer.disconnect();
-    }, []);
-
     return (
-        <section
-            className={styles.section}
-            style={{ backgroundImage: `url(${background})` }}
-        >
-            <Container className={styles.container}>
-                <header className={styles.header}>
-                    <h2 className={styles.title}>{title}</h2>
-                    <p className={styles.text}>{text}</p>
-                </header>
-                <ul
-                    ref={gridRef}
-                    className={`${styles.grid} ${visible ? styles.gridVisible : ""}`}
+        <section className={styles.section}>
+            <Container>
+                <SectionHeading
+                    eyebrow={eyebrow}
+                    title={title}
+                    titleAccent={titleAccent}
+                    lead={lead}
+                    align="center"
+                    className={styles.head}
+                />
+                <RevealOnScroll
+                    as="ul"
+                    className={styles.grid}
+                    revealedClassName={styles.gridVisible}
+                    threshold={0.15}
                 >
                     {items.map((item, index) => (
                         <li
@@ -64,22 +42,14 @@ export function AdvantagesSection({
                             className={styles.item}
                             style={{ "--i": index } as React.CSSProperties}
                         >
-                            <div className={styles.iconWrap}>
-                                <img
-                                    src={item.icon}
-                                    alt=""
-                                    className={styles.icon}
-                                />
-                            </div>
-                            <div className={styles.body}>
-                                <h3 className={styles.itemTitle}>
-                                    {item.title}
-                                </h3>
-                                <p className={styles.itemText}>{item.text}</p>
-                            </div>
+                            <span className={styles.itemIndex}>
+                                {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <h3 className={styles.itemTitle}>{item.title}</h3>
+                            <p className={styles.itemText}>{item.text}</p>
                         </li>
                     ))}
-                </ul>
+                </RevealOnScroll>
             </Container>
         </section>
     );

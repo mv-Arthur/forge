@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { OUR_WORKS_SECTION } from "@/lib/constants";
-import { getBuiltObjects } from "@/lib/data";
+import { OUR_WORKS_SECTION } from "@/content/home";
+import { getBuiltObjects } from "@/data/built-objects";
 import { OurWorksSection } from "./OurWorksSection";
 
 const meta: Meta<typeof OurWorksSection> = {
@@ -8,9 +8,12 @@ const meta: Meta<typeof OurWorksSection> = {
     component: OurWorksSection,
     parameters: { layout: "fullscreen" },
     args: {
+        eyebrow: OUR_WORKS_SECTION.eyebrow,
         title: OUR_WORKS_SECTION.title,
-        tabs: OUR_WORKS_SECTION.tabs,
+        titleAccent: OUR_WORKS_SECTION.titleAccent,
+        lead: OUR_WORKS_SECTION.lead,
         cta: OUR_WORKS_SECTION.cta,
+        visitInvite: OUR_WORKS_SECTION.visitInvite,
         objects: getBuiltObjects(),
     },
 };

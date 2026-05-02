@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { ProjectsCatalog } from "@/components/sections/ProjectsCatalog";
-import { PROJECT_HUB_CATEGORIES } from "@/lib/constants";
-import { getProjectBySlug, getProjects } from "@/lib/data";
+import { ProjectsCatalog } from "@/components/features/projects-catalog";
+import { PROJECT_HUB_CATEGORIES } from "@/domain/technology";
+import { getProjectBySlug, getProjects } from "@/data/projects";
 import styles from "./category.module.css";
 
 interface Props {

@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { ProjectPickerContent } from "@/lib/constants";
+import type { ProjectPickerContent } from "@/content/home";
+import { Select } from "@/components/ui/Select";
 import styles from "./ProjectPicker.module.css";
 
 interface ProjectPickerProps {
@@ -276,34 +277,22 @@ export function ProjectPicker({
 
                 <div className={styles.field}>
                     <h3 className={styles.fieldTitle}>Технология</h3>
-                    <select
-                        className={styles.select}
+                    <Select
+                        options={technologies}
                         value={tech}
-                        onChange={(e) => setTech(e.target.value)}
+                        onChange={setTech}
                         aria-label="Технология"
-                    >
-                        {technologies.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
+                    />
                 </div>
 
                 <div className={styles.field}>
                     <h3 className={styles.fieldTitle}>Количество этажей</h3>
-                    <select
-                        className={styles.select}
+                    <Select
+                        options={floors}
                         value={floor}
-                        onChange={(e) => setFloor(e.target.value)}
+                        onChange={setFloor}
                         aria-label="Количество этажей"
-                    >
-                        {floors.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
+                    />
                 </div>
 
                 <div className={styles.submitCell}>

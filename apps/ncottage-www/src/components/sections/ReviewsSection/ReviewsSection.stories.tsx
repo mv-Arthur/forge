@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { REVIEWS_SECTION } from "@/lib/constants";
+import { REVIEWS_SECTION } from "@/content/home";
 import { ReviewsSection } from "./ReviewsSection";
 
 const meta: Meta<typeof ReviewsSection> = {
