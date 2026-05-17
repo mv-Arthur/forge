@@ -9,6 +9,12 @@
     position: sticky;
     top: 100px;
     max-height: calc(100vh - 120px);
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
@@ -31,16 +37,16 @@
 .empty {
     padding: 64px 24px;
     text-align: center;
-    color: var(--color-text-light);
-    background-color: #fff;
-    border: 1px solid var(--color-border);
+    color: var(--color-ink-muted);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
     border-radius: 12px;
 }
 
 .loading {
     padding: 64px 0;
     text-align: center;
-    color: var(--color-text-light);
+    color: var(--color-ink-muted);
 }
 
 .drawerApply {
@@ -50,19 +56,24 @@
     padding: 14px;
     font-size: 15px;
     font-weight: 600;
-    color: #fff;
-    background-color: var(--color-bg-green);
+    color: var(--color-ink-on-accent);
+    background-color: var(--color-accent);
     border: none;
     border-radius: 22px;
     cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.drawerApply:hover {
+    background-color: var(--color-accent-hover);
 }
 
 .drawerBackdrop {
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 40;
-    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 120;
+    background-color: rgba(26, 26, 26, 0.46);
     border: none;
     cursor: pointer;
 }
@@ -77,11 +88,14 @@
         top: 0;
         bottom: 0;
         left: 0;
-        z-index: 50;
+        z-index: 130;
         width: min(360px, 100vw);
         max-height: 100vh;
-        padding: 24px 16px;
-        background-color: #f3f5f1;
+        padding: calc(24px + env(safe-area-inset-top)) 16px
+            calc(24px + env(safe-area-inset-bottom));
+        background-color: var(--color-bg);
+        border: none;
+        border-radius: 0;
         transform: translateX(-100%);
         transition: transform var(--transition);
         overflow-y: auto;

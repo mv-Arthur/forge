@@ -8,21 +8,35 @@ interface ProjectStickyAsideProps {
 }
 
 export function ProjectStickyAside({ project }: ProjectStickyAsideProps) {
+    const basePackage = project.packages?.[0];
+    const packageHighlight = basePackage?.includes[0]?.value;
+
     return (
         <aside className={styles.aside}>
             <div className={styles.card}>
                 <span className={styles.priceLabel}>Стоимость от</span>
-                <p className={styles.price}>{formatPrice(project.price)}</p>
-                <p className={styles.note}>
-                    Цена за «Базовую» комплектацию. Фиксируется в договоре.
+                <p className={styles.price}>
+                    {formatPrice(basePackage?.price ?? project.price)}
                 </p>
+                <p className={styles.note}>
+                    {basePackage
+                        ? `Цена за комплектацию «${basePackage.name}». Фиксируется в договоре после сметы.`
+                        : "Ориентир по проекту. Финальная стоимость фиксируется в договоре после сметы."}
+                </p>
+
+                {basePackage && (
+                    <div className={styles.packageMeta}>
+                        <span>{basePackage.tagline ?? "Базовая комплектация"}</span>
+                        {packageHighlight && <strong>{packageHighlight}</strong>}
+                    </div>
+                )}
 
                 <div className={styles.actions}>
                     <a href="#lead" className={styles.primary}>
                         Заказать расчёт
                     </a>
-                    <a href="#lead" className={styles.secondary}>
-                        Задать вопрос
+                    <a href="/mortgage" className={styles.secondary}>
+                        Ипотека и оплата
                     </a>
                 </div>
 
@@ -35,7 +49,7 @@ export function ProjectStickyAside({ project }: ProjectStickyAsideProps) {
 
                 <ul className={styles.trust}>
                     <li>
-                        <span className={styles.trustValue}>5 лет</span>
+                        <span className={styles.trustValue}>7 лет</span>
                         <span className={styles.trustLabel}>гарантия</span>
                     </li>
                     <li>

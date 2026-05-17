@@ -12,6 +12,7 @@ import type {
     ProjectStyle,
     Technology,
 } from "@/domain/project";
+import { CloseIcon } from "./icons";
 import { RangeSlider } from "./RangeSlider";
 import type { FilterBounds, FiltersState } from "./useProjectsFilter";
 import styles from "./FilterSidebar.module.css";
@@ -22,6 +23,7 @@ interface FilterSidebarProps {
     sizeOptions: string[];
     onChange: (patch: Partial<FiltersState>) => void;
     onReset: () => void;
+    onClose?: () => void;
     hideTechnology?: boolean;
 }
 
@@ -129,19 +131,32 @@ export function FilterSidebar({
     sizeOptions,
     onChange,
     onReset,
+    onClose,
     hideTechnology = false,
 }: FilterSidebarProps) {
     return (
         <div className={styles.sidebar}>
             <div className={styles.sidebarHeader}>
                 <h2 className={styles.sidebarTitle}>Фильтры</h2>
-                <button
-                    type="button"
-                    className={styles.resetButton}
-                    onClick={onReset}
-                >
-                    Сбросить
-                </button>
+                <div className={styles.sidebarActions}>
+                    <button
+                        type="button"
+                        className={styles.resetButton}
+                        onClick={onReset}
+                    >
+                        Сбросить
+                    </button>
+                    {onClose && (
+                        <button
+                            type="button"
+                            className={styles.closeButton}
+                            aria-label="Скрыть фильтры"
+                            onClick={onClose}
+                        >
+                            <CloseIcon />
+                        </button>
+                    )}
+                </div>
             </div>
 
             {!hideTechnology && (

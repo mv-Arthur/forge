@@ -19,7 +19,7 @@
 
     --color-danger: #b3402f;
 
-    /* Brand green — lives in the logo and legacy sections only.
+    /* Brand green — lives in the logo and supporting accents only.
        Do not use for primary actions; --color-accent (terracotta) is the
        site's primary accent so it doesn't fight the logo's glossy green. */
     --color-brand-green: #479332;
@@ -88,6 +88,9 @@
     :root {
         --container-padding: 16px;
         --section-padding: var(--section-padding-y-mobile) 0;
+        --text-4xl: clamp(2rem, 9vw, 3rem);
+        --text-5xl: clamp(2.35rem, 11vw, 4rem);
+        --text-6xl: clamp(2.75rem, 13vw, 5.25rem);
     }
 }
 
@@ -101,6 +104,8 @@
 
 html {
     font-size: 16px;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--site-header-height) + 24px);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -113,6 +118,14 @@ body {
     font-weight: 400;
     line-height: 1.6;
     min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: clip;
+    }
 }
 
 a {
@@ -130,6 +143,36 @@ img {
     display: block;
     max-width: 100%;
     height: auto;
+}
+
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+.display {
+    text-wrap: balance;
+}
+
+@media (max-width: 768px) {
+    h1,
+    h2,
+    h3,
+    .display {
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+}
+
+p,
+li {
+    text-wrap: pretty;
 }
 
 button {
@@ -168,4 +211,10 @@ select {
     font-style: italic;
     letter-spacing: -0.02em;
     line-height: 1.05;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 }

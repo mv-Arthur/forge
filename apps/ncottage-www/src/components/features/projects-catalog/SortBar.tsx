@@ -1,7 +1,8 @@
 "use client";
 
 import { SearchIcon } from "@/components/ui/icons";
-import { GridIcon, ListIcon } from "./icons";
+import { Select } from "@/components/ui/Select";
+import { FilterIcon, GridIcon, ListIcon } from "./icons";
 import type { SortKey, ViewMode } from "./useProjectsFilter";
 import styles from "./SortBar.module.css";
 
@@ -41,21 +42,17 @@ export function SortBar({
                 className={styles.filtersButton}
                 onClick={onOpenFilters}
             >
+                <FilterIcon />
                 Фильтры
             </button>
 
-            <select
+            <Select
+                options={SORT_OPTIONS}
                 value={sort}
-                onChange={(e) => onSortChange(e.target.value as SortKey)}
+                onChange={(value) => onSortChange(value as SortKey)}
                 className={styles.sortSelect}
                 aria-label="Сортировка"
-            >
-                {SORT_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                    </option>
-                ))}
-            </select>
+            />
 
             <div
                 className={styles.viewToggle}

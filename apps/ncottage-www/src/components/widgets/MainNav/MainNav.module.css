@@ -21,18 +21,21 @@
     align-items: center;
     gap: 32px;
     height: 72px;
+    min-width: 0;
 }
 
 .logo {
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
+    min-width: 0;
     color: var(--color-ink);
 }
 
 .logo img {
     width: auto;
     height: 36px;
+    max-width: 100%;
     object-fit: contain;
 }
 
@@ -52,6 +55,7 @@
     align-items: center;
     gap: 6px;
     padding: 10px 14px;
+    white-space: nowrap;
     font-size: var(--text-sm);
     font-weight: 500;
     letter-spacing: 0.01em;
@@ -228,6 +232,7 @@
     margin-left: auto;
     align-items: center;
     gap: 4px;
+    flex-shrink: 0;
 }
 
 .burgerBtn {
@@ -284,6 +289,12 @@
 }
 
 @media (max-width: 1080px) {
+    .inner {
+        position: relative;
+        gap: 16px;
+        padding-right: 132px;
+    }
+
     .nav,
     .divider,
     .phone,
@@ -296,7 +307,11 @@
     }
 
     .mobileSlot {
+        position: absolute;
+        top: 50%;
+        right: var(--container-padding);
         display: inline-flex;
+        transform: translateY(-50%);
     }
 }
 
@@ -307,5 +322,49 @@
 
     .logo img {
         height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .inner {
+        gap: 12px;
+    }
+
+    .inner {
+        padding-right: 124px;
+    }
+
+    .logo {
+        max-width: 100%;
+    }
+
+    .logo img {
+        height: 30px;
+    }
+
+    .mobileSlot {
+        gap: 2px;
+    }
+
+    .iconBtn,
+    .burgerBtn {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+@media (max-width: 360px) {
+    .inner {
+        padding-right: 112px;
+    }
+
+    .logo img {
+        height: 28px;
+    }
+
+    .iconBtn,
+    .burgerBtn {
+        width: 36px;
+        height: 36px;
     }
 }

@@ -1,0 +1,224 @@
+.page {
+    padding: 24px 0 80px;
+    background: var(--color-bg);
+}
+
+.emptyState,
+.tipsCard {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.emptyState {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 420px;
+    gap: 48px;
+    align-items: center;
+    margin-top: 28px;
+    padding: 48px;
+    background:
+        radial-gradient(circle at 88% 0%, rgba(156, 74, 45, 0.14), transparent 36%),
+        linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+}
+
+.emptyContent {
+    max-width: 720px;
+}
+
+.visualPanel {
+    position: relative;
+    min-height: 360px;
+    overflow: hidden;
+    border-radius: 26px;
+    background: var(--color-ink);
+    box-shadow: var(--shadow-pop);
+}
+
+.visualPanel::before {
+    content: "";
+    position: absolute;
+    inset: -80px auto auto -60px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(250, 248, 243, 0.1);
+}
+
+.projectCard,
+.projectCardSecondary {
+    position: absolute;
+    width: 250px;
+    padding: 14px;
+    border: 1px solid rgba(250, 248, 243, 0.22);
+    border-radius: 18px;
+    background: rgba(250, 248, 243, 0.94);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+}
+
+.projectCard {
+    top: 48px;
+    left: 42px;
+}
+
+.projectCardSecondary {
+    right: 36px;
+    bottom: 42px;
+    transform: rotate(5deg);
+    opacity: 0.86;
+}
+
+.projectImage {
+    height: 118px;
+    border-radius: 14px;
+    background:
+        linear-gradient(135deg, rgba(156, 74, 45, 0.22), transparent 54%),
+        var(--color-sand);
+}
+
+.projectLineLong,
+.projectLineShort {
+    height: 10px;
+    margin-top: 14px;
+    border-radius: var(--radius-pill);
+    background: var(--color-line-strong);
+}
+
+.projectLineLong {
+    width: 78%;
+}
+
+.projectLineShort {
+    width: 48%;
+}
+
+.saveMark {
+    position: absolute;
+    right: 38px;
+    top: 42px;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background: var(--color-accent);
+}
+
+.saveMark::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 27px;
+    width: 24px;
+    height: 38px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 74%, 0 100%);
+    background: var(--color-ink-on-accent);
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.primaryButton,
+.secondaryButton {
+    display: inline-flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+}
+
+.primaryButton {
+    padding: 0 24px;
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.secondaryButton {
+    padding: 0 22px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+}
+
+.tipsCard {
+    margin-top: 24px;
+    padding: 30px;
+}
+
+.tipsCard span {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-subtle);
+}
+
+.tipsCard ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.tipsCard li {
+    color: var(--color-ink-muted);
+    line-height: 1.6;
+}
+
+@media (max-width: 980px) {
+    .emptyState {
+        grid-template-columns: 1fr;
+    }
+
+    .visualPanel {
+        min-height: 320px;
+    }
+
+    .tipsCard ul {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding: 16px 0 56px;
+    }
+
+    .emptyState {
+        gap: 32px;
+        padding: 28px 20px;
+    }
+
+    .tipsCard {
+        padding: 22px;
+    }
+
+    .visualPanel {
+        min-height: 260px;
+    }
+
+    .projectCard,
+    .projectCardSecondary {
+        width: 210px;
+    }
+
+    .projectCard {
+        left: 20px;
+    }
+
+    .projectCardSecondary {
+        right: -18px;
+    }
+
+    .saveMark {
+        right: 20px;
+        top: 28px;
+        width: 62px;
+        height: 62px;
+    }
+}

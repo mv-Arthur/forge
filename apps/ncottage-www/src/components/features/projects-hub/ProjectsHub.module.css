@@ -10,10 +10,10 @@
     display: block;
     overflow: hidden;
     border-radius: 16px;
-    background-color: #1a1a1a;
+    background-color: var(--color-ink);
     background-size: cover;
     background-position: center;
-    color: #fff;
+    color: var(--color-ink-on-accent);
     text-decoration: none;
     isolation: isolate;
     transition: transform var(--transition);
@@ -26,7 +26,7 @@
 
 .tileAccent {
     background-color: var(--color-accent-soft);
-    color: var(--color-text);
+    color: var(--color-ink-muted);
 }
 
 .tileAccent .gradient {
@@ -34,22 +34,22 @@
 }
 
 .tileAccent .title {
-    color: var(--color-text-dark);
+    color: var(--color-ink);
     text-shadow: none;
 }
 
 .tileAccent .description {
-    color: var(--color-text-light);
+    color: var(--color-ink-muted);
 }
 
 .tileAccent .arrow {
     background-color: var(--color-accent);
-    color: #fff;
+    color: var(--color-ink-on-accent);
 }
 
 .tileAccent:hover .arrow {
     background-color: var(--color-accent-hover);
-    color: #fff;
+    color: var(--color-ink-on-accent);
 }
 
 .tileGasConcrete {
@@ -102,8 +102,8 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background-color: #fff;
-    color: var(--color-bg-green);
+    background-color: var(--color-surface);
+    color: var(--color-accent);
     transition:
         background-color var(--transition),
         color var(--transition),
@@ -111,8 +111,8 @@
 }
 
 .tile:hover .arrow {
-    background-color: var(--color-bg-green);
-    color: #fff;
+    background-color: var(--color-accent);
+    color: var(--color-ink-on-accent);
     transform: rotate(-45deg);
 }
 
@@ -158,7 +158,7 @@
 }
 
 .tile:focus-visible {
-    outline: 3px solid var(--color-bg-green);
+    outline: 3px solid var(--color-accent);
     outline-offset: 2px;
 }
 
