@@ -1,0 +1,320 @@
+.page {
+    padding: 72px 0 96px;
+    background: var(--color-bg);
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 0.52fr);
+    gap: 56px;
+    align-items: stretch;
+    padding: 28px 0 56px;
+}
+
+.heroText {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 820px;
+}
+
+.heroActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+.cta,
+.secondaryLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    border-radius: var(--radius-pill);
+    padding: 0 24px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.cta {
+    color: var(--color-ink-on-accent);
+    background: var(--color-accent);
+}
+
+.cta:hover {
+    background: var(--color-accent-hover);
+}
+
+.secondaryLink {
+    color: var(--color-ink);
+    border: 1px solid var(--color-line-strong);
+}
+
+.secondaryLink:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.summaryCard,
+.noteCard,
+.form {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+}
+
+.summaryCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    gap: 16px;
+    min-height: 430px;
+    padding: 30px;
+    border-radius: 28px;
+    background:
+        linear-gradient(180deg, rgba(26, 26, 26, 0.04), rgba(26, 26, 26, 0.62)),
+        url("/images/projects/valter.jpg") center / cover;
+    color: var(--color-ink-on-accent);
+    box-shadow: var(--shadow-pop);
+}
+
+.summaryCard::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(250, 248, 243, 0.22);
+    border-radius: 22px;
+}
+
+.summaryNumber {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display-stack);
+    font-size: clamp(5rem, 12vw, 9rem);
+    font-style: italic;
+    line-height: 0.8;
+    color: var(--color-ink-on-accent);
+}
+
+.summaryLabel {
+    position: relative;
+    z-index: 1;
+    font-size: var(--text-xl);
+    line-height: 1.25;
+    color: var(--color-ink-on-accent);
+}
+
+.summaryCard p,
+.noteCard p,
+.caseCard p,
+.conditionCard p,
+.privacy {
+    color: var(--color-ink-muted);
+    margin: 0;
+}
+
+.summaryCard p {
+    position: relative;
+    z-index: 1;
+    color: rgba(250, 248, 243, 0.76);
+}
+
+.section,
+.splitSection,
+.claimSection {
+    margin-top: 96px;
+}
+
+.sectionHead {
+    margin-bottom: 32px;
+}
+
+.conditionGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.conditionCard,
+.caseCard {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    padding: 28px;
+}
+
+.cardIndex {
+    display: inline-flex;
+    margin-bottom: 32px;
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    color: var(--color-accent);
+}
+
+.splitSection {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 40px;
+}
+
+.caseList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.caseCard h3,
+.noteCard h2 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 12px;
+}
+
+.noteCard {
+    padding: 32px;
+    background: var(--color-surface-alt);
+}
+
+.noteCard ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.noteCard li {
+    position: relative;
+    padding-left: 20px;
+    color: var(--color-ink-muted);
+}
+
+.noteCard li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+}
+
+.claimSection {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 420px;
+    gap: 56px;
+    align-items: start;
+    padding: 56px;
+    border-radius: var(--radius-lg);
+    background: var(--color-ink);
+    color: var(--color-ink-on-accent);
+    --heading-eyebrow-color: rgba(250, 248, 243, 0.55);
+    --heading-title-color: var(--color-ink-on-accent);
+    --heading-lead-color: rgba(250, 248, 243, 0.72);
+}
+
+.contacts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.contacts div {
+    padding-top: 16px;
+    border-top: 1px solid rgba(250, 248, 243, 0.2);
+}
+
+.contacts dt {
+    color: rgba(250, 248, 243, 0.55);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.contacts dd {
+    margin: 8px 0 0;
+    font-size: var(--text-lg);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    color: var(--color-ink);
+}
+
+.form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+}
+
+.form input,
+.form textarea {
+    width: 100%;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    padding: 14px 16px;
+    color: var(--color-ink);
+    resize: vertical;
+}
+
+.form .cta {
+    width: 100%;
+    border: 0;
+    margin-top: 8px;
+}
+
+.privacy {
+    font-size: var(--text-xs);
+    line-height: 1.5;
+}
+
+.privacy a {
+    color: var(--color-accent);
+}
+
+@media (max-width: 1080px) {
+    .hero,
+    .splitSection,
+    .claimSection {
+        grid-template-columns: 1fr;
+    }
+
+    .conditionGrid,
+    .caseList,
+    .contacts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding: 90px 0 64px;
+    }
+
+    .section,
+    .splitSection,
+    .claimSection {
+        margin-top: 64px;
+    }
+
+    .conditionGrid,
+    .caseList,
+    .contacts {
+        grid-template-columns: 1fr;
+    }
+
+    .claimSection {
+        padding: 32px 20px;
+    }
+}

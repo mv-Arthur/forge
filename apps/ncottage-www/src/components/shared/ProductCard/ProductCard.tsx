@@ -34,6 +34,11 @@ function pluralBathrooms(n: number) {
 export function ProductCard({ project, variant = "grid" }: ProductCardProps) {
     const [favorited, setFavorited] = useState(false);
     const [compared, setCompared] = useState(false);
+    const basePackage = project.packages?.[0];
+    const price = basePackage?.price ?? project.price;
+    const packageLabel = basePackage
+        ? `${basePackage.name}${basePackage.tagline ? ` · ${basePackage.tagline}` : ""}`
+        : "Стоимость проекта";
 
     const stop = (e: MouseEvent) => {
         e.preventDefault();
@@ -106,8 +111,15 @@ export function ProductCard({ project, variant = "grid" }: ProductCardProps) {
                             {project.specs.dimensions} м
                         </li>
                     </ul>
+                    <div className={styles.commercial}>
+                        <span>{project.specs.buildTime}</span>
+                        <span>{packageLabel}</span>
+                    </div>
                 </div>
-                <div className={styles.price}>{formatPrice(project.price)}</div>
+                <div className={styles.offer}>
+                    <span className={styles.priceLabel}>от</span>
+                    <div className={styles.price}>{formatPrice(price)}</div>
+                </div>
             </div>
         </article>
     );

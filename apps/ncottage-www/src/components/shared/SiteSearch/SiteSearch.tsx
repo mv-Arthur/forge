@@ -34,14 +34,16 @@ interface QuickTag {
     href: string;
 }
 
+const CATALOG_PATH = "/projects/all";
+
 const POPULAR_TAGS: QuickTag[] = [
-    { label: "До 100 м²", href: "/projects?areaMax=100" },
-    { label: "Одноэтажные", href: "/projects?floors=1" },
-    { label: "С террасой", href: "/projects?features=terrace" },
-    { label: "С гаражом", href: "/projects?features=garage" },
+    { label: "До 100 м²", href: `${CATALOG_PATH}?areaMax=100` },
+    { label: "Одноэтажные", href: `${CATALOG_PATH}?floors=1` },
+    { label: "С террасой", href: `${CATALOG_PATH}?features=terrace` },
+    { label: "С гаражом", href: `${CATALOG_PATH}?features=garage` },
     {
         label: "С панорамными окнами",
-        href: "/projects?features=panoramic-windows",
+        href: `${CATALOG_PATH}?features=panoramic-windows`,
     },
 ];
 
@@ -133,7 +135,8 @@ export function SiteSearch({
             })),
             ...PROJECT_HUB_CATEGORIES.map((c) => ({
                 key: `cat-${c.slug}`,
-                href: c.slug === "all" ? "/projects" : `/projects/${c.slug}`,
+                href:
+                    c.slug === "all" ? CATALOG_PATH : `/projects/${c.slug}`,
             })),
             ...suggested.map((p) => ({
                 key: `sug-${p.slug}`,
@@ -163,8 +166,8 @@ export function SiteSearch({
 
     const submitFullSearch = () => {
         const target = trimmed
-            ? `/projects?q=${encodeURIComponent(query.trim())}`
-            : "/projects";
+            ? `${CATALOG_PATH}?q=${encodeURIComponent(query.trim())}`
+            : CATALOG_PATH;
         router.push(target);
         onClose();
     };
@@ -301,7 +304,7 @@ function EmptyView({ suggested, focusedKey, onNavigate }: EmptyViewProps) {
                     {PROJECT_HUB_CATEGORIES.map((cat) => {
                         const href =
                             cat.slug === "all"
-                                ? "/projects"
+                                ? CATALOG_PATH
                                 : `/projects/${cat.slug}`;
                         const key = `cat-${cat.slug}`;
                         return (

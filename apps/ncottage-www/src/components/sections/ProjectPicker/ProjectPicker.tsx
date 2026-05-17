@@ -32,6 +32,10 @@ function parseDigits(raw: string) {
     return digits === "" ? null : Number(digits);
 }
 
+function normalizeTechnology(value: string) {
+    return value === "aerocrete" ? "gas-concrete" : value;
+}
+
 function clamp(value: number, min: number, max: number) {
     return Math.min(Math.max(value, min), max);
 }
@@ -123,10 +127,10 @@ export function ProjectPicker({
         if (priceMax !== price.max) params.set("priceMax", String(priceMax));
         if (areaMin !== area.min) params.set("areaMin", String(areaMin));
         if (areaMax !== area.max) params.set("areaMax", String(areaMax));
-        if (tech) params.set("tech", tech);
+        if (tech) params.set("tech", normalizeTechnology(tech));
         if (floor) params.set("floors", floor);
         const query = params.toString();
-        router.push(query ? `/projects?${query}` : "/projects");
+        router.push(query ? `/projects/all?${query}` : "/projects/all");
     }
 
     return (

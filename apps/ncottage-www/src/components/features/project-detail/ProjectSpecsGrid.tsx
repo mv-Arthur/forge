@@ -37,7 +37,7 @@ export function ProjectSpecsGrid({ project }: ProjectSpecsGridProps) {
                     label: "Срок строительства",
                     value: project.specs.buildTime,
                 },
-                { label: "Гарантия", value: "5 лет" },
+                { label: "Гарантия", value: "7 лет" },
                 { label: "Предоплата", value: "Не требуется" },
             ],
         },

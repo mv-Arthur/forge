@@ -1,4 +1,4 @@
-import { EMAIL, LEGAL, PHONES, type Phone } from "./contacts";
+import { ADDRESSES, EMAIL, LEGAL, PHONES, type Phone } from "./contacts";
 
 type NavSubItem = { label: string; href: string };
 
@@ -19,8 +19,36 @@ export const NAV_ITEMS: NavItem[] = [
             { label: "Кирпичные дома", href: "/projects/brick" },
             { label: "Каркасные дома", href: "/projects/frame" },
             { label: "Дома из СИП-панелей", href: "/projects/sip" },
+            { label: "Фахверковые дома", href: "/projects/fachwerk" },
         ],
     },
+    {
+        label: "Услуги",
+        href: "/services",
+        children: [
+            { label: "Проектирование", href: "/services/design" },
+            { label: "Строительство домов", href: "/services/construction" },
+            { label: "Фундаменты", href: "/services/foundations" },
+            { label: "Инженерные сети", href: "/services/engineering" },
+            { label: "Отделочные работы", href: "/services/finishing" },
+            { label: "Строительство бань", href: "/services/baths" },
+        ],
+    },
+    { label: "Наши работы", href: "/works" },
+    {
+        label: "Клиентам",
+        href: "/about",
+        children: [
+            { label: "О компании", href: "/about" },
+            { label: "Гарантия", href: "/guarantee" },
+            { label: "Отзывы", href: "/reviews" },
+            { label: "Вопрос-ответ", href: "/faq" },
+            { label: "Ипотека", href: "/mortgage" },
+            { label: "Оплата", href: "/payment" },
+        ],
+    },
+    { label: "Акции", href: "/promos", badge: "sale" },
+    { label: "Контакты", href: "/contacts" },
 ];
 
 type FooterLink = {
@@ -59,13 +87,19 @@ export const FOOTER: FooterContent = {
     tagline:
         "Загородные дома под ключ в Санкт-Петербурге и Москве с 2007 года.",
     nav: {
-        title: "Проекты",
+        title: "Разделы",
         items: [
-            { label: "Газобетон", href: "/projects/gas-concrete" },
-            { label: "Кирпич", href: "/projects/brick" },
-            { label: "Каркасные", href: "/projects/frame" },
-            { label: "СИП-панели", href: "/projects/sip" },
-            { label: "Все проекты", href: "/projects/all" },
+            { label: "Проекты", href: "/projects" },
+            { label: "Услуги", href: "/services" },
+            { label: "Наши работы", href: "/works" },
+            { label: "О компании", href: "/about" },
+            { label: "Гарантия", href: "/guarantee" },
+            { label: "Отзывы", href: "/reviews" },
+            { label: "Вопрос-ответ", href: "/faq" },
+            { label: "Ипотека", href: "/mortgage" },
+            { label: "Акции", href: "/promos" },
+            { label: "Контакты", href: "/contacts" },
+            { label: "Реквизиты", href: "/requisites" },
         ],
     },
     contactsTitle: "Контакты",
@@ -80,16 +114,17 @@ export const FOOTER: FooterContent = {
         },
         {
             label: "Москва",
-            address: "1-й Нагатинский проезд, 2, офис 6",
+            address: ADDRESSES.msk,
             phone: PHONES.msk,
         },
     ],
     socialLabel: "Мы в соцсетях",
     bottomLinks: [
         { label: "Политика конфиденциальности", href: "/privacy" },
-        { label: "Обработка персональных данных", href: "/privacy" },
+        { label: "Обработка персональных данных", href: "/personal-data" },
+        { label: "Карта сайта", href: "/sitemap" },
     ],
-    copyright: "© 2008–2026 Новый Коттедж",
+    copyright: "© 2007–2026 Новый Коттедж",
     disclaimer:
         "Информация на сайте носит справочный характер и не является публичной офертой (ст. 437 ГК РФ).",
     toTopLabel: "Наверх",

@@ -1,0 +1,243 @@
+.page {
+    padding: 24px 0 80px;
+    background: var(--color-bg);
+}
+
+.emptyState,
+.infoCard {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.emptyState {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 420px;
+    gap: 48px;
+    align-items: center;
+    margin-top: 28px;
+    padding: 48px;
+    background:
+        radial-gradient(circle at 88% 0%, rgba(156, 74, 45, 0.14), transparent 36%),
+        linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+}
+
+.emptyContent {
+    max-width: 720px;
+}
+
+.visualPanel {
+    position: relative;
+    min-height: 360px;
+    overflow: hidden;
+    border-radius: 26px;
+    background: var(--color-ink);
+    box-shadow: var(--shadow-pop);
+}
+
+.visualPanel::before {
+    content: "";
+    position: absolute;
+    inset: -70px -70px auto auto;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(250, 248, 243, 0.1);
+}
+
+.compareCard,
+.compareCardAlt {
+    position: absolute;
+    width: 210px;
+    padding: 16px;
+    border: 1px solid rgba(250, 248, 243, 0.2);
+    border-radius: 18px;
+    background: rgba(250, 248, 243, 0.94);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+}
+
+.compareCard {
+    top: 52px;
+    left: 40px;
+}
+
+.compareCardAlt {
+    right: 36px;
+    bottom: 48px;
+    transform: rotate(4deg);
+    opacity: 0.88;
+}
+
+.compareCard span,
+.compareCardAlt span {
+    display: block;
+    height: 92px;
+    border-radius: 14px;
+    background:
+        linear-gradient(135deg, rgba(156, 74, 45, 0.22), transparent 54%),
+        var(--color-sand);
+}
+
+.compareCard i,
+.compareCardAlt i {
+    display: block;
+    height: 9px;
+    margin-top: 14px;
+    border-radius: var(--radius-pill);
+    background: var(--color-line-strong);
+}
+
+.compareCard i:nth-child(2),
+.compareCardAlt i:nth-child(2) {
+    width: 72%;
+}
+
+.compareCard i:nth-child(3),
+.compareCardAlt i:nth-child(3) {
+    width: 52%;
+}
+
+.compareCard i:nth-child(4),
+.compareCardAlt i:nth-child(4) {
+    width: 86%;
+}
+
+.compareScale {
+    position: absolute;
+    right: 40px;
+    top: 42px;
+    display: grid;
+    gap: 8px;
+    width: 96px;
+    padding: 14px;
+    border-radius: 18px;
+    background: var(--color-accent);
+}
+
+.compareScale b {
+    display: block;
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background: var(--color-ink-on-accent);
+    opacity: 0.86;
+}
+
+.compareScale b:nth-child(1) {
+    width: 62%;
+}
+
+.compareScale b:nth-child(2) {
+    width: 100%;
+}
+
+.compareScale b:nth-child(3) {
+    width: 78%;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.primaryButton,
+.secondaryButton {
+    display: inline-flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+}
+
+.primaryButton {
+    padding: 0 24px;
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.secondaryButton {
+    padding: 0 22px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.infoCard {
+    padding: 28px;
+}
+
+.infoCard span {
+    display: block;
+    font-family: var(--font-display-stack);
+    font-style: italic;
+    font-size: var(--text-3xl);
+    line-height: 1;
+    color: var(--color-accent);
+}
+
+.infoCard p {
+    margin: 18px 0 0;
+    color: var(--color-ink-muted);
+    line-height: 1.6;
+}
+
+@media (max-width: 980px) {
+    .emptyState {
+        grid-template-columns: 1fr;
+    }
+
+    .visualPanel {
+        min-height: 320px;
+    }
+
+    .infoGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding: 16px 0 56px;
+    }
+
+    .emptyState {
+        gap: 32px;
+        padding: 28px 20px;
+    }
+
+    .infoCard {
+        padding: 22px;
+    }
+
+    .visualPanel {
+        min-height: 260px;
+    }
+
+    .compareCard,
+    .compareCardAlt {
+        width: 184px;
+    }
+
+    .compareCard {
+        left: 18px;
+    }
+
+    .compareCardAlt {
+        right: -16px;
+    }
+
+    .compareScale {
+        right: 18px;
+        top: 28px;
+    }
+}

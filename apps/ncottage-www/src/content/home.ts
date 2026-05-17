@@ -17,14 +17,14 @@ export type HeroContent = {
 };
 
 export const HERO: HeroContent = {
-    eyebrow: "Загородные дома под ключ · СПб и Ленобласть",
-    title: "Дом, который служит",
-    titleAccent: "поколениям",
-    text: "Проектируем и строим частные дома с 2007 года. Фиксированная цена в договоре, авторский надзор архитектора и гарантия 7 лет.",
-    primaryCta: { label: "Подобрать проект", href: "/projects" },
-    secondaryCta: { label: "Смотреть каталог", href: "/projects" },
+    eyebrow: "Загородные дома под ключ · СПб/ЛО/Москва",
+    title: "Дом под ключ",
+    titleAccent: "по фиксированной смете",
+    text: "Строим частные дома с 2007 года в Санкт-Петербурге, Ленобласти и Москве. До старта фиксируем цену, смету, сроки и состав работ в договоре — без скрытых платежей.",
+    primaryCta: { label: "Заказать расчёт", href: "/contacts" },
+    secondaryCta: { label: "Смотреть проекты", href: "/projects/all" },
     trust: [
-        { value: "17", label: "лет на рынке" },
+        { value: "с 2007", label: "года строим дома" },
         { value: "320+", label: "построенных домов" },
         { value: "0", label: "скрытых платежей" },
         { value: "7", label: "лет гарантии" },
@@ -95,7 +95,7 @@ const CATALOG_SECTION: CatalogSectionContent = {
         { id: "frame", label: "Каркас", technology: "frame" },
         { id: "sip", label: "СИП", technology: "sip" },
     ],
-    cta: { label: "Смотреть весь каталог", href: "/projects" },
+    cta: { label: "Смотреть весь каталог", href: "/projects/all" },
     customProject: {
         text: "Не нашли подходящий —",
         linkLabel: "закажите индивидуальный проект",
@@ -116,7 +116,7 @@ export const ADVANTAGES_SECTION: AdvantagesSectionContent = {
     eyebrow: "Почему мы",
     title: "Подход, который",
     titleAccent: "не подведёт",
-    lead: "Мы строим частные дома 17 лет: десятки инженеров, монтажные бригады с опытом 10+ лет и контракт, в котором фиксируется всё — от состава работ до сроков сдачи.",
+    lead: "Мы строим частные дома с 2007 года: десятки инженеров, монтажные бригады с опытом 10+ лет и контракт, в котором фиксируется всё — от состава работ до сроков сдачи.",
     items: [
         {
             title: "Квалифицированные инженеры",
@@ -177,7 +177,7 @@ export const OUR_WORKS_SECTION: OurWorksSectionContent = {
     lead: "Готовые объекты в Ленинградской области и Москве. Посетите любой — посмотрите качество вживую и поговорите с владельцами.",
     cta: {
         label: "Все построенные объекты",
-        href: "/projects",
+        href: "/works",
     },
     visitInvite: {
         title: "Запишитесь на просмотр",
@@ -261,7 +261,7 @@ const GEOGRAPHY: GeographyContent = {
     eyebrow: "География работ",
     title: "Где мы",
     titleAccent: "строим",
-    lead: "Главные регионы — Ленинградская область и Санкт-Петербург. По запросу выезжаем в Москву и соседние области.",
+    lead: "Строим в Санкт-Петербурге, Ленинградской области, Москве и Московской области. Соседние регионы обсуждаем по запросу.",
     totalLabel: "построенных домов",
     totalValue: "320+",
     regions: [
@@ -289,7 +289,7 @@ const GEOGRAPHY: GeographyContent = {
             percent: 2,
         },
     ],
-    cta: { label: "Все построенные объекты", href: "/projects" },
+    cta: { label: "Все построенные объекты", href: "/works" },
 };
 
 type Review = {

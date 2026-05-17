@@ -1,0 +1,227 @@
+.page {
+    padding: 72px 0 80px;
+    background: var(--color-bg);
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 0.55fr);
+    gap: 56px;
+    align-items: stretch;
+    padding: 28px 0 56px;
+}
+
+.heroPanel {
+    position: relative;
+    display: flex;
+    min-height: 420px;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    padding: 30px;
+    border: 1px solid var(--color-line);
+    border-radius: 28px;
+    background:
+        linear-gradient(180deg, rgba(26, 26, 26, 0.02), rgba(26, 26, 26, 0.58)),
+        url("/images/projects/nord.jpg") center / cover;
+    color: var(--color-ink-on-accent);
+    box-shadow: var(--shadow-pop);
+}
+
+.heroPanel::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(250, 248, 243, 0.2);
+    border-radius: 22px;
+}
+
+.panelEyebrow {
+    position: relative;
+    z-index: 1;
+    width: fit-content;
+    margin-bottom: 18px;
+    padding: 8px 12px;
+    border: 1px solid rgba(250, 248, 243, 0.24);
+    border-radius: var(--radius-pill);
+    background: rgba(26, 26, 26, 0.28);
+    color: rgba(250, 248, 243, 0.78);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+}
+
+.heroPanel strong {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display-stack);
+    font-size: clamp(4rem, 8vw, 6.5rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 0.9;
+}
+
+.heroPanel p {
+    position: relative;
+    z-index: 1;
+    max-width: 320px;
+    margin: 16px 0 0;
+    color: rgba(250, 248, 243, 0.76);
+    line-height: 1.6;
+}
+
+.featureGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.featureCard {
+    min-height: 220px;
+    padding: 30px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.featureCard h2,
+.step h3 {
+    margin: 0;
+    color: var(--color-ink);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.featureCard h2 {
+    font-size: var(--text-xl);
+}
+
+.featureCard p,
+.step p {
+    margin: 14px 0 0;
+    color: var(--color-ink-muted);
+    line-height: 1.65;
+}
+
+.sectionAlt {
+    margin-top: 96px;
+    padding: var(--section-padding);
+    background: var(--color-surface-alt);
+}
+
+.sectionHead {
+    margin-bottom: 48px;
+}
+
+.steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-line-strong);
+}
+
+.step {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 40px;
+    padding: 34px 0;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.step span {
+    font-family: var(--font-display-stack);
+    font-style: italic;
+    font-size: var(--text-3xl);
+    line-height: 1;
+    color: var(--color-accent);
+}
+
+.step h3 {
+    font-size: var(--text-xl);
+}
+
+.step p {
+    max-width: 720px;
+}
+
+.qualityBlock {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+    gap: 48px;
+    align-items: center;
+    margin-top: 96px;
+    padding: 36px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+}
+
+.standards {
+    display: grid;
+    gap: 12px;
+}
+
+.standards span {
+    display: block;
+    padding: 18px 20px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-accent);
+    font-family: var(--font-display-stack);
+    font-style: italic;
+    font-size: var(--text-2xl);
+    line-height: 1;
+}
+
+@media (max-width: 1080px) {
+    .featureGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 820px) {
+    .hero,
+    .qualityBlock {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding: 90px 0 56px;
+    }
+
+    .hero {
+        gap: 24px;
+        padding-bottom: 40px;
+    }
+
+    .featureGrid,
+    .step {
+        grid-template-columns: 1fr;
+    }
+
+    .featureCard,
+    .qualityBlock,
+    .heroPanel {
+        padding: 22px;
+    }
+
+    .featureCard {
+        min-height: auto;
+    }
+
+    .sectionAlt,
+    .qualityBlock {
+        margin-top: 56px;
+    }
+
+    .step {
+        gap: 14px;
+    }
+}

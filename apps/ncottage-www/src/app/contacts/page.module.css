@@ -1,0 +1,481 @@
+.page {
+    padding: 72px 0 80px;
+    background: var(--color-bg);
+}
+
+.heroHead {
+    max-width: 880px;
+    margin: 24px 0 40px;
+    --heading-accent-color: var(--color-accent);
+}
+
+.heroGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.contactPanel,
+.visitCard,
+.officeCard,
+.productionCard,
+.form,
+.requisitesCard,
+.success {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+}
+
+.contactPanel {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    background: var(--color-line);
+    align-self: start;
+}
+
+.quickItem {
+    display: flex;
+    min-height: 172px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 28px;
+    background: var(--color-surface);
+}
+
+.cardKicker {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-subtle);
+}
+
+.primaryLink,
+.primaryValue {
+    font-family: var(--font-display-stack);
+    font-size: clamp(1.25rem, 1.75vw, 1.65rem);
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--color-ink);
+}
+
+.primaryLink {
+    transition: color var(--transition);
+    white-space: nowrap;
+}
+
+.primaryLink:hover,
+.phoneLink:hover,
+.inlineLink:hover {
+    color: var(--color-accent);
+}
+
+.primaryValue,
+.muted,
+.address,
+.note,
+.schedule,
+.formLead,
+.privacy,
+.successText,
+.visitCard p {
+    margin: 0;
+}
+
+.muted,
+.note,
+.schedule,
+.formLead,
+.privacy,
+.successText,
+.visitCard p {
+    color: var(--color-ink-muted);
+}
+
+.visitCard {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 32px;
+    background:
+        linear-gradient(145deg, rgba(156, 74, 45, 0.1), transparent 44%),
+        var(--color-surface);
+}
+
+.visitCard p {
+    font-size: var(--text-lg);
+    line-height: 1.55;
+}
+
+.visitMap {
+    position: relative;
+    min-height: 148px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(
+            90deg,
+            transparent 49.8%,
+            rgba(207, 201, 188, 0.6) 50%,
+            transparent 50.2%
+        ),
+        linear-gradient(
+            0deg,
+            transparent 49.8%,
+            rgba(207, 201, 188, 0.6) 50%,
+            transparent 50.2%
+        ),
+        rgba(243, 239, 230, 0.58);
+}
+
+.visitMap::before {
+    content: "";
+    position: absolute;
+    left: 18%;
+    right: 14%;
+    top: 48%;
+    height: 1px;
+    border-radius: var(--radius-pill);
+    background: rgba(156, 74, 45, 0.36);
+    transform: rotate(-12deg);
+}
+
+.visitMap span {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow:
+        0 0 0 6px rgba(156, 74, 45, 0.1),
+        0 8px 20px rgba(26, 26, 26, 0.14);
+}
+
+.visitMap span:nth-child(1) {
+    left: 20%;
+    top: 34%;
+}
+
+.visitMap span:nth-child(2) {
+    left: 52%;
+    top: 54%;
+}
+
+.visitMap span:nth-child(3) {
+    right: 18%;
+    top: 28%;
+}
+
+.ctaLink,
+.submit {
+    display: inline-flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    font-weight: 600;
+    transition:
+        background-color var(--transition),
+        transform var(--transition);
+}
+
+.ctaLink {
+    align-self: flex-start;
+    padding: 0 24px;
+}
+
+.ctaLink:hover,
+.submit:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+}
+
+.section,
+.sectionAlt,
+.requestSection {
+    padding-top: 88px;
+}
+
+.sectionHead {
+    margin-bottom: 32px;
+}
+
+.cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.officeCard,
+.productionCard,
+.requisitesCard {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px;
+}
+
+.cardHeader,
+.cardBody,
+.formHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cardTitle,
+.formTitle,
+.successTitle {
+    margin: 0;
+    color: var(--color-ink);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+}
+
+.cardTitle,
+.formTitle {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.successTitle {
+    font-family: var(--font-display-stack);
+    font-size: var(--text-2xl);
+    font-style: italic;
+}
+
+.address {
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    color: var(--color-ink);
+}
+
+.phoneLink {
+    width: fit-content;
+    font-family: var(--font-display-stack);
+    font-size: var(--text-2xl);
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--color-ink);
+    transition: color var(--transition);
+}
+
+.note,
+.schedule {
+    line-height: 1.6;
+}
+
+.mapLink {
+    width: fit-content;
+    margin-top: auto;
+    color: var(--color-accent);
+    font-weight: 600;
+    border-bottom: 1px solid currentColor;
+}
+
+.sectionAlt {
+    padding-bottom: 0;
+}
+
+.productionList {
+    display: grid;
+    gap: 16px;
+}
+
+.productionCard {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.75fr) minmax(220px, 0.75fr) minmax(
+            0,
+            1fr
+        );
+    align-items: start;
+}
+
+.cardActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    align-items: center;
+}
+
+.requestGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 36px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fieldLabel {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-ink-muted);
+}
+
+.input,
+.textarea {
+    width: 100%;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: inherit;
+    font-size: var(--text-base);
+    transition:
+        border-color var(--transition),
+        background-color var(--transition);
+}
+
+.input {
+    height: 52px;
+    padding: 0 16px;
+}
+
+.textarea {
+    min-height: 118px;
+    padding: 14px 16px;
+    resize: vertical;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--color-ink-subtle);
+}
+
+.input:hover,
+.textarea:hover {
+    border-color: var(--color-line-strong);
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--color-accent);
+    background: var(--color-surface);
+}
+
+.submit {
+    margin-top: 4px;
+}
+
+.privacy {
+    font-size: var(--text-xs);
+    line-height: 1.5;
+}
+
+.inlineLink {
+    color: var(--color-ink);
+    border-bottom: 1px solid currentColor;
+    transition: color var(--transition);
+}
+
+.requisitesList {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+}
+
+.requisitesList div {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.requisitesList dt {
+    color: var(--color-ink-subtle);
+}
+
+.requisitesList dd {
+    margin: 0;
+    color: var(--color-ink);
+    text-align: right;
+}
+
+.success {
+    padding: 48px 36px;
+}
+
+.successEyebrow {
+    margin: 0 0 12px;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.successText {
+    margin-top: 12px;
+}
+
+@media (max-width: 1100px) {
+    .heroGrid,
+    .requestGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .productionCard {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 820px) {
+    .page {
+        padding: 88px 0 56px;
+    }
+
+    .heroHead {
+        margin-bottom: 28px;
+    }
+
+    .contactPanel,
+    .cardsGrid,
+    .productionCard {
+        grid-template-columns: 1fr;
+    }
+
+    .quickItem {
+        min-height: 132px;
+        padding: 24px;
+    }
+
+    .visitCard,
+    .officeCard,
+    .productionCard,
+    .form,
+    .requisitesCard,
+    .success {
+        padding: 24px;
+    }
+
+    .section,
+    .sectionAlt,
+    .requestSection {
+        padding-top: 64px;
+    }
+}

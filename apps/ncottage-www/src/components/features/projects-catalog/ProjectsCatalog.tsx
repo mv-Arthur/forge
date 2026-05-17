@@ -87,6 +87,7 @@ function ProjectsCatalogContent({
                     sizeOptions={sizeOptions}
                     onChange={setFilters}
                     onReset={reset}
+                    onClose={() => setDrawerOpen(false)}
                     hideTechnology={Boolean(lockedTechnology)}
                 />
                 <button
