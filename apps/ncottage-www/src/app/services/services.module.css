@@ -1,14 +1,20 @@
 .page {
+    overflow-x: clip;
     padding: 72px 0 96px;
     background:
-        radial-gradient(circle at 84% 0%, rgba(156, 74, 45, 0.08), transparent 34%),
+        radial-gradient(
+            circle at 84% 0%,
+            rgba(156, 74, 45, 0.1),
+            transparent 34%
+        ),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72), transparent 28%),
         var(--color-bg);
 }
 
 .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
-    gap: 48px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+    gap: 40px;
     align-items: stretch;
     padding: 32px 0 72px;
 }
@@ -16,6 +22,7 @@
 .heroText {
     min-width: 0;
     max-width: 860px;
+    padding-top: 20px;
 }
 
 .eyebrow {
@@ -30,12 +37,23 @@
 
 .title {
     margin: 0;
-    max-width: 840px;
-    font-size: clamp(2.5rem, 5.2vw, 4.35rem);
+    max-width: 900px;
+    font-size: clamp(2.5rem, 5.2vw, 4.55rem);
     font-weight: 400;
     line-height: 0.98;
     letter-spacing: -0.045em;
     color: var(--color-ink);
+}
+
+.titleAccent {
+    font-family: var(--font-display-stack);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-accent);
+}
+
+.mobileBreak {
+    display: none;
 }
 
 .lead {
@@ -46,71 +64,2195 @@
     color: var(--color-ink-muted);
 }
 
-.heroPanel {
+.lead strong {
+    font-weight: 500;
+    color: var(--color-ink);
+}
+
+.leadNext {
+    display: inline;
+}
+
+.heroFacts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 40px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.heroFacts li {
+    min-width: 0;
+}
+
+.heroFacts a {
     position: relative;
     display: flex;
-    min-height: 420px;
+    min-height: 162px;
     flex-direction: column;
-    justify-content: flex-end;
     overflow: hidden;
-    padding: 32px;
+    padding: 22px;
     border: 1px solid var(--color-line);
-    border-radius: 28px;
-    background:
-        linear-gradient(180deg, rgba(26, 26, 26, 0.02), rgba(26, 26, 26, 0.52)),
-        url("/images/hero/banner.jpg") center / cover;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.64);
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.heroFacts a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        circle at 86% 18%,
+        rgba(156, 74, 45, 0.12),
+        transparent 30%
+    );
+    opacity: 0;
+    transition: transform var(--transition);
+}
+
+.heroFacts a::after {
+    content: "";
+    position: absolute;
+    top: 26px;
+    right: 24px;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid var(--color-accent);
+    border-right: 2px solid var(--color-accent);
+    opacity: 0;
+    transform: translate(-6px, 6px) rotate(45deg);
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.heroFacts a:hover,
+.heroFacts a:focus-visible {
+    transform: translateY(-3px);
+    border-color: rgba(156, 74, 45, 0.28);
+    background: var(--color-surface);
     box-shadow: var(--shadow-soft);
 }
 
-.heroPanel::before {
+.heroFacts a:hover::before,
+.heroFacts a:focus-visible::before {
+    opacity: 1;
+}
+
+.heroFacts a:hover::after,
+.heroFacts a:focus-visible::after {
+    opacity: 1;
+    transform: translate(0, 0) rotate(45deg);
+}
+
+.heroFacts span {
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.heroFacts strong {
+    margin-top: 28px;
+    color: var(--color-ink);
+    font-size: var(--text-base);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+.heroFacts small {
+    max-width: 220px;
+    margin-top: 8px;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+}
+
+.heroFacts em {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    width: max-content;
+    align-items: center;
+    justify-content: center;
+    margin-top: 18px;
+    padding-bottom: 4px;
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition:
+        color var(--transition),
+        transform var(--transition);
+}
+
+.heroFacts em::after {
     content: "";
     position: absolute;
-    top: 28px;
-    right: 28px;
-    width: 148px;
-    height: 148px;
-    border: 1px solid rgba(250, 248, 243, 0.34);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition);
+}
+
+.heroFacts a:hover em,
+.heroFacts a:focus-visible em {
+    transform: translateX(2px);
+    color: var(--color-accent-hover);
+}
+
+.heroFacts a:hover em::after,
+.heroFacts a:focus-visible em::after {
+    transform: scaleX(1);
+}
+
+.heroPanel {
+    position: relative;
+    display: flex;
+    min-height: 480px;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 32px;
+    border: 1px solid rgba(156, 74, 45, 0.18);
+    border-radius: 32px;
+    background:
+        radial-gradient(
+            circle at 90% 8%,
+            rgba(156, 74, 45, 0.22),
+            transparent 28%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.92),
+            rgba(245, 237, 226, 0.76)
+        );
+    box-shadow: var(--shadow-soft);
+}
+
+.heroPanel::after {
+    content: "";
+    position: absolute;
+    right: -44px;
+    bottom: -44px;
+    width: 190px;
+    height: 190px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
     border-radius: 50%;
+    background: rgba(156, 74, 45, 0.08);
 }
 
 .panelLabel {
     position: relative;
     z-index: 1;
     width: max-content;
-    margin-bottom: auto;
+    margin-bottom: 24px;
     padding: 8px 13px;
-    border: 1px solid rgba(250, 248, 243, 0.3);
+    border: 1px solid rgba(156, 74, 45, 0.24);
     border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.5);
     font-size: var(--text-xs);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.78);
-    backdrop-filter: blur(10px);
+    color: var(--color-accent);
 }
 
-.heroPanel strong {
+.heroPanel h2 {
     position: relative;
     z-index: 1;
-    max-width: 320px;
-    font-family: var(--font-display-stack);
-    font-size: clamp(2rem, 3.6vw, 3rem);
-    font-style: italic;
+    max-width: 420px;
+    margin: 0;
+    font-size: clamp(2rem, 3.4vw, 3.15rem);
     font-weight: 400;
     line-height: 1.04;
-    color: var(--color-ink-on-accent);
+    letter-spacing: -0.035em;
+    color: var(--color-ink);
 }
 
 .heroPanel p {
     position: relative;
     z-index: 1;
+    max-width: 420px;
     margin: 18px 0 0;
-    color: rgba(250, 248, 243, 0.76);
+    color: var(--color-ink-muted);
+    line-height: 1.6;
+}
+
+.scenarioButtons {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 10px;
+    margin-top: 28px;
+}
+
+.heroScenarioPicker {
+    position: relative;
+    z-index: 1;
+}
+
+.heroScenarioPickerSlot {
+    position: relative;
+    z-index: 20;
+    margin-top: 30px;
+}
+
+.heroScenarioPicker {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    opacity: 1;
+    box-shadow: 0 10px 36px rgba(26, 26, 26, 0);
+    transition:
+        opacity 260ms ease,
+        padding var(--transition),
+        background-color var(--transition),
+        box-shadow var(--transition),
+        width var(--transition),
+        border-radius var(--transition),
+        transform 260ms ease;
+    will-change: opacity, top, left, width;
+}
+
+.heroScenarioPickerPinned {
+    position: fixed;
+    top: var(--scenario-target-top, 82px);
+    left: var(--scenario-target-left, 16px);
+    z-index: 80;
+    width: var(--scenario-target-width, min(1180px, calc(100vw - 32px)));
+    padding: 12px;
+    opacity: 1;
+    transform: none;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 28px;
+    background: rgba(250, 248, 243, 0.82);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(18px);
+}
+
+.heroScenarioPickerPinned:not(.heroScenarioPickerFloatingHidden) {
+    animation: scenarioPickerMorphIn 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.heroScenarioPickerPinned:not(.heroScenarioPickerFloatingHidden)
+    .scenarioButtons {
+    animation: scenarioChipsRollIn 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.heroScenarioPickerFloatingHidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: none;
+}
+
+.heroScenarioPickerHidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.heroScenarioPicker > span {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.heroScenarioPicker .scenarioButtons {
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    margin-top: 0;
+    scrollbar-width: none;
+}
+
+.heroScenarioPicker .scenarioButtons::-webkit-scrollbar {
+    display: none;
+}
+
+.heroScenarioPicker .scenarioButton {
+    flex: 0 0 auto;
+    background: rgba(255, 255, 255, 0.86);
+}
+
+.heroScenarioPicker:not(.heroScenarioPickerPinned) .scenarioButtons {
+    flex-wrap: wrap;
+    gap: 12px 10px;
+    overflow-x: visible;
+}
+
+.heroScenarioPicker:not(.heroScenarioPickerPinned) .scenarioButton {
+    flex: initial;
+    background: rgba(255, 255, 255, 0.74);
+}
+
+.heroScenarioPicker .scenarioButtonActive,
+.heroScenarioPicker:not(.heroScenarioPickerPinned) .scenarioButtonActive {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.scenarioButton,
+.scenarioSelect {
+    cursor: pointer;
+    border: 1px solid var(--color-line);
+    font-family: inherit;
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition),
+        transform var(--transition);
+}
+
+.scenarioButton {
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+}
+
+.scenarioButton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        110deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.34) 42%,
+        transparent 74%
+    );
+    opacity: 0;
+    transform: translateX(-120%);
+    pointer-events: none;
+}
+
+.scenarioButton:hover,
+.scenarioButton:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--color-line-strong);
+    color: var(--color-ink);
+}
+
+.scenarioButtonActive {
+    cursor: default;
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    animation: scenarioChipIn 260ms ease both;
+}
+
+.scenarioButtonActive::after {
+    animation: scenarioChipSheen 520ms ease both;
+}
+
+.scenarioButtonActive:hover,
+.scenarioButtonActive:focus-visible {
+    transform: none;
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.nextStep {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    min-height: 228px;
+    margin-top: clamp(28px, 3vw, 44px);
+    padding: 22px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.nextStepContent {
+    animation: scenarioResultIn 260ms ease both;
+}
+
+.nextStep span {
+    display: block;
+    margin-bottom: 10px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.nextStep strong {
+    display: block;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--color-ink);
+}
+
+.nextStep p {
+    margin: 12px 0 0;
+    font-size: var(--text-sm);
+}
+
+@keyframes scenarioChipIn {
+    from {
+        transform: translateY(2px) scale(0.98);
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes scenarioChipSheen {
+    0% {
+        opacity: 0;
+        transform: translateX(-120%);
+    }
+
+    35% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+}
+
+@keyframes scenarioResultIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scenarioChipsRollIn {
+    from {
+        opacity: 0.35;
+        transform: translateX(38px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scenarioPickerMorphIn {
+    from {
+        top: var(--scenario-start-top);
+        left: var(--scenario-start-left);
+        width: var(--scenario-start-width);
+        min-height: var(--scenario-start-height);
+        padding: 0;
+        border-color: rgba(156, 74, 45, 0);
+        border-radius: 0;
+        background: rgba(250, 248, 243, 0);
+        box-shadow: 0 10px 36px rgba(26, 26, 26, 0);
+        backdrop-filter: blur(0);
+    }
+
+    42% {
+        border-color: rgba(156, 74, 45, 0.1);
+        background: rgba(250, 248, 243, 0.48);
+    }
+
+    to {
+        top: var(--scenario-target-top, 82px);
+        left: var(--scenario-target-left, 16px);
+        width: var(--scenario-target-width, min(1180px, calc(100vw - 32px)));
+        min-height: auto;
+        padding: 12px;
+        border-color: rgba(156, 74, 45, 0.16);
+        border-radius: 28px;
+        background: rgba(250, 248, 243, 0.82);
+        box-shadow: var(--shadow-soft);
+        backdrop-filter: blur(18px);
+    }
 }
 
 .section {
     padding: 72px 0;
     border-top: 1px solid var(--color-line);
+}
+
+.plan {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.45fr);
+    gap: 18px;
+    overflow: hidden;
+    padding: 28px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 32px;
+    background:
+        radial-gradient(
+            circle at 96% 0%,
+            rgba(156, 74, 45, 0.12),
+            transparent 30%
+        ),
+        rgba(255, 255, 255, 0.72);
+    box-shadow: var(--shadow-soft);
+}
+
+.plan::before {
+    content: "";
+    position: absolute;
+    inset: auto -90px -90px auto;
+    width: 260px;
+    height: 260px;
+    border: 1px solid rgba(156, 74, 45, 0.12);
+    border-radius: 50%;
+    background: rgba(156, 74, 45, 0.05);
+    pointer-events: none;
+}
+
+.planScene {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(58%, 820px);
+    overflow: hidden;
+    border-radius: inherit;
+    opacity: 0.5;
+    pointer-events: none;
+    mask-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.22) 18%,
+        #000 44%
+    );
+}
+
+.planScene::before,
+.planScene::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.planScene::before {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(250, 248, 243, 0.94),
+            rgba(250, 248, 243, 0.48) 44%,
+            rgba(26, 26, 26, 0.44)
+        ),
+        radial-gradient(
+            circle at 75% 12%,
+            rgba(156, 74, 45, 0.18),
+            transparent 36%
+        );
+}
+
+.planScene::after {
+    background:
+        linear-gradient(rgba(250, 248, 243, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(250, 248, 243, 0.08) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mix-blend-mode: soft-light;
+}
+
+.planIntro,
+.planSummary,
+.planColumns,
+.planCta {
+    position: relative;
+    z-index: 1;
+}
+
+.planIntro h2 {
+    max-width: 780px;
+    margin: 0;
+    font-size: clamp(2rem, 3.8vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--color-ink);
+}
+
+.planIntro p {
+    max-width: 740px;
+    margin: 18px 0 0;
+    color: var(--color-ink-muted);
+    font-size: var(--text-lg);
+    line-height: 1.6;
+}
+
+.planSummary {
+    display: grid;
+    gap: 12px;
+    align-self: stretch;
+    border: 0;
+    background: transparent;
+}
+
+.planSceneCaption {
+    max-width: 380px;
+    justify-self: end;
+    padding: 8px 6px 2px;
+}
+
+.planSceneCaption span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.planSceneCaption p {
+    margin: 0;
+    color: rgba(26, 26, 26, 0.72);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+}
+
+.planResult span,
+.planBrief summary span,
+.planStepSummary span,
+.planCta a,
+.planCta button,
+.routeDetail > div:last-child > span,
+.serviceGroupHeader span {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.planResult span,
+.planBrief summary span,
+.planStepSummary span,
+.routeDetail > div:last-child > span,
+.serviceGroupHeader span {
+    margin-bottom: 12px;
+    color: var(--color-accent);
+}
+
+.planResult {
+    padding: 22px;
+    border: 1px solid rgba(156, 74, 45, 0.18);
+    border-radius: 24px;
+    background: var(--color-surface);
+}
+
+.planResult strong {
+    display: block;
+    font-size: var(--text-lg);
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--color-ink);
+}
+
+.planVisual {
+    position: relative;
+    min-height: 230px;
+    overflow: hidden;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 24px;
+    background: var(--color-surface-alt);
+    box-shadow: var(--shadow-soft);
+}
+
+.planImage {
+    object-fit: cover;
+    filter: saturate(0.9) contrast(0.94);
+    transform: scale(1.02);
+}
+
+.planVisual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(26, 26, 26, 0.02), rgba(26, 26, 26, 0.62)),
+        radial-gradient(
+            circle at 90% 8%,
+            rgba(156, 74, 45, 0.22),
+            transparent 34%
+        );
+}
+
+.planVisualOverlay {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    z-index: 1;
+}
+
+.planVisualOverlay span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-ink-on-accent);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.planVisualOverlay p {
+    max-width: 360px;
+    margin: 0;
+    color: rgba(250, 248, 243, 0.82);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+}
+
+.planColumns {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.planBrief,
+.planStep {
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.68);
+}
+
+.planBrief summary,
+.planStepSummary {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    cursor: pointer;
+    padding: 20px 56px 20px 22px;
+    list-style: none;
+}
+
+.planBrief summary::-webkit-details-marker,
+.planStepSummary::-webkit-details-marker {
+    display: none;
+}
+
+.planBrief summary::after,
+.planStepSummary::after {
+    content: "+";
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-weight: 700;
+    line-height: 1;
+    transition:
+        background-color var(--transition),
+        transform var(--transition);
+}
+
+.planBrief[open] summary::after,
+.planStep[open] .planStepSummary::after {
+    transform: rotate(45deg);
+}
+
+.planBrief summary:hover::after,
+.planBrief summary:focus-visible::after,
+.planStepSummary:hover::after,
+.planStepSummary:focus-visible::after {
+    background: rgba(156, 74, 45, 0.14);
+}
+
+.planBrief summary:focus-visible,
+.planStepSummary:focus-visible {
+    outline: 2px solid rgba(156, 74, 45, 0.28);
+    outline-offset: -4px;
+}
+
+.planStepSummary h3 {
+    margin: 0;
+    font-size: var(--text-xl);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+}
+
+.planDisclosurePreview {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.planBrief[open] .planDisclosurePreview,
+.planStep[open] .planDisclosurePreview {
+    display: none;
+}
+
+.planBrief p,
+.planStep p {
+    margin: 0;
+    padding: 0 22px 20px;
+    color: var(--color-ink-muted);
+    line-height: 1.5;
+}
+
+.planLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: -4px 0 0;
+    padding: 0 22px 22px;
+}
+
+.planLinks a {
+    display: inline-flex;
+    padding: 8px 11px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    transition:
+        background-color var(--transition),
+        box-shadow var(--transition),
+        color var(--transition),
+        transform var(--transition);
+}
+
+.planLinks a:hover,
+.planLinks a:focus-visible {
+    transform: translateY(-2px);
+    background: rgba(156, 74, 45, 0.14);
+    color: var(--color-accent-hover);
+    box-shadow:
+        inset 0 0 0 1px rgba(156, 74, 45, 0.18),
+        0 10px 24px rgba(156, 74, 45, 0.12);
+}
+
+.planCta {
+    display: flex;
+    grid-column: 1 / -1;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px;
+    border-radius: 24px;
+    background: var(--color-ink);
+    color: var(--color-ink-on-accent);
+}
+
+.planCta p {
+    max-width: 680px;
+    margin: 0;
+    line-height: 1.5;
+    opacity: 0.86;
+}
+
+.planCta a,
+.planCta button {
+    flex-shrink: 0;
+    cursor: pointer;
+    padding: 13px 18px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    font-family: inherit;
+    transition:
+        background-color var(--transition),
+        transform var(--transition);
+}
+
+.planCta a:hover,
+.planCta a:focus-visible,
+.planCta button:hover,
+.planCta button:focus-visible {
+    transform: translateY(-1px);
+    background: var(--color-accent-hover);
+    outline: none;
+}
+
+.planLand {
+    background:
+        linear-gradient(rgba(156, 74, 45, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(156, 74, 45, 0.07) 1px, transparent 1px),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(156, 74, 45, 0.14),
+            transparent 30%
+        ),
+        rgba(255, 255, 255, 0.74);
+    background-size:
+        56px 56px,
+        56px 56px,
+        auto,
+        auto;
+}
+
+.planLand .planVisual,
+.planLand .planResult {
+    border-radius: 38px 22px 38px 22px;
+}
+
+.planRoute {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.54fr);
+    gap: 22px;
+    padding: 34px;
+    border-color: rgba(156, 74, 45, 0.22);
+    background:
+        linear-gradient(rgba(156, 74, 45, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(156, 74, 45, 0.07) 1px, transparent 1px),
+        radial-gradient(
+            circle at 78% 14%,
+            rgba(156, 74, 45, 0.2),
+            transparent 31%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.94),
+            rgba(245, 237, 226, 0.78)
+        );
+    background-size:
+        64px 64px,
+        64px 64px,
+        auto,
+        auto;
+    box-shadow: 0 26px 70px -46px rgba(156, 74, 45, 0.62);
+}
+
+.planRoute::before {
+    inset: -120px auto auto 54%;
+    width: 420px;
+    height: 420px;
+    border-color: rgba(156, 74, 45, 0.14);
+    background: rgba(156, 74, 45, 0.06);
+}
+
+.planRoute::after {
+    display: none;
+}
+
+.planRoute .planIntro h2 {
+    max-width: 890px;
+    font-size: clamp(2.6rem, 4.75vw, 4.55rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.074em;
+    text-wrap: balance;
+}
+
+.planRoute .planIntro .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: none;
+}
+
+.planRoute .planIntro p {
+    max-width: 820px;
+    font-size: clamp(1.05rem, 1.35vw, 1.22rem);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.018em;
+}
+
+.planRoute .planSummary {
+    gap: 14px;
+    align-content: start;
+    padding-top: 10px;
+}
+
+.planRoute .planScene {
+    width: min(61%, 920px);
+    opacity: 0.5;
+}
+
+.planRoute .planScene .planImage {
+    filter: saturate(0.78) contrast(0.92);
+    transform: scale(1.06);
+}
+
+.planRoute .planSceneCaption {
+    max-width: 420px;
+    margin: 10px 0 0;
+    padding: 16px 18px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-left: 2px solid rgba(156, 74, 45, 0.48);
+    border-radius: 18px;
+    background: rgba(250, 248, 243, 0.9);
+    box-shadow: 0 18px 44px -34px rgba(26, 26, 26, 0.34);
+    text-shadow: none;
+    backdrop-filter: blur(14px);
+}
+
+.planRoute .planSceneCaption span,
+.planRoute .planResult span,
+.planRoute .planBrief summary span,
+.planRoute .planStepSummary span {
+    font-size: 0.78rem;
+    font-variant-caps: normal;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: none;
+}
+
+.planRoute .planSceneCaption p {
+    font-size: clamp(0.98rem, 1.12vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.42;
+    letter-spacing: -0.018em;
+    color: rgba(26, 26, 26, 0.78);
+}
+
+.planRoute .planVisual {
+    min-height: 270px;
+    border-radius: 30px;
+    box-shadow: 0 22px 50px -32px rgba(26, 26, 26, 0.58);
+}
+
+.planRoute .planVisual::after {
+    background:
+        linear-gradient(180deg, rgba(26, 26, 26, 0.03), rgba(26, 26, 26, 0.74)),
+        radial-gradient(
+            circle at 14% 20%,
+            rgba(250, 248, 243, 0.22),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 88% 8%,
+            rgba(156, 74, 45, 0.34),
+            transparent 34%
+        );
+}
+
+.planRoute .planVisualOverlay {
+    bottom: 22px;
+    left: 22px;
+}
+
+.planRoute .planResult {
+    position: relative;
+    justify-self: end;
+    max-width: 450px;
+    margin-top: 24px;
+    padding: 7px 0 7px 24px;
+    border: 0;
+    border-left: 2px solid rgba(156, 74, 45, 0.54);
+    border-radius: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(250, 248, 243, 0.62),
+        rgba(250, 248, 243, 0.22) 62%,
+        transparent
+    );
+    box-shadow: none;
+}
+
+.planRoute .planResult::before {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: -7px;
+    width: 12px;
+    height: 12px;
+    border: 3px solid rgba(250, 248, 243, 0.96);
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 7px rgba(156, 74, 45, 0.12);
+}
+
+.planRoute .planResult span {
+    margin-bottom: 10px;
+}
+
+.planRoute .planResult strong {
+    font-size: clamp(1.16rem, 1.48vw, 1.42rem);
+    font-weight: 500;
+    line-height: 1.32;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+}
+
+.planRoute .planBrief {
+    border-color: rgba(156, 74, 45, 0.18);
+    background: rgba(250, 248, 243, 0.9);
+    box-shadow: 0 18px 44px -34px rgba(26, 26, 26, 0.34);
+    backdrop-filter: blur(14px);
+}
+
+.planRoute .planBrief summary {
+    padding: 16px 54px 16px 18px;
+}
+
+.planRoute .planBrief summary::after {
+    top: 16px;
+    right: 18px;
+}
+
+.planRoute .planBrief summary strong {
+    color: var(--color-ink);
+    font-size: clamp(1rem, 1.08vw, 1.12rem);
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.planRoute .planBrief p {
+    padding: 0 18px 18px;
+    color: rgba(26, 26, 26, 0.72);
+    font-size: var(--text-sm);
+}
+
+.planRoute .planDisclosurePreview {
+    color: rgba(26, 26, 26, 0.68);
+}
+
+.planRoute .planColumns {
+    counter-reset: plan-step;
+    position: relative;
+    gap: 14px;
+    align-items: start;
+    padding-top: 8px;
+}
+
+.planRoute .planColumns::before {
+    display: none;
+}
+
+.planRoute .planStep {
+    counter-increment: plan-step;
+    position: relative;
+    border-color: rgba(156, 74, 45, 0.2);
+    background:
+        radial-gradient(
+            circle at 86% 16%,
+            rgba(156, 74, 45, 0.16),
+            transparent 28%
+        ),
+        rgba(255, 255, 255, 0.82);
+    box-shadow: 0 18px 46px -38px rgba(26, 26, 26, 0.38);
+}
+
+.planRoute .planStep::before {
+    content: counter(plan-step, upper-roman);
+    position: absolute;
+    top: 16px;
+    right: 58px;
+    color: rgba(156, 74, 45, 0.13);
+    font-size: clamp(2.3rem, 5vw, 3.6rem);
+    font-weight: 300;
+    line-height: 0.8;
+    letter-spacing: -0.14em;
+    pointer-events: none;
+}
+
+.planRoute .planStepSummary h3 {
+    font-size: clamp(1.16rem, 1.55vw, 1.32rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    text-wrap: pretty;
+}
+
+.planRoute .planStep p {
+    font-size: var(--text-sm);
+}
+
+.planRoute .planLinks a {
+    background: rgba(156, 74, 45, 0.1);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.planRoute .planLinks a:hover,
+.planRoute .planLinks a:focus-visible {
+    background: rgba(156, 74, 45, 0.14);
+}
+
+.planRoute .planCta {
+    padding: 24px 28px;
+    background:
+        radial-gradient(
+            circle at 76% 50%,
+            rgba(156, 74, 45, 0.5),
+            transparent 32%
+        ),
+        var(--color-ink);
+    box-shadow: 0 24px 56px -42px rgba(26, 26, 26, 0.8);
+}
+
+.planEngineering {
+    background:
+        radial-gradient(
+            circle at 82% 8%,
+            rgba(156, 74, 45, 0.18),
+            transparent 31%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.9),
+            rgba(243, 239, 230, 0.86)
+        );
+}
+
+.planEngineering .planStep {
+    border-style: dashed;
+}
+
+.planProject {
+    background:
+        radial-gradient(
+            circle at 92% 8%,
+            rgba(156, 74, 45, 0.22),
+            transparent 30%
+        ),
+        var(--color-ink);
+}
+
+.planProject .eyebrow,
+.planProject .planIntro h2,
+.planProject .planResult strong,
+.planProject .planStepSummary h3,
+.planProject .planCta p {
+    color: var(--color-ink-on-accent);
+}
+
+.planProject .planIntro p,
+.planProject .planBrief summary span,
+.planProject .planStepSummary span {
+    color: rgba(250, 248, 243, 0.7);
+}
+
+.planProject .planResult,
+.planProject .planVisual,
+.planProject .planBrief,
+.planProject .planStep {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.planProject .planBrief summary strong,
+.planProject .planDisclosurePreview,
+.planProject .planBrief p,
+.planProject .planStep p {
+    color: rgba(250, 248, 243, 0.82);
+}
+
+.planProject .planCta {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.planBath {
+    background:
+        radial-gradient(
+            circle at 86% 14%,
+            rgba(156, 74, 45, 0.2),
+            transparent 30%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.86),
+            rgba(245, 237, 226, 0.82)
+        );
+}
+
+.planCommercial {
+    background:
+        linear-gradient(90deg, rgba(156, 74, 45, 0.08), transparent 1px),
+        linear-gradient(180deg, rgba(156, 74, 45, 0.08), transparent 1px),
+        rgba(255, 255, 255, 0.74);
+    background-size: 120px 120px;
+}
+
+.routeGuide {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    z-index: 12;
+}
+
+.routeGuideButton {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    min-height: 0;
+    cursor: help;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(156, 74, 45, 0.2);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--color-accent);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 12px 32px rgba(41, 28, 22, 0.1);
+    transition:
+        border-color var(--transition),
+        background-color var(--transition),
+        transform var(--transition);
+}
+
+.routeGuideButton:hover,
+.routeGuideButton:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(156, 74, 45, 0.42);
+    background: var(--color-surface);
+    outline: none;
+}
+
+.routeGuidePanel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 12px);
+    width: min(320px, calc(100vw - 64px));
+    padding: 18px;
+    border: 1px solid rgba(156, 74, 45, 0.18);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: var(--shadow-soft);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px) scale(0.98);
+    transform-origin: top right;
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+    backdrop-filter: blur(18px);
+}
+
+.routeGuidePanel::after {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 14px;
+    width: 14px;
+    height: 14px;
+    transform: rotate(45deg);
+    border-top: 1px solid rgba(156, 74, 45, 0.18);
+    border-left: 1px solid rgba(156, 74, 45, 0.18);
+    background: rgba(255, 255, 255, 0.94);
+}
+
+.routeGuide:hover .routeGuidePanel,
+.routeGuide:focus-within .routeGuidePanel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.routeGuidePanel strong {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--color-ink);
+    font-size: var(--text-sm);
+    font-weight: 560;
+}
+
+.routeGuidePanel ol {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.routeGuidePanel li {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+}
+
+.routeGuidePanel li span {
+    font-family: var(--font-display-stack);
+    font-size: var(--text-base);
+    font-style: italic;
+    line-height: 1;
+    color: var(--color-accent);
+}
+
+.routeGraph {
+    --route-graph-inset-x: clamp(96px, 7.5vw, 150px);
+    --route-graph-inset-y: clamp(52px, 6vw, 78px);
+
+    position: relative;
+    min-height: clamp(430px, calc(var(--route-count, 7) * 78px), 560px);
+    margin-top: 36px;
+    overflow: hidden;
+    border: 1px solid rgba(156, 74, 45, 0.14);
+    border-radius: 36px;
+    background:
+        radial-gradient(
+            circle at 52% 48%,
+            rgba(156, 74, 45, 0.12),
+            transparent 34%
+        ),
+        linear-gradient(90deg, rgba(156, 74, 45, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(156, 74, 45, 0.05) 1px, transparent 1px),
+        rgba(255, 255, 255, 0.64);
+    background-size:
+        auto,
+        92px 92px,
+        92px 92px,
+        auto;
+    transition: min-height var(--transition);
+}
+
+.routeGraph::before {
+    content: "";
+    position: absolute;
+    inset: 38px;
+    border: 1px solid rgba(156, 74, 45, 0.08);
+    border-radius: 999px;
+    pointer-events: none;
+}
+
+.routeHint {
+    position: absolute;
+    right: 28px;
+    bottom: 24px;
+    z-index: 2;
+    max-width: 300px;
+    padding: 16px 18px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
+}
+
+.routeHint span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.routeHint p {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+}
+
+.routeGraphPath {
+    position: absolute;
+    top: var(--route-graph-inset-y);
+    right: var(--route-graph-inset-x);
+    bottom: var(--route-graph-inset-y);
+    left: var(--route-graph-inset-x);
+    width: calc(100% - var(--route-graph-inset-x) - var(--route-graph-inset-x));
+    height: calc(
+        100% - var(--route-graph-inset-y) - var(--route-graph-inset-y)
+    );
+    overflow: visible;
+}
+
+.routeGraphShadow,
+.routeGraphLine {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+}
+
+.routeGraphShadow {
+    stroke: rgba(156, 74, 45, 0.12);
+    stroke-linecap: round;
+    stroke-width: 22;
+    animation: routePathIn 760ms ease both;
+}
+
+.routeGraphLine {
+    stroke: rgba(156, 74, 45, 0.38);
+    stroke-dasharray: 12 12;
+    stroke-linecap: round;
+    stroke-width: 2;
+    animation: routePathIn 860ms ease both;
+}
+
+.route {
+    position: absolute;
+    inset: var(--route-graph-inset-y) var(--route-graph-inset-x);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.routeStep {
+    position: absolute;
+    top: var(--route-y);
+    left: var(--route-x);
+    width: 72px;
+    height: 72px;
+    transform: translate(-50%, -50%);
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.routeStep::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    width: 22px;
+    height: 22px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(156, 74, 45, 0.22);
+    box-shadow: 0 0 0 14px rgba(156, 74, 45, 0.07);
+}
+
+.routeStepActive::before,
+.routeStepSelected::before {
+    background: var(--color-accent);
+    box-shadow:
+        0 0 0 12px rgba(156, 74, 45, 0.12),
+        0 0 0 24px rgba(156, 74, 45, 0.06);
+}
+
+.routeStepSelected {
+    z-index: 3;
+    transform: translate(-50%, -50%);
+}
+
+.routeStepDimmed {
+    opacity: 0.64;
+}
+
+.routeStepDimmed:hover,
+.routeStepDimmed:focus-within {
+    opacity: 1;
+}
+
+.routeStepButton {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 72px;
+    height: 72px;
+    place-items: center;
+    padding: 7px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 18px 46px rgba(41, 28, 22, 0.08);
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    backdrop-filter: blur(18px);
+    transition:
+        border-color var(--transition),
+        background-color var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition);
+    animation: routeNodeIn 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--route-order, 0) * 54ms);
+}
+
+.routeStepButton:hover,
+.routeStepButton:focus-visible {
+    transform: scale(1.05);
+    border-color: rgba(156, 74, 45, 0.42);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 24px 60px rgba(41, 28, 22, 0.12);
+    outline: none;
+}
+
+.routeStepActive .routeStepButton {
+    border-color: rgba(156, 74, 45, 0.28);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.routeStepSelected .routeStepButton {
+    transform: scale(1.08);
+    border-color: rgba(156, 74, 45, 0.58);
+    background:
+        linear-gradient(180deg, rgba(156, 74, 45, 0.08), transparent 72%),
+        rgba(255, 255, 255, 0.96);
+    box-shadow: var(--shadow-soft);
+}
+
+.routeIndex {
+    display: grid;
+    width: 56px;
+    height: 56px;
+    place-items: center;
+    border: 1px solid rgba(156, 74, 45, 0.22);
+    border-radius: 50%;
+    background: var(--color-surface);
+    font-family: var(--font-display-stack);
+    font-size: var(--text-xl);
+    font-style: italic;
+    line-height: 1;
+    color: var(--color-accent);
+}
+
+.routeStepActive .routeIndex,
+.routeStepSelected .routeIndex {
+    border-color: rgba(156, 74, 45, 0.34);
+    background: rgba(156, 74, 45, 0.12);
+}
+
+.routeCopy {
+    position: absolute;
+    top: calc(100% + 16px);
+    left: 50%;
+    width: clamp(220px, 18vw, 300px);
+    min-width: 0;
+    padding: 18px 20px;
+    border: 1px solid rgba(156, 74, 45, 0.18);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: var(--shadow-soft);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -8px) scale(0.96);
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+    backdrop-filter: blur(18px);
+}
+
+.routeStep:nth-child(even) .routeCopy {
+    top: auto;
+    bottom: calc(100% + 16px);
+    transform: translate(-50%, 8px) scale(0.96);
+}
+
+.routeStepSelected .routeCopy {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0) scale(1);
+}
+
+.routeStepSelected:nth-child(even) .routeCopy {
+    transform: translate(-50%, 0) scale(1);
+}
+
+.routeStep h3 {
+    margin: 3px 0 0;
+    font-size: var(--text-lg);
+    font-weight: 560;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--color-ink);
+}
+
+.routeStep p {
+    display: -webkit-box;
+    margin: 8px 0 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    color: var(--color-ink-muted);
+    font-size: var(--text-xs);
+    line-height: 1.45;
+}
+
+.routeLinks {
+    position: absolute;
+    top: calc(100% + 126px);
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    width: clamp(220px, 18vw, 300px);
+    flex-wrap: wrap;
+    gap: 7px;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -4px);
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.routeStep:nth-child(even) .routeLinks {
+    top: auto;
+    bottom: calc(100% + 126px);
+    transform: translate(-50%, 4px);
+}
+
+.routeStepSelected .routeLinks {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+}
+
+.routeStepSelected:nth-child(even) .routeLinks {
+    transform: translate(-50%, 0);
+}
+
+.routeLinks a {
+    padding: 7px 10px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 12px 26px rgba(41, 28, 22, 0.08);
+    color: var(--color-accent);
+    font-size: 0.72rem;
+    font-weight: 560;
+    line-height: 1.2;
+}
+
+.routeLinks a:hover {
+    border-color: rgba(156, 74, 45, 0.42);
+    color: var(--color-accent-hover);
+}
+
+@keyframes routeNodeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes routePathIn {
+    from {
+        opacity: 0;
+        stroke-dashoffset: 34;
+    }
+
+    to {
+        opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+.routeDetail {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: 24px;
+    margin-top: 18px;
+    padding: 28px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 28px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.routeDetail h3 {
+    margin: 0;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--color-ink);
+}
+
+.routeDetail p {
+    margin: 12px 0 0;
+    color: var(--color-ink-muted);
+    line-height: 1.55;
+}
+
+.routeDetail ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.routeDetail li {
+    padding: 16px;
+    border: 1px solid var(--color-line);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.68);
+}
+
+.routeDetail li a {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+.routeDetail li p {
+    font-size: var(--text-sm);
+}
+
+.scenarioGrid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 36px;
+}
+
+.scenarioCard {
+    display: flex;
+    min-height: 310px;
+    flex-direction: column;
+    gap: 22px;
+    padding: 22px;
+    border: 1px solid var(--color-line);
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.66);
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.scenarioCard:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-line-strong);
+}
+
+.scenarioCardActive {
+    border-color: rgba(156, 74, 45, 0.38);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.scenarioCard span {
+    display: block;
+    margin-bottom: 12px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.scenarioCard h3 {
+    margin: 0;
+    font-size: var(--text-xl);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+}
+
+.scenarioCard p {
+    margin: 14px 0 0;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+}
+
+.scenarioCard .scenarioQuestion {
+    padding-top: 14px;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-ink);
+    font-weight: 500;
+}
+
+.scenarioServices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: auto 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.scenarioServices a {
+    display: inline-flex;
+    padding: 7px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 500;
+}
+
+.scenarioSelect {
+    width: max-content;
+    min-height: 42px;
+    margin-top: 2px;
+    padding: 0 16px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-ink);
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.scenarioSelect:hover,
+.scenarioSelect:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.scenarioCardActive .scenarioSelect {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.serviceGroups {
+    display: grid;
+    gap: 24px;
+    margin-top: 36px;
+}
+
+.serviceGroup {
+    display: grid;
+    grid-template-columns: minmax(170px, 0.26fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+    padding: 24px;
+    border: 1px solid rgba(156, 74, 45, 0.14);
+    border-radius: 28px;
+    background:
+        radial-gradient(
+            circle at 96% 0%,
+            rgba(156, 74, 45, 0.08),
+            transparent 28%
+        ),
+        rgba(255, 255, 255, 0.42);
+}
+
+.serviceGroupHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.serviceGroupHeader span {
+    margin-bottom: 0;
+    color: var(--color-accent);
+}
+
+.serviceGroupHeader h3 {
+    margin: 0;
+    font-size: clamp(1.45rem, 2.3vw, 2rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+}
+
+.serviceGroupHeader p {
+    max-width: 210px;
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+}
+
+.serviceGroupHeader small {
+    display: inline-flex;
+    width: max-content;
+    margin-top: 2px;
+    padding: 7px 10px;
+    border: 1px solid rgba(156, 74, 45, 0.14);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.56);
+    color: var(--color-ink-subtle);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.serviceGroupContent {
+    display: grid;
+    min-width: 0;
+    gap: 14px;
+}
+
+.serviceGroup .grid,
+.otherServices .grid {
+    margin-top: 0;
+}
+
+.serviceGroup .grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+.serviceGroup .grid > .card:only-child {
+    max-width: 430px;
+}
+
+.serviceGroupMore {
+    display: grid;
+    gap: 14px;
+}
+
+.serviceGroupMore summary {
+    display: flex;
+    min-height: 46px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border: 1px dashed rgba(156, 74, 45, 0.32);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.48);
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    list-style: none;
+    text-transform: uppercase;
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        transform var(--transition);
+}
+
+.serviceGroupMore summary::-webkit-details-marker {
+    display: none;
+}
+
+.serviceGroupMore summary:hover,
+.serviceGroupMore summary:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--color-accent);
+    background: var(--color-surface);
+    outline: none;
+}
+
+.serviceGroupMore[open] summary {
+    margin-bottom: 14px;
+}
+
+.serviceGroupOptional .grid {
+    grid-template-columns: minmax(0, 430px) minmax(260px, 1fr);
+}
+
+.serviceGroupHint {
+    display: flex;
+    min-height: 220px;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    border: 1px dashed rgba(156, 74, 45, 0.24);
+    border-radius: 24px;
+    background:
+        radial-gradient(
+            circle at 86% 16%,
+            rgba(156, 74, 45, 0.1),
+            transparent 34%
+        ),
+        rgba(255, 255, 255, 0.36);
+}
+
+.serviceGroupHint span {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.serviceGroupHint p {
+    max-width: 420px;
+    margin: 0;
+    color: var(--color-ink-muted);
+    line-height: 1.5;
+}
+
+.otherServices {
+    display: grid;
+    gap: 20px;
+}
+
+.showMoreServices {
+    width: 100%;
+    min-height: 78px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 18px;
+    border: 1px dashed rgba(156, 74, 45, 0.38);
+    border-radius: 22px;
+    background:
+        radial-gradient(
+            circle at 92% 0%,
+            rgba(156, 74, 45, 0.08),
+            transparent 28%
+        ),
+        rgba(255, 255, 255, 0.58);
+    font: inherit;
+    text-align: center;
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        transform var(--transition);
+}
+
+.showMoreServices span {
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.showMoreServices small {
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: normal;
+    line-height: 1.35;
+}
+
+.showMoreServices:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-accent);
+    background: var(--color-surface);
 }
 
 .grid {
@@ -123,11 +2265,10 @@
 .card {
     position: relative;
     display: flex;
-    min-height: 260px;
+    min-height: 360px;
     flex-direction: column;
-    justify-content: space-between;
     overflow: hidden;
-    padding: 28px;
+    padding: 26px;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background: rgba(255, 255, 255, 0.76);
@@ -135,20 +2276,21 @@
     transition:
         transform var(--transition),
         border-color var(--transition),
-        background-color var(--transition);
+        background-color var(--transition),
+        opacity var(--transition);
 }
 
 .card::after {
     content: "";
     position: absolute;
-    right: 22px;
-    bottom: 22px;
-    width: 88px;
-    height: 88px;
-    border: 1px solid var(--color-line);
+    right: 18px;
+    bottom: 18px;
+    width: 74px;
+    height: 74px;
+    border: 1px solid rgba(156, 74, 45, 0.18);
     border-radius: 50%;
     background: var(--color-accent-soft);
-    opacity: 0.7;
+    opacity: 0.48;
     transform: translate(28px, 28px);
     transition: transform var(--transition);
 }
@@ -159,15 +2301,242 @@
     background: var(--color-surface);
 }
 
-.card:hover::after {
-    transform: translate(16px, 16px);
+.card:hover .cardButton,
+.card:focus-within .cardButton {
+    background: var(--color-accent);
 }
 
-.cardIndex,
+.card:hover::after {
+    transform: translate(14px, 14px);
+}
+
+.cardActive {
+    border-color: rgba(156, 74, 45, 0.5);
+    background:
+        linear-gradient(180deg, rgba(156, 74, 45, 0.08), transparent 36%),
+        var(--color-surface);
+}
+
+.cardDimmed {
+    opacity: 0.58;
+}
+
+.cardDimmed:hover {
+    opacity: 1;
+}
+
+.cardHeader,
+.cardSketch,
 .cardBody,
-.cardArrow {
+.cardMeta,
+.quickFacts,
+.cardFooter,
+.cardButton {
     position: relative;
     z-index: 1;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.cardSketch {
+    position: relative;
+    height: 76px;
+    overflow: hidden;
+    margin: -14px 0 18px;
+    border: 1px solid rgba(156, 74, 45, 0.13);
+    border-radius: 20px;
+    background:
+        linear-gradient(rgba(156, 74, 45, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(156, 74, 45, 0.06) 1px, transparent 1px),
+        rgba(255, 255, 255, 0.48);
+    background-size: 22px 22px;
+}
+
+.cardSketch::before,
+.cardSketch::after,
+.cardSketch span {
+    content: "";
+    position: absolute;
+    display: block;
+    border-color: rgba(156, 74, 45, 0.42);
+    pointer-events: none;
+}
+
+.cardSketch::before {
+    right: 22px;
+    bottom: 14px;
+    width: 74px;
+    height: 38px;
+    border: 2px solid rgba(156, 74, 45, 0.34);
+    border-radius: 8px 8px 5px 5px;
+    background: rgba(156, 74, 45, 0.06);
+}
+
+.cardSketch::after {
+    right: 38px;
+    bottom: 52px;
+    width: 44px;
+    height: 44px;
+    transform: rotate(45deg);
+    border-top: 2px solid rgba(156, 74, 45, 0.42);
+    border-left: 2px solid rgba(156, 74, 45, 0.42);
+}
+
+.cardSketch span:nth-child(1) {
+    left: 18px;
+    bottom: 18px;
+    width: 54%;
+    height: 2px;
+    background: rgba(156, 74, 45, 0.42);
+}
+
+.cardSketch span:nth-child(2) {
+    left: 24px;
+    bottom: 26px;
+    width: 36%;
+    height: 20px;
+    border-top: 2px solid rgba(156, 74, 45, 0.24);
+    border-left: 2px solid rgba(156, 74, 45, 0.24);
+    border-radius: 999px 0 0;
+}
+
+.cardSketch span:nth-child(3) {
+    right: 48px;
+    bottom: 24px;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(156, 74, 45, 0.34);
+    border-radius: 50%;
+    background: rgba(250, 248, 243, 0.78);
+}
+
+.cardSketch[data-sketch="foundations"]::before {
+    right: 18px;
+    bottom: 18px;
+    width: 96px;
+    height: 20px;
+    transform: skewX(-18deg);
+    border-radius: 5px;
+}
+
+.cardSketch[data-sketch="foundations"]::after {
+    right: 44px;
+    bottom: 38px;
+    width: 64px;
+    height: 14px;
+    transform: skewX(-18deg);
+    border: 2px solid rgba(156, 74, 45, 0.34);
+    border-radius: 5px;
+}
+
+.cardSketch[data-sketch="construction"]::before,
+.cardSketch[data-sketch="baths"]::before,
+.cardSketch[data-sketch="commercial"]::before {
+    height: 42px;
+}
+
+.cardSketch[data-sketch="construction"] span:nth-child(2),
+.cardSketch[data-sketch="commercial"] span:nth-child(2) {
+    width: 42%;
+    height: 26px;
+}
+
+.cardSketch[data-sketch="engineering"]::before {
+    right: 20px;
+    bottom: 20px;
+    width: 92px;
+    height: 2px;
+    border: 0;
+    background: rgba(156, 74, 45, 0.42);
+    box-shadow:
+        -34px -16px 0 rgba(156, 74, 45, 0.22),
+        -8px 16px 0 rgba(156, 74, 45, 0.22);
+}
+
+.cardSketch[data-sketch="engineering"]::after {
+    right: 78px;
+    bottom: 12px;
+    width: 34px;
+    height: 34px;
+    transform: none;
+    border: 2px solid rgba(156, 74, 45, 0.36);
+    border-radius: 50%;
+}
+
+.cardSketch[data-sketch="finishing"]::before {
+    width: 88px;
+    height: 44px;
+    border-radius: 14px;
+}
+
+.cardSketch[data-sketch="finishing"] span:nth-child(1) {
+    bottom: 42px;
+    width: 40%;
+}
+
+.cardSketch[data-sketch="landscaping"]::before {
+    width: 76px;
+    height: 30px;
+    border-radius: 999px 999px 12px 12px;
+}
+
+.cardSketch[data-sketch="landscaping"]::after {
+    right: 80px;
+    bottom: 28px;
+    width: 26px;
+    height: 40px;
+    transform: none;
+    border: 0;
+    border-radius: 999px 999px 0 0;
+    background: rgba(156, 74, 45, 0.16);
+}
+
+.cardSketch[data-sketch="demolition"]::before {
+    right: 24px;
+    bottom: 22px;
+    width: 82px;
+    height: 2px;
+    transform: rotate(-10deg);
+    border: 0;
+    background: rgba(156, 74, 45, 0.42);
+    box-shadow:
+        -22px 16px 0 rgba(156, 74, 45, 0.22),
+        22px -16px 0 rgba(156, 74, 45, 0.22);
+}
+
+.cardSketch[data-sketch="demolition"]::after {
+    right: 66px;
+    bottom: 22px;
+    width: 36px;
+    height: 36px;
+    transform: rotate(28deg);
+    border: 2px solid rgba(156, 74, 45, 0.32);
+    border-radius: 8px;
+}
+
+.cardSketch[data-sketch="design"]::before {
+    right: 24px;
+    bottom: 14px;
+    width: 78px;
+    height: 48px;
+    border-radius: 6px;
+}
+
+.cardSketch[data-sketch="design"]::after {
+    right: 40px;
+    bottom: 28px;
+    width: 46px;
+    height: 22px;
+    transform: none;
+    border: 0;
+    border-top: 2px solid rgba(156, 74, 45, 0.34);
+    border-bottom: 2px solid rgba(156, 74, 45, 0.2);
 }
 
 .cardIndex {
@@ -178,6 +2547,17 @@
     color: var(--color-accent);
 }
 
+.cardBadge {
+    padding: 7px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
 .cardBody {
     display: flex;
     flex-direction: column;
@@ -185,6 +2565,7 @@
 }
 
 .cardTitle {
+    margin: 0;
     font-size: var(--text-xl);
     font-weight: 500;
     line-height: 1.18;
@@ -193,21 +2574,114 @@
 }
 
 .cardText {
+    margin: 0;
     font-size: var(--text-sm);
     line-height: 1.6;
     color: var(--color-ink-muted);
 }
 
-.cardArrow {
-    width: max-content;
-    margin-top: 24px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid currentColor;
+.cardMeta {
+    display: grid;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.cardMeta div {
+    padding-top: 16px;
+    border-top: 1px solid var(--color-line);
+}
+
+.cardMeta span {
+    display: block;
+    margin-bottom: 10px;
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-ink-subtle);
+}
+
+.cardMeta ul,
+.quickFacts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cardMeta li {
+    position: relative;
+    padding-left: 14px;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+}
+
+.cardMeta li + li {
+    margin-top: 7px;
+}
+
+.cardMeta li::before {
+    content: "";
+    position: absolute;
+    top: 0.7em;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-accent);
+}
+
+.quickFacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+.quickFacts li {
+    padding: 6px 9px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.68);
+    color: var(--color-ink-muted);
+    font-size: 0.72rem;
+    line-height: 1.35;
+}
+
+.cardFooter {
+    display: flex;
+    min-height: 68px;
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 24px;
+}
+
+.cardButton {
+    display: inline-flex;
+    width: max-content;
+    min-width: 154px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border-radius: var(--radius-pill);
+    background: var(--color-ink);
+    color: var(--color-ink-on-accent);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    transition:
+        background-color var(--transition),
+        transform var(--transition);
+}
+
+.cardButton:hover {
+    transform: translateY(-1px);
+    background: var(--color-accent);
+}
+
+.secondarySection {
+    padding-top: 56px;
 }
 
 .tagsGrid {
@@ -219,17 +2693,19 @@
 
 .tagCard {
     display: flex;
-    min-height: 118px;
+    min-height: 96px;
     flex-direction: column;
     justify-content: space-between;
     gap: 16px;
-    padding: 20px;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-lg);
-    background: rgba(255, 255, 255, 0.58);
+    padding: 18px;
+    border: 1px solid rgba(26, 26, 26, 0.08);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.42);
+    opacity: 0.82;
     transition:
         background-color var(--transition),
         border-color var(--transition),
+        opacity var(--transition),
         transform var(--transition);
 }
 
@@ -237,6 +2713,7 @@
     transform: translateY(-2px);
     border-color: var(--color-line-strong);
     background: var(--color-surface);
+    opacity: 1;
 }
 
 .tagCard span {
@@ -261,7 +2738,13 @@
     padding: 40px;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
-    background: var(--color-surface);
+    background:
+        radial-gradient(
+            circle at 92% 0%,
+            rgba(156, 74, 45, 0.14),
+            transparent 32%
+        ),
+        var(--color-surface);
     box-shadow: var(--shadow-soft);
 }
 
@@ -274,22 +2757,61 @@
     color: var(--color-ink);
 }
 
-.cta p:last-child {
+.cta > div > p:not(.eyebrow) {
     max-width: 680px;
     margin: 16px 0 0;
     color: var(--color-ink-muted);
 }
 
+.ctaList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ctaList li {
+    padding: 8px 12px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: var(--radius-pill);
+    background: rgba(156, 74, 45, 0.08);
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.ctaAction {
+    display: grid;
+    flex-shrink: 0;
+    gap: 10px;
+    justify-items: end;
+}
+
+.ctaAction small {
+    max-width: 220px;
+    color: var(--color-ink-muted);
+    font-size: var(--text-xs);
+    line-height: 1.35;
+    text-align: center;
+}
+
 .ctaButton {
     display: inline-flex;
     flex-shrink: 0;
+    cursor: pointer;
     align-items: center;
     justify-content: center;
     min-height: 52px;
     padding: 0 26px;
+    border: 0;
     border-radius: var(--radius-pill);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
+    font-family: inherit;
     font-size: var(--text-sm);
     font-weight: 600;
     transition:
@@ -302,60 +2824,1043 @@
     background: var(--color-accent-hover);
 }
 
-@media (max-width: 1024px) {
+.trustStrip {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.trustStrip li {
+    min-height: 108px;
+    padding: 18px;
+    border: 1px solid rgba(156, 74, 45, 0.14);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.54);
+}
+
+.trustStrip span {
+    display: block;
+    color: var(--color-ink);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.trustStrip p {
+    margin: 10px 0 0;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+}
+
+.stickyCta {
+    display: none;
+}
+
+.quizBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 220;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(26, 26, 26, 0.42);
+    backdrop-filter: blur(14px);
+}
+
+.quizModal {
+    position: relative;
+    width: min(620px, 100%);
+    max-height: calc(100dvh - 48px);
+    overflow: auto;
+    padding: 34px;
+    border: 1px solid rgba(156, 74, 45, 0.2);
+    border-radius: 32px;
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(156, 74, 45, 0.14),
+            transparent 34%
+        ),
+        var(--color-surface);
+    box-shadow: 0 34px 90px rgba(26, 26, 26, 0.22);
+}
+
+.quizClose {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--color-ink-muted);
+    font-family: inherit;
+    font-size: 1.7rem;
+    line-height: 1;
+}
+
+.quizClose:hover,
+.quizClose:focus-visible {
+    border-color: rgba(156, 74, 45, 0.34);
+    color: var(--color-accent);
+    outline: none;
+}
+
+.quizForm,
+.quizSuccess {
+    display: grid;
+    gap: 20px;
+}
+
+.quizForm > h3,
+.quizSuccess h3 {
+    max-width: 520px;
+    margin: -8px 44px 0 0;
+    color: var(--color-ink);
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+}
+
+.quizSuccess p:not(.eyebrow) {
+    max-width: 440px;
+    margin: 0;
+    color: var(--color-ink-muted);
+    line-height: 1.55;
+}
+
+.quizNote {
+    max-width: 440px;
+    margin: -8px 0 0;
+    color: var(--color-ink-subtle);
+    font-size: var(--text-xs);
+    line-height: 1.4;
+}
+
+.quizProgress {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.quizProgressDot {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(156, 74, 45, 0.14);
+}
+
+.quizProgressDotActive {
+    background: var(--color-accent);
+}
+
+.quizStep {
+    display: grid;
+    gap: 14px;
+    padding: 20px;
+    border: 1px solid rgba(156, 74, 45, 0.14);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.58);
+}
+
+.quizStep > span {
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.quizStep h4 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+}
+
+.quizOptions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.quizOption {
+    min-height: 48px;
+    cursor: pointer;
+    padding: 12px 14px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--color-ink-muted);
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: left;
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition),
+        transform var(--transition);
+}
+
+.quizOption:hover,
+.quizOption:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(156, 74, 45, 0.36);
+    color: var(--color-ink);
+    outline: none;
+}
+
+.quizOptionActive {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.quizFields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.quizFields label {
+    display: grid;
+    gap: 7px;
+}
+
+.quizFields label span {
+    color: var(--color-ink-subtle);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.quizFields input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1px solid rgba(156, 74, 45, 0.16);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--color-ink);
+    font-family: inherit;
+    font-size: var(--text-sm);
+}
+
+.quizFields input:focus {
+    border-color: rgba(156, 74, 45, 0.44);
+    outline: none;
+}
+
+.quizFields input[aria-invalid="true"] {
+    border-color: rgba(179, 64, 47, 0.44);
+}
+
+.quizConsent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: var(--color-ink-muted);
+    font-size: var(--text-xs);
+    line-height: 1.35;
+}
+
+.quizConsent input {
+    width: 16px;
+    height: 16px;
+    margin: 1px 0 0;
+    accent-color: var(--color-accent);
+}
+
+.quizActions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.quizBack,
+.quizNext {
+    min-height: 48px;
+    cursor: pointer;
+    padding: 0 20px;
+    border-radius: var(--radius-pill);
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    transition:
+        background-color var(--transition),
+        color var(--transition),
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.quizBack {
+    border: 1px solid rgba(156, 74, 45, 0.18);
+    background: rgba(255, 255, 255, 0.58);
+    color: var(--color-accent);
+}
+
+.quizNext {
+    margin-left: auto;
+    border: 0;
+    background: var(--color-ink);
+    color: var(--color-ink-on-accent);
+}
+
+.quizBack:hover,
+.quizBack:focus-visible,
+.quizNext:hover,
+.quizNext:focus-visible {
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.quizNext:hover,
+.quizNext:focus-visible {
+    background: var(--color-accent);
+}
+
+.quizNext:disabled {
+    cursor: not-allowed;
+    opacity: 0.42;
+    transform: none;
+}
+
+@media (max-width: 1180px) {
+    .hero,
+    .route,
+    .scenarioGrid,
+    .grid,
+    .tagsGrid,
+    .planColumns {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .routeStep:not(:last-child)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 860px) {
     .hero {
         grid-template-columns: 1fr;
-        gap: 32px;
+        gap: 28px;
+    }
+
+    .heroText {
+        padding-top: 0;
+    }
+
+    .heroFacts {
+        grid-template-columns: 1fr;
+        margin-top: 28px;
+    }
+
+    .heroFacts li {
+        min-height: auto;
     }
 
     .heroPanel {
-        min-height: 340px;
+        min-height: 420px;
     }
 
-    .grid,
-    .tagsGrid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .cta {
+        grid-template-columns: 1fr;
+    }
+
+    .ctaAction {
+        justify-items: start;
+    }
+
+    .trustStrip {
+        grid-template-columns: 1fr;
+    }
+
+    .plan,
+    .serviceGroup,
+    .routeDetail {
+        grid-template-columns: 1fr;
+    }
+
+    .planRoute {
+        grid-template-columns: 1fr;
+        width: 100%;
+        min-width: 0;
+        padding: 22px 12px;
+    }
+
+    .planRoute::after,
+    .planRoute .planColumns::before {
+        display: none;
+    }
+
+    .planScene,
+    .planRoute .planScene {
+        right: 0;
+        bottom: auto;
+        left: 0;
+        width: 100%;
+        height: 430px;
+        opacity: 0.28;
+        mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+    }
+
+    .planSceneCaption {
+        max-width: none;
+        justify-self: start;
+    }
+
+    .planRoute .planIntro,
+    .planRoute .planSummary,
+    .planRoute .planColumns,
+    .planRoute .planCta {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .planRoute .planResult {
+        justify-self: start;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 10px;
+        padding-left: 20px;
+    }
+
+    .planRoute .planIntro h2 {
+        max-width: 100%;
+        font-size: clamp(1.7rem, 7.6vw, 2rem);
+        font-weight: 300;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+        text-wrap: wrap;
+    }
+
+    .planRoute .planIntro p {
+        max-width: 100%;
+        font-size: var(--text-base);
+        letter-spacing: -0.01em;
+    }
+
+    .planRoute .planResult strong {
+        font-size: clamp(1.02rem, 4.6vw, 1.22rem);
+        line-height: 1.34;
+        letter-spacing: -0.024em;
+    }
+
+    .planRoute .planStep {
+        min-width: 0;
+    }
+
+    .planRoute .planStepSummary h3 {
+        max-width: 100%;
+        font-size: clamp(1.2rem, 5.6vw, 1.42rem);
+        line-height: 1.14;
+        letter-spacing: -0.032em;
+    }
+
+    .planRoute .planStep::before {
+        right: 14px;
+        font-size: clamp(3rem, 16vw, 4.4rem);
+    }
+
+    .planVisual {
+        min-height: 320px;
+    }
+
+    .planCta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .routeGuide {
+        top: 16px;
+        right: 16px;
+        width: auto;
+    }
+
+    .routeGuideButton {
+        width: 38px;
+        height: 38px;
+    }
+
+    .routeGuidePanel {
+        width: min(300px, calc(100vw - 48px));
+        top: calc(100% + 10px);
+        right: 0;
+        transform: translateY(-6px) scale(0.98);
+    }
+
+    .routeGuidePanel::after {
+        top: -7px;
+        right: 12px;
+    }
+
+    .routeGuide:hover .routeGuidePanel,
+    .routeGuide:focus-within .routeGuidePanel {
+        transform: translateY(0) scale(1);
+    }
+
+    .serviceGroup {
+        padding: 20px;
+    }
+
+    .serviceGroup .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .serviceGroupOptional .grid {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 720px) {
     .page {
-        padding: 90px 0 64px;
+        padding: 90px 0 124px;
     }
 
     .hero {
         padding: 24px 0 48px;
     }
 
+    .title {
+        font-size: clamp(2rem, 9.5vw, 2.55rem);
+        line-height: 1.02;
+    }
+
+    .mobileBreak {
+        display: block;
+    }
+
+    .hero,
+    .heroText,
+    .lead,
+    .heroFacts,
+    .heroFacts a,
+    .heroPanel,
+    .heroScenarioPickerSlot,
+    .heroScenarioPicker,
+    .heroScenarioPicker .scenarioButtons,
+    .nextStep,
+    .planRoute {
+        min-width: 0;
+        max-width: 100%;
+    }
+
     .lead {
+        max-width: 32rem;
         font-size: var(--text-base);
+        line-height: 1.55;
+        overflow-wrap: break-word;
+    }
+
+    .leadNext {
+        display: block;
+    }
+
+    .heroFacts {
+        gap: 8px;
+    }
+
+    .heroFacts a {
+        display: grid;
+        min-height: auto;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 2px 12px;
+        padding: 14px 16px;
+        border-radius: 18px;
+    }
+
+    .heroFacts span {
+        grid-row: 1 / 3;
+        width: 32px;
+        letter-spacing: 0.08em;
+    }
+
+    .heroFacts strong {
+        margin-top: 0;
+    }
+
+    .heroFacts small {
+        max-width: none;
+        margin-top: 0;
+    }
+
+    .heroFacts em {
+        display: none;
     }
 
     .heroPanel {
-        min-height: 300px;
+        min-height: auto;
         padding: 24px;
         border-radius: 22px;
+    }
+
+    .heroPanel p {
+        line-height: 1.5;
+    }
+
+    .heroPanel::after {
+        right: -24px;
+        bottom: -24px;
+        width: 140px;
+        height: 140px;
+    }
+
+    .scenarioButtons {
+        flex-direction: column;
+    }
+
+    .heroScenarioPicker .scenarioButtons {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .scenarioButton {
+        width: 100%;
+        text-align: left;
+    }
+
+    .heroScenarioPicker .scenarioButton {
+        width: auto;
+        text-align: center;
+    }
+
+    .heroScenarioPickerPinned {
+        top: 72px;
+        max-width: calc(100vw - 32px);
+        border-radius: 22px;
+    }
+
+    .nextStep {
+        margin-top: 24px;
     }
 
     .section {
         padding: 48px 0;
     }
 
-    .grid,
-    .tagsGrid,
-    .cta {
+    .serviceGroups {
+        gap: 18px;
+        margin-top: 28px;
+    }
+
+    .serviceGroup {
+        gap: 18px;
+        padding: 18px;
+        border-radius: 24px;
+    }
+
+    .serviceGroupOptional .grid {
         grid-template-columns: 1fr;
     }
 
+    .serviceGroupHeader {
+        gap: 8px;
+    }
+
+    .serviceGroupHeader p {
+        max-width: none;
+    }
+
+    .serviceGroupHeader small {
+        padding: 6px 9px;
+        font-size: 0.68rem;
+    }
+
+    .serviceGroupMore summary {
+        min-height: 44px;
+        font-size: 0.7rem;
+    }
+
+    .serviceGroupHint {
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .route,
+    .scenarioGrid,
+    .grid,
+    .tagsGrid,
+    .planColumns,
+    .routeDetail ul {
+        grid-template-columns: 1fr;
+    }
+
+    .routeStep,
+    .scenarioCard,
     .card {
-        min-height: 220px;
+        min-height: auto;
+    }
+
+    .routeGraph {
+        min-height: auto;
+        overflow: visible;
+        padding: 18px 14px;
+        border-radius: 28px;
+    }
+
+    .routeHint {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        max-width: none;
+        margin-bottom: 14px;
+        padding: 14px 16px;
+        border-radius: 18px;
+    }
+
+    .routeGraph::before,
+    .routeGraphPath {
+        display: none;
+    }
+
+    .planRoute::before {
+        display: none;
+    }
+
+    .route {
+        position: relative;
+        display: grid;
+        inset: auto;
+        gap: 14px;
+    }
+
+    .route::before {
+        content: "";
+        position: absolute;
+        top: 28px;
+        bottom: 28px;
+        left: 28px;
+        width: 2px;
+        border-radius: 999px;
+        background: linear-gradient(
+            180deg,
+            rgba(156, 74, 45, 0.34),
+            rgba(156, 74, 45, 0.08)
+        );
+    }
+
+    .routeStep {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: auto;
+        transform: none;
+    }
+
+    .routeStep::before {
+        top: 28px;
+        left: 28px;
+    }
+
+    .routeStepSelected {
+        transform: none;
+    }
+
+    .routeStepButton {
+        display: grid;
+        width: 100%;
+        height: auto;
+        grid-template-columns: 56px minmax(0, 1fr);
+        gap: 14px;
+        place-items: normal;
+        align-items: start;
+        padding: 12px 14px 14px 12px;
+        border-radius: 26px;
+        transform: none;
+    }
+
+    .routeStepButton:hover,
+    .routeStepButton:focus-visible,
+    .routeStepSelected .routeStepButton {
+        transform: none;
+    }
+
+    .routeCopy,
+    .routeStep:nth-child(even) .routeCopy,
+    .routeStepSelected .routeCopy,
+    .routeStepSelected:nth-child(even) .routeCopy {
+        position: static;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        width: auto;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        backdrop-filter: none;
+    }
+
+    .routeStep:not(.routeStepSelected) .routeCopy p {
+        display: none;
+    }
+
+    .routeLinks,
+    .routeStep:nth-child(even) .routeLinks,
+    .routeStepSelected .routeLinks,
+    .routeStepSelected:nth-child(even) .routeLinks {
+        position: static;
+        display: none;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        width: auto;
+        max-width: none;
+        margin-top: 8px;
+        margin-left: 70px;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+    }
+
+    .routeStepSelected .routeLinks,
+    .routeStepSelected:nth-child(even) .routeLinks {
+        display: flex;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .card::after {
+        transform: translate(16px, 16px);
+    }
+
+    .cardHeader {
+        margin-bottom: 20px;
+    }
+
+    .cardSketch {
+        height: 58px;
+        margin: -10px 0 14px;
+        border-radius: 16px;
+        background-size: 18px 18px;
+    }
+
+    .cardSketch::before {
+        right: 16px;
+        bottom: 10px;
+        transform: scale(0.84);
+        transform-origin: right bottom;
+    }
+
+    .cardSketch::after {
+        right: 30px;
+        bottom: 38px;
+        transform: rotate(45deg) scale(0.76);
+        transform-origin: right bottom;
+    }
+
+    .cardMetaSecondary,
+    .quickFacts {
+        display: none;
+    }
+
+    .cardFooter {
+        padding-top: 22px;
+    }
+
+    .secondarySection {
+        padding-top: 36px;
+    }
+
+    .secondarySection header p {
+        display: none;
+    }
+
+    .tagsGrid {
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .tagCard {
+        min-height: auto;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: 16px;
+    }
+
+    .tagCard::after {
+        content: "→";
+        color: var(--color-accent);
+        font-weight: 700;
+    }
+
+    .tagCard small {
+        display: none;
     }
 
     .cta {
         padding: 24px;
     }
 
-    .ctaButton {
+    .trustStrip {
+        gap: 8px;
+    }
+
+    .trustStrip li {
+        min-height: auto;
+        padding: 14px 16px;
+        border-radius: 16px;
+    }
+
+    .ctaAction {
+        width: 100%;
+        justify-items: stretch;
+    }
+
+    .ctaList {
+        display: grid;
+        gap: 8px;
+    }
+
+    .ctaButton,
+    .cardButton,
+    .scenarioSelect,
+    .planCta a,
+    .planCta button {
+        width: 100%;
+    }
+
+    .stickyCta {
+        position: fixed;
+        right: 12px;
+        bottom: 12px;
+        left: 12px;
+        z-index: 120;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 12px 12px 12px 14px;
+        border: 1px solid rgba(156, 74, 45, 0.18);
+        border-radius: 22px;
+        background: rgba(250, 248, 243, 0.92);
+        box-shadow: 0 18px 56px rgba(26, 26, 26, 0.18);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(18px);
+        transition:
+            opacity var(--transition),
+            transform var(--transition);
+        backdrop-filter: blur(18px);
+    }
+
+    .stickyCtaVisible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .stickyCta > div {
+        min-width: 0;
+    }
+
+    .stickyCta span {
+        display: block;
+        overflow: hidden;
+        color: var(--color-ink);
+        font-size: var(--text-sm);
+        font-weight: 800;
+        line-height: 1.2;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .stickyCta small {
+        display: block;
+        overflow: hidden;
+        margin-top: 2px;
+        color: var(--color-ink-muted);
+        font-size: 0.72rem;
+        line-height: 1.25;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .stickyCta button {
+        min-height: 44px;
+        cursor: pointer;
+        padding: 0 16px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: var(--color-ink);
+        color: var(--color-ink-on-accent);
+        font-family: inherit;
+        font-size: var(--text-sm);
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .quizBackdrop {
+        align-items: end;
+        padding: 12px;
+    }
+
+    .quizModal {
+        max-height: calc(100dvh - 24px);
+        padding: 24px 18px 18px;
+        border-radius: 26px;
+    }
+
+    .quizClose {
+        top: 12px;
+        right: 12px;
+        width: 34px;
+        height: 34px;
+    }
+
+    .quizForm,
+    .quizSuccess {
+        gap: 16px;
+    }
+
+    .quizForm > h3,
+    .quizSuccess h3 {
+        margin-right: 38px;
+        font-size: clamp(1.55rem, 8vw, 2rem);
+    }
+
+    .quizStep {
+        padding: 16px;
+        border-radius: 20px;
+    }
+
+    .quizOptions,
+    .quizFields {
+        grid-template-columns: 1fr;
+    }
+
+    .quizActions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .quizBack,
+    .quizNext {
         width: 100%;
     }
 }

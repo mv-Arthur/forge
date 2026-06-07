@@ -1,0 +1,46 @@
+.navBtn {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-line-strong);
+    background: transparent;
+    color: var(--color-ink);
+    font-size: var(--text-xl);
+    line-height: 1;
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+}
+
+.navBtn:hover:not(:disabled) {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-ink-on-accent);
+}
+
+.navBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.track::-webkit-scrollbar {
+    display: none;
+}
+
+.trackInner {
+    display: flex;
+    gap: 20px;
+    padding: 0
+        max(var(--container-padding), calc((100vw - var(--container-width)) / 2))
+        4px;
+}

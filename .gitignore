@@ -51,6 +51,7 @@ lerna-debug.log*
 *.tsbuildinfo
 .eslintcache
 tsconfig.tsbuildinfo
+.codex/
 
 # Debug
 .pnpm-debug.log

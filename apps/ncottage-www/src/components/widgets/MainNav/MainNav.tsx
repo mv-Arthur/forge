@@ -20,6 +20,7 @@ interface MainNavProps {
     mobileMenuOpen?: boolean;
     onBurgerClick?: () => void;
     onSearchClick?: () => void;
+    onCallbackClick?: () => void;
     searchOpen?: boolean;
     scrolled?: boolean;
 }
@@ -35,6 +36,7 @@ export function MainNav({
     mobileMenuOpen,
     onBurgerClick,
     onSearchClick,
+    onCallbackClick,
     searchOpen,
     scrolled,
 }: MainNavProps) {
@@ -171,7 +173,11 @@ export function MainNav({
                         <PhoneIcon className={styles.phoneIcon} />
                         {phone.display}
                     </a>
-                    <button type="button" className={styles.cta}>
+                    <button
+                        type="button"
+                        className={styles.cta}
+                        onClick={onCallbackClick}
+                    >
                         Заказать звонок
                     </button>
                 </div>
