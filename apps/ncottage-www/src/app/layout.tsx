@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/widgets/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     title: "Строительство домов в СПб и ЛО под ключ — Новый Коттедж",
     description:
         "Строительная компания Новый Коттедж. Строительство загородных домов под ключ в Санкт-Петербурге и Ленинградской области.",
+};
+
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
 };
 
 export default function RootLayout({

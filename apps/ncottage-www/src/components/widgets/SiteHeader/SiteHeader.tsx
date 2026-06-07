@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { TopBar } from "@/components/widgets/TopBar";
 import { MainNav } from "@/components/widgets/MainNav";
+import { CallbackModal } from "@/components/shared/CallbackModal";
 import type { City, CityCode, Phone } from "@/content/contacts";
 import type { NavItem } from "@/content/site";
 import styles from "./SiteHeader.module.css";
@@ -48,6 +49,7 @@ export function SiteHeader({
     const [city, setCity] = useState<CityCode>(initialCity ?? cities[0].code);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
+    const [callbackOpen, setCallbackOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [isMobileViewport, setIsMobileViewport] = useState(false);
     const pathname = usePathname();
@@ -89,6 +91,7 @@ export function SiteHeader({
     useEffect(() => {
         setMobileOpen(false);
         setSearchOpen(false);
+        setCallbackOpen(false);
     }, [pathname]);
 
     useEffect(() => {
@@ -104,6 +107,12 @@ export function SiteHeader({
     const closeMobile = useCallback(() => setMobileOpen(false), []);
     const toggleSearch = useCallback(() => setSearchOpen((v) => !v), []);
     const closeSearch = useCallback(() => setSearchOpen(false), []);
+    const openCallback = useCallback(() => {
+        setMobileOpen(false);
+        setSearchOpen(false);
+        setCallbackOpen(true);
+    }, []);
+    const closeCallback = useCallback(() => setCallbackOpen(false), []);
 
     return (
         <>
@@ -124,6 +133,7 @@ export function SiteHeader({
                     mobileMenuOpen={mobileOpen}
                     onBurgerClick={toggleBurger}
                     onSearchClick={toggleSearch}
+                    onCallbackClick={openCallback}
                     searchOpen={searchOpen}
                     scrolled={scrolled}
                 />
@@ -142,8 +152,10 @@ export function SiteHeader({
                     workHours={workHours}
                     favouritesCount={favouritesCount}
                     compareCount={compareCount}
+                    onCallbackClick={openCallback}
                 />
             )}
+            <CallbackModal open={callbackOpen} onClose={closeCallback} />
         </>
     );
 }

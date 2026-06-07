@@ -23,6 +23,7 @@ interface MobileMenuProps {
     workHours: string;
     favouritesCount?: number;
     compareCount?: number;
+    onCallbackClick?: () => void;
 }
 
 export function MobileMenu({
@@ -37,6 +38,7 @@ export function MobileMenu({
     workHours,
     favouritesCount = 0,
     compareCount = 0,
+    onCallbackClick,
 }: MobileMenuProps) {
     const [openSections, setOpenSections] = useState<Set<string>>(new Set());
     const pathname = usePathname();
@@ -58,6 +60,11 @@ export function MobileMenu({
             return next;
         });
     }, []);
+
+    const handleCallbackClick = useCallback(() => {
+        onClose();
+        onCallbackClick?.();
+    }, [onCallbackClick, onClose]);
 
     return (
         <div
@@ -167,7 +174,11 @@ export function MobileMenu({
                     <a href={`tel:${phone.number}`} className={styles.cta}>
                         {phone.display}
                     </a>
-                    <button type="button" className={styles.cta}>
+                    <button
+                        type="button"
+                        className={styles.cta}
+                        onClick={handleCallbackClick}
+                    >
                         Заказать звонок
                     </button>
                     <div className={styles.contacts}>
