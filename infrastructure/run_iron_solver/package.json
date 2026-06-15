@@ -1,0 +1,20 @@
+{
+    "name": "@forge/run-iron-solver",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "node run.mjs --build-only",
+        "check": "pnpm run build",
+        "typecheck": "pnpm run check",
+        "start": "node run.mjs",
+        "route": "node run.mjs route",
+        "develop": "node run.mjs develop",
+        "review": "node run.mjs review",
+        "qa": "node run.mjs qa",
+        "setup-labels": "node run.mjs setup-labels"
+    },
+    "dependencies": {
+        "@forge/iron-solver": "workspace:*"
+    }
+}

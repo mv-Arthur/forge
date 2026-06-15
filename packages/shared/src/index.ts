@@ -1,3 +1,2 @@
-export const greet = (name: string): string => {
-    return `Hello, ${name}!`;
-};
+export { renderTemplate } from "./template.js";
+export type { TemplateValue, TemplateValues } from "./template.js";
