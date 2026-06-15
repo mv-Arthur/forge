@@ -16,6 +16,11 @@ storybook-static/
 # Testing
 coverage/
 .nyc_output/
+playwright-report/
+test-results/
+blob-report/
+e2e/screenshots/
+.playwright-mcp/
 
 # Environment variables
 .env
