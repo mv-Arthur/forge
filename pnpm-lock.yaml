@@ -138,6 +138,18 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  infrastructure/run_iron_solver:
+    dependencies:
+      '@forge/iron-solver':
+        specifier: workspace:*
+        version: link:../../packages/iron-solver
+
+  packages/iron-solver:
+    dependencies:
+      '@forge/shared':
+        specifier: workspace:*
+        version: link:../shared
+
   packages/shared: {}
 
 packages:

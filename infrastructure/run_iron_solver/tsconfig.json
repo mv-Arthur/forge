@@ -7,11 +7,12 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "noEmit": false,
-        "declaration": true,
+        "declaration": false,
         "sourceMap": false,
         "incremental": false,
         "allowJs": false,
-        "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
+        "tsBuildInfoFile": "../../.iron-solver/run-iron-solver/tsconfig.tsbuildinfo",
+        "types": ["node"]
     },
     "include": ["src/**/*.ts"]
 }

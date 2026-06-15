@@ -11,7 +11,7 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
 fi
 
 BASE_URL="${BASE_URL:-http://127.0.0.1:${PORT:-3000}}"
-OUT_DIR="${OUT_DIR:-$ROOT/.codex/chrome-checks}"
+OUT_DIR="${OUT_DIR:-$ROOT/.iron-solver/chrome-checks}"
 WIDTH="${WIDTH:-1440}"
 HEIGHT="${HEIGHT:-1800}"
 WAIT_MS="${WAIT_MS:-5000}"
