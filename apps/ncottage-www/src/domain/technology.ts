@@ -1,5 +1,19 @@
+import type {
+    ProjectFeature,
+    ProjectLivingType,
+    ProjectStyle,
+    Technology,
+} from "@forge/shared";
+
+export type {
+    ProjectFeature,
+    ProjectLivingType,
+    ProjectStyle,
+    Technology,
+} from "@forge/shared";
+
 interface TechnologyDef {
-    slug: string;
+    slug: Technology;
     label: string;
     pickerLabel: string;
     category: {
@@ -93,22 +107,11 @@ const TECHNOLOGIES = [
     },
 ] as const satisfies readonly TechnologyDef[];
 
-export type Technology = (typeof TECHNOLOGIES)[number]["slug"];
-
 export const PROJECT_TECHNOLOGY_LABELS: Record<Technology, string> =
     Object.fromEntries(TECHNOLOGIES.map((t) => [t.slug, t.label])) as Record<
         Technology,
         string
     >;
-
-export type ProjectStyle =
-    | "modern"
-    | "finnish"
-    | "german"
-    | "loft"
-    | "chalet"
-    | "hi-tech"
-    | "minimalism";
 
 export const PROJECT_STYLE_LABELS: Record<ProjectStyle, string> = {
     modern: "Модерн",
@@ -119,19 +122,6 @@ export const PROJECT_STYLE_LABELS: Record<ProjectStyle, string> = {
     "hi-tech": "Хай-тек",
     minimalism: "Минимализм",
 };
-
-export type ProjectFeature =
-    | "panoramic-windows"
-    | "second-light"
-    | "guest"
-    | "with-utilities"
-    | "ready"
-    | "balcony"
-    | "bay-window"
-    | "boiler-room"
-    | "garage"
-    | "terrace"
-    | "attic";
 
 export const PROJECT_FEATURE_LABELS: Record<ProjectFeature, string> = {
     "panoramic-windows": "С панорамными окнами",
@@ -146,8 +136,6 @@ export const PROJECT_FEATURE_LABELS: Record<ProjectFeature, string> = {
     terrace: "С террасой",
     attic: "С мансардой",
 };
-
-export type ProjectLivingType = "permanent" | "seasonal";
 
 export const PROJECT_LIVING_TYPE_LABELS: Record<ProjectLivingType, string> = {
     permanent: "Для постоянного проживания",

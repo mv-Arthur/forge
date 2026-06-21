@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductCard } from "@/components/shared/ProductCard";
-import { getProjectBySlug } from "@/data/projects";
+import type { Project } from "@/domain/project";
 import { useSelection } from "@/lib/selection";
 import styles from "./page.module.css";
 
@@ -15,11 +15,12 @@ const tips = [
     "сравнивайте технологии, комплектации и внешний вид домов",
 ];
 
-export function FavouritesView() {
+export function FavouritesView({ projects: allProjects }: { projects: Project[] }) {
     const { favorites, clearFavorites } = useSelection();
+    const bySlug = new Map(allProjects.map((project) => [project.slug, project]));
     const projects = favorites
-        .map((slug) => getProjectBySlug(slug))
-        .filter((project) => project !== undefined);
+        .map((slug) => bySlug.get(slug))
+        .filter((project): project is Project => project !== undefined);
 
     return (
         <section className={styles.page}>

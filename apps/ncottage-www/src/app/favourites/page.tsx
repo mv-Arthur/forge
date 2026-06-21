@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getProjects } from "@/data/projects";
 import { FavouritesView } from "./FavouritesView";
 
 export const metadata: Metadata = {
@@ -8,6 +9,9 @@ export const metadata: Metadata = {
     alternates: { canonical: "/favourites" },
 };
 
-export default function FavouritesPage() {
-    return <FavouritesView />;
+export const revalidate = 60;
+
+export default async function FavouritesPage() {
+    const projects = await getProjects();
+    return <FavouritesView projects={projects} />;
 }

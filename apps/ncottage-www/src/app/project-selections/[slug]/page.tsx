@@ -16,6 +16,8 @@ interface Props {
     params: Promise<{ slug: string }>;
 }
 
+export const revalidate = 60;
+
 export function generateStaticParams() {
     return PROJECT_SELECTIONS.map((selection) => ({ slug: selection.slug }));
 }
@@ -39,7 +41,8 @@ export default async function ProjectSelectionPage({ params }: Props) {
 
     if (!selection) notFound();
 
-    const projects = getProjects().filter(selection.filter);
+    const allProjects = await getProjects();
+    const projects = allProjects.filter(selection.filter);
     const minArea = projects.length
         ? Math.min(...projects.map((project) => project.area))
         : 0;

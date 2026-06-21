@@ -7,7 +7,6 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Project } from "@/domain/project";
 import { PROJECT_TECHNOLOGY_LABELS } from "@/domain/technology";
-import { getProjectBySlug } from "@/data/projects";
 import { formatPrice } from "@/lib/utils";
 import { useSelection } from "@/lib/selection";
 import styles from "./page.module.css";
@@ -42,10 +41,11 @@ const ROWS: { label: string; value: (project: Project) => string }[] = [
     },
 ];
 
-export function CompareView() {
+export function CompareView({ projects: allProjects }: { projects: Project[] }) {
     const { compare, removeCompare, clearCompare } = useSelection();
+    const bySlug = new Map(allProjects.map((project) => [project.slug, project]));
     const projects = compare
-        .map((slug) => getProjectBySlug(slug))
+        .map((slug) => bySlug.get(slug))
         .filter((project): project is Project => project !== undefined);
 
     const gridTemplateColumns = `minmax(140px, 200px) repeat(${projects.length}, minmax(200px, 1fr))`;
