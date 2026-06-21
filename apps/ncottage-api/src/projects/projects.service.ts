@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 import type { Project } from "@forge/shared";
 import { PrismaService } from "../prisma/prisma.service.js";
+import { RevalidateService } from "../revalidate/revalidate.service.js";
 import { CreateProjectDto } from "./dto/create-project.dto.js";
 import { UpdateProjectDto } from "./dto/update-project.dto.js";
 
@@ -148,7 +149,16 @@ function optionCreate(
 
 @Injectable()
 export class ProjectsService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly revalidate: RevalidateService
+    ) {}
+
+    private revalidateProjects(slug?: string): void {
+        const tags = ["projects"];
+        if (slug) tags.push(`project:${slug}`);
+        this.revalidate.revalidate({ tags });
+    }
 
     async list(filters: ListProjectsFilters): Promise<Project[]> {
         const where: Prisma.ProjectWhereInput = {};
@@ -201,6 +211,7 @@ export class ProjectsService {
             },
             include: projectInclude,
         });
+        this.revalidateProjects(row.slug);
         return toDomain(row);
     }
 
@@ -264,12 +275,16 @@ export class ProjectsService {
             data,
             include: projectInclude,
         });
+        this.revalidate.revalidate({
+            tags: ["projects", `project:${slug}`, `project:${row.slug}`],
+        });
         return toDomain(row);
     }
 
     async remove(slug: string): Promise<void> {
         await this.requireBySlug(slug);
         await this.prisma.project.delete({ where: { slug } });
+        this.revalidateProjects(slug);
     }
 
     private async requireBySlug(slug: string): Promise<ProjectWithRelations> {

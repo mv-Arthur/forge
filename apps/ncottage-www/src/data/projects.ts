@@ -9,7 +9,7 @@ const REVALIDATE = 60;
 async function fetchProjects(query = ""): Promise<Project[]> {
     if (!API_URL) return [];
     const res = await fetch(`${API_URL}/projects${query}`, {
-        next: { revalidate: REVALIDATE },
+        next: { revalidate: REVALIDATE, tags: ["projects"] },
     });
     if (!res.ok) {
         throw new Error(`Failed to fetch projects: ${res.status}`);
@@ -29,10 +29,12 @@ export async function getProjectBySlug(
     slug: string
 ): Promise<Project | undefined> {
     if (!API_URL) return undefined;
-    const res = await fetch(
-        `${API_URL}/projects/${encodeURIComponent(slug)}`,
-        { next: { revalidate: REVALIDATE } }
-    );
+    const res = await fetch(`${API_URL}/projects/${encodeURIComponent(slug)}`, {
+        next: {
+            revalidate: REVALIDATE,
+            tags: ["projects", `project:${slug}`],
+        },
+    });
     if (res.status === 404) return undefined;
     if (!res.ok) {
         throw new Error(`Failed to fetch project ${slug}: ${res.status}`);

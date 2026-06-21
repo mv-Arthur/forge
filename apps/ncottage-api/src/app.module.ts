@@ -8,6 +8,7 @@ import { LeadsModule } from "./leads/leads.module.js";
 import { MediaModule } from "./media/media.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { ProjectsModule } from "./projects/projects.module.js";
+import { RevalidateModule } from "./revalidate/revalidate.module.js";
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { ProjectsModule } from "./projects/projects.module.js";
             validate: validateEnv,
         }),
         PrismaModule,
+        RevalidateModule,
         AdminsModule,
         AuthModule,
         LeadsModule,

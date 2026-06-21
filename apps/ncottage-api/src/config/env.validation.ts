@@ -104,6 +104,15 @@ class EnvVars {
     @IsOptional()
     @IsString()
     SMTP_TO?: string;
+
+    // On-demand ISR публичного сайта (опционально).
+    @IsOptional()
+    @IsString()
+    WWW_REVALIDATE_URL?: string;
+
+    @IsOptional()
+    @IsString()
+    WWW_REVALIDATE_SECRET?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>): EnvVars {
