@@ -173,6 +173,9 @@ importers:
 
   apps/ncottage-www:
     dependencies:
+      '@forge/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       next:
         specifier: ^15.3.1
         version: 15.5.15(@babel/core@7.29.0)(@playwright/test@1.61.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
