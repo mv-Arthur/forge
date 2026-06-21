@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Prisma, type Project as ProjectRow } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import type { Project } from "@forge/shared";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateProjectDto } from "./dto/create-project.dto.js";
@@ -11,17 +11,25 @@ export interface ListProjectsFilters {
     featured?: boolean;
 }
 
-function fromJson<T>(value: Prisma.JsonValue | null): T | undefined {
-    return value == null ? undefined : (value as unknown as T);
-}
+const projectInclude = {
+    images: { orderBy: { order: "asc" } },
+    floorPlans: {
+        orderBy: { order: "asc" },
+        include: { rooms: { orderBy: { order: "asc" } } },
+    },
+    packages: {
+        orderBy: { order: "asc" },
+        include: { includes: { orderBy: { order: "asc" } } },
+    },
+    options: { orderBy: { order: "asc" } },
+    relations: { orderBy: { order: "asc" } },
+} satisfies Prisma.ProjectInclude;
 
-function toJson(
-    value: unknown
-): Prisma.InputJsonValue | typeof Prisma.JsonNull {
-    return value == null ? Prisma.JsonNull : (value as Prisma.InputJsonValue);
-}
+type ProjectWithRelations = Prisma.ProjectGetPayload<{
+    include: typeof projectInclude;
+}>;
 
-function toDomain(row: ProjectRow): Project {
+function toDomain(row: ProjectWithRelations): Project {
     return {
         slug: row.slug,
         name: row.name,
@@ -32,19 +40,110 @@ function toDomain(row: ProjectRow): Project {
         bathrooms: row.bathrooms,
         price: row.price,
         image: row.image,
-        images: row.images,
+        images: row.images.map((i) => i.url),
         description: row.description,
-        specs: row.specs as unknown as Project["specs"],
+        specs: {
+            dimensions: row.specsDimensions,
+            roofType: row.specsRoofType,
+            foundation: row.specsFoundation,
+            wallMaterial: row.specsWallMaterial,
+            buildTime: row.specsBuildTime,
+        },
         style: row.style as Project["style"],
         features: row.features as Project["features"],
         livingType: row.livingType as Project["livingType"],
         featured: row.featured,
-        floorPlans: fromJson<Project["floorPlans"]>(row.floorPlans),
-        packages: fromJson<Project["packages"]>(row.packages),
-        options: fromJson<Project["options"]>(row.options),
-        relatedObjectIds: row.relatedObjectIds,
+        // Пустые вложенные коллекции опускаем (как в донормализованном ответе).
+        floorPlans: row.floorPlans.length
+            ? row.floorPlans.map((fp) => ({
+                  label: fp.label,
+                  image: fp.image,
+                  area: fp.area ?? undefined,
+                  rooms: fp.rooms.map((r) => ({ name: r.name, area: r.area })),
+              }))
+            : undefined,
+        packages: row.packages.length
+            ? row.packages.map((p) => ({
+                  name: p.name,
+                  price: p.price,
+                  tagline: p.tagline ?? undefined,
+                  highlighted: p.highlighted || undefined,
+                  includes: p.includes.map((inc) => ({
+                      label: inc.label,
+                      value: inc.value,
+                  })),
+              }))
+            : undefined,
+        options: row.options.length
+            ? row.options.map((o) => ({
+                  label: o.label,
+                  price: o.price,
+                  note: o.note ?? undefined,
+              }))
+            : undefined,
+        relatedObjectIds: row.relations.map((r) => r.relatedSlug),
         pdfUrl: row.pdfUrl ?? undefined,
     };
+}
+
+function imageCreate(
+    images: string[]
+): Prisma.ProjectImageCreateWithoutProjectInput[] {
+    return images.map((url, order) => ({ url, order }));
+}
+
+function relationCreate(
+    slugs: string[]
+): Prisma.ProjectRelationCreateWithoutProjectInput[] {
+    return slugs.map((relatedSlug, order) => ({ relatedSlug, order }));
+}
+
+function floorPlanCreate(
+    floorPlans: CreateProjectDto["floorPlans"]
+): Prisma.ProjectFloorPlanCreateWithoutProjectInput[] {
+    return (floorPlans ?? []).map((fp, order) => ({
+        label: fp.label,
+        image: fp.image,
+        area: fp.area ?? null,
+        order,
+        rooms: {
+            create: (fp.rooms ?? []).map((r, roomOrder) => ({
+                name: r.name,
+                area: r.area,
+                order: roomOrder,
+            })),
+        },
+    }));
+}
+
+function packageCreate(
+    packages: CreateProjectDto["packages"]
+): Prisma.ProjectPackageCreateWithoutProjectInput[] {
+    return (packages ?? []).map((pkg, order) => ({
+        name: pkg.name,
+        price: pkg.price,
+        tagline: pkg.tagline ?? null,
+        highlighted: pkg.highlighted ?? false,
+        order,
+        includes: {
+            create: pkg.includes.map((inc, incOrder) => ({
+                label: inc.label,
+                value: inc.value,
+                order: incOrder,
+            })),
+        },
+    }));
+}
+
+function optionCreate(
+    options: CreateProjectDto["options"]
+): Prisma.ProjectOptionCreateWithoutProjectInput[] {
+    return (options ?? []).map((o, order) => ({
+        label: o.label,
+        price: o.price,
+        note: o.note ?? null,
+        order,
+    }));
 }
 
 @Injectable()
@@ -60,6 +159,7 @@ export class ProjectsService {
         const rows = await this.prisma.project.findMany({
             where,
             orderBy: { createdAt: "asc" },
+            include: projectInclude,
         });
         return rows.map(toDomain);
     }
@@ -85,14 +185,21 @@ export class ProjectsService {
                 featured: dto.featured,
                 description: dto.description,
                 pdfUrl: dto.pdfUrl ?? null,
-                images: dto.images,
                 features: dto.features,
-                relatedObjectIds: dto.relatedObjectIds ?? [],
-                specs: toJson(dto.specs),
-                floorPlans: toJson(dto.floorPlans),
-                packages: toJson(dto.packages),
-                options: toJson(dto.options),
+                specsDimensions: dto.specs.dimensions,
+                specsRoofType: dto.specs.roofType,
+                specsFoundation: dto.specs.foundation,
+                specsWallMaterial: dto.specs.wallMaterial,
+                specsBuildTime: dto.specs.buildTime,
+                images: { create: imageCreate(dto.images) },
+                relations: {
+                    create: relationCreate(dto.relatedObjectIds ?? []),
+                },
+                floorPlans: { create: floorPlanCreate(dto.floorPlans) },
+                packages: { create: packageCreate(dto.packages) },
+                options: { create: optionCreate(dto.options) },
             },
+            include: projectInclude,
         });
         return toDomain(row);
     }
@@ -100,40 +207,62 @@ export class ProjectsService {
     async update(slug: string, dto: UpdateProjectDto): Promise<Project> {
         await this.requireBySlug(slug);
 
-        const data: Prisma.ProjectUncheckedUpdateInput = {};
-        const set = <K extends keyof UpdateProjectDto>(
-            key: K,
-            value: UpdateProjectDto[K]
-        ) => {
-            if (value !== undefined) data[key] = value;
-        };
-        set("slug", dto.slug);
-        set("name", dto.name);
-        set("technology", dto.technology);
-        set("area", dto.area);
-        set("floors", dto.floors);
-        set("bedrooms", dto.bedrooms);
-        set("bathrooms", dto.bathrooms);
-        set("price", dto.price);
-        set("image", dto.image);
-        set("style", dto.style);
-        set("livingType", dto.livingType);
-        set("featured", dto.featured);
-        set("description", dto.description);
-        if (dto.pdfUrl !== undefined) data.pdfUrl = dto.pdfUrl;
-        if (dto.images !== undefined) data.images = dto.images;
+        const data: Prisma.ProjectUpdateInput = {};
+        if (dto.slug !== undefined) data.slug = dto.slug;
+        if (dto.name !== undefined) data.name = dto.name;
+        if (dto.technology !== undefined) data.technology = dto.technology;
+        if (dto.area !== undefined) data.area = dto.area;
+        if (dto.floors !== undefined) data.floors = dto.floors;
+        if (dto.bedrooms !== undefined) data.bedrooms = dto.bedrooms;
+        if (dto.bathrooms !== undefined) data.bathrooms = dto.bathrooms;
+        if (dto.price !== undefined) data.price = dto.price;
+        if (dto.image !== undefined) data.image = dto.image;
+        if (dto.style !== undefined) data.style = dto.style;
+        if (dto.livingType !== undefined) data.livingType = dto.livingType;
+        if (dto.featured !== undefined) data.featured = dto.featured;
+        if (dto.description !== undefined) data.description = dto.description;
+        if (dto.pdfUrl !== undefined) data.pdfUrl = dto.pdfUrl ?? null;
         if (dto.features !== undefined) data.features = dto.features;
-        if (dto.relatedObjectIds !== undefined)
-            data.relatedObjectIds = dto.relatedObjectIds;
-        if (dto.specs !== undefined) data.specs = toJson(dto.specs);
-        if (dto.floorPlans !== undefined)
-            data.floorPlans = toJson(dto.floorPlans);
-        if (dto.packages !== undefined) data.packages = toJson(dto.packages);
-        if (dto.options !== undefined) data.options = toJson(dto.options);
+        if (dto.specs !== undefined) {
+            data.specsDimensions = dto.specs.dimensions;
+            data.specsRoofType = dto.specs.roofType;
+            data.specsFoundation = dto.specs.foundation;
+            data.specsWallMaterial = dto.specs.wallMaterial;
+            data.specsBuildTime = dto.specs.buildTime;
+        }
+        // Вложенное заменяем целиком: удалить детей и пересоздать.
+        if (dto.images !== undefined) {
+            data.images = { deleteMany: {}, create: imageCreate(dto.images) };
+        }
+        if (dto.relatedObjectIds !== undefined) {
+            data.relations = {
+                deleteMany: {},
+                create: relationCreate(dto.relatedObjectIds),
+            };
+        }
+        if (dto.floorPlans !== undefined) {
+            data.floorPlans = {
+                deleteMany: {},
+                create: floorPlanCreate(dto.floorPlans),
+            };
+        }
+        if (dto.packages !== undefined) {
+            data.packages = {
+                deleteMany: {},
+                create: packageCreate(dto.packages),
+            };
+        }
+        if (dto.options !== undefined) {
+            data.options = {
+                deleteMany: {},
+                create: optionCreate(dto.options),
+            };
+        }
 
         const row = await this.prisma.project.update({
             where: { slug },
             data,
+            include: projectInclude,
         });
         return toDomain(row);
     }
@@ -143,8 +272,11 @@ export class ProjectsService {
         await this.prisma.project.delete({ where: { slug } });
     }
 
-    private async requireBySlug(slug: string): Promise<ProjectRow> {
-        const row = await this.prisma.project.findUnique({ where: { slug } });
+    private async requireBySlug(slug: string): Promise<ProjectWithRelations> {
+        const row = await this.prisma.project.findUnique({
+            where: { slug },
+            include: projectInclude,
+        });
         if (!row) {
             throw new NotFoundException(`Project not found: ${slug}`);
         }

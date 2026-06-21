@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
 import type { Project } from "@forge/shared";
 
@@ -22,13 +22,7 @@ async function seedAdmin() {
     console.log(`Seeded admin ${email}`);
 }
 
-function toJson(
-    value: unknown
-): Prisma.InputJsonValue | typeof Prisma.JsonNull {
-    return value == null ? Prisma.JsonNull : (value as Prisma.InputJsonValue);
-}
-
-function toData(p: Project): Prisma.ProjectUncheckedCreateInput {
+function scalars(p: Project) {
     return {
         slug: p.slug,
         name: p.name,
@@ -44,13 +38,65 @@ function toData(p: Project): Prisma.ProjectUncheckedCreateInput {
         featured: p.featured,
         description: p.description,
         pdfUrl: p.pdfUrl ?? null,
-        images: p.images,
         features: p.features,
-        relatedObjectIds: p.relatedObjectIds ?? [],
-        specs: toJson(p.specs),
-        floorPlans: toJson(p.floorPlans),
-        packages: toJson(p.packages),
-        options: toJson(p.options),
+        specsDimensions: p.specs.dimensions,
+        specsRoofType: p.specs.roofType,
+        specsFoundation: p.specs.foundation,
+        specsWallMaterial: p.specs.wallMaterial,
+        specsBuildTime: p.specs.buildTime,
+    };
+}
+
+function childrenCreate(p: Project) {
+    return {
+        images: {
+            create: p.images.map((url, order) => ({ url, order })),
+        },
+        relations: {
+            create: (p.relatedObjectIds ?? []).map((relatedSlug, order) => ({
+                relatedSlug,
+                order,
+            })),
+        },
+        floorPlans: {
+            create: (p.floorPlans ?? []).map((fp, order) => ({
+                label: fp.label,
+                image: fp.image,
+                area: fp.area ?? null,
+                order,
+                rooms: {
+                    create: (fp.rooms ?? []).map((r, roomOrder) => ({
+                        name: r.name,
+                        area: r.area,
+                        order: roomOrder,
+                    })),
+                },
+            })),
+        },
+        packages: {
+            create: (p.packages ?? []).map((pkg, order) => ({
+                name: pkg.name,
+                price: pkg.price,
+                tagline: pkg.tagline ?? null,
+                highlighted: pkg.highlighted ?? false,
+                order,
+                includes: {
+                    create: pkg.includes.map((inc, incOrder) => ({
+                        label: inc.label,
+                        value: inc.value,
+                        order: incOrder,
+                    })),
+                },
+            })),
+        },
+        options: {
+            create: (p.options ?? []).map((o, order) => ({
+                label: o.label,
+                price: o.price,
+                note: o.note ?? null,
+                order,
+            })),
+        },
     };
 }
 
@@ -59,11 +105,18 @@ async function main() {
     const projects = JSON.parse(readFileSync(file, "utf-8")) as Project[];
 
     for (const project of projects) {
-        const data = toData(project);
+        const children = childrenCreate(project);
         await prisma.project.upsert({
             where: { slug: project.slug },
-            create: data,
-            update: data,
+            create: { ...scalars(project), ...children },
+            update: {
+                ...scalars(project),
+                images: { deleteMany: {}, ...children.images },
+                relations: { deleteMany: {}, ...children.relations },
+                floorPlans: { deleteMany: {}, ...children.floorPlans },
+                packages: { deleteMany: {}, ...children.packages },
+                options: { deleteMany: {}, ...children.options },
+            },
         });
     }
 

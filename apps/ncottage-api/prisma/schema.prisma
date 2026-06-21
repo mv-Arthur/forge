@@ -60,19 +60,110 @@ model Project {
     featured    Boolean  @default(false)
     description String
     pdfUrl      String?
-    // Вложенное/массивы:
-    images           String[]
-    features         String[]
-    relatedObjectIds String[]
-    specs            Json
-    floorPlans       Json?
-    packages         Json?
-    options          Json?
-    createdAt        DateTime @default(now())
-    updatedAt        DateTime @updatedAt
+    // features — простой enum-массив, не нормализуем.
+    features String[]
+    // specs (5 фиксированных полей) — колонки самого Project (D4).
+    specsDimensions   String
+    specsRoofType     String
+    specsFoundation   String
+    specsWallMaterial String
+    specsBuildTime    String
+
+    images     ProjectImage[]
+    floorPlans ProjectFloorPlan[]
+    packages   ProjectPackage[]
+    options    ProjectOption[]
+    relations  ProjectRelation[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([technology])
     @@index([featured])
+}
+
+model ProjectImage {
+    id        String  @id @default(cuid())
+    projectId String
+    url       String
+    mediaId   String?
+    order     Int
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+}
+
+model ProjectFloorPlan {
+    id        String                 @id @default(cuid())
+    projectId String
+    label     String
+    image     String
+    mediaId   String?
+    area      Int?
+    order     Int
+    project   Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    rooms     ProjectFloorPlanRoom[]
+
+    @@index([projectId])
+}
+
+model ProjectFloorPlanRoom {
+    id          String           @id @default(cuid())
+    floorPlanId String
+    name        String
+    area        Int
+    order       Int
+    floorPlan   ProjectFloorPlan @relation(fields: [floorPlanId], references: [id], onDelete: Cascade)
+
+    @@index([floorPlanId])
+}
+
+model ProjectPackage {
+    id          String                  @id @default(cuid())
+    projectId   String
+    name        String
+    price       Int
+    tagline     String?
+    highlighted Boolean                 @default(false)
+    order       Int
+    project     Project                 @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    includes    ProjectPackageInclude[]
+
+    @@index([projectId])
+}
+
+model ProjectPackageInclude {
+    id        String         @id @default(cuid())
+    packageId String
+    label     String
+    value     String
+    order     Int
+    package   ProjectPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+    @@index([packageId])
+}
+
+model ProjectOption {
+    id        String  @id @default(cuid())
+    projectId String
+    label     String
+    price     Int
+    note      String?
+    order     Int
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+}
+
+model ProjectRelation {
+    id          String  @id @default(cuid())
+    projectId   String
+    relatedSlug String
+    order       Int
+    project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@unique([projectId, relatedSlug])
+    @@index([projectId])
 }
 
 model Admin {
