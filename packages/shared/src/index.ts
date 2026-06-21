@@ -25,3 +25,4 @@ export type {
     Project,
     BuiltObject,
 } from "./project.js";
+export type { Media } from "./media.js";

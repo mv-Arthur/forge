@@ -81,3 +81,20 @@ model Admin {
     passwordHash String
     createdAt    DateTime @default(now())
 }
+
+model Media {
+    id        String   @id @default(cuid())
+    key       String   @unique
+    url       String
+    filename  String
+    mime      String
+    size      Int
+    width     Int?
+    height    Int?
+    alt       String?
+    folder    String?
+    createdAt DateTime @default(now())
+
+    @@index([folder])
+    @@index([createdAt])
+}

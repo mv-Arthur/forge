@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import type { NestFastifyApplication } from "@nestjs/platform-fastify";
 import { FastifyAdapter } from "@nestjs/platform-fastify";
+import multipart from "@fastify/multipart";
 import { AppModule } from "./app.module.js";
 
 async function bootstrap() {
@@ -10,6 +11,10 @@ async function bootstrap() {
         AppModule,
         new FastifyAdapter()
     );
+
+    await app.register(multipart, {
+        limits: { fileSize: 15 * 1024 * 1024, files: 1 },
+    });
 
     app.useGlobalPipes(
         new ValidationPipe({
