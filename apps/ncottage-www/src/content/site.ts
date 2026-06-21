@@ -32,6 +32,15 @@ export const NAV_ITEMS: NavItem[] = [
             { label: "Инженерные сети", href: "/services/engineering" },
             { label: "Отделочные работы", href: "/services/finishing" },
             { label: "Строительство бань", href: "/services/baths" },
+            {
+                label: "Коммерческая недвижимость",
+                href: "/services/commercial",
+            },
+            {
+                label: "Благоустройство территории",
+                href: "/services/landscaping",
+            },
+            { label: "Демонтаж и снос", href: "/services/demolition" },
         ],
     },
     { label: "Наши работы", href: "/works" },

@@ -72,12 +72,16 @@ export default function PersonalDataPage() {
                         <span>Оператор данных</span>
                         <strong>ООО «Новый коттедж»</strong>
                         <p>
-                            ОГРН {LEGAL.ogrn} · ИНН {LEGAL.inn} · КПП {LEGAL.kpp}
+                            ОГРН {LEGAL.ogrn} · ИНН {LEGAL.inn} · КПП{" "}
+                            {LEGAL.kpp}
                         </p>
                     </aside>
                 </section>
 
-                <section className={styles.steps} aria-label="Как применяется согласие">
+                <section
+                    className={styles.steps}
+                    aria-label="Как применяется согласие"
+                >
                     {consentSteps.map((step, index) => (
                         <article key={step} className={styles.stepCard}>
                             <span>{String(index + 1).padStart(2, "0")}</span>
@@ -92,9 +96,14 @@ export default function PersonalDataPage() {
                             Редакция от 11 мая 2026 года
                         </p>
                         {consentSections.map((section, index) => (
-                            <section key={section.title} className={styles.textBlock}>
+                            <section
+                                key={section.title}
+                                className={styles.textBlock}
+                            >
                                 <div className={styles.textBlockHead}>
-                                    <span>{String(index + 1).padStart(2, "0")}</span>
+                                    <span>
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
                                     <h2>{section.title}</h2>
                                 </div>
                                 <p>{section.text}</p>

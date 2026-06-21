@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Carousel } from "@/components/ui/Carousel";
@@ -53,11 +54,11 @@ export function OurWorksSection({
                 {objects.map((obj) => (
                     <Link key={obj.id} href={obj.href} className={styles.card}>
                         <div className={styles.cardImage}>
-                            <img
+                            <Image
                                 src={obj.image}
                                 alt={obj.title}
-                                loading="lazy"
-                                decoding="async"
+                                fill
+                                sizes="(max-width: 640px) 80vw, 360px"
                             />
                         </div>
                         <div className={styles.cardBody}>

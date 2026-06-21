@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { formatPrice } from "@/lib/utils";
+import { useLeadForm } from "@/lib/useLeadForm";
+import { useProjectConfig } from "./ProjectConfigContext";
 import styles from "./ProjectLeadForm.module.css";
 
 interface ProjectLeadFormProps {
@@ -13,11 +15,26 @@ export function ProjectLeadForm({
     projectName,
     projectPrice,
 }: ProjectLeadFormProps) {
-    const [submitted, setSubmitted] = useState(false);
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [comment, setComment] = useState("");
+    const { submit, error, isSubmitting, isSuccess } = useLeadForm();
+    const { summary } = useProjectConfig();
+
+    useEffect(() => {
+        if (summary) setComment(summary);
+    }, [summary]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        setSubmitted(true);
+        if (!phone.trim() || isSubmitting) return;
+        void submit({
+            source: "project",
+            project: projectName,
+            name: name.trim() || undefined,
+            phone: phone.trim(),
+            comment: comment.trim() || undefined,
+        });
     }
 
     return (
@@ -42,7 +59,7 @@ export function ProjectLeadForm({
                 </ul>
             </div>
 
-            {submitted ? (
+            {isSuccess ? (
                 <div className={styles.success}>
                     <p className={styles.successTitle}>Заявка отправлена</p>
                     <p className={styles.successText}>
@@ -51,21 +68,16 @@ export function ProjectLeadForm({
                 </div>
             ) : (
                 <form className={styles.form} onSubmit={handleSubmit}>
-                    <input
-                        type="hidden"
-                        name="project"
-                        value={projectName}
-                        readOnly
-                    />
                     <label className={styles.field}>
                         <span className={styles.label}>Имя</span>
                         <input
                             type="text"
                             name="name"
-                            required
                             autoComplete="name"
                             className={styles.input}
                             placeholder="Как к вам обращаться"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </label>
                     <label className={styles.field}>
@@ -77,6 +89,8 @@ export function ProjectLeadForm({
                             autoComplete="tel"
                             className={styles.input}
                             placeholder="+7 (___) ___-__-__"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                         />
                     </label>
                     <label className={styles.field}>
@@ -91,6 +105,8 @@ export function ProjectLeadForm({
                             rows={3}
                             className={styles.textarea}
                             placeholder="Например, интересует комплектация «Стандарт» с гаражом"
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
                         />
                     </label>
                     <p className={styles.contextLine}>
@@ -99,8 +115,17 @@ export function ProjectLeadForm({
                             {projectName}
                         </strong>
                     </p>
-                    <button type="submit" className={styles.submit}>
-                        Отправить заявку
+                    {error && (
+                        <p className={styles.error} role="alert">
+                            {error}
+                        </p>
+                    )}
+                    <button
+                        type="submit"
+                        className={styles.submit}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "Отправляем…" : "Отправить заявку"}
                     </button>
                     <p className={styles.policy}>
                         Нажимая кнопку, вы соглашаетесь с&nbsp;политикой

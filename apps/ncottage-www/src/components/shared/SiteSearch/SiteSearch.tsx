@@ -135,8 +135,7 @@ export function SiteSearch({
             })),
             ...PROJECT_HUB_CATEGORIES.map((c) => ({
                 key: `cat-${c.slug}`,
-                href:
-                    c.slug === "all" ? CATALOG_PATH : `/projects/${c.slug}`,
+                href: c.slug === "all" ? CATALOG_PATH : `/projects/${c.slug}`,
             })),
             ...suggested.map((p) => ({
                 key: `sug-${p.slug}`,

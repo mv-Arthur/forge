@@ -45,7 +45,11 @@
     border: 1px solid var(--color-line);
     border-radius: 28px;
     background:
-        radial-gradient(circle at 18% 18%, rgba(156, 74, 45, 0.18), transparent 32%),
+        radial-gradient(
+            circle at 18% 18%,
+            rgba(156, 74, 45, 0.18),
+            transparent 32%
+        ),
         linear-gradient(135deg, var(--color-surface), var(--color-surface-alt));
     box-shadow: var(--shadow-pop);
 }

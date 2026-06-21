@@ -10,7 +10,8 @@ const groups = [
         title: "Строительство",
         items: [
             {
-                question: "Пригодны ли каркасные дома для проживания круглый год?",
+                question:
+                    "Пригодны ли каркасные дома для проживания круглый год?",
                 answer: "Да. Каркасные проекты рассчитаны на постоянное проживание: многослойные стены держат температурные перепады, утепление сохраняет тепло зимой, а отопление подбирается под площадь дома.",
             },
             {
@@ -60,7 +61,8 @@ const groups = [
                 answer: "Гарантийные обращения рассматриваются при конструктивных дефектах, заводском браке материалов или нарушениях строительных норм. Самовольные изменения, не согласованные в проекте, могут прекратить действие гарантии.",
             },
             {
-                question: "Предусмотрено ли подключение инженерных коммуникаций?",
+                question:
+                    "Предусмотрено ли подключение инженерных коммуникаций?",
                 answer: "Дом под ключ может быть готов к проживанию, но подключение к внешним инженерным сетям обсуждается и фиксируется на этапе заключения договора.",
             },
             {
@@ -127,11 +129,19 @@ export default function FaqPage() {
 
                     <div className={styles.groups}>
                         {groups.map((group) => (
-                            <section key={group.title} id={group.title} className={styles.group}>
+                            <section
+                                key={group.title}
+                                id={group.title}
+                                className={styles.group}
+                            >
                                 <h2>{group.title}</h2>
                                 <div className={styles.list}>
                                     {group.items.map((item, index) => (
-                                        <details key={item.question} className={styles.item} open={index === 0}>
+                                        <details
+                                            key={item.question}
+                                            className={styles.item}
+                                            open={index === 0}
+                                        >
                                             <summary>{item.question}</summary>
                                             <p>{item.answer}</p>
                                         </details>

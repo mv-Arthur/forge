@@ -12,14 +12,18 @@ function collectStaticRoutes(dir: string, base = ""): string[] {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
         if (!entry.isDirectory()) continue;
         const name = entry.name;
-        if (name.startsWith("[") || name.startsWith("_") || name.startsWith(".")) {
+        if (
+            name.startsWith("[") ||
+            name.startsWith("_") ||
+            name.startsWith(".")
+        ) {
             continue;
         }
         const childDir = join(dir, name);
         // Route groups don't add a path segment.
         const segment = name.startsWith("(") ? base : `${base}/${name}`;
         const hasPage = readdirSync(childDir).some(
-            (f) => f === "page.tsx" || f === "page.ts",
+            (f) => f === "page.tsx" || f === "page.ts"
         );
         if (hasPage && !name.startsWith("(")) routes.push(segment);
         routes.push(...collectStaticRoutes(childDir, segment));

@@ -1,7 +1,11 @@
 .page {
     padding: 72px 0 96px;
     background:
-        radial-gradient(circle at 80% 0%, rgba(156, 74, 45, 0.08), transparent 34%),
+        radial-gradient(
+            circle at 80% 0%,
+            rgba(156, 74, 45, 0.08),
+            transparent 34%
+        ),
         var(--color-bg);
 }
 

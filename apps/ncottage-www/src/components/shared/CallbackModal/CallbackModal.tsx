@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./CallbackModal.module.css";
 
 interface CallbackModalProps {
@@ -27,8 +28,6 @@ const INITIAL_FORM_STATE: CallbackFormState = {
     consent: false,
 };
 
-const MOCK_SUBMIT_DELAY_MS = 650;
-
 export function CallbackModal({
     open,
     onClose,
@@ -36,34 +35,59 @@ export function CallbackModal({
     subtitle = "Оставьте контакты — мы свяжемся и уточним детали.",
 }: CallbackModalProps) {
     const [form, setForm] = useState<CallbackFormState>(INITIAL_FORM_STATE);
-    const [submitted, setSubmitted] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const submitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const { submit, error, isSubmitting, isSuccess, reset } = useLeadForm();
+    const modalRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        return () => {
-            if (submitTimerRef.current) clearTimeout(submitTimerRef.current);
-        };
-    }, []);
+    const handleClose = useCallback(() => {
+        setForm(INITIAL_FORM_STATE);
+        reset();
+        onClose();
+    }, [onClose, reset]);
 
     useEffect(() => {
         if (open) return;
-        if (submitTimerRef.current) {
-            clearTimeout(submitTimerRef.current);
-            submitTimerRef.current = null;
-        }
-        setSubmitted(false);
-        setIsSubmitting(false);
         setForm(INITIAL_FORM_STATE);
-    }, [open]);
+        reset();
+    }, [open, reset]);
+
+    useEffect(() => {
+        if (!open) return;
+        const node = modalRef.current;
+        if (!node) return;
+
+        const getFocusable = () =>
+            Array.from(
+                node.querySelectorAll<HTMLElement>(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                )
+            ).filter((el) => !el.hasAttribute("disabled"));
+
+        getFocusable()[0]?.focus();
+
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                handleClose();
+                return;
+            }
+            if (event.key !== "Tab") return;
+            const focusable = getFocusable();
+            if (focusable.length === 0) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        };
+
+        document.addEventListener("keydown", onKeyDown);
+        return () => document.removeEventListener("keydown", onKeyDown);
+    }, [open, handleClose]);
 
     if (!open) return null;
-
-    function clearSubmitTimer() {
-        if (!submitTimerRef.current) return;
-        clearTimeout(submitTimerRef.current);
-        submitTimerRef.current = null;
-    }
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -78,34 +102,20 @@ export function CallbackModal({
             return;
         }
 
-        const payload = {
+        void submit({
+            source: "callback",
             name: form.name.trim(),
             phone: form.phone.trim(),
             preferredTime: form.preferredTime,
             comment: form.comment.trim() || undefined,
             consent: form.consent,
-        };
-
-        setIsSubmitting(true);
-        submitTimerRef.current = setTimeout(() => {
-            console.info("Mock callback request:", payload);
-            setIsSubmitting(false);
-            setSubmitted(true);
-            submitTimerRef.current = null;
-        }, MOCK_SUBMIT_DELAY_MS);
-    }
-
-    function handleClose() {
-        clearSubmitTimer();
-        setSubmitted(false);
-        setIsSubmitting(false);
-        setForm(INITIAL_FORM_STATE);
-        onClose();
+        });
     }
 
     return (
         <div className={styles.backdrop} onClick={handleClose}>
             <div
+                ref={modalRef}
                 className={styles.modal}
                 role="dialog"
                 aria-modal="true"
@@ -120,7 +130,7 @@ export function CallbackModal({
                     &times;
                 </button>
 
-                {submitted ? (
+                {isSuccess ? (
                     <div className={styles.success}>
                         <p id="callback-title" className={styles.successTitle}>
                             Спасибо!
@@ -259,12 +269,17 @@ export function CallbackModal({
                                     Согласен на обработку персональных данных
                                 </span>
                             </label>
+                            {error && (
+                                <p className={styles.error} role="alert">
+                                    {error}
+                                </p>
+                            )}
                             <button
                                 type="submit"
                                 className={styles.submit}
                                 disabled={isSubmitting}
                             >
-                                {isSubmitting ? "Отправляем..." : "Отправить"}
+                                {isSubmitting ? "Отправляем…" : "Отправить"}
                             </button>
                         </form>
                     </>

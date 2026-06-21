@@ -8,6 +8,11 @@ export { ProjectFloorPlans } from "./ProjectFloorPlans";
 export { ProjectSpecsGrid } from "./ProjectSpecsGrid";
 export { ProjectPackages } from "./ProjectPackages";
 export { ProjectOptions } from "./ProjectOptions";
+export { ProjectCalculator } from "./ProjectCalculator";
+export {
+    ProjectConfigProvider,
+    useProjectConfig,
+} from "./ProjectConfigContext";
 export { ProjectMortgage } from "./ProjectMortgage";
 export { ProjectShowroom } from "./ProjectShowroom";
 export { ProjectFaq } from "./ProjectFaq";

@@ -19,8 +19,16 @@
     margin-top: 28px;
     padding: 48px;
     background:
-        radial-gradient(circle at 88% 0%, rgba(156, 74, 45, 0.14), transparent 36%),
-        linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+        radial-gradient(
+            circle at 88% 0%,
+            rgba(156, 74, 45, 0.14),
+            transparent 36%
+        ),
+        linear-gradient(
+            135deg,
+            var(--color-surface) 0%,
+            var(--color-surface-alt) 100%
+        );
 }
 
 .emptyContent {
@@ -144,6 +152,46 @@
     color: var(--color-accent);
 }
 
+.results {
+    margin-top: 28px;
+}
+
+.resultsHead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.clear {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-ink-muted);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.clear:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
 .tipsCard {
     margin-top: 24px;
     padding: 30px;
@@ -180,6 +228,16 @@
     }
 
     .tipsCard ul {
+        grid-template-columns: 1fr;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
         grid-template-columns: 1fr;
     }
 }

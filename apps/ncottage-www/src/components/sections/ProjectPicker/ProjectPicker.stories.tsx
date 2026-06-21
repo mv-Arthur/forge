@@ -41,8 +41,7 @@ export const OverlapHero: Story = {
                 <div
                     style={{
                         height: 420,
-                        background:
-                            "linear-gradient(135deg, #2c2c2c, #479332)",
+                        background: "linear-gradient(135deg, #2c2c2c, #479332)",
                     }}
                 />
                 <Story />

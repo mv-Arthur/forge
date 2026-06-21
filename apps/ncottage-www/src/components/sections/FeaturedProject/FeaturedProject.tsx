@@ -35,10 +35,7 @@ export function FeaturedProject({
                     <div className={styles.body}>
                         <div className={styles.eyebrowRow}>
                             <span className={styles.eyebrow}>{eyebrow}</span>
-                            <span
-                                className={styles.dot}
-                                aria-hidden="true"
-                            />
+                            <span className={styles.dot} aria-hidden="true" />
                             <span className={styles.overline}>{overline}</span>
                         </div>
                         <h2 className={styles.title}>

@@ -2,8 +2,17 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/widgets/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
-import { ADDRESSES, CITIES, EMAIL, PHONES, WORK_HOURS } from "@/content/contacts";
+import {
+    ADDRESSES,
+    CITIES,
+    EMAIL,
+    PHONES,
+    WORK_HOURS,
+} from "@/content/contacts";
 import { NAV_ITEMS } from "@/content/site";
+import { SelectionProvider } from "@/lib/selection";
+import { CallbackProvider } from "@/lib/callback";
+import { FloatingContact } from "@/components/shared/FloatingContact";
 
 const CITY_ADDRESSES = {
     spb: ADDRESSES.spb,
@@ -46,16 +55,21 @@ export default function RootLayout({
     return (
         <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
             <body>
-                <SiteHeader
-                    cities={CITIES}
-                    phones={PHONES}
-                    addresses={CITY_ADDRESSES}
-                    email={EMAIL}
-                    workHours={WORK_HOURS}
-                    navItems={NAV_ITEMS}
-                />
-                <main>{children}</main>
-                <Footer />
+                <SelectionProvider>
+                    <CallbackProvider>
+                        <SiteHeader
+                            cities={CITIES}
+                            phones={PHONES}
+                            addresses={CITY_ADDRESSES}
+                            email={EMAIL}
+                            workHours={WORK_HOURS}
+                            navItems={NAV_ITEMS}
+                        />
+                        <main>{children}</main>
+                        <Footer />
+                        <FloatingContact />
+                    </CallbackProvider>
+                </SelectionProvider>
             </body>
         </html>
     );

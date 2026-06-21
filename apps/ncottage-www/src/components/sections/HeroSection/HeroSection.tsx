@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { CallbackButton } from "@/components/shared/CallbackButton";
 import type { HeroContent } from "@/content/home";
 import styles from "./HeroSection.module.css";
 
@@ -55,12 +56,13 @@ export function HeroSection({
                     </h1>
                     <p className={styles.text}>{text}</p>
                     <div className={styles.actions}>
-                        <Link
-                            href={primaryCta.href}
+                        <CallbackButton
                             className={styles.primary}
+                            title={primaryCta.label}
+                            subtitle="Оставьте телефон — перезвоним в течение 15 минут и посчитаем стоимость по вашему проекту."
                         >
                             {primaryCta.label}
-                        </Link>
+                        </CallbackButton>
                         {secondaryCta && (
                             <Link
                                 href={secondaryCta.href}

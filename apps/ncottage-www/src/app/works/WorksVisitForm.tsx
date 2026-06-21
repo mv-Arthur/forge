@@ -1,22 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./works.module.css";
 
 export function WorksVisitForm() {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    const { submit, error, isSubmitting, isSuccess } = useLeadForm();
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (!phone.trim()) return;
-        console.log("Works visit request:", { name, phone, message });
-        setSubmitted(true);
+        if (!phone.trim() || isSubmitting) return;
+        void submit({
+            source: "works",
+            name: name.trim() || undefined,
+            phone: phone.trim(),
+            comment: message.trim() || undefined,
+        });
     }
 
-    if (submitted) {
+    if (isSuccess) {
         return (
             <div className={styles.visitSuccess} role="status">
                 <h3 className={styles.visitSuccessTitle}>Заявка отправлена</h3>
@@ -57,8 +62,17 @@ export function WorksVisitForm() {
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
             />
-            <button className={styles.submit} type="submit">
-                Записаться на просмотр
+            {error && (
+                <p className={styles.error} role="alert">
+                    {error}
+                </p>
+            )}
+            <button
+                className={styles.submit}
+                type="submit"
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? "Отправляем…" : "Записаться на просмотр"}
             </button>
             <p className={styles.privacy}>
                 Нажимая кнопку, вы соглашаетесь с обработкой персональных

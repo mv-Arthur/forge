@@ -107,8 +107,10 @@ function parseFiltersFromParams(
         livingType: parseList(params.get("living")) as ProjectLivingType[],
         styles: parseList(params.get("styles")) as ProjectStyle[],
         features: parseList(params.get("features")) as ProjectFeature[],
-        areaMin: Number.isFinite(areaMin) && areaMin > 0 ? areaMin : bounds.areaMin,
-        areaMax: Number.isFinite(areaMax) && areaMax > 0 ? areaMax : bounds.areaMax,
+        areaMin:
+            Number.isFinite(areaMin) && areaMin > 0 ? areaMin : bounds.areaMin,
+        areaMax:
+            Number.isFinite(areaMax) && areaMax > 0 ? areaMax : bounds.areaMax,
         priceMin:
             Number.isFinite(priceMin) && priceMin > 0
                 ? priceMin
@@ -123,10 +125,7 @@ function parseFiltersFromParams(
     };
 }
 
-function serializeFilters(
-    filters: FiltersState,
-    bounds: FilterBounds
-): string {
+function serializeFilters(filters: FiltersState, bounds: FilterBounds): string {
     const sp = new URLSearchParams();
     if (filters.technology.length) sp.set("tech", filters.technology.join(","));
     if (filters.floors.length)
@@ -136,7 +135,8 @@ function serializeFilters(
         sp.set("beds", filters.bedrooms.map(String).join(","));
     if (filters.bathrooms.length)
         sp.set("baths", filters.bathrooms.map(String).join(","));
-    if (filters.livingType.length) sp.set("living", filters.livingType.join(","));
+    if (filters.livingType.length)
+        sp.set("living", filters.livingType.join(","));
     if (filters.styles.length) sp.set("styles", filters.styles.join(","));
     if (filters.features.length) sp.set("features", filters.features.join(","));
     if (filters.areaMin !== bounds.areaMin)
@@ -165,10 +165,7 @@ export function applyFilters(
             return false;
         if (filters.floors.length && !filters.floors.includes(p.floors))
             return false;
-        if (
-            filters.sizes.length &&
-            !filters.sizes.includes(p.specs.dimensions)
-        )
+        if (filters.sizes.length && !filters.sizes.includes(p.specs.dimensions))
             return false;
         if (
             filters.bedrooms.length &&
@@ -225,9 +222,7 @@ export function applyFilters(
             sorted.sort((a, b) => b.area - a.area);
             break;
         default:
-            sorted.sort(
-                (a, b) => Number(b.featured) - Number(a.featured)
-            );
+            sorted.sort((a, b) => Number(b.featured) - Number(a.featured));
             break;
     }
     return sorted;

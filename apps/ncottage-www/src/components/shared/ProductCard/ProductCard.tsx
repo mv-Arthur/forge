@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type MouseEvent } from "react";
+import { type MouseEvent } from "react";
 import type { Project } from "@/domain/project";
 import { PROJECT_TECHNOLOGY_LABELS } from "@/domain/technology";
 import { formatPrice } from "@/lib/utils";
+import { useSelection } from "@/lib/selection";
 import { CompareScaleIcon, HeartIcon } from "./icons";
 import styles from "./ProductCard.module.css";
 
@@ -32,8 +33,17 @@ function pluralBathrooms(n: number) {
 }
 
 export function ProductCard({ project, variant = "grid" }: ProductCardProps) {
-    const [favorited, setFavorited] = useState(false);
-    const [compared, setCompared] = useState(false);
+    const {
+        isFavorite,
+        isCompared,
+        toggleFavorite,
+        toggleCompare,
+        compare,
+        compareLimit,
+    } = useSelection();
+    const favorited = isFavorite(project.slug);
+    const compared = isCompared(project.slug);
+    const compareDisabled = !compared && compare.length >= compareLimit;
     const basePackage = project.packages?.[0];
     const price = basePackage?.price ?? project.price;
     const packageLabel = basePackage
@@ -71,11 +81,21 @@ export function ProductCard({ project, variant = "grid" }: ProductCardProps) {
                 <button
                     type="button"
                     className={`${styles.action} ${compared ? styles.actionActive : ""}`}
-                    aria-label="К сравнению"
+                    aria-label={
+                        compared
+                            ? "Убрать из сравнения"
+                            : "Добавить к сравнению"
+                    }
                     aria-pressed={compared}
+                    disabled={compareDisabled}
+                    title={
+                        compareDisabled
+                            ? `Можно сравнить до ${compareLimit} проектов`
+                            : undefined
+                    }
                     onClick={(e) => {
                         stop(e);
-                        setCompared((v) => !v);
+                        toggleCompare(project.slug);
                     }}
                 >
                     <CompareScaleIcon />
@@ -83,11 +103,15 @@ export function ProductCard({ project, variant = "grid" }: ProductCardProps) {
                 <button
                     type="button"
                     className={`${styles.action} ${favorited ? styles.actionActive : ""}`}
-                    aria-label="В избранное"
+                    aria-label={
+                        favorited
+                            ? "Убрать из избранного"
+                            : "Добавить в избранное"
+                    }
                     aria-pressed={favorited}
                     onClick={(e) => {
                         stop(e);
-                        setFavorited((v) => !v);
+                        toggleFavorite(project.slug);
                     }}
                 >
                     <HeartIcon active={favorited} />

@@ -1,4 +1,5 @@
 import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
+import { CertificatesStrip } from "@/components/sections/CertificatesStrip";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { FeaturedProject } from "@/components/sections/FeaturedProject";
@@ -14,6 +15,7 @@ import { Catalog } from "@/components/features/home-catalog";
 import { getHomeContent } from "@/content/home";
 import { getBuiltObjects } from "@/data/built-objects";
 import { getFeaturedProjects } from "@/data/projects";
+import { formatMonthYear } from "@/lib/utils";
 
 export default async function HomePage() {
     const home = await getHomeContent();
@@ -34,8 +36,13 @@ export default async function HomePage() {
             <StagesSection {...home.stages} />
             <GeographySection {...home.geography} />
             <ReviewsSection {...home.reviews} />
-            <FeaturedProject {...home.featuredProject} project={featuredObject} />
+            <FeaturedProject
+                {...home.featuredProject}
+                overline={formatMonthYear()}
+                project={featuredObject}
+            />
             <GuaranteesSection {...home.guarantees} />
+            <CertificatesStrip />
             <FaqSection {...home.faq} />
             <ContactSection {...home.contact} />
         </>
