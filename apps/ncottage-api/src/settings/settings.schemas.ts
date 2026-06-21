@@ -1,0 +1,70 @@
+import type { SettingKey } from "@forge/shared";
+import { z } from "zod";
+
+const navSubItem = z.object({ label: z.string(), href: z.string() });
+const navItem = z.object({
+    label: z.string(),
+    href: z.string(),
+    children: z.array(navSubItem).optional(),
+    badge: z.literal("sale").optional(),
+});
+const navigation = z.object({ items: z.array(navItem) });
+
+const footerLink = z.object({
+    label: z.string(),
+    href: z.string(),
+    external: z.boolean().optional(),
+});
+const footerOffice = z.object({
+    label: z.string(),
+    address: z.string(),
+    phoneNumber: z.string(),
+    phoneDisplay: z.string(),
+});
+const legal = z.object({ ogrn: z.string(), inn: z.string(), kpp: z.string() });
+const footer = z.object({
+    tagline: z.string(),
+    navTitle: z.string(),
+    navItems: z.array(footerLink),
+    contactsTitle: z.string(),
+    email: z.string(),
+    workHours: z.string(),
+    offices: z.array(footerOffice),
+    socialLabel: z.string(),
+    legal,
+    bottomLinks: z.array(footerLink),
+    copyright: z.string(),
+    disclaimer: z.string(),
+    toTopLabel: z.string(),
+});
+
+const contactPhone = z.object({
+    code: z.string(),
+    label: z.string(),
+    number: z.string(),
+    display: z.string(),
+});
+const contactAddress = z.object({
+    key: z.string(),
+    label: z.string(),
+    value: z.string(),
+});
+const contactSocial = z.object({
+    key: z.string(),
+    label: z.string(),
+    url: z.string(),
+});
+const contacts = z.object({
+    phones: z.array(contactPhone),
+    email: z.string(),
+    addresses: z.array(contactAddress),
+    social: z.array(contactSocial),
+    workHours: z.string(),
+    legal,
+});
+
+export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {
+    nav: navigation,
+    footer,
+    contacts,
+};

@@ -172,6 +172,13 @@ enum Role {
     editor
 }
 
+// Контент-настройки сайта (singletons): nav, footer, contacts. value — типизированный JSON.
+model Setting {
+    key       String   @id
+    value     Json
+    updatedAt DateTime @updatedAt
+}
+
 model Admin {
     id           String   @id @default(cuid())
     email        String   @unique

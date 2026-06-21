@@ -1,0 +1,192 @@
+{
+    "nav": {
+        "items": [
+            {
+                "label": "Проекты",
+                "href": "/projects",
+                "children": [
+                    { "label": "Все проекты", "href": "/projects/all" },
+                    {
+                        "label": "Дома из газобетона",
+                        "href": "/projects/gas-concrete"
+                    },
+                    { "label": "Кирпичные дома", "href": "/projects/brick" },
+                    { "label": "Каркасные дома", "href": "/projects/frame" },
+                    { "label": "Дома из СИП-панелей", "href": "/projects/sip" },
+                    {
+                        "label": "Фахверковые дома",
+                        "href": "/projects/fachwerk"
+                    }
+                ]
+            },
+            {
+                "label": "Услуги",
+                "href": "/services",
+                "children": [
+                    { "label": "Проектирование", "href": "/services/design" },
+                    {
+                        "label": "Строительство домов",
+                        "href": "/services/construction"
+                    },
+                    { "label": "Фундаменты", "href": "/services/foundations" },
+                    {
+                        "label": "Инженерные сети",
+                        "href": "/services/engineering"
+                    },
+                    {
+                        "label": "Отделочные работы",
+                        "href": "/services/finishing"
+                    },
+                    {
+                        "label": "Строительство бань",
+                        "href": "/services/baths"
+                    },
+                    {
+                        "label": "Коммерческая недвижимость",
+                        "href": "/services/commercial"
+                    },
+                    {
+                        "label": "Благоустройство территории",
+                        "href": "/services/landscaping"
+                    },
+                    {
+                        "label": "Демонтаж и снос",
+                        "href": "/services/demolition"
+                    }
+                ]
+            },
+            { "label": "Наши работы", "href": "/works" },
+            {
+                "label": "Клиентам",
+                "href": "/about",
+                "children": [
+                    { "label": "О компании", "href": "/about" },
+                    { "label": "Гарантия", "href": "/guarantee" },
+                    { "label": "Отзывы", "href": "/reviews" },
+                    { "label": "Вопрос-ответ", "href": "/faq" },
+                    { "label": "Ипотека", "href": "/mortgage" },
+                    { "label": "Оплата", "href": "/payment" }
+                ]
+            },
+            { "label": "Акции", "href": "/promos", "badge": "sale" },
+            { "label": "Контакты", "href": "/contacts" }
+        ]
+    },
+    "footer": {
+        "tagline": "Загородные дома под ключ в Санкт-Петербурге и Москве с 2007 года.",
+        "navTitle": "Разделы",
+        "navItems": [
+            { "label": "Проекты", "href": "/projects" },
+            { "label": "Услуги", "href": "/services" },
+            { "label": "Наши работы", "href": "/works" },
+            { "label": "О компании", "href": "/about" },
+            { "label": "Гарантия", "href": "/guarantee" },
+            { "label": "Отзывы", "href": "/reviews" },
+            { "label": "Вопрос-ответ", "href": "/faq" },
+            { "label": "Ипотека", "href": "/mortgage" },
+            { "label": "Акции", "href": "/promos" },
+            { "label": "Контакты", "href": "/contacts" },
+            { "label": "Реквизиты", "href": "/requisites" }
+        ],
+        "contactsTitle": "Контакты",
+        "email": "info@ncottage.ru",
+        "workHours": "Пн–Пт, 10:00–19:00",
+        "offices": [
+            {
+                "label": "Санкт-Петербург",
+                "address": "Комендантский проспект, 4, офис 405",
+                "phoneNumber": "+78123093818",
+                "phoneDisplay": "+7 (812) 309-38-18"
+            },
+            {
+                "label": "Москва",
+                "address": "Москва, Варшавское шоссе, 35, стр. 1, БЦ «Ривер Плаза», офис 412",
+                "phoneNumber": "+74952043856",
+                "phoneDisplay": "+7 (495) 204-38-56"
+            }
+        ],
+        "socialLabel": "Мы в соцсетях",
+        "legal": {
+            "ogrn": "1187847109823",
+            "inn": "7802663069",
+            "kpp": "781401001"
+        },
+        "bottomLinks": [
+            {
+                "label": "Политика конфиденциальности",
+                "href": "/privacy"
+            },
+            {
+                "label": "Обработка персональных данных",
+                "href": "/personal-data"
+            },
+            { "label": "Карта сайта", "href": "/sitemap" }
+        ],
+        "copyright": "© 2007–2026 Новый Коттедж",
+        "disclaimer": "Информация на сайте носит справочный характер и не является публичной офертой (ст. 437 ГК РФ).",
+        "toTopLabel": "Наверх"
+    },
+    "contacts": {
+        "phones": [
+            {
+                "code": "spb",
+                "label": "Санкт-Петербург",
+                "number": "+78123093818",
+                "display": "+7 (812) 309-38-18"
+            },
+            {
+                "code": "msk",
+                "label": "Москва",
+                "number": "+74952043856",
+                "display": "+7 (495) 204-38-56"
+            }
+        ],
+        "email": "info@ncottage.ru",
+        "addresses": [
+            {
+                "key": "spb",
+                "label": "Санкт-Петербург",
+                "value": "Санкт-Петербург, Комендантский проспект, д. 4"
+            },
+            {
+                "key": "msk",
+                "label": "Москва",
+                "value": "Москва, Варшавское шоссе, 35, стр. 1, БЦ «Ривер Плаза», офис 412"
+            },
+            {
+                "key": "lenobl",
+                "label": "Ленинградская область",
+                "value": "Ленинградская область, Всеволожский район, д. Лепсари, промзона Спутник 4 проезд"
+            },
+            {
+                "key": "novobl",
+                "label": "Новгородская область",
+                "value": "Новгородская область, Окуловский район, с/п Боровёнковское"
+            }
+        ],
+        "social": [
+            { "key": "vk", "label": "VK", "url": "https://vk.com/ncottage" },
+            {
+                "key": "telegram",
+                "label": "Telegram",
+                "url": "https://t.me/ncottage"
+            },
+            {
+                "key": "whatsapp",
+                "label": "WhatsApp",
+                "url": "https://wa.me/78123093818"
+            },
+            {
+                "key": "website",
+                "label": "Сайт",
+                "url": "https://ncottage.ru"
+            }
+        ],
+        "workHours": "Пн–Пт: 10:00–19:00",
+        "legal": {
+            "ogrn": "1187847109823",
+            "inn": "7802663069",
+            "kpp": "781401001"
+        }
+    }
+}

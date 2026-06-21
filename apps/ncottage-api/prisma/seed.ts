@@ -101,6 +101,22 @@ function childrenCreate(p: Project) {
     };
 }
 
+async function seedSettings() {
+    const file = resolve(__dirname, "seed-data/settings.json");
+    const settings = JSON.parse(readFileSync(file, "utf-8")) as Record<
+        string,
+        unknown
+    >;
+    for (const [key, value] of Object.entries(settings)) {
+        await prisma.setting.upsert({
+            where: { key },
+            create: { key, value: value as object },
+            update: { value: value as object },
+        });
+    }
+    console.log(`Seeded ${Object.keys(settings).length} settings`);
+}
+
 async function main() {
     const file = resolve(__dirname, "seed-data/projects.json");
     const projects = JSON.parse(readFileSync(file, "utf-8")) as Project[];
@@ -123,6 +139,7 @@ async function main() {
 
     console.log(`Seeded ${projects.length} projects`);
 
+    await seedSettings();
     await seedAdmin();
 }
 

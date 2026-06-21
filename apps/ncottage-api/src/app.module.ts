@@ -9,6 +9,7 @@ import { MediaModule } from "./media/media.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { ProjectsModule } from "./projects/projects.module.js";
 import { RevalidateModule } from "./revalidate/revalidate.module.js";
+import { SettingsModule } from "./settings/settings.module.js";
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { RevalidateModule } from "./revalidate/revalidate.module.js";
         LeadsModule,
         MediaModule,
         ProjectsModule,
+        SettingsModule,
     ],
     controllers: [AppController],
 })
