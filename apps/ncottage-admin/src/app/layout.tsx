@@ -4,7 +4,6 @@ import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { getCurrentAdmin } from "@/lib/session";
 import "./globals.css";
-import "./legacy.css";
 
 export const metadata: Metadata = {
     title: "ncottage admin",
