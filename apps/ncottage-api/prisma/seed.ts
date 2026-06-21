@@ -1,9 +1,26 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { Prisma, PrismaClient } from "@prisma/client";
+import * as bcrypt from "bcryptjs";
 import type { Project } from "@forge/shared";
 
 const prisma = new PrismaClient();
+
+async function seedAdmin() {
+    const email = process.env.ADMIN_EMAIL;
+    const password = process.env.ADMIN_PASSWORD;
+    if (!email || !password) {
+        console.log("ADMIN_EMAIL/ADMIN_PASSWORD not set, skipping admin seed");
+        return;
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
+    await prisma.admin.upsert({
+        where: { email },
+        create: { email, passwordHash },
+        update: { passwordHash },
+    });
+    console.log(`Seeded admin ${email}`);
+}
 
 function toJson(
     value: unknown
@@ -51,6 +68,8 @@ async function main() {
     }
 
     console.log(`Seeded ${projects.length} projects`);
+
+    await seedAdmin();
 }
 
 main()

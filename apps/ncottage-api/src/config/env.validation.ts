@@ -33,6 +33,13 @@ class EnvVars {
     @IsOptional()
     @IsString()
     CORS_ORIGIN?: string;
+
+    @IsString()
+    JWT_SECRET!: string;
+
+    @IsOptional()
+    @IsString()
+    JWT_EXPIRES_IN = "12h";
 }
 
 export function validateEnv(config: Record<string, unknown>): EnvVars {

@@ -1,5 +1,15 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Patch,
+    Post,
+    UseGuards,
+} from "@nestjs/common";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
 import { CreateLeadDto } from "./dto/create-lead.dto.js";
+import { UpdateLeadStatusDto } from "./dto/update-lead-status.dto.js";
 import { LeadsService } from "./leads.service.js";
 
 @Controller("leads")
@@ -10,5 +20,17 @@ export class LeadsController {
     async create(@Body() dto: CreateLeadDto) {
         await this.leads.create(dto);
         return { ok: true };
+    }
+
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    list() {
+        return this.leads.list();
+    }
+
+    @Patch(":id")
+    @UseGuards(JwtAuthGuard)
+    updateStatus(@Param("id") id: string, @Body() dto: UpdateLeadStatusDto) {
+        return this.leads.updateStatus(id, dto.status);
     }
 }

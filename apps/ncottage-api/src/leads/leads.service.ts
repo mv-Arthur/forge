@@ -1,7 +1,8 @@
-import { Injectable, Logger } from "@nestjs/common";
-import type { Lead } from "@prisma/client";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { $Enums, type Lead } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateLeadDto } from "./dto/create-lead.dto.js";
+import type { LeadStatusValue } from "./dto/update-lead-status.dto.js";
 import { LeadDeliveryPort } from "./delivery/lead-delivery.port.js";
 
 @Injectable()
@@ -28,6 +29,21 @@ export class LeadsService {
         // Доставка асинхронна и не блокирует ответ: лид уже сохранён.
         void this.dispatch(lead);
         return lead;
+    }
+
+    list(): Promise<Lead[]> {
+        return this.prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
+    }
+
+    async updateStatus(id: string, status: LeadStatusValue): Promise<Lead> {
+        const existing = await this.prisma.lead.findUnique({ where: { id } });
+        if (!existing) {
+            throw new NotFoundException(`Lead not found: ${id}`);
+        }
+        return this.prisma.lead.update({
+            where: { id },
+            data: { status: status as $Enums.LeadStatus },
+        });
     }
 
     private async dispatch(lead: Lead): Promise<void> {
