@@ -1,0 +1,44 @@
+{
+    "name": "@forge/ncottage-api",
+    "version": "0.0.0",
+    "private": true,
+    "description": "ncottage backend: lead intake and content CMS",
+    "prisma": {
+        "schema": "prisma/schema.prisma"
+    },
+    "scripts": {
+        "dev": "nest start --watch",
+        "build": "nest build",
+        "bundle": "nest build && node esbuild.config.mjs",
+        "start": "node bundle/main.js",
+        "debug": "nest start --debug --watch",
+        "typecheck": "tsc --noEmit",
+        "clean": "rm -rf dist bundle",
+        "prisma:generate": "prisma generate",
+        "db:migrate": "prisma migrate dev",
+        "db:deploy": "prisma migrate deploy"
+    },
+    "dependencies": {
+        "@forge/shared": "workspace:*",
+        "@nestjs/common": "^11.1.14",
+        "@nestjs/config": "^4.0.2",
+        "@nestjs/core": "^11.1.14",
+        "@nestjs/platform-fastify": "^11.1.14",
+        "@prisma/client": "^6.7.0",
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.14.2",
+        "fastify": "^5.7.4",
+        "reflect-metadata": "^0.2.0"
+    },
+    "devDependencies": {
+        "@nestjs/cli": "^11.0.16",
+        "@nestjs/schematics": "^11.0.9",
+        "@swc/cli": "^0.8.0",
+        "@swc/core": "^1.15.13",
+        "@types/node": "^25.3.0",
+        "esbuild": "^0.27.3",
+        "prisma": "^6.7.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.0.0"
+    }
+}

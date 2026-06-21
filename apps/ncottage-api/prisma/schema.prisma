@@ -1,0 +1,83 @@
+// ncottage-api data model.
+// Lead — заявки с сайта. Project — каталог проектов (CMS). Admin — учётка админки.
+// Вложенные поля проекта (specs/floorPlans/packages/options) хранятся как JSON:
+// они читаются и редактируются только целиком вместе с проектом. Если позже
+// понадобятся кросс-проектные запросы по вложенному — нормализуем в ProjectsService.
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum LeadSource {
+    contacts
+    callback
+    project
+    works
+}
+
+enum LeadStatus {
+    new
+    contacted
+    archived
+}
+
+model Lead {
+    id            String     @id @default(cuid())
+    source        LeadSource
+    phone         String
+    name          String?
+    comment       String?
+    preferredTime String?
+    project       String?
+    consent       Boolean?
+    status        LeadStatus @default(new)
+    createdAt     DateTime   @default(now())
+    // Seam под будущую доставку (Telegram/email/CRM):
+    deliveredAt   DateTime?
+    deliveryError String?
+
+    @@index([status, createdAt])
+}
+
+model Project {
+    id          String   @id @default(cuid())
+    slug        String   @unique
+    name        String
+    technology  String
+    area        Int
+    floors      Int
+    bedrooms    Int
+    bathrooms   Int
+    price       Int
+    image       String
+    style       String
+    livingType  String
+    featured    Boolean  @default(false)
+    description String
+    pdfUrl      String?
+    // Вложенное/массивы:
+    images           String[]
+    features         String[]
+    relatedObjectIds String[]
+    specs            Json
+    floorPlans       Json?
+    packages         Json?
+    options          Json?
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    @@index([technology])
+    @@index([featured])
+}
+
+model Admin {
+    id           String   @id @default(cuid())
+    email        String   @unique
+    passwordHash String
+    createdAt    DateTime @default(now())
+}

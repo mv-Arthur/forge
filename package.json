@@ -10,6 +10,8 @@
         "build:nc_presentation": "pnpm --filter @forge/nc_presentation build",
         "dev:ncottage-www": "pnpm --filter @forge/ncottage-www dev",
         "build:ncottage-www": "pnpm --filter @forge/ncottage-www build",
+        "dev:ncottage-api": "pnpm --filter @forge/ncottage-api dev",
+        "build:ncottage-api": "pnpm --filter @forge/ncottage-api build",
         "storybook:ncottage-www": "pnpm --filter @forge/ncottage-www storybook",
         "build": "pnpm -r build",
         "typecheck": "pnpm -r typecheck",
