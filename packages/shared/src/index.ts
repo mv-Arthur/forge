@@ -7,3 +7,15 @@ export {
     isValidLead,
 } from "./lead.js";
 export type { LeadSource, LeadRequest } from "./lead.js";
+export type {
+    Technology,
+    ProjectStyle,
+    ProjectFeature,
+    ProjectLivingType,
+    ProjectSpecs,
+    ProjectFloorPlan,
+    ProjectPackage,
+    ProjectOption,
+    Project,
+    BuiltObject,
+} from "./project.js";

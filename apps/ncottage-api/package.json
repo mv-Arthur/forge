@@ -4,7 +4,8 @@
     "private": true,
     "description": "ncottage backend: lead intake and content CMS",
     "prisma": {
-        "schema": "prisma/schema.prisma"
+        "schema": "prisma/schema.prisma",
+        "seed": "tsx prisma/seed.ts"
     },
     "scripts": {
         "dev": "nest start --watch",
@@ -16,7 +17,8 @@
         "clean": "rm -rf dist bundle",
         "prisma:generate": "prisma generate",
         "db:migrate": "prisma migrate dev",
-        "db:deploy": "prisma migrate deploy"
+        "db:deploy": "prisma migrate deploy",
+        "db:seed": "prisma db seed"
     },
     "dependencies": {
         "@forge/shared": "workspace:*",
@@ -39,6 +41,7 @@
         "esbuild": "^0.27.3",
         "prisma": "^6.7.0",
         "ts-node": "^10.9.2",
+        "tsx": "^4.20.0",
         "typescript": "^5.0.0"
     }
 }

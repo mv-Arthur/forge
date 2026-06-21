@@ -4,6 +4,7 @@ import { AppController } from "./app.controller.js";
 import { validateEnv } from "./config/env.validation.js";
 import { LeadsModule } from "./leads/leads.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
+import { ProjectsModule } from "./projects/projects.module.js";
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { PrismaModule } from "./prisma/prisma.module.js";
         }),
         PrismaModule,
         LeadsModule,
+        ProjectsModule,
     ],
     controllers: [AppController],
 })
