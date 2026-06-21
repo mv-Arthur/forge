@@ -1,14 +1,18 @@
 import { Module } from "@nestjs/common";
+import { CompositeLeadDelivery } from "./delivery/composite-lead-delivery.js";
+import { EmailLeadDelivery } from "./delivery/email-lead-delivery.js";
+import { LeadDeliveryPort } from "./delivery/lead-delivery.port.js";
+import { TelegramLeadDelivery } from "./delivery/telegram-lead-delivery.js";
 import { LeadsController } from "./leads.controller.js";
 import { LeadsService } from "./leads.service.js";
-import { LeadDeliveryPort } from "./delivery/lead-delivery.port.js";
-import { NoopLeadDelivery } from "./delivery/noop-lead-delivery.js";
 
 @Module({
     controllers: [LeadsController],
     providers: [
         LeadsService,
-        { provide: LeadDeliveryPort, useClass: NoopLeadDelivery },
+        TelegramLeadDelivery,
+        EmailLeadDelivery,
+        { provide: LeadDeliveryPort, useClass: CompositeLeadDelivery },
     ],
 })
 export class LeadsModule {}

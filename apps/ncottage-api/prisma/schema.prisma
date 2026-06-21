@@ -37,9 +37,10 @@ model Lead {
     consent       Boolean?
     status        LeadStatus @default(new)
     createdAt     DateTime   @default(now())
-    // Seam под будущую доставку (Telegram/email/CRM):
-    deliveredAt   DateTime?
-    deliveryError String?
+    // Доставка во внешние системы (Telegram/email):
+    deliveredAt      DateTime?
+    deliveryError    String?
+    deliveryAttempts Int       @default(0)
 
     @@index([status, createdAt])
 }

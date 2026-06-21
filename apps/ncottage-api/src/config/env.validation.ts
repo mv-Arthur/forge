@@ -67,6 +67,43 @@ class EnvVars {
     @IsOptional()
     @IsString()
     S3_FORCE_PATH_STYLE = "true";
+
+    // Доставка лидов (опционально; провайдер активен только при заданных кредах).
+    @IsOptional()
+    @IsString()
+    TELEGRAM_BOT_TOKEN?: string;
+
+    @IsOptional()
+    @IsString()
+    TELEGRAM_CHAT_ID?: string;
+
+    @IsOptional()
+    @IsString()
+    SMTP_HOST?: string;
+
+    @IsOptional()
+    @IsString()
+    SMTP_PORT?: string;
+
+    @IsOptional()
+    @IsString()
+    SMTP_SECURE?: string;
+
+    @IsOptional()
+    @IsString()
+    SMTP_USER?: string;
+
+    @IsOptional()
+    @IsString()
+    SMTP_PASS?: string;
+
+    @IsOptional()
+    @IsString()
+    SMTP_FROM?: string;
+
+    @IsOptional()
+    @IsString()
+    SMTP_TO?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>): EnvVars {

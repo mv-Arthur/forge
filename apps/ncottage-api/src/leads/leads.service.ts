@@ -46,12 +46,25 @@ export class LeadsService {
         });
     }
 
+    async redeliver(id: string): Promise<Lead> {
+        const lead = await this.prisma.lead.findUnique({ where: { id } });
+        if (!lead) {
+            throw new NotFoundException(`Lead not found: ${id}`);
+        }
+        await this.dispatch(lead);
+        return this.prisma.lead.findUniqueOrThrow({ where: { id } });
+    }
+
     private async dispatch(lead: Lead): Promise<void> {
         try {
             await this.delivery.deliver(lead);
             await this.prisma.lead.update({
                 where: { id: lead.id },
-                data: { deliveredAt: new Date() },
+                data: {
+                    deliveredAt: new Date(),
+                    deliveryError: null,
+                    deliveryAttempts: { increment: 1 },
+                },
             });
         } catch (error) {
             const message =
@@ -60,7 +73,10 @@ export class LeadsService {
             await this.prisma.lead
                 .update({
                     where: { id: lead.id },
-                    data: { deliveryError: message },
+                    data: {
+                        deliveryError: message,
+                        deliveryAttempts: { increment: 1 },
+                    },
                 })
                 .catch(() => undefined);
         }

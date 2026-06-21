@@ -33,4 +33,10 @@ export class LeadsController {
     updateStatus(@Param("id") id: string, @Body() dto: UpdateLeadStatusDto) {
         return this.leads.updateStatus(id, dto.status);
     }
+
+    @Post(":id/redeliver")
+    @UseGuards(JwtAuthGuard)
+    redeliver(@Param("id") id: string) {
+        return this.leads.redeliver(id);
+    }
 }
