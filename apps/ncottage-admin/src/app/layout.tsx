@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getToken } from "@/lib/session";
 import { logoutAction } from "./actions";
 import "./globals.css";
+import "./legacy.css";
 
 export const metadata: Metadata = {
     title: "ncottage admin",
