@@ -4,11 +4,14 @@
         "module": "CommonJS",
         "moduleResolution": "node",
         "outDir": "./dist",
-        "rootDir": "./src",
         "incremental": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "noEmit": false
+        "noEmit": false,
+        // paths:{} отменяет унаследованный @forge/* → packages/*/src.
+        // Иначе SWC инлайнит исходный путь в require и рантайм падает.
+        // @forge/shared резолвится через node_modules (dist).
+        "paths": {}
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "dist", "test"]
