@@ -26,3 +26,5 @@ export type {
     BuiltObject,
 } from "./project.js";
 export type { Media } from "./media.js";
+export { ROLES } from "./admin.js";
+export type { Role, AdminUser } from "./admin.js";

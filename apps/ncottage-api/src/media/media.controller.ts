@@ -12,6 +12,8 @@ import {
 } from "@nestjs/common";
 import type { FastifyRequest } from "fastify";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
+import { Roles } from "../auth/roles.decorator.js";
+import { RolesGuard } from "../auth/roles.guard.js";
 import { ListMediaQueryDto } from "./dto/list-media-query.dto.js";
 import { MediaService } from "./media.service.js";
 
@@ -25,7 +27,7 @@ function fieldStr(field: unknown): string | undefined {
 }
 
 @Controller("media")
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class MediaController {
     constructor(private readonly media: MediaService) {}
 
@@ -72,6 +74,7 @@ export class MediaController {
     }
 
     @Delete(":id")
+    @Roles("admin")
     @HttpCode(204)
     remove(@Param("id") id: string) {
         return this.media.remove(id);

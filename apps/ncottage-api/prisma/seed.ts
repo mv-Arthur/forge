@@ -14,12 +14,13 @@ async function seedAdmin() {
         return;
     }
     const passwordHash = await bcrypt.hash(password, 10);
+    // Первый суперюзер — всегда роль admin (миграция существующей учётки).
     await prisma.admin.upsert({
         where: { email },
-        create: { email, passwordHash },
-        update: { passwordHash },
+        create: { email, passwordHash, role: "admin" },
+        update: { passwordHash, role: "admin" },
     });
-    console.log(`Seeded admin ${email}`);
+    console.log(`Seeded admin ${email} (role: admin)`);
 }
 
 function scalars(p: Project) {
