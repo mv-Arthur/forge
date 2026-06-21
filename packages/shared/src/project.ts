@@ -2,39 +2,46 @@
 // после переключения фронта (PR3b), для ncottage-www. Слаг-юнионы продублированы
 // из ncottage-www/src/domain/technology.ts; лейбл-мапы остаются на фронте (UI).
 
-export type Technology =
-    | "gas-concrete"
-    | "brick"
-    | "frame"
-    | "sip"
-    | "fachwerk"
-    | "foam-block"
-    | "modular"
-    | "combined";
+export const TECHNOLOGIES = [
+    "gas-concrete",
+    "brick",
+    "frame",
+    "sip",
+    "fachwerk",
+    "foam-block",
+    "modular",
+    "combined",
+] as const;
+export type Technology = (typeof TECHNOLOGIES)[number];
 
-export type ProjectStyle =
-    | "modern"
-    | "finnish"
-    | "german"
-    | "loft"
-    | "chalet"
-    | "hi-tech"
-    | "minimalism";
+export const PROJECT_STYLES = [
+    "modern",
+    "finnish",
+    "german",
+    "loft",
+    "chalet",
+    "hi-tech",
+    "minimalism",
+] as const;
+export type ProjectStyle = (typeof PROJECT_STYLES)[number];
 
-export type ProjectFeature =
-    | "panoramic-windows"
-    | "second-light"
-    | "guest"
-    | "with-utilities"
-    | "ready"
-    | "balcony"
-    | "bay-window"
-    | "boiler-room"
-    | "garage"
-    | "terrace"
-    | "attic";
+export const PROJECT_FEATURES = [
+    "panoramic-windows",
+    "second-light",
+    "guest",
+    "with-utilities",
+    "ready",
+    "balcony",
+    "bay-window",
+    "boiler-room",
+    "garage",
+    "terrace",
+    "attic",
+] as const;
+export type ProjectFeature = (typeof PROJECT_FEATURES)[number];
 
-export type ProjectLivingType = "permanent" | "seasonal";
+export const PROJECT_LIVING_TYPES = ["permanent", "seasonal"] as const;
+export type ProjectLivingType = (typeof PROJECT_LIVING_TYPES)[number];
 
 export interface ProjectSpecs {
     dimensions: string;
