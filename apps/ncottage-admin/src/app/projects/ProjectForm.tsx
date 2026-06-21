@@ -21,6 +21,8 @@ import {
     TextField,
 } from "@/components/form/fields";
 import { RepeaterField } from "@/components/form/repeater-field";
+import { GalleryField } from "@/components/media/gallery-field";
+import { MediaField } from "@/components/media/media-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -172,24 +174,15 @@ export function ProjectForm({
                 </Section>
 
                 <Section title="Медиа">
-                    <TextField<V>
+                    <MediaField<V>
                         name="image"
-                        label="Главное изображение (путь)"
-                        placeholder="/images/projects/nord/main.jpg"
+                        label="Главное изображение"
+                        folder="projects"
                     />
-                    <RepeaterField<V>
+                    <GalleryField<V>
                         name="images"
                         label="Галерея"
-                        addLabel="Добавить изображение"
-                        emptyMessage="Изображений нет"
-                        newItem={() => ({ value: "" })}
-                        itemLabel={(i) => `Изображение ${i + 1}`}
-                        renderItem={(i) => (
-                            <TextField<V>
-                                name={`images.${i}.value`}
-                                placeholder="/images/projects/nord/1.jpg"
-                            />
-                        )}
+                        folder="projects"
                     />
                     <TextField<V> name="pdfUrl" label="PDF (путь, опц.)" />
                 </Section>

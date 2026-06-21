@@ -27,13 +27,7 @@ export const NAV_SECTIONS: NavSection[] = [
     {
         label: "Контент сайта",
         items: [
-            {
-                label: "Медиа",
-                href: "/media",
-                icon: ImageIcon,
-                disabled: true,
-                badge: "скоро",
-            },
+            { label: "Медиа", href: "/media", icon: ImageIcon },
             {
                 label: "Контент",
                 href: "/content",

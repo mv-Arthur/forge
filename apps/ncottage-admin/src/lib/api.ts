@@ -18,6 +18,42 @@ export async function apiGet<T>(path: string): Promise<T> {
     return res.json() as Promise<T>;
 }
 
+export interface ApiUploadResult<T> {
+    ok: boolean;
+    status: number;
+    data?: T;
+    error?: string;
+}
+
+// Multipart forward (auth header only; fetch sets the multipart boundary).
+export async function apiUpload<T>(
+    path: string,
+    form: FormData
+): Promise<ApiUploadResult<T>> {
+    const res = await fetch(`${API_URL}${path}`, {
+        method: "POST",
+        headers: await authHeaders(),
+        body: form,
+        cache: "no-store",
+    });
+    if (res.ok) {
+        return { ok: true, status: res.status, data: (await res.json()) as T };
+    }
+    let error = `Загрузка не выполнена (${res.status})`;
+    try {
+        const data: unknown = await res.json();
+        if (data && typeof data === "object" && "message" in data) {
+            const message = (data as { message: unknown }).message;
+            error = Array.isArray(message)
+                ? message.join(", ")
+                : String(message);
+        }
+    } catch {
+        // keep default
+    }
+    return { ok: false, status: res.status, error };
+}
+
 export interface ApiResult {
     ok: boolean;
     status: number;
