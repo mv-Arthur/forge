@@ -34,6 +34,7 @@ import {
     projectToFormValues,
 } from "@/lib/project-schema";
 import { saveProjectAction } from "./actions";
+import { RelatedProjectsField } from "./RelatedProjectsField";
 
 type V = ProjectFormValues;
 
@@ -343,19 +344,7 @@ export function ProjectForm({
                 </Section>
 
                 <Section title="Связанные объекты">
-                    <RepeaterField<V>
-                        name="relatedObjectIds"
-                        addLabel="Добавить id"
-                        emptyMessage="Связей нет"
-                        newItem={() => ({ value: "" })}
-                        itemLabel={(i) => `Объект ${i + 1}`}
-                        renderItem={(i) => (
-                            <TextField<V>
-                                name={`relatedObjectIds.${i}.value`}
-                                placeholder="slug или id"
-                            />
-                        )}
-                    />
+                    <RelatedProjectsField currentSlug={initial?.slug} />
                 </Section>
 
                 <div className="sticky bottom-0 flex items-center gap-2 border-t bg-background/95 py-4 backdrop-blur">
