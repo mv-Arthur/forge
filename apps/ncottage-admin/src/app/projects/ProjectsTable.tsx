@@ -7,6 +7,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { type Project, TECHNOLOGIES } from "@forge/shared";
+import { useIsAdmin } from "@/components/admin-context";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -26,8 +27,11 @@ const priceFormatter = new Intl.NumberFormat("ru-RU");
 
 function DeleteButton({ project }: { project: Project }) {
     const router = useRouter();
+    const isAdmin = useIsAdmin();
     const [open, setOpen] = useState(false);
     const [pending, setPending] = useState(false);
+
+    if (!isAdmin) return null;
 
     async function onConfirm() {
         setPending(true);

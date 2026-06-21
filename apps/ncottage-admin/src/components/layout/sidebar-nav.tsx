@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useIsAdmin } from "@/components/admin-context";
 import { NAV_SECTIONS } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
@@ -11,10 +12,16 @@ function isActive(pathname: string, href: string): boolean {
 
 export function SidebarNav() {
     const pathname = usePathname();
+    const isAdmin = useIsAdmin();
+
+    const sections = NAV_SECTIONS.map((section) => ({
+        ...section,
+        items: section.items.filter((item) => !item.adminOnly || isAdmin),
+    })).filter((section) => section.items.length > 0);
 
     return (
         <nav className="flex flex-1 flex-col gap-6 overflow-y-auto px-3 py-4">
-            {NAV_SECTIONS.map((section) => (
+            {sections.map((section) => (
                 <div key={section.label} className="flex flex-col gap-1">
                     <p className="px-3 pb-1 text-xs font-medium text-sidebar-foreground/50 uppercase tracking-wider">
                         {section.label}

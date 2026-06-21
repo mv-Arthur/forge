@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Building2, FileText, ImageIcon, Inbox } from "lucide-react";
+import { Building2, FileText, ImageIcon, Inbox, Users } from "lucide-react";
 
 export interface NavItem {
     label: string;
@@ -7,6 +7,7 @@ export interface NavItem {
     icon: LucideIcon;
     disabled?: boolean;
     badge?: string;
+    adminOnly?: boolean;
 }
 
 export interface NavSection {
@@ -22,6 +23,12 @@ export const NAV_SECTIONS: NavSection[] = [
         items: [
             { label: "Проекты", href: "/projects", icon: Building2 },
             { label: "Лиды", href: "/leads", icon: Inbox },
+            {
+                label: "Пользователи",
+                href: "/users",
+                icon: Users,
+                adminOnly: true,
+            },
         ],
     },
     {

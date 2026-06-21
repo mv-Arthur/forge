@@ -15,6 +15,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useIsAdmin } from "@/components/admin-context";
 import { Button } from "@/components/ui/button";
 import { MediaThumb } from "@/components/media/media-thumb";
 import { UploadDropzone } from "@/components/media/upload-dropzone";
@@ -27,7 +28,9 @@ function formatSize(bytes: number): string {
 }
 
 function DeleteMediaButton({ onConfirm }: { onConfirm: () => Promise<void> }) {
+    const isAdmin = useIsAdmin();
     const [pending, setPending] = useState(false);
+    if (!isAdmin) return null;
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
