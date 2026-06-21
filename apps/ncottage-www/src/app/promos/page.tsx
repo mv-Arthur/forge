@@ -18,7 +18,10 @@ export default function PromosPage() {
         <section className={styles.page}>
             <Container>
                 <Breadcrumbs
-                    items={[{ label: "Главная", href: "/" }, { label: "Акции" }]}
+                    items={[
+                        { label: "Главная", href: "/" },
+                        { label: "Акции" },
+                    ]}
                 />
 
                 <section className={styles.hero}>
@@ -36,19 +39,30 @@ export default function PromosPage() {
                             <a className={styles.primaryLink} href="#request">
                                 Получить полный расчёт
                             </a>
-                            <Link className={styles.secondaryLink} href="/projects/all">
+                            <Link
+                                className={styles.secondaryLink}
+                                href="/projects/all"
+                            >
                                 Смотреть проекты
                             </Link>
                         </div>
                     </div>
 
-                    <aside className={styles.heroPanel} aria-label="Условия предложения">
-                        <span className={styles.panelLabel}>Индивидуальный расчёт</span>
-                        <strong>Смета фиксируется после выбора проекта и комплектации</strong>
+                    <aside
+                        className={styles.heroPanel}
+                        aria-label="Условия предложения"
+                    >
+                        <span className={styles.panelLabel}>
+                            Индивидуальный расчёт
+                        </span>
+                        <strong>
+                            Смета фиксируется после выбора проекта и
+                            комплектации
+                        </strong>
                         <p>
-                            Покажем базовую стоимость, уточним особенности участка
-                            и подготовим спокойный коммерческий маршрут без
-                            навязчивых обещаний.
+                            Покажем базовую стоимость, уточним особенности
+                            участка и подготовим спокойный коммерческий маршрут
+                            без навязчивых обещаний.
                         </p>
                     </aside>
                 </section>
@@ -64,7 +78,10 @@ export default function PromosPage() {
 
                     <div className={styles.cardsGrid}>
                         {PROMOS.map((promo) => (
-                            <article key={promo.slug} className={styles.promoCard}>
+                            <article
+                                key={promo.slug}
+                                className={styles.promoCard}
+                            >
                                 <div className={styles.cardHead}>
                                     <span className={styles.cardEyebrow}>
                                         {promo.eyebrow}
@@ -112,21 +129,34 @@ export default function PromosPage() {
 
                 <section className={styles.storySection}>
                     <div className={styles.storyText}>
-                        <span className={styles.cardEyebrow}>Почему это предложение</span>
-                        <h2>Сохраняем качество и подбираем решение под бюджет</h2>
+                        <span className={styles.cardEyebrow}>
+                            Почему это предложение
+                        </span>
+                        <h2>
+                            Сохраняем качество и подбираем решение под бюджет
+                        </h2>
                         <p>
-                            Главный приоритет — строительство качественных и надёжных домов
-                            для постоянного проживания. За счёт опыта, запаса материалов
-                            и проверенных технических решений можно подобрать рациональную
-                            комплектацию без отказа от надёжности.
+                            Главный приоритет — строительство качественных и
+                            надёжных домов для постоянного проживания. За счёт
+                            опыта, запаса материалов и проверенных технических
+                            решений можно подобрать рациональную комплектацию
+                            без отказа от надёжности.
                         </p>
                     </div>
                     <div className={styles.storyCard}>
                         <strong>Что будет после заявки</strong>
                         <ol>
-                            <li>Уточним участок, площадь и желаемую технологию.</li>
-                            <li>Подберём проект и базовую комплектацию под бюджет.</li>
-                            <li>Подготовим смету, сроки и понятный порядок оплаты.</li>
+                            <li>
+                                Уточним участок, площадь и желаемую технологию.
+                            </li>
+                            <li>
+                                Подберём проект и базовую комплектацию под
+                                бюджет.
+                            </li>
+                            <li>
+                                Подготовим смету, сроки и понятный порядок
+                                оплаты.
+                            </li>
                         </ol>
                     </div>
                 </section>
@@ -136,12 +166,18 @@ export default function PromosPage() {
                         <span className={styles.cardEyebrow}>Заявка</span>
                         <h2>Получите полный расчёт по акции</h2>
                         <p>
-                            Оставьте контакты и коротко опишите будущий дом. Менеджер
-                            уточнит параметры проекта и подготовит следующий шаг.
+                            Оставьте контакты и коротко опишите будущий дом.
+                            Менеджер уточнит параметры проекта и подготовит
+                            следующий шаг.
                         </p>
                     </div>
                     <form className={styles.form} action="/promos">
-                        <input name="name" type="text" placeholder="Ваше имя" autoComplete="name" />
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder="Ваше имя"
+                            autoComplete="name"
+                        />
                         <input
                             name="phone"
                             type="tel"
@@ -154,7 +190,10 @@ export default function PromosPage() {
                                 Интересующая технология
                             </option>
                             {PROMOS.map((promo) => (
-                                <option key={promo.slug} value={promo.shortTitle}>
+                                <option
+                                    key={promo.slug}
+                                    value={promo.shortTitle}
+                                >
                                     {promo.shortTitle}
                                 </option>
                             ))}
@@ -166,7 +205,8 @@ export default function PromosPage() {
                         />
                         <button type="submit">Получить расчёт</button>
                         <p>
-                            Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.
+                            Нажимая кнопку, вы соглашаетесь с обработкой
+                            персональных данных.
                         </p>
                     </form>
                 </section>

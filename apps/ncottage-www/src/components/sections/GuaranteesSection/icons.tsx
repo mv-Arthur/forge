@@ -60,24 +60,9 @@ const ICONS: Record<GuaranteeIcon, React.ReactElement> = {
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
-            <circle
-                cx="11"
-                cy="20"
-                r="1.6"
-                fill="currentColor"
-            />
-            <circle
-                cx="17"
-                cy="14"
-                r="1.6"
-                fill="currentColor"
-            />
-            <circle
-                cx="23"
-                cy="8"
-                r="1.6"
-                fill="currentColor"
-            />
+            <circle cx="11" cy="20" r="1.6" fill="currentColor" />
+            <circle cx="17" cy="14" r="1.6" fill="currentColor" />
+            <circle cx="23" cy="8" r="1.6" fill="currentColor" />
         </Frame>
     ),
     eye: (

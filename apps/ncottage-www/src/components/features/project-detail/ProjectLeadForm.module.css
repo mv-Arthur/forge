@@ -137,6 +137,17 @@
     font-weight: 600;
 }
 
+.error {
+    margin: 0;
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+}
+
+.submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
 .submit {
     margin-top: 8px;
     height: 52px;

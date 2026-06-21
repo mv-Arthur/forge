@@ -5,9 +5,10 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { TopBar } from "@/components/widgets/TopBar";
 import { MainNav } from "@/components/widgets/MainNav";
-import { CallbackModal } from "@/components/shared/CallbackModal";
 import type { City, CityCode, Phone } from "@/content/contacts";
 import type { NavItem } from "@/content/site";
+import { useSelection } from "@/lib/selection";
+import { useCallbackModal } from "@/lib/callback";
 import styles from "./SiteHeader.module.css";
 
 const MobileMenu = dynamic(
@@ -30,8 +31,6 @@ interface SiteHeaderProps {
     workHours: string;
     initialCity?: CityCode;
     navItems: NavItem[];
-    favouritesCount?: number;
-    compareCount?: number;
 }
 
 const SCROLL_THRESHOLD = 24;
@@ -43,13 +42,14 @@ export function SiteHeader({
     workHours,
     initialCity,
     navItems,
-    favouritesCount = 0,
-    compareCount = 0,
 }: SiteHeaderProps) {
+    const { favorites, compare } = useSelection();
+    const { openCallback: openCallbackModal } = useCallbackModal();
+    const favouritesCount = favorites.length;
+    const compareCount = compare.length;
     const [city, setCity] = useState<CityCode>(initialCity ?? cities[0].code);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
-    const [callbackOpen, setCallbackOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [isMobileViewport, setIsMobileViewport] = useState(false);
     const pathname = usePathname();
@@ -91,7 +91,6 @@ export function SiteHeader({
     useEffect(() => {
         setMobileOpen(false);
         setSearchOpen(false);
-        setCallbackOpen(false);
     }, [pathname]);
 
     useEffect(() => {
@@ -110,9 +109,8 @@ export function SiteHeader({
     const openCallback = useCallback(() => {
         setMobileOpen(false);
         setSearchOpen(false);
-        setCallbackOpen(true);
-    }, []);
-    const closeCallback = useCallback(() => setCallbackOpen(false), []);
+        openCallbackModal();
+    }, [openCallbackModal]);
 
     return (
         <>
@@ -155,7 +153,6 @@ export function SiteHeader({
                     onCallbackClick={openCallback}
                 />
             )}
-            <CallbackModal open={callbackOpen} onClose={closeCallback} />
         </>
     );
 }

@@ -870,9 +870,7 @@ export function ServicesNavigator({
                     </button>
                     {quizSubmitted ? (
                         <div className={styles.quizSuccess} role="status">
-                            <p className={styles.eyebrow}>
-                                Прототип маршрута
-                            </p>
+                            <p className={styles.eyebrow}>Прототип маршрута</p>
                             <h3 id="services-quiz-title">
                                 Вводные собраны на экране
                             </h3>
@@ -902,8 +900,7 @@ export function ServicesNavigator({
                                 id="services-quiz-description"
                                 className={styles.quizNote}
                             >
-                                UI-прототип: данные пока никуда не
-                                отправляются.
+                                UI-прототип: данные пока никуда не отправляются.
                             </p>
                             <div
                                 className={styles.quizProgress}
@@ -1202,12 +1199,10 @@ export function ServicesNavigator({
                 <div className={styles.heroText}>
                     <p className={styles.eyebrow}>Навигатор услуг</p>
                     <h1 className={styles.title}>
-                        Подберите работы{" "}
-                        <br className={styles.mobileBreak} />
+                        Подберите работы <br className={styles.mobileBreak} />
                         под ваш <br className={styles.mobileBreak} />
                         <span className={styles.titleAccent}>
-                            дом, участок{" "}
-                            <br className={styles.mobileBreak} />
+                            дом, участок <br className={styles.mobileBreak} />
                             или проект
                         </span>
                     </h1>
@@ -1423,8 +1418,8 @@ export function ServicesNavigator({
                                     <span>Планирование</span>
                                     <p>
                                         Зафиксируем в маршруте сейчас, а запуск
-                                        привяжем к готовности участка,
-                                        инженерии и бюджета.
+                                        привяжем к готовности участка, инженерии
+                                        и бюджета.
                                     </p>
                                 </div>
                             )}
@@ -1440,10 +1435,7 @@ export function ServicesNavigator({
                                     </div>
                                     <div className={styles.grid}>
                                         {otherServices.map((service, index) =>
-                                            renderServiceCard(
-                                                service,
-                                                index
-                                            )
+                                            renderServiceCard(service, index)
                                         )}
                                     </div>
                                 </>
@@ -1671,7 +1663,9 @@ export function ServicesNavigator({
                 <ul className={styles.trustStrip}>
                     <li>
                         <span>Договор и акты</span>
-                        <p>Фиксируем состав работ и сдаём этапы документально.</p>
+                        <p>
+                            Фиксируем состав работ и сдаём этапы документально.
+                        </p>
                     </li>
                     <li>
                         <span>Смета до старта</span>

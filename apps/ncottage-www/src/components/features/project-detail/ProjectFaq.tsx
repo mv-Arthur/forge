@@ -36,8 +36,8 @@ const DEFAULT_ITEMS: FaqItem[] = [
 export function ProjectFaq({ items = DEFAULT_ITEMS }: ProjectFaqProps) {
     return (
         <div className={styles.list}>
-            {items.map((it, i) => (
-                <details key={i} className={styles.item}>
+            {items.map((it) => (
+                <details key={it.q} className={styles.item}>
                     <summary className={styles.summary}>
                         <span className={styles.question}>{it.q}</span>
                         <span className={styles.toggle}>

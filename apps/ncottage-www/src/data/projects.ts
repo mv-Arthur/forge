@@ -11,12 +11,7 @@ export const PROJECTS: Project[] = [
         bathrooms: 2,
         price: 4850000,
         image: "/images/projects/nord.jpg",
-        images: [
-            "/images/projects/nord.jpg",
-            "/images/projects/alaster.jpg",
-            "/images/projects/valter.jpg",
-            "/images/projects/otto.jpg",
-        ],
+        images: ["/images/projects/nord.jpg"],
         description:
             "Современный двухэтажный дом из газобетона с панорамными окнами и просторной террасой. Открытая планировка первого этажа объединяет кухню-гостиную с выходом на террасу — идеально для семейных вечеров. На втором этаже — четыре спальни и два санузла, что позволяет комфортно разместить семью с детьми и гостей.",
         specs: {
@@ -45,7 +40,7 @@ export const PROJECTS: Project[] = [
             },
             {
                 label: "2 этаж",
-                image: "/images/projects/alaster.jpg",
+                image: "/images/projects/nord.jpg",
                 area: 78,
                 rooms: [
                     { name: "Спальня хозяев", area: 18 },
@@ -122,11 +117,7 @@ export const PROJECTS: Project[] = [
         bathrooms: 3,
         price: 7200000,
         image: "/images/projects/alaster.jpg",
-        images: [
-            "/images/projects/alaster.jpg",
-            "/images/projects/karl.jpg",
-            "/images/projects/nord.jpg",
-        ],
+        images: ["/images/projects/alaster.jpg"],
         description:
             "Классический кирпичный дом с мансардой, гаражом и вторым светом в гостиной. Просторная гостиная с двойной высотой потолков, отдельный кабинет, мастер-спальня с гардеробной и сан­узлом, четыре дополнительные спальни на мансардном этаже.",
         specs: {
@@ -156,7 +147,7 @@ export const PROJECTS: Project[] = [
             },
             {
                 label: "Мансарда",
-                image: "/images/projects/karl.jpg",
+                image: "/images/projects/alaster.jpg",
                 area: 90,
                 rooms: [
                     { name: "Спальня хозяев", area: 22 },

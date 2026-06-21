@@ -59,14 +59,19 @@ export default async function PromoDetailPage({ params }: Props) {
                             <a className={styles.primaryLink} href="#request">
                                 Получить полный расчёт
                             </a>
-                            <Link className={styles.secondaryLink} href={promo.projectsHref}>
+                            <Link
+                                className={styles.secondaryLink}
+                                href={promo.projectsHref}
+                            >
                                 Подобрать проект
                             </Link>
                         </div>
                     </div>
 
                     <aside className={styles.priceAside}>
-                        <span className={styles.panelLabel}>Ориентир стоимости</span>
+                        <span className={styles.panelLabel}>
+                            Ориентир стоимости
+                        </span>
                         <strong>{promo.price}</strong>
                         <p>{promo.priceNote}</p>
                         <small>{promo.period}</small>
@@ -116,14 +121,25 @@ export default async function PromoDetailPage({ params }: Props) {
                 <section id="request" className={styles.requestSection}>
                     <div className={styles.requestIntro}>
                         <span className={styles.cardEyebrow}>Заявка</span>
-                        <h2>Запросить расчёт: {promo.shortTitle.toLowerCase()}</h2>
+                        <h2>
+                            Запросить расчёт: {promo.shortTitle.toLowerCase()}
+                        </h2>
                         <p>
-                            Уточним актуальность спецусловий, предложим подходящий
-                            проект, базовую комплектацию и смету под ваш участок.
+                            Уточним актуальность спецусловий, предложим
+                            подходящий проект, базовую комплектацию и смету под
+                            ваш участок.
                         </p>
                     </div>
-                    <form className={styles.form} action={`/promos/${promo.slug}`}>
-                        <input name="name" type="text" placeholder="Ваше имя" autoComplete="name" />
+                    <form
+                        className={styles.form}
+                        action={`/promos/${promo.slug}`}
+                    >
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder="Ваше имя"
+                            autoComplete="name"
+                        />
                         <input
                             name="phone"
                             type="tel"
@@ -131,7 +147,11 @@ export default async function PromoDetailPage({ params }: Props) {
                             autoComplete="tel"
                             required
                         />
-                        <input name="promo" type="hidden" value={promo.shortTitle} />
+                        <input
+                            name="promo"
+                            type="hidden"
+                            value={promo.shortTitle}
+                        />
                         <textarea
                             name="message"
                             rows={4}
@@ -139,7 +159,8 @@ export default async function PromoDetailPage({ params }: Props) {
                         />
                         <button type="submit">Получить полный расчёт</button>
                         <p>
-                            Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.
+                            Нажимая кнопку, вы соглашаетесь с обработкой
+                            персональных данных.
                         </p>
                     </form>
                 </section>

@@ -91,13 +91,21 @@ export default function CertificatesPage() {
                     />
                     <div className={styles.documentsGrid}>
                         {certificates.map((certificate, index) => (
-                            <article key={certificate} className={styles.documentCard}>
+                            <article
+                                key={certificate}
+                                className={styles.documentCard}
+                            >
                                 <div className={styles.documentPreview}>
-                                    <span>{String(index + 1).padStart(2, "0")}</span>
+                                    <span>
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
                                 </div>
                                 <div className={styles.documentBody}>
                                     <h2>{certificate}</h2>
-                                    <p>Документ доступен для проверки перед заключением договора.</p>
+                                    <p>
+                                        Документ доступен для проверки перед
+                                        заключением договора.
+                                    </p>
                                 </div>
                             </article>
                         ))}

@@ -41,6 +41,9 @@
     display: flex;
     gap: 20px;
     padding: 0
-        max(var(--container-padding), calc((100vw - var(--container-width)) / 2))
+        max(
+            var(--container-padding),
+            calc((100vw - var(--container-width)) / 2)
+        )
         4px;
 }

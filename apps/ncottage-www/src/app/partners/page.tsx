@@ -7,15 +7,43 @@ import styles from "./page.module.css";
 
 const partners = [
     { name: "ЛСР", href: "https://www.lsr.ru", category: "материалы" },
-    { name: "Top House", href: "https://www.tophouse.ru", category: "домокомплекты" },
-    { name: "Петрович", href: "https://petrovich.ru", category: "строительные материалы" },
-    { name: "Пеноплекс", href: "https://www.penoplex.ru", category: "теплоизоляция" },
+    {
+        name: "Top House",
+        href: "https://www.tophouse.ru",
+        category: "домокомплекты",
+    },
+    {
+        name: "Петрович",
+        href: "https://petrovich.ru",
+        category: "строительные материалы",
+    },
+    {
+        name: "Пеноплекс",
+        href: "https://www.penoplex.ru",
+        category: "теплоизоляция",
+    },
     { name: "Paroc", href: "https://www.paroc.ru", category: "изоляция" },
-    { name: "Rockwool", href: "https://www.rockwool.ru", category: "каменная вата" },
-    { name: "Наноизол", href: "https://www.nanoizol.com", category: "мембраны" },
-    { name: "Изоспан", href: "https://isospan.gexa.ru", category: "изоляционные материалы" },
+    {
+        name: "Rockwool",
+        href: "https://www.rockwool.ru",
+        category: "каменная вата",
+    },
+    {
+        name: "Наноизол",
+        href: "https://www.nanoizol.com",
+        category: "мембраны",
+    },
+    {
+        name: "Изоспан",
+        href: "https://isospan.gexa.ru",
+        category: "изоляционные материалы",
+    },
     { name: "Ренессанс Бетон", category: "бетон" },
-    { name: "Монолит", href: "https://www.monolittex.ru", category: "строительные решения" },
+    {
+        name: "Монолит",
+        href: "https://www.monolittex.ru",
+        category: "строительные решения",
+    },
     { name: "Greenside", href: "https://www.greenside.ru", category: "фасады" },
     { name: "QuickDeck", href: "https://quickdeck.ru", category: "плиты" },
 ];
@@ -70,7 +98,10 @@ export default function PartnersPage() {
 
                 <section className={styles.principles}>
                     {principles.map((principle, index) => (
-                        <article key={principle} className={styles.principleCard}>
+                        <article
+                            key={principle}
+                            className={styles.principleCard}
+                        >
                             <span>{String(index + 1).padStart(2, "0")}</span>
                             <p>{principle}</p>
                         </article>
@@ -96,7 +127,11 @@ export default function PartnersPage() {
                                         <span>{partner.category}</span>
                                         <h2>{partner.name}</h2>
                                     </div>
-                                    <p>{partner.href ? "Перейти на сайт партнёра" : "Поставка согласуется в смете"}</p>
+                                    <p>
+                                        {partner.href
+                                            ? "Перейти на сайт партнёра"
+                                            : "Поставка согласуется в смете"}
+                                    </p>
                                 </article>
                             );
 
@@ -123,7 +158,8 @@ export default function PartnersPage() {
                         <h2>Подбираем материалы под проект</h2>
                         <p>
                             На этапе сметы объясняем, какие материалы входят в
-                            комплектацию и почему они подходят выбранной технологии.
+                            комплектацию и почему они подходят выбранной
+                            технологии.
                         </p>
                     </div>
                     <Link className={styles.cta} href="/projects">

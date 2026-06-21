@@ -118,9 +118,16 @@ export default function SitemapPage() {
                     </div>
                 </section>
 
-                <section className={styles.featuredGrid} aria-label="Основные разделы">
+                <section
+                    className={styles.featuredGrid}
+                    aria-label="Основные разделы"
+                >
                     {featuredLinks.map((item) => (
-                        <Link key={item.href} href={item.href} className={styles.featuredCard}>
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={styles.featuredCard}
+                        >
                             <span>{item.label}</span>
                             <p>{item.text}</p>
                         </Link>
@@ -152,7 +159,10 @@ export default function SitemapPage() {
                         <LinkList
                             items={[
                                 ...userLinks,
-                                { label: "Подборки проектов", href: "/project-selections" },
+                                {
+                                    label: "Подборки проектов",
+                                    href: "/project-selections",
+                                },
                                 { label: "Акции", href: "/promos" },
                                 { label: "Статьи", href: "/blog" },
                                 { label: "Вопросы и ответы", href: "/faq" },

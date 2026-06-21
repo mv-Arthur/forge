@@ -30,9 +30,7 @@ export function ScrollToTop({
         <button
             type="button"
             className={`${className} ${visible ? visibleClassName : ""}`}
-            onClick={() =>
-                window.scrollTo({ top: 0, behavior: "smooth" })
-            }
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label={label}
         >
             {children}

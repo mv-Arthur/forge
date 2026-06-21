@@ -106,9 +106,7 @@ export function GeographySection({
                     </h2>
                     {lead && <p className={styles.lead}>{lead}</p>}
                     <div className={styles.total}>
-                        <span className={styles.totalValue}>
-                            {totalValue}
-                        </span>
+                        <span className={styles.totalValue}>{totalValue}</span>
                         <span className={styles.totalLabel}>{totalLabel}</span>
                     </div>
                     <Link href={cta.href} className={styles.cta}>
@@ -137,10 +135,7 @@ export function GeographySection({
                                         </span>
                                     </span>
                                 </div>
-                                <div
-                                    className={styles.bar}
-                                    role="presentation"
-                                >
+                                <div className={styles.bar} role="presentation">
                                     <span
                                         className={styles.barFill}
                                         style={{ width: `${fillWidth}%` }}

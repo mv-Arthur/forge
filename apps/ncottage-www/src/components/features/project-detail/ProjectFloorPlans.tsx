@@ -51,11 +51,8 @@ export function ProjectFloorPlans({ plans }: ProjectFloorPlansProps) {
                     <div className={styles.rooms}>
                         <p className={styles.roomsTitle}>Состав помещений</p>
                         <ul className={styles.roomsList}>
-                            {plan.rooms.map((r, i) => (
-                                <li
-                                    key={`${r.name}-${i}`}
-                                    className={styles.room}
-                                >
+                            {plan.rooms.map((r) => (
+                                <li key={r.name} className={styles.room}>
                                     <span className={styles.roomName}>
                                         {r.name}
                                     </span>

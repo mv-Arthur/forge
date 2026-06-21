@@ -2,22 +2,27 @@
 
 import { useState } from "react";
 import { EMAIL } from "@/content/contacts";
+import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./page.module.css";
 
 export function ContactRequestForm() {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    const { submit, error, isSubmitting, isSuccess } = useLeadForm();
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (!phone.trim()) return;
-        console.log("Contacts page request:", { name, phone, message });
-        setSubmitted(true);
+        if (!phone.trim() || isSubmitting) return;
+        void submit({
+            source: "contacts",
+            name: name.trim() || undefined,
+            phone: phone.trim(),
+            comment: message.trim() || undefined,
+        });
     }
 
-    if (submitted) {
+    if (isSuccess) {
         return (
             <div className={styles.success} role="status">
                 <p className={styles.successEyebrow}>Заявка принята</p>
@@ -80,8 +85,18 @@ export function ContactRequestForm() {
                 />
             </label>
 
-            <button className={styles.submit} type="submit">
-                Связаться со специалистом
+            {error && (
+                <p className={styles.error} role="alert">
+                    {error}
+                </p>
+            )}
+
+            <button
+                className={styles.submit}
+                type="submit"
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? "Отправляем…" : "Связаться со специалистом"}
             </button>
 
             <p className={styles.privacy}>
