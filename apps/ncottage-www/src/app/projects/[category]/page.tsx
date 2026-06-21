@@ -11,6 +11,8 @@ interface Props {
     params: Promise<{ category: string }>;
 }
 
+export const revalidate = 60;
+
 export function generateStaticParams() {
     return PROJECT_HUB_CATEGORIES.map((c) => ({ category: c.slug }));
 }
@@ -33,14 +35,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CategoryPage({ params }: Props) {
     const { category } = await params;
 
-    if (getProjectBySlug(category)) {
+    if (await getProjectBySlug(category)) {
         redirect(`/project/${category}`);
     }
 
     const meta = findCategory(category);
     if (!meta) notFound();
 
-    const projects = getProjects();
+    const projects = await getProjects();
 
     return (
         <section className={styles.page}>

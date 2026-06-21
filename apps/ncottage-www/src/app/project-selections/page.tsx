@@ -14,8 +14,10 @@ export const metadata: Metadata = {
     alternates: { canonical: "/project-selections" },
 };
 
-export default function ProjectSelectionsPage() {
-    const projects = getProjects();
+export const revalidate = 60;
+
+export default async function ProjectSelectionsPage() {
+    const projects = await getProjects();
     const featuredSelections = PROJECT_SELECTIONS.slice(0, 3).map(
         (selection) => ({
             ...selection,

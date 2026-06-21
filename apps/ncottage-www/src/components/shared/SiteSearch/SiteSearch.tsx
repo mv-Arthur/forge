@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { CloseIcon, SearchIcon } from "@/components/ui/icons";
 import { ArrowRightGlyph } from "./icons";
-import { PROJECTS } from "@/data/projects";
 import {
     PROJECT_HUB_CATEGORIES,
     PROJECT_TECHNOLOGY_LABELS,
@@ -71,10 +70,25 @@ export function SiteSearch({
     placeholder = "Найти проект",
 }: SiteSearchProps) {
     const [query, setQuery] = useState("");
+    const [projects, setProjects] = useState<Project[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
     const labelId = useId();
+
+    // Каталог для поиска подгружаем один раз с публичного прокси-роута.
+    useEffect(() => {
+        let cancelled = false;
+        fetch("/api/projects")
+            .then((res) => (res.ok ? res.json() : []))
+            .then((data: Project[]) => {
+                if (!cancelled) setProjects(data);
+            })
+            .catch(() => undefined);
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     useEffect(() => {
         if (!open) {
@@ -110,15 +124,14 @@ export function SiteSearch({
 
     const results = useMemo<Project[]>(() => {
         if (!trimmed) return [];
-        return PROJECTS.filter((p) => matchesQuery(p, trimmed)).slice(
-            0,
-            MAX_RESULTS
-        );
-    }, [trimmed]);
+        return projects
+            .filter((p) => matchesQuery(p, trimmed))
+            .slice(0, MAX_RESULTS);
+    }, [trimmed, projects]);
 
     const suggested = useMemo<Project[]>(
-        () => PROJECTS.filter((p) => p.featured).slice(0, SUGGESTED_COUNT),
-        []
+        () => projects.filter((p) => p.featured).slice(0, SUGGESTED_COUNT),
+        [projects]
     );
 
     const navItems = useMemo<Array<{ key: string; href: string }>>(() => {

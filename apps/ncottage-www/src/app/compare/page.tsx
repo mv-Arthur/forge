@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getProjects } from "@/data/projects";
 import { CompareView } from "./CompareView";
 
 export const metadata: Metadata = {
@@ -8,6 +9,9 @@ export const metadata: Metadata = {
     alternates: { canonical: "/compare" },
 };
 
-export default function ComparePage() {
-    return <CompareView />;
+export const revalidate = 60;
+
+export default async function ComparePage() {
+    const projects = await getProjects();
+    return <CompareView projects={projects} />;
 }

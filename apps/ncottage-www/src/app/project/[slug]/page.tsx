@@ -34,13 +34,16 @@ interface Props {
     params: Promise<{ slug: string }>;
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
-    return getProjects().map((p) => ({ slug: p.slug }));
+    const projects = await getProjects();
+    return projects.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const project = getProjectBySlug(slug);
+    const project = await getProjectBySlug(slug);
     if (!project) return { title: "Проект не найден" };
     return {
         title: `${project.name} — проект дома ${formatArea(project.area)} | Новый Коттедж`,
@@ -50,13 +53,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectPage({ params }: Props) {
     const { slug } = await params;
-    const project = getProjectBySlug(slug);
+    const project = await getProjectBySlug(slug);
     if (!project) notFound();
 
     const technologyCategory = PROJECT_HUB_CATEGORIES.find(
         (c) => c.technology === project.technology
     );
-    const allProjects = getProjects();
+    const allProjects = await getProjects();
     const similar = pickSimilarProjects(allProjects, project, 3);
     const builtObjects = getBuiltObjects();
     const showroomObjects = project.relatedObjectIds
