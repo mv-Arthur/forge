@@ -20,13 +20,13 @@ export default async function EditProjectPage({
     const action = updateProject.bind(null, slug);
 
     return (
-        <>
+        <div className="legacy-page">
             <h1>Редактирование: {project.name}</h1>
             <ProjectForm
                 action={action}
                 initial={project}
                 submitLabel="Сохранить"
             />
-        </>
+        </div>
     );
 }

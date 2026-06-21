@@ -1,9 +1,5 @@
 import { apiGet } from "@/lib/api";
-import {
-    LEAD_STATUSES,
-    LEAD_STATUS_LABELS,
-    type Lead,
-} from "@/lib/types";
+import { LEAD_STATUSES, LEAD_STATUS_LABELS, type Lead } from "@/lib/types";
 import { updateLeadStatus } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +15,7 @@ export default async function LeadsPage() {
     const leads = await apiGet<Lead[]>("/leads");
 
     return (
-        <>
+        <div className="legacy-page">
             <h1>Заявки ({leads.length})</h1>
             {leads.length === 0 ? (
                 <p>Заявок пока нет.</p>
@@ -76,6 +72,6 @@ export default async function LeadsPage() {
                     </tbody>
                 </table>
             )}
-        </>
+        </div>
     );
 }

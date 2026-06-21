@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { getToken } from "@/lib/session";
-import { logoutAction } from "./actions";
+import { AppShell } from "@/components/layout/app-shell";
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
+import { getCurrentAdmin } from "@/lib/session";
 import "./globals.css";
 import "./legacy.css";
 
 export const metadata: Metadata = {
     title: "ncottage admin",
+    description: "ncottage CMS",
 };
 
 export default async function RootLayout({
@@ -14,26 +16,19 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const token = await getToken();
+    const admin = await getCurrentAdmin();
 
     return (
-        <html lang="ru">
-            <body>
-                {token && (
-                    <header className="topbar">
-                        <strong>ncottage admin</strong>
-                        <nav>
-                            <Link href="/projects">Проекты</Link>
-                            <Link href="/leads">Заявки</Link>
-                        </nav>
-                        <form action={logoutAction}>
-                            <button type="submit" className="secondary">
-                                Выйти
-                            </button>
-                        </form>
-                    </header>
-                )}
-                <main className="container">{children}</main>
+        <html lang="ru" suppressHydrationWarning>
+            <body className="antialiased">
+                <Providers>
+                    {admin ? (
+                        <AppShell admin={admin}>{children}</AppShell>
+                    ) : (
+                        children
+                    )}
+                    <Toaster richColors position="top-right" />
+                </Providers>
             </body>
         </html>
     );

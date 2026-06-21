@@ -11,7 +11,7 @@ export default async function ProjectsPage() {
     const projects = await apiGet<Project[]>("/projects");
 
     return (
-        <>
+        <div className="legacy-page">
             <div
                 style={{
                     display: "flex",
@@ -74,6 +74,6 @@ export default async function ProjectsPage() {
                     ))}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 }
