@@ -1,0 +1,113 @@
+.root {
+    position: fixed;
+    right: clamp(16px, 4vw, 28px);
+    bottom: clamp(16px, 4vw, 28px);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(12px) scale(0.9);
+    pointer-events: none;
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.open .actions {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.action {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: var(--shadow-pop);
+    transition:
+        transform var(--transition),
+        filter var(--transition);
+}
+
+.action:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+.whatsapp {
+    background: #25d366;
+}
+
+.telegram {
+    background: #2aabee;
+}
+
+.callback {
+    background: var(--color-accent);
+}
+
+.callback:hover {
+    background: var(--color-accent-hover);
+}
+
+.toggle {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-pop);
+    transition:
+        transform var(--transition),
+        background var(--transition);
+}
+
+.toggle:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-2px);
+}
+
+.open .toggle {
+    background: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .root,
+    .actions,
+    .action,
+    .toggle {
+        transition: none;
+    }
+}

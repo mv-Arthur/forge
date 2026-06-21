@@ -74,7 +74,9 @@ export default function GuaranteePage() {
                     </div>
                     <aside className={styles.summaryCard}>
                         <span className={styles.summaryNumber}>7</span>
-                        <span className={styles.summaryLabel}>лет гарантии для стандартных проектов</span>
+                        <span className={styles.summaryLabel}>
+                            лет гарантии для стандартных проектов
+                        </span>
                         <p>
                             Точный срок зависит от технологии строительства,
                             комплектации и сложности проекта.
@@ -92,7 +94,10 @@ export default function GuaranteePage() {
                     />
                     <ul className={styles.conditionGrid}>
                         {conditions.map((condition, index) => (
-                            <li key={condition} className={styles.conditionCard}>
+                            <li
+                                key={condition}
+                                className={styles.conditionCard}
+                            >
                                 <span className={styles.cardIndex}>
                                     {String(index + 1).padStart(2, "0")}
                                 </span>
@@ -112,7 +117,10 @@ export default function GuaranteePage() {
                         />
                         <div className={styles.caseList}>
                             {cases.map((item) => (
-                                <article key={item.title} className={styles.caseCard}>
+                                <article
+                                    key={item.title}
+                                    className={styles.caseCard}
+                                >
                                     <h3>{item.title}</h3>
                                     <p>{item.text}</p>
                                 </article>
@@ -172,11 +180,17 @@ export default function GuaranteePage() {
                     <form className={styles.form}>
                         <label>
                             <span>Номер договора</span>
-                            <input name="contract" placeholder="Например, НК-2026-001" />
+                            <input
+                                name="contract"
+                                placeholder="Например, НК-2026-001"
+                            />
                         </label>
                         <label>
                             <span>Ваше имя</span>
-                            <input name="name" placeholder="Как к вам обращаться" />
+                            <input
+                                name="name"
+                                placeholder="Как к вам обращаться"
+                            />
                         </label>
                         <label>
                             <span>Телефон</span>
@@ -184,14 +198,21 @@ export default function GuaranteePage() {
                         </label>
                         <label>
                             <span>Описание проблемы</span>
-                            <textarea name="message" placeholder="Что произошло и когда заметили проблему" rows={5} />
+                            <textarea
+                                name="message"
+                                placeholder="Что произошло и когда заметили проблему"
+                                rows={5}
+                            />
                         </label>
                         <button className={styles.cta} type="submit">
                             Отправить обращение
                         </button>
                         <p className={styles.privacy}>
                             Нажимая кнопку, вы соглашаетесь с{" "}
-                            <Link href="/privacy">политикой конфиденциальности</Link>.
+                            <Link href="/privacy">
+                                политикой конфиденциальности
+                            </Link>
+                            .
                         </p>
                     </form>
                 </section>

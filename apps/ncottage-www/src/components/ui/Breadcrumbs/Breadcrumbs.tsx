@@ -17,7 +17,10 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
                 {items.map((item, idx) => {
                     const isLast = idx === items.length - 1;
                     return (
-                        <li key={idx} className={styles.item}>
+                        <li
+                            key={item.href ?? item.label}
+                            className={styles.item}
+                        >
                             {item.href && !isLast ? (
                                 <Link href={item.href} className={styles.link}>
                                     {item.label}

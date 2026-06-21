@@ -77,7 +77,9 @@ export default function ProductionPage() {
                         tone="h1"
                     />
                     <aside className={styles.heroPanel}>
-                        <span className={styles.panelEyebrow}>Пиломатериал</span>
+                        <span className={styles.panelEyebrow}>
+                            Пиломатериал
+                        </span>
                         <strong>8–12%</strong>
                         <p>
                             рабочий диапазон влажности после камерной сушки

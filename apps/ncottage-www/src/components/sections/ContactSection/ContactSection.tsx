@@ -100,10 +100,7 @@ export function ContactSection({
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
                                 />
-                                <button
-                                    type="submit"
-                                    className={styles.submit}
-                                >
+                                <button type="submit" className={styles.submit}>
                                     {form.submitLabel}
                                 </button>
                                 <p className={styles.privacy}>
@@ -147,23 +144,16 @@ export function ContactSection({
                             </a>
                         </div>
                         <div className={styles.contactsBlock}>
-                            <span className={styles.contactsLabel}>
-                                График
-                            </span>
+                            <span className={styles.contactsLabel}>График</span>
                             <span className={styles.contactsValue}>
                                 {hours}
                             </span>
                         </div>
                         <div className={styles.contactsBlock}>
-                            <span className={styles.contactsLabel}>
-                                Адреса
-                            </span>
+                            <span className={styles.contactsLabel}>Адреса</span>
                             <ul className={styles.addresses}>
                                 {addresses.map((a) => (
-                                    <li
-                                        key={a}
-                                        className={styles.addressItem}
-                                    >
+                                    <li key={a} className={styles.addressItem}>
                                         {a}
                                     </li>
                                 ))}

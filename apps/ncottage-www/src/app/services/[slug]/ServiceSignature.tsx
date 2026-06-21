@@ -96,9 +96,7 @@ export function ServiceSignature({
                     </div>
                     <div className={styles.studioMediaShade} />
                     <div className={styles.studioOverlay} aria-live="polite">
-                        <span>
-                            {String(activeIndex + 1).padStart(2, "0")}
-                        </span>
+                        <span>{String(activeIndex + 1).padStart(2, "0")}</span>
                         <h3>{activeItem.title}</h3>
                         <p>{activeItem.description}</p>
                         {activeItem.meta && (

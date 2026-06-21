@@ -86,17 +86,24 @@ export default function OfferPage() {
                         <Link href="/projects" className={styles.primaryButton}>
                             Перейти в каталог
                         </Link>
-                        <a href={`tel:${PHONES.spb.number}`} className={styles.secondaryLink}>
+                        <a
+                            href={`tel:${PHONES.spb.number}`}
+                            className={styles.secondaryLink}
+                        >
                             {PHONES.spb.display}
                         </a>
-                        <a href={`mailto:${EMAIL}`} className={styles.secondaryLink}>
+                        <a
+                            href={`mailto:${EMAIL}`}
+                            className={styles.secondaryLink}
+                        >
                             {EMAIL}
                         </a>
                     </div>
                 </section>
 
                 <p className={styles.company}>
-                    Оператор сайта: ООО «Новый коттедж», ОГРН {LEGAL.ogrn}, ИНН {LEGAL.inn}.
+                    Оператор сайта: ООО «Новый коттедж», ОГРН {LEGAL.ogrn}, ИНН{" "}
+                    {LEGAL.inn}.
                 </p>
             </Container>
         </section>

@@ -26,8 +26,12 @@ export function ProjectStickyAside({ project }: ProjectStickyAsideProps) {
 
                 {basePackage && (
                     <div className={styles.packageMeta}>
-                        <span>{basePackage.tagline ?? "Базовая комплектация"}</span>
-                        {packageHighlight && <strong>{packageHighlight}</strong>}
+                        <span>
+                            {basePackage.tagline ?? "Базовая комплектация"}
+                        </span>
+                        {packageHighlight && (
+                            <strong>{packageHighlight}</strong>
+                        )}
                     </div>
                 )}
 

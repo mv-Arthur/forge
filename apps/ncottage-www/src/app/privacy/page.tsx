@@ -116,9 +116,15 @@ export default function PrivacyPage() {
                     </aside>
                 </section>
 
-                <section className={styles.highlights} aria-label="Кратко о политике">
+                <section
+                    className={styles.highlights}
+                    aria-label="Кратко о политике"
+                >
                     {highlights.map((item) => (
-                        <article key={item.label} className={styles.highlightCard}>
+                        <article
+                            key={item.label}
+                            className={styles.highlightCard}
+                        >
                             <span>{item.label}</span>
                             <p>{item.text}</p>
                         </article>
@@ -131,9 +137,14 @@ export default function PrivacyPage() {
                             Редакция от 11 мая 2026 года
                         </p>
                         {sections.map((section, index) => (
-                            <section key={section.title} className={styles.block}>
+                            <section
+                                key={section.title}
+                                className={styles.block}
+                            >
                                 <div className={styles.blockHead}>
-                                    <span>{String(index + 1).padStart(2, "0")}</span>
+                                    <span>
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
                                     <h2>{section.title}</h2>
                                 </div>
                                 <ul>

@@ -68,10 +68,7 @@ export function FinanceLanding({
         <div className={styles.page}>
             <Container>
                 <Breadcrumbs
-                    items={[
-                        { label: "Главная", href: "/" },
-                        { label: title },
-                    ]}
+                    items={[{ label: "Главная", href: "/" }, { label: title }]}
                 />
 
                 <section className={styles.hero}>
@@ -89,7 +86,10 @@ export function FinanceLanding({
                             <a href="#lead-form" className={styles.primaryLink}>
                                 Получить консультацию
                             </a>
-                            <Link href="/projects/all" className={styles.secondaryLink}>
+                            <Link
+                                href="/projects/all"
+                                className={styles.secondaryLink}
+                            >
                                 Выбрать проект
                             </Link>
                         </div>
@@ -111,23 +111,34 @@ export function FinanceLanding({
                 <section className={styles.route} aria-label="Единый сценарий">
                     <div className={styles.routeIntro}>
                         <span>Единый сценарий</span>
-                        <strong>От финансового вопроса — к готовому пакету</strong>
+                        <strong>
+                            От финансового вопроса — к готовому пакету
+                        </strong>
                     </div>
                     <ol className={styles.routeSteps}>
                         <li>
                             <span>01</span>
                             <strong>Консультация</strong>
-                            <p>Разбираем бюджет, участок, сроки и доступный способ оплаты.</p>
+                            <p>
+                                Разбираем бюджет, участок, сроки и доступный
+                                способ оплаты.
+                            </p>
                         </li>
                         <li>
                             <span>02</span>
                             <strong>Подбор проекта</strong>
-                            <p>Выбираем типовой дом или фиксируем индивидуальное ТЗ.</p>
+                            <p>
+                                Выбираем типовой дом или фиксируем
+                                индивидуальное ТЗ.
+                            </p>
                         </li>
                         <li>
                             <span>03</span>
                             <strong>Пакет документов</strong>
-                            <p>Готовим смету, договорные данные и строительную часть для оплаты или банка.</p>
+                            <p>
+                                Готовим смету, договорные данные и строительную
+                                часть для оплаты или банка.
+                            </p>
                         </li>
                     </ol>
                 </section>
@@ -189,8 +200,13 @@ export function FinanceLanding({
                     </div>
                     <div className={styles.bankGrid}>
                         {banks.map((bank) => (
-                            <article key={bank.name} className={styles.bankCard}>
-                                <span className={styles.bankLogo}>{bank.name}</span>
+                            <article
+                                key={bank.name}
+                                className={styles.bankCard}
+                            >
+                                <span className={styles.bankLogo}>
+                                    {bank.name}
+                                </span>
                                 <p>{bank.note}</p>
                             </article>
                         ))}
@@ -204,7 +220,12 @@ export function FinanceLanding({
                         <p>{formLead}</p>
                     </div>
                     <form className={styles.form} action={canonicalPath}>
-                        <input name="name" type="text" placeholder="Ваше имя" autoComplete="name" />
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder="Ваше имя"
+                            autoComplete="name"
+                        />
                         <input
                             name="phone"
                             type="tel"
@@ -219,7 +240,8 @@ export function FinanceLanding({
                         />
                         <button type="submit">{formButton}</button>
                         <p>
-                            Нажимая на кнопку, вы соглашаетесь с обработкой персональных данных.
+                            Нажимая на кнопку, вы соглашаетесь с обработкой
+                            персональных данных.
                         </p>
                     </form>
                 </section>

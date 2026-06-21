@@ -45,7 +45,8 @@ test.describe("smoke: every route renders cleanly", () => {
             page.on("console", (msg) => {
                 if (msg.type() !== "error") return;
                 const text = msg.text();
-                if (!isIgnored(text, IGNORED_MESSAGES)) consoleErrors.push(text);
+                if (!isIgnored(text, IGNORED_MESSAGES))
+                    consoleErrors.push(text);
             });
             page.on("pageerror", (err) => {
                 pageErrors.push(err.message);
@@ -63,7 +64,7 @@ test.describe("smoke: every route renders cleanly", () => {
             expect(response, `no response for ${route}`).not.toBeNull();
             expect(
                 response!.status(),
-                `${route} returned ${response!.status()}`,
+                `${route} returned ${response!.status()}`
             ).toBeLessThan(400);
 
             // `networkidle` never settles under Next dev (HMR socket), so give
@@ -76,7 +77,9 @@ test.describe("smoke: every route renders cleanly", () => {
                 const step = window.innerHeight;
                 for (let y = 0; y < document.body.scrollHeight; y += step) {
                     window.scrollTo(0, y);
-                    await new Promise((r) => requestAnimationFrame(() => r(null)));
+                    await new Promise((r) =>
+                        requestAnimationFrame(() => r(null))
+                    );
                 }
                 window.scrollTo(0, 0);
             });
@@ -90,9 +93,9 @@ test.describe("smoke: every route renders cleanly", () => {
                         (img) =>
                             img.currentSrc &&
                             img.complete &&
-                            img.naturalWidth === 0,
+                            img.naturalWidth === 0
                     )
-                    .map((img) => img.currentSrc),
+                    .map((img) => img.currentSrc)
             );
 
             await testInfo.attach("screenshot", {

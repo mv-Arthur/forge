@@ -1,0 +1,220 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.packages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.package {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px;
+    text-align: left;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+.package:hover {
+    border-color: var(--color-line-strong);
+}
+
+.packageActive {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+.packageHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.packageName {
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.packageBadge {
+    font-size: var(--text-xs, 12px);
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+}
+
+.packageTagline {
+    font-size: var(--text-sm, 14px);
+    color: var(--color-ink-muted);
+}
+
+.packagePrice {
+    margin-top: 4px;
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.includes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.incRow {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    align-items: baseline;
+    gap: 10px;
+    font-size: var(--text-sm, 14px);
+}
+
+.incRowOff {
+    color: var(--color-ink-subtle);
+}
+
+.incIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
+}
+
+.dash {
+    width: 10px;
+    height: 2px;
+    background: var(--color-ink-subtle);
+    border-radius: 2px;
+}
+
+.incLabel {
+    color: var(--color-ink-muted);
+}
+
+.incValue {
+    text-align: right;
+    color: var(--color-ink);
+}
+
+.options {
+    border-top: 1px solid var(--color-line);
+    padding-top: 20px;
+}
+
+.optionsTitle {
+    margin: 0 0 12px;
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.optionsList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color var(--transition);
+}
+
+.option:hover {
+    border-color: var(--color-line-strong);
+}
+
+.optionChecked {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-accent);
+    flex-shrink: 0;
+}
+
+.optionLabel {
+    flex: 1;
+    color: var(--color-ink);
+}
+
+.optionPrice {
+    font-weight: 600;
+    color: var(--color-ink-muted);
+}
+
+.summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-lg);
+}
+
+.summaryTotal {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.summaryLabel {
+    font-size: var(--text-sm, 14px);
+    color: var(--color-ink-muted);
+}
+
+.summaryValue {
+    font-size: var(--text-2xl, 26px);
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.cta {
+    border: none;
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    font-weight: 600;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.cta:hover {
+    background: var(--color-accent-hover);
+}
+
+.note {
+    margin: 0;
+    font-size: var(--text-sm, 14px);
+    color: var(--color-ink-subtle);
+}
+
+@media (max-width: 640px) {
+    .packages {
+        grid-template-columns: 1fr;
+    }
+}

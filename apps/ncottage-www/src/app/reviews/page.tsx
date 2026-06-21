@@ -91,7 +91,10 @@ export default function ReviewsPage() {
                     />
                     <div className={styles.metrics}>
                         {metrics.map((metric) => (
-                            <div key={metric.label} className={styles.metricCard}>
+                            <div
+                                key={metric.label}
+                                className={styles.metricCard}
+                            >
                                 <strong>{metric.value}</strong>
                                 <span>{metric.label}</span>
                             </div>
@@ -99,15 +102,25 @@ export default function ReviewsPage() {
                     </div>
                 </section>
 
-                <section className={styles.reviewsGrid} aria-label="Отзывы клиентов">
+                <section
+                    className={styles.reviewsGrid}
+                    aria-label="Отзывы клиентов"
+                >
                     {reviews.map((review) => (
-                        <article key={`${review.author}-${review.type}`} className={styles.card}>
+                        <article
+                            key={`${review.author}-${review.type}`}
+                            className={styles.card}
+                        >
                             <div className={styles.cardTop}>
-                                <span className={styles.type}>{review.type}</span>
+                                <span className={styles.type}>
+                                    {review.type}
+                                </span>
                                 <time>{review.date}</time>
                             </div>
                             <p className={styles.text}>«{review.text}»</p>
-                            <footer className={styles.author}>{review.author}</footer>
+                            <footer className={styles.author}>
+                                {review.author}
+                            </footer>
                         </article>
                     ))}
                 </section>
@@ -133,8 +146,8 @@ export default function ReviewsPage() {
                     <div>
                         <h2>Хотите посмотреть готовые объекты?</h2>
                         <p>
-                            Организуем выезд на построенные дома и покажем,
-                            как выглядят проекты после сдачи.
+                            Организуем выезд на построенные дома и покажем, как
+                            выглядят проекты после сдачи.
                         </p>
                     </div>
                     <Link className={styles.cta} href="/works">

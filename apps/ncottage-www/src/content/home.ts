@@ -48,7 +48,7 @@ export type ProjectPickerContent = {
 
 export const PROJECT_PICKER: ProjectPickerContent = {
     title: "Подберите проект",
-    text: "Из более 50 готовых проектов на нашем сайте",
+    text: "Готовые проекты — по цене, площади, технологии и этажности",
     price: { min: 3_160_780, max: 36_946_370 },
     area: { min: 67, max: 679 },
     technologies: [
@@ -87,7 +87,7 @@ const CATALOG_SECTION: CatalogSectionContent = {
     eyebrow: "Каталог проектов",
     title: "Готовые проекты домов",
     titleAccent: "под ключ",
-    lead: "Более 50 готовых решений по технологии, площади и этажности. Любой проект адаптируем под ваш участок и образ жизни.",
+    lead: "Готовые решения по технологии, площади и этажности. Любой проект адаптируем под ваш участок и образ жизни.",
     tabs: [
         { id: "all", label: "Все проекты", technology: null },
         { id: "gas-concrete", label: "Газобетон", technology: "gas-concrete" },

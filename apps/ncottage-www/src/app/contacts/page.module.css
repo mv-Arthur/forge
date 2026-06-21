@@ -176,6 +176,17 @@
     top: 28%;
 }
 
+.error {
+    margin: 0;
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+}
+
+.submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
 .ctaLink,
 .submit {
     display: inline-flex;
@@ -247,6 +258,8 @@
     font-weight: 400;
     letter-spacing: -0.02em;
     line-height: 1.15;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .cardTitle,
@@ -305,6 +318,10 @@
             1fr
         );
     align-items: start;
+}
+
+.productionCard > * {
+    min-width: 0;
 }
 
 .cardActions {

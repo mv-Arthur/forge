@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { Carousel } from "@/components/ui/Carousel";
 import { Container } from "@/components/ui/Container";
@@ -18,6 +19,13 @@ interface ReviewsSectionProps {
     reviews: ReviewsSectionContent["reviews"];
 }
 
+function getYoutubeId(url: string): string | null {
+    const match = url.match(
+        /(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([\w-]{11})/
+    );
+    return match ? match[1] : null;
+}
+
 export function ReviewsSection({
     eyebrow,
     title,
@@ -29,9 +37,14 @@ export function ReviewsSection({
     reviews,
 }: ReviewsSectionProps) {
     const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+    const [playing, setPlaying] = useState<Record<string, boolean>>({});
 
     function toggleExpand(id: string) {
         setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+    }
+
+    function playVideo(id: string) {
+        setPlaying((prev) => ({ ...prev, [id]: true }));
     }
 
     return (
@@ -59,22 +72,56 @@ export function ReviewsSection({
                         <article key={review.id} className={styles.card}>
                             {review.videoUrl ? (
                                 <div className={styles.media}>
-                                    <iframe
-                                        className={styles.iframe}
-                                        src={review.videoUrl}
-                                        title={`Отзыв ${review.author}`}
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                    />
+                                    {playing[review.id] ? (
+                                        <iframe
+                                            className={styles.iframe}
+                                            src={`${review.videoUrl}?autoplay=1`}
+                                            title={`Отзыв ${review.author}`}
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            className={styles.videoFacade}
+                                            onClick={() => playVideo(review.id)}
+                                            aria-label={`Смотреть видеоотзыв: ${review.author}`}
+                                            style={
+                                                getYoutubeId(review.videoUrl)
+                                                    ? {
+                                                          backgroundImage: `url(https://img.youtube.com/vi/${getYoutubeId(
+                                                              review.videoUrl
+                                                          )}/hqdefault.jpg)`,
+                                                      }
+                                                    : undefined
+                                            }
+                                        >
+                                            <span
+                                                className={styles.playIcon}
+                                                aria-hidden="true"
+                                            >
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    width="28"
+                                                    height="28"
+                                                >
+                                                    <path
+                                                        fill="currentColor"
+                                                        d="M8 5v14l11-7z"
+                                                    />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    )}
                                 </div>
                             ) : review.image ? (
                                 <div className={styles.media}>
-                                    <img
+                                    <Image
                                         className={styles.image}
                                         src={review.image}
                                         alt={`Отзыв ${review.author}`}
-                                        decoding="async"
-                                        loading="lazy"
+                                        fill
+                                        sizes="(max-width: 640px) 80vw, 360px"
                                     />
                                 </div>
                             ) : null}

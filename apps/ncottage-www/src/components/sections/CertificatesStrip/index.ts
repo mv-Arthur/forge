@@ -1,0 +1,1 @@
+export { CertificatesStrip } from "./CertificatesStrip";

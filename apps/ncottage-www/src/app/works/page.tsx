@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -194,11 +195,11 @@ export default function WorksPage() {
                         {objects.map((object) => (
                             <article key={object.id} className={styles.card}>
                                 <div className={styles.cardImage}>
-                                    <img
+                                    <Image
                                         src={object.image}
                                         alt={object.title}
-                                        loading="lazy"
-                                        decoding="async"
+                                        fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1080px) 50vw, 360px"
                                     />
                                 </div>
                                 <div className={styles.cardBody}>
