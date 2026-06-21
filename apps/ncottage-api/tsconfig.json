@@ -13,6 +13,6 @@
         // @forge/shared резолвится через node_modules (dist).
         "paths": {}
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "prisma/seed.ts"],
     "exclude": ["node_modules", "dist", "test"]
 }
