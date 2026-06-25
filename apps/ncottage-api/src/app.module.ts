@@ -9,6 +9,7 @@ import { FaqModule } from "./faq/faq.module.js";
 import { validateEnv } from "./config/env.validation.js";
 import { LeadsModule } from "./leads/leads.module.js";
 import { MediaModule } from "./media/media.module.js";
+import { PartnersModule } from "./partners/partners.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { ProjectsModule } from "./projects/projects.module.js";
 import { PromosModule } from "./promos/promos.module.js";
@@ -31,6 +32,7 @@ import { VacanciesModule } from "./vacancies/vacancies.module.js";
         FaqModule,
         LeadsModule,
         MediaModule,
+        PartnersModule,
         ProjectsModule,
         PromosModule,
         SettingsModule,

@@ -6,6 +6,7 @@ import type {
     Article,
     Certificate,
     FaqItem,
+    Partner,
     Project,
     Promo,
     Vacancy,
@@ -121,6 +122,19 @@ async function seedPromos() {
     console.log(`Seeded ${promos.length} promos`);
 }
 
+async function seedPartners() {
+    const file = resolve(__dirname, "seed-data/partners.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as Partner[];
+    for (const item of items) {
+        await prisma.partner.upsert({
+            where: { slug: item.slug },
+            create: { ...item, href: item.href ?? null },
+            update: { ...item, href: item.href ?? null },
+        });
+    }
+    console.log(`Seeded ${items.length} partners`);
+}
+
 async function seedCertificates() {
     const file = resolve(__dirname, "seed-data/certificates.json");
     const items = JSON.parse(readFileSync(file, "utf-8")) as Certificate[];
@@ -226,6 +240,7 @@ async function main() {
 
     await seedArticles();
     await seedPromos();
+    await seedPartners();
     await seedCertificates();
     await seedFaq();
     await seedVacancies();

@@ -3,50 +3,8 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { getPartners } from "@/data/partners";
 import styles from "./page.module.css";
-
-const partners = [
-    { name: "ЛСР", href: "https://www.lsr.ru", category: "материалы" },
-    {
-        name: "Top House",
-        href: "https://www.tophouse.ru",
-        category: "домокомплекты",
-    },
-    {
-        name: "Петрович",
-        href: "https://petrovich.ru",
-        category: "строительные материалы",
-    },
-    {
-        name: "Пеноплекс",
-        href: "https://www.penoplex.ru",
-        category: "теплоизоляция",
-    },
-    { name: "Paroc", href: "https://www.paroc.ru", category: "изоляция" },
-    {
-        name: "Rockwool",
-        href: "https://www.rockwool.ru",
-        category: "каменная вата",
-    },
-    {
-        name: "Наноизол",
-        href: "https://www.nanoizol.com",
-        category: "мембраны",
-    },
-    {
-        name: "Изоспан",
-        href: "https://isospan.gexa.ru",
-        category: "изоляционные материалы",
-    },
-    { name: "Ренессанс Бетон", category: "бетон" },
-    {
-        name: "Монолит",
-        href: "https://www.monolittex.ru",
-        category: "строительные решения",
-    },
-    { name: "Greenside", href: "https://www.greenside.ru", category: "фасады" },
-    { name: "QuickDeck", href: "https://quickdeck.ru", category: "плиты" },
-];
 
 const principles = [
     "работаем с поставщиками, чьи материалы применялись на реальных объектах",
@@ -61,7 +19,9 @@ export const metadata: Metadata = {
     alternates: { canonical: "/partners" },
 };
 
-export default function PartnersPage() {
+export default async function PartnersPage() {
+    const partners = await getPartners();
+
     return (
         <section className={styles.page}>
             <Container>
@@ -88,7 +48,7 @@ export default function PartnersPage() {
                     </div>
                     <aside className={styles.heroPanel}>
                         <span>Комплектация</span>
-                        <strong>12</strong>
+                        <strong>{partners.length}</strong>
                         <p>
                             направлений поставок: бетон, утепление, фасады,
                             плиты, мембраны и домокомплекты.
@@ -136,12 +96,12 @@ export default function PartnersPage() {
                             );
 
                             if (!partner.href) {
-                                return <div key={partner.name}>{content}</div>;
+                                return <div key={partner.slug}>{content}</div>;
                             }
 
                             return (
                                 <a
-                                    key={partner.name}
+                                    key={partner.slug}
                                     href={partner.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
