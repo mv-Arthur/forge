@@ -4,7 +4,9 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getProjects } from "@/data/projects";
-import { GROUP_LABELS, PROJECT_SELECTIONS } from "./selections";
+import { getSelections } from "@/data/project-selections";
+import { matchesSelection } from "@/domain/project-selection";
+import { GROUP_LABELS } from "./selections";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -17,17 +19,20 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ProjectSelectionsPage() {
-    const projects = await getProjects();
-    const featuredSelections = PROJECT_SELECTIONS.slice(0, 3).map(
-        (selection) => ({
-            ...selection,
-            count: projects.filter(selection.filter).length,
-        })
-    );
+    const [projects, selections] = await Promise.all([
+        getProjects(),
+        getSelections(),
+    ]);
+    const countFor = (selection: (typeof selections)[number]) =>
+        projects.filter((p) => matchesSelection(p, selection.filter)).length;
+    const featuredSelections = selections.slice(0, 3).map((selection) => ({
+        ...selection,
+        count: countFor(selection),
+    }));
     const grouped = Object.entries(GROUP_LABELS).map(([group, label]) => ({
         group,
         label,
-        selections: PROJECT_SELECTIONS.filter(
+        selections: selections.filter(
             (selection) => selection.group === group
         ),
     }));
@@ -65,7 +70,7 @@ export default async function ProjectSelectionsPage() {
                         </div>
                         <div className={styles.panelStats}>
                             <div>
-                                <strong>{PROJECT_SELECTIONS.length}</strong>
+                                <strong>{selections.length}</strong>
                                 <span>подборок</span>
                             </div>
                             <div>
@@ -103,9 +108,7 @@ export default async function ProjectSelectionsPage() {
                             </div>
                             <div className={styles.grid}>
                                 {selections.map((selection) => {
-                                    const count = projects.filter(
-                                        selection.filter
-                                    ).length;
+                                    const count = countFor(selection);
 
                                     return (
                                         <Link

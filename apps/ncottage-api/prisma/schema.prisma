@@ -214,6 +214,23 @@ model BuiltObject {
     updatedAt DateTime @updatedAt
 }
 
+// Подборки проектов (коллекция). filter — декларативный спек (Json), который
+// www интерпретирует через matchesSelection. group — одна из SELECTION_GROUPS.
+model ProjectSelection {
+    id              String   @id @default(cuid())
+    slug            String   @unique
+    group           String
+    title           String
+    shortTitle      String
+    description     String
+    metaDescription String
+    filter          Json
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@index([group])
+}
+
 // Отзывы (коллекция). type/image/videoUrl опциональны; featured — для карусели.
 model Review {
     id        String   @id @default(cuid())

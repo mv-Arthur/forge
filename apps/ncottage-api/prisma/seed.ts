@@ -9,6 +9,7 @@ import type {
     FaqItem,
     Partner,
     Project,
+    ProjectSelection,
     Promo,
     Review,
     Vacancy,
@@ -109,6 +110,28 @@ function childrenCreate(p: Project) {
             })),
         },
     };
+}
+
+async function seedProjectSelections() {
+    const file = resolve(__dirname, "seed-data/project-selections.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as ProjectSelection[];
+    for (const item of items) {
+        const data = {
+            slug: item.slug,
+            group: item.group,
+            title: item.title,
+            shortTitle: item.shortTitle,
+            description: item.description,
+            metaDescription: item.metaDescription,
+            filter: item.filter as object,
+        };
+        await prisma.projectSelection.upsert({
+            where: { slug: item.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} project selections`);
 }
 
 async function seedReviews() {
@@ -287,6 +310,7 @@ async function main() {
     console.log(`Seeded ${projects.length} projects`);
 
     await seedArticles();
+    await seedProjectSelections();
     await seedReviews();
     await seedPromos();
     await seedBuiltObjects();

@@ -52,3 +52,9 @@ export type { FaqItem } from "./faq.js";
 export type { Certificate } from "./certificate.js";
 export type { Partner } from "./partner.js";
 export type { Review } from "./review.js";
+export { SELECTION_GROUPS, matchesSelection } from "./project-selection.js";
+export type {
+    SelectionGroup,
+    SelectionFilter,
+    ProjectSelection,
+} from "./project-selection.js";

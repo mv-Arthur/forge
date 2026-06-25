@@ -9,6 +9,7 @@ import {
     HelpCircle,
     ImageIcon,
     Inbox,
+    LayoutGrid,
     Newspaper,
     Star,
     Tag,
@@ -36,6 +37,11 @@ export const NAV_SECTIONS: NavSection[] = [
         label: "Управление",
         items: [
             { label: "Проекты", href: "/projects", icon: Building2 },
+            {
+                label: "Подборки проектов",
+                href: "/project-selections",
+                icon: LayoutGrid,
+            },
             { label: "Лиды", href: "/leads", icon: Inbox },
             {
                 label: "Пользователи",

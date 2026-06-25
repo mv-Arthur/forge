@@ -12,6 +12,7 @@ import { LeadsModule } from "./leads/leads.module.js";
 import { MediaModule } from "./media/media.module.js";
 import { PartnersModule } from "./partners/partners.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
+import { ProjectSelectionsModule } from "./project-selections/project-selections.module.js";
 import { ProjectsModule } from "./projects/projects.module.js";
 import { PromosModule } from "./promos/promos.module.js";
 import { RevalidateModule } from "./revalidate/revalidate.module.js";
@@ -36,6 +37,7 @@ import { VacanciesModule } from "./vacancies/vacancies.module.js";
         LeadsModule,
         MediaModule,
         PartnersModule,
+        ProjectSelectionsModule,
         ProjectsModule,
         PromosModule,
         ReviewsModule,
