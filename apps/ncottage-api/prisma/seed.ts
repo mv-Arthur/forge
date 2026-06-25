@@ -10,6 +10,7 @@ import type {
     Partner,
     Project,
     Promo,
+    Review,
     Vacancy,
 } from "@forge/shared";
 
@@ -108,6 +109,29 @@ function childrenCreate(p: Project) {
             })),
         },
     };
+}
+
+async function seedReviews() {
+    const file = resolve(__dirname, "seed-data/reviews.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as Review[];
+    for (const item of items) {
+        const data = {
+            id: item.id,
+            author: item.author,
+            date: item.date,
+            text: item.text,
+            type: item.type ?? null,
+            image: item.image ?? null,
+            videoUrl: item.videoUrl ?? null,
+            featured: item.featured,
+        };
+        await prisma.review.upsert({
+            where: { id: item.id },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} reviews`);
 }
 
 async function seedPromos() {
@@ -263,6 +287,7 @@ async function main() {
     console.log(`Seeded ${projects.length} projects`);
 
     await seedArticles();
+    await seedReviews();
     await seedPromos();
     await seedBuiltObjects();
     await seedPartners();

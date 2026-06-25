@@ -10,6 +10,7 @@ import {
     ImageIcon,
     Inbox,
     Newspaper,
+    Star,
     Tag,
     Users,
 } from "lucide-react";
@@ -54,6 +55,7 @@ export const NAV_SECTIONS: NavSection[] = [
             { label: "Вакансии", href: "/vacancies", icon: Briefcase },
             { label: "Вопрос-ответ", href: "/faq", icon: HelpCircle },
             { label: "Сертификаты", href: "/certificates", icon: Award },
+            { label: "Отзывы", href: "/reviews", icon: Star },
             { label: "Партнёры", href: "/partners", icon: Handshake },
             { label: "Контент", href: "/content", icon: FileText },
         ],

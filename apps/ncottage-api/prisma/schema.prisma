@@ -214,6 +214,20 @@ model BuiltObject {
     updatedAt DateTime @updatedAt
 }
 
+// Отзывы (коллекция). type/image/videoUrl опциональны; featured — для карусели.
+model Review {
+    id        String   @id @default(cuid())
+    author    String
+    date      String
+    text      String
+    type      String?
+    image     String?
+    videoUrl  String?
+    featured  Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 // Партнёры и поставщики (коллекция). href опционален (часть партнёров без сайта).
 model Partner {
     id        String   @id @default(cuid())

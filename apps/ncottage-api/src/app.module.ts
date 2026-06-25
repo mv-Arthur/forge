@@ -15,6 +15,7 @@ import { PrismaModule } from "./prisma/prisma.module.js";
 import { ProjectsModule } from "./projects/projects.module.js";
 import { PromosModule } from "./promos/promos.module.js";
 import { RevalidateModule } from "./revalidate/revalidate.module.js";
+import { ReviewsModule } from "./reviews/reviews.module.js";
 import { SettingsModule } from "./settings/settings.module.js";
 import { VacanciesModule } from "./vacancies/vacancies.module.js";
 
@@ -37,6 +38,7 @@ import { VacanciesModule } from "./vacancies/vacancies.module.js";
         PartnersModule,
         ProjectsModule,
         PromosModule,
+        ReviewsModule,
         SettingsModule,
         VacanciesModule,
     ],
