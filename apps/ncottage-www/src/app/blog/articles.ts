@@ -1,22 +1,8 @@
-export type BlogArticle = {
-    slug: string;
-    title: string;
-    description: string;
-    category: string;
-    date: string;
-    readTime: string;
-    heroNote: string;
-    highlights: string[];
-    sections: Array<{
-        title: string;
-        body: string[];
-        list?: string[];
-    }>;
-    checklist: string[];
-    relatedSlugs: string[];
-};
+import type { Article } from "@/domain/blog";
 
-export const articles: BlogArticle[] = [
+// Fallback-данные блога: отдаются, когда ncottage-api недоступен (нет URL,
+// dev без backend, Storybook). Этот же массив — источник сидов статей в БД.
+export const articles: Article[] = [
     {
         slug: "kak-vybrat-tehnologiyu-doma",
         title: "Как выбрать технологию строительства дома",
@@ -339,17 +325,3 @@ export const articles: BlogArticle[] = [
         ],
     },
 ];
-
-export const articleCategories = Array.from(
-    new Set(articles.map((article) => article.category))
-);
-
-export function getArticleBySlug(slug: string) {
-    return articles.find((article) => article.slug === slug);
-}
-
-export function getRelatedArticles(article: BlogArticle) {
-    return article.relatedSlugs
-        .map((slug) => getArticleBySlug(slug))
-        .filter((item): item is BlogArticle => Boolean(item));
-}

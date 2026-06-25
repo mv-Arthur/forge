@@ -4,20 +4,21 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { articles, getArticleBySlug, getRelatedArticles } from "../articles";
+import { getArticleBySlug, getArticles, getRelatedArticles } from "@/data/blog";
 import styles from "./page.module.css";
 
 interface Props {
     params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+    const articles = await getArticles();
     return articles.map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const article = getArticleBySlug(slug);
+    const article = await getArticleBySlug(slug);
 
     if (!article) {
         return { title: "Статья не найдена" };
@@ -32,11 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogArticlePage({ params }: Props) {
     const { slug } = await params;
-    const article = getArticleBySlug(slug);
+    const article = await getArticleBySlug(slug);
 
     if (!article) notFound();
 
-    const relatedArticles = getRelatedArticles(article);
+    const relatedArticles = await getRelatedArticles(article);
 
     return (
         <section className={styles.page}>
