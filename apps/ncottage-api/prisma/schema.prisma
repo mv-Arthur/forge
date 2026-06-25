@@ -198,6 +198,15 @@ model Promo {
     updatedAt    DateTime @updatedAt
 }
 
+// Сертификаты и документы компании (коллекция).
+model Certificate {
+    id        String   @id @default(cuid())
+    slug      String   @unique
+    title     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 // Вопросы FAQ (плоская коллекция; group — свободная строка-раздел).
 model FaqItem {
     id        String   @id @default(cuid())

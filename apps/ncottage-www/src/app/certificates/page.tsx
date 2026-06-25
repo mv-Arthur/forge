@@ -3,17 +3,8 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { getCertificates } from "@/data/certificates";
 import styles from "./page.module.css";
-
-const certificates = [
-    "Реестр добросовестных исполнителей",
-    "Система менеджмента безопасности труда и охраны здоровья",
-    "Система экологического менеджмента в строительстве",
-    "Разрешение на применение знака соответствия системы сертификации",
-    "Сертификат соответствия на ОСБ",
-    "Сертификат пожаробезопасности на пенополистирол строительный",
-    "Сертификат соответствия на пенополистирол строительный",
-];
 
 const checks = [
     {
@@ -37,7 +28,9 @@ export const metadata: Metadata = {
     alternates: { canonical: "/certificates" },
 };
 
-export default function CertificatesPage() {
+export default async function CertificatesPage() {
+    const certificates = await getCertificates();
+
     return (
         <section className={styles.page}>
             <Container>
@@ -92,7 +85,7 @@ export default function CertificatesPage() {
                     <div className={styles.documentsGrid}>
                         {certificates.map((certificate, index) => (
                             <article
-                                key={certificate}
+                                key={certificate.slug}
                                 className={styles.documentCard}
                             >
                                 <div className={styles.documentPreview}>
@@ -101,7 +94,7 @@ export default function CertificatesPage() {
                                     </span>
                                 </div>
                                 <div className={styles.documentBody}>
-                                    <h2>{certificate}</h2>
+                                    <h2>{certificate.title}</h2>
                                     <p>
                                         Документ доступен для проверки перед
                                         заключением договора.

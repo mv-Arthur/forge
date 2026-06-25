@@ -49,3 +49,4 @@ export type { Article, ArticleSection } from "./blog.js";
 export type { Promo } from "./promo.js";
 export type { Vacancy } from "./vacancy.js";
 export type { FaqItem } from "./faq.js";
+export type { Certificate } from "./certificate.js";

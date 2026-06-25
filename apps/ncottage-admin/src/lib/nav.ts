@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
+    Award,
     Briefcase,
     Building2,
     FileText,
@@ -49,6 +50,7 @@ export const NAV_SECTIONS: NavSection[] = [
             { label: "Акции", href: "/promos", icon: Tag },
             { label: "Вакансии", href: "/vacancies", icon: Briefcase },
             { label: "Вопрос-ответ", href: "/faq", icon: HelpCircle },
+            { label: "Сертификаты", href: "/certificates", icon: Award },
             { label: "Контент", href: "/content", icon: FileText },
         ],
     },
