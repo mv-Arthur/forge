@@ -4,6 +4,7 @@ import {
     Briefcase,
     Building2,
     FileText,
+    Hammer,
     Handshake,
     HelpCircle,
     ImageIcon,
@@ -48,6 +49,7 @@ export const NAV_SECTIONS: NavSection[] = [
         items: [
             { label: "Медиа", href: "/media", icon: ImageIcon },
             { label: "Блог", href: "/blog", icon: Newspaper },
+            { label: "Построенные объекты", href: "/built-objects", icon: Hammer },
             { label: "Акции", href: "/promos", icon: Tag },
             { label: "Вакансии", href: "/vacancies", icon: Briefcase },
             { label: "Вопрос-ответ", href: "/faq", icon: HelpCircle },

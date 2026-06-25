@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
 import type {
     Article,
+    BuiltObject,
     Certificate,
     FaqItem,
     Partner,
@@ -120,6 +121,29 @@ async function seedPromos() {
         });
     }
     console.log(`Seeded ${promos.length} promos`);
+}
+
+async function seedBuiltObjects() {
+    const file = resolve(__dirname, "seed-data/built-objects.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as BuiltObject[];
+    for (const item of items) {
+        const data = {
+            slug: item.id,
+            title: item.title,
+            image: item.image,
+            href: item.href,
+            area: item.area ?? null,
+            location: item.location ?? null,
+            coordsLat: item.coords?.lat ?? null,
+            coordsLng: item.coords?.lng ?? null,
+        };
+        await prisma.builtObject.upsert({
+            where: { slug: item.id },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} built objects`);
 }
 
 async function seedPartners() {
@@ -240,6 +264,7 @@ async function main() {
 
     await seedArticles();
     await seedPromos();
+    await seedBuiltObjects();
     await seedPartners();
     await seedCertificates();
     await seedFaq();

@@ -60,8 +60,8 @@ function getPinStyle(object: BuiltObject): CSSProperties | undefined {
     };
 }
 
-export default function WorksPage() {
-    const objects = getBuiltObjects();
+export default async function WorksPage() {
+    const objects = await getBuiltObjects();
     const objectsWithCoords = objects.filter((object) => object.coords);
     const totalArea = getTotalArea(objects);
     const mapHighlights = objectsWithCoords.slice(0, 4);

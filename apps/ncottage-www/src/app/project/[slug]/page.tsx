@@ -61,7 +61,7 @@ export default async function ProjectPage({ params }: Props) {
     );
     const allProjects = await getProjects();
     const similar = pickSimilarProjects(allProjects, project, 3);
-    const builtObjects = getBuiltObjects();
+    const builtObjects = await getBuiltObjects();
     const showroomObjects = project.relatedObjectIds
         ? builtObjects.filter((o) => project.relatedObjectIds!.includes(o.id))
         : [];

@@ -4,6 +4,7 @@ import { AdminsModule } from "./admins/admins.module.js";
 import { AppController } from "./app.controller.js";
 import { AuthModule } from "./auth/auth.module.js";
 import { BlogModule } from "./blog/blog.module.js";
+import { BuiltObjectsModule } from "./built-objects/built-objects.module.js";
 import { CertificatesModule } from "./certificates/certificates.module.js";
 import { FaqModule } from "./faq/faq.module.js";
 import { validateEnv } from "./config/env.validation.js";
@@ -28,6 +29,7 @@ import { VacanciesModule } from "./vacancies/vacancies.module.js";
         AdminsModule,
         AuthModule,
         BlogModule,
+        BuiltObjectsModule,
         CertificatesModule,
         FaqModule,
         LeadsModule,

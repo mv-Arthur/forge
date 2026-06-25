@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { OUR_WORKS_SECTION } from "@/content/home";
-import { getBuiltObjects } from "@/data/built-objects";
+import builtObjectsData from "@/data/built-objects.json";
+import type { BuiltObject } from "@/domain/project";
 import { OurWorksSection } from "./OurWorksSection";
 
 const meta: Meta<typeof OurWorksSection> = {
@@ -14,7 +15,7 @@ const meta: Meta<typeof OurWorksSection> = {
         lead: OUR_WORKS_SECTION.lead,
         cta: OUR_WORKS_SECTION.cta,
         visitInvite: OUR_WORKS_SECTION.visitInvite,
-        objects: getBuiltObjects(),
+        objects: builtObjectsData as BuiltObject[],
     },
 };
 

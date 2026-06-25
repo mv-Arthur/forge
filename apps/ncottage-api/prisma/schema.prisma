@@ -198,6 +198,22 @@ model Promo {
     updatedAt    DateTime @updatedAt
 }
 
+// Построенные объекты (коллекция). coords хранится двумя Float-колонками
+// (lat/lng) и собирается обратно в { lat, lng } в сервисе. slug = доменный id.
+model BuiltObject {
+    id        String   @id @default(cuid())
+    slug      String   @unique
+    title     String
+    image     String
+    href      String
+    area      Int?
+    location  String?
+    coordsLat Float?
+    coordsLng Float?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 // Партнёры и поставщики (коллекция). href опционален (часть партнёров без сайта).
 model Partner {
     id        String   @id @default(cuid())

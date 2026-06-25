@@ -20,7 +20,7 @@ import { formatMonthYear } from "@/lib/utils";
 export default async function HomePage() {
     const home = await getHomeContent();
     const featuredProjects = await getFeaturedProjects();
-    const builtObjects = getBuiltObjects();
+    const builtObjects = await getBuiltObjects();
     const featuredObject =
         builtObjects.find((o) => o.id === home.featuredProject.objectId) ??
         builtObjects[0];
