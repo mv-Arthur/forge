@@ -198,6 +198,19 @@ model Promo {
     updatedAt    DateTime @updatedAt
 }
 
+// Вопросы FAQ (плоская коллекция; group — свободная строка-раздел).
+model FaqItem {
+    id        String   @id @default(cuid())
+    slug      String   @unique
+    question  String
+    answer    String
+    group     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([group])
+}
+
 // Вакансии (коллекция).
 model Vacancy {
     id           String   @id @default(cuid())
