@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { PROMOS } from "./promos";
+import { getPromos } from "@/data/promos";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
     alternates: { canonical: "/promos" },
 };
 
-export default function PromosPage() {
+export default async function PromosPage() {
+    const promos = await getPromos();
+
     return (
         <section className={styles.page}>
             <Container>
@@ -77,7 +79,7 @@ export default function PromosPage() {
                     />
 
                     <div className={styles.cardsGrid}>
-                        {PROMOS.map((promo) => (
+                        {promos.map((promo) => (
                             <article
                                 key={promo.slug}
                                 className={styles.promoCard}
@@ -189,7 +191,7 @@ export default function PromosPage() {
                             <option value="" disabled>
                                 Интересующая технология
                             </option>
-                            {PROMOS.map((promo) => (
+                            {promos.map((promo) => (
                                 <option
                                     key={promo.slug}
                                     value={promo.shortTitle}

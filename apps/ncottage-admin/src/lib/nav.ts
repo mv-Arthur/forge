@@ -5,6 +5,7 @@ import {
     ImageIcon,
     Inbox,
     Newspaper,
+    Tag,
     Users,
 } from "lucide-react";
 
@@ -43,6 +44,7 @@ export const NAV_SECTIONS: NavSection[] = [
         items: [
             { label: "Медиа", href: "/media", icon: ImageIcon },
             { label: "Блог", href: "/blog", icon: Newspaper },
+            { label: "Акции", href: "/promos", icon: Tag },
             { label: "Контент", href: "/content", icon: FileText },
         ],
     },

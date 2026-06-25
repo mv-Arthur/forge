@@ -46,3 +46,4 @@ export type {
     BlogPage,
 } from "./settings.js";
 export type { Article, ArticleSection } from "./blog.js";
+export type { Promo } from "./promo.js";

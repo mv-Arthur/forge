@@ -4,20 +4,21 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { getPromoBySlug, PROMOS } from "../promos";
+import { getPromoBySlug, getPromos } from "@/data/promos";
 import styles from "../page.module.css";
 
 interface Props {
     params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-    return PROMOS.map((promo) => ({ slug: promo.slug }));
+export async function generateStaticParams() {
+    const promos = await getPromos();
+    return promos.map((promo) => ({ slug: promo.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const promo = getPromoBySlug(slug);
+    const promo = await getPromoBySlug(slug);
 
     if (!promo) return { title: "Акция не найдена" };
 
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PromoDetailPage({ params }: Props) {
     const { slug } = await params;
-    const promo = getPromoBySlug(slug);
+    const promo = await getPromoBySlug(slug);
 
     if (!promo) notFound();
 

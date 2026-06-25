@@ -9,6 +9,7 @@ import { LeadsModule } from "./leads/leads.module.js";
 import { MediaModule } from "./media/media.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { ProjectsModule } from "./projects/projects.module.js";
+import { PromosModule } from "./promos/promos.module.js";
 import { RevalidateModule } from "./revalidate/revalidate.module.js";
 import { SettingsModule } from "./settings/settings.module.js";
 
@@ -26,6 +27,7 @@ import { SettingsModule } from "./settings/settings.module.js";
         LeadsModule,
         MediaModule,
         ProjectsModule,
+        PromosModule,
         SettingsModule,
     ],
     controllers: [AppController],

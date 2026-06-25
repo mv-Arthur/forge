@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
-import type { Article, Project } from "@forge/shared";
+import type { Article, Project, Promo } from "@forge/shared";
 
 const prisma = new PrismaClient();
 
@@ -101,6 +101,19 @@ function childrenCreate(p: Project) {
     };
 }
 
+async function seedPromos() {
+    const file = resolve(__dirname, "seed-data/promos.json");
+    const promos = JSON.parse(readFileSync(file, "utf-8")) as Promo[];
+    for (const promo of promos) {
+        await prisma.promo.upsert({
+            where: { slug: promo.slug },
+            create: promo,
+            update: promo,
+        });
+    }
+    console.log(`Seeded ${promos.length} promos`);
+}
+
 async function seedSettings() {
     const file = resolve(__dirname, "seed-data/settings.json");
     const settings = JSON.parse(readFileSync(file, "utf-8")) as Record<
@@ -166,6 +179,7 @@ async function main() {
     console.log(`Seeded ${projects.length} projects`);
 
     await seedArticles();
+    await seedPromos();
     await seedSettings();
     await seedAdmin();
 }

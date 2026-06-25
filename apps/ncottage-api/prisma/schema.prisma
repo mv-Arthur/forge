@@ -179,6 +179,25 @@ model Setting {
     updatedAt DateTime @updatedAt
 }
 
+// Акции (коллекция). Все массивы — простые String[] (без вложенных объектов).
+model Promo {
+    id           String   @id @default(cuid())
+    slug         String   @unique
+    title        String
+    shortTitle   String
+    eyebrow      String
+    lead         String
+    price        String
+    priceNote    String
+    period       String
+    projectsHref String
+    terms        String[]
+    includes     String[]
+    details      String[]
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+}
+
 // Статьи блога (коллекция). Простые массивы — колонки String[]; разделы статьи
 // (title/body[]/list?) хранятся структурированным JSON с zod-валидацией на входе.
 model Article {
