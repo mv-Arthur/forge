@@ -15,8 +15,8 @@ export interface NavSection {
     items: NavItem[];
 }
 
-// Sidebar information architecture. Disabled items are wired up in later epics
-// (Media → B2, Content → E*), shown now so the structure is visible.
+// Sidebar information architecture. Disabled items are wired up in later epics,
+// shown now so the structure is visible.
 export const NAV_SECTIONS: NavSection[] = [
     {
         label: "Управление",
@@ -35,13 +35,7 @@ export const NAV_SECTIONS: NavSection[] = [
         label: "Контент сайта",
         items: [
             { label: "Медиа", href: "/media", icon: ImageIcon },
-            {
-                label: "Контент",
-                href: "/content",
-                icon: FileText,
-                disabled: true,
-                badge: "скоро",
-            },
+            { label: "Контент", href: "/content", icon: FileText },
         ],
     },
 ];

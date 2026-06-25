@@ -61,7 +61,7 @@ export interface ApiResult {
 }
 
 export async function apiSend(
-    method: "POST" | "PATCH" | "DELETE",
+    method: "POST" | "PUT" | "PATCH" | "DELETE",
     path: string,
     body?: unknown
 ): Promise<ApiResult> {

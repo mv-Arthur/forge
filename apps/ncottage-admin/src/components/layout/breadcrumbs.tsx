@@ -17,6 +17,9 @@ const SEGMENT_LABELS: Record<string, string> = {
     leads: "Лиды",
     media: "Медиа",
     content: "Контент",
+    nav: "Навигация",
+    footer: "Футер",
+    contacts: "Контакты",
     new: "Новый",
 };
 
