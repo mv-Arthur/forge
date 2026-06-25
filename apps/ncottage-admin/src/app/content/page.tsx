@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, Contact, Menu, PanelBottom } from "lucide-react";
+import { ChevronRight, Contact, Menu, Newspaper, PanelBottom } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,6 +29,12 @@ const LINKS: ContentLink[] = [
         title: "Контакты",
         description: "Телефоны, адреса, соцсети и реквизиты компании",
         icon: Contact,
+    },
+    {
+        href: "/content/blog_page",
+        title: "Страница блога",
+        description: "Заголовки секций и блок призыва на странице /blog",
+        icon: Newspaper,
     },
 ];
 

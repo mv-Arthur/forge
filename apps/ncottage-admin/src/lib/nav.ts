@@ -1,5 +1,12 @@
 import type { LucideIcon } from "lucide-react";
-import { Building2, FileText, ImageIcon, Inbox, Users } from "lucide-react";
+import {
+    Building2,
+    FileText,
+    ImageIcon,
+    Inbox,
+    Newspaper,
+    Users,
+} from "lucide-react";
 
 export interface NavItem {
     label: string;
@@ -35,6 +42,7 @@ export const NAV_SECTIONS: NavSection[] = [
         label: "Контент сайта",
         items: [
             { label: "Медиа", href: "/media", icon: ImageIcon },
+            { label: "Блог", href: "/blog", icon: Newspaper },
             { label: "Контент", href: "/content", icon: FileText },
         ],
     },

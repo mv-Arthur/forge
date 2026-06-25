@@ -1,4 +1,5 @@
 import type {
+    BlogPage,
     ContactAddress,
     ContactPhone,
     Contacts,
@@ -251,5 +252,57 @@ export function formValuesToContacts(values: ContactsFormValues): Contacts {
             inn: values.legal.inn.trim(),
             kpp: values.legal.kpp.trim(),
         },
+    };
+}
+
+// --- Blog page (chrome of /blog) ---
+
+export const blogPageSchema = z.object({
+    hero: z.object({
+        eyebrow: z.string().min(1, "Укажите надзаголовок"),
+        title: z.string().min(1, "Укажите заголовок"),
+        lead: z.string().min(1, "Укажите подзаголовок"),
+        panelLabel: z.string().min(1, "Укажите подпись панели"),
+    }),
+    featured: z.object({
+        eyebrow: z.string().min(1, "Укажите надзаголовок"),
+        title: z.string().min(1, "Укажите заголовок"),
+        titleAccent: z.string().min(1, "Укажите акцент заголовка"),
+        lead: z.string().min(1, "Укажите подзаголовок"),
+    }),
+    list: z.object({
+        eyebrow: z.string().min(1, "Укажите надзаголовок"),
+        title: z.string().min(1, "Укажите заголовок"),
+        lead: z.string().min(1, "Укажите подзаголовок"),
+    }),
+    cta: z.object({
+        eyebrow: z.string().min(1, "Укажите надзаголовок"),
+        title: z.string().min(1, "Укажите заголовок"),
+        text: z.string().min(1, "Укажите текст"),
+        buttonLabel: z.string().min(1, "Укажите подпись кнопки"),
+        buttonHref: z.string().min(1, "Укажите ссылку кнопки"),
+    }),
+});
+export type BlogPageFormValues = z.infer<typeof blogPageSchema>;
+
+export function blogPageToFormValues(blogPage: BlogPage): BlogPageFormValues {
+    return {
+        hero: { ...blogPage.hero },
+        featured: { ...blogPage.featured },
+        list: { ...blogPage.list },
+        cta: { ...blogPage.cta },
+    };
+}
+
+export function formValuesToBlogPage(values: BlogPageFormValues): BlogPage {
+    const trim = <T extends Record<string, string>>(obj: T): T =>
+        Object.fromEntries(
+            Object.entries(obj).map(([k, v]) => [k, v.trim()])
+        ) as T;
+    return {
+        hero: trim(values.hero),
+        featured: trim(values.featured),
+        list: trim(values.list),
+        cta: trim(values.cta),
     };
 }
