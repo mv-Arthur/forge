@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { AdminsModule } from "./admins/admins.module.js";
 import { AppController } from "./app.controller.js";
 import { AuthModule } from "./auth/auth.module.js";
+import { BlogModule } from "./blog/blog.module.js";
 import { validateEnv } from "./config/env.validation.js";
 import { LeadsModule } from "./leads/leads.module.js";
 import { MediaModule } from "./media/media.module.js";
@@ -21,6 +22,7 @@ import { SettingsModule } from "./settings/settings.module.js";
         RevalidateModule,
         AdminsModule,
         AuthModule,
+        BlogModule,
         LeadsModule,
         MediaModule,
         ProjectsModule,

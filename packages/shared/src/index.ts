@@ -43,4 +43,6 @@ export type {
     ContactPhone,
     ContactAddress,
     ContactSocial,
+    BlogPage,
 } from "./settings.js";
+export type { Article, ArticleSection } from "./blog.js";

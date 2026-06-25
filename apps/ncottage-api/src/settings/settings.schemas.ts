@@ -63,8 +63,36 @@ const contacts = z.object({
     legal,
 });
 
+const blogPage = z.object({
+    hero: z.object({
+        eyebrow: z.string(),
+        title: z.string(),
+        lead: z.string(),
+        panelLabel: z.string(),
+    }),
+    featured: z.object({
+        eyebrow: z.string(),
+        title: z.string(),
+        titleAccent: z.string(),
+        lead: z.string(),
+    }),
+    list: z.object({
+        eyebrow: z.string(),
+        title: z.string(),
+        lead: z.string(),
+    }),
+    cta: z.object({
+        eyebrow: z.string(),
+        title: z.string(),
+        text: z.string(),
+        buttonLabel: z.string(),
+        buttonHref: z.string(),
+    }),
+});
+
 export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {
     nav: navigation,
     footer,
     contacts,
+    blog_page: blogPage,
 };

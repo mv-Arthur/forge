@@ -74,13 +74,34 @@ export interface Contacts {
     legal: { ogrn: string; inn: string; kpp: string };
 }
 
-export const SETTING_KEYS = ["nav", "footer", "contacts"] as const;
+// Чрома страницы блога (заголовки секций и блок CTA). Карточки и список статей
+// приходят отдельно как коллекция Article.
+export interface BlogPage {
+    hero: { eyebrow: string; title: string; lead: string; panelLabel: string };
+    featured: {
+        eyebrow: string;
+        title: string;
+        titleAccent: string;
+        lead: string;
+    };
+    list: { eyebrow: string; title: string; lead: string };
+    cta: {
+        eyebrow: string;
+        title: string;
+        text: string;
+        buttonLabel: string;
+        buttonHref: string;
+    };
+}
+
+export const SETTING_KEYS = ["nav", "footer", "contacts", "blog_page"] as const;
 export type SettingKey = (typeof SETTING_KEYS)[number];
 
 export interface SettingValues {
     nav: Navigation;
     footer: Footer;
     contacts: Contacts;
+    blog_page: BlogPage;
 }
 
 export interface Setting<K extends SettingKey = SettingKey> {

@@ -172,11 +172,32 @@ enum Role {
     editor
 }
 
-// Контент-настройки сайта (singletons): nav, footer, contacts. value — типизированный JSON.
+// Контент-настройки сайта (singletons): nav, footer, contacts, blog_page. value — типизированный JSON.
 model Setting {
     key       String   @id
     value     Json
     updatedAt DateTime @updatedAt
+}
+
+// Статьи блога (коллекция). Простые массивы — колонки String[]; разделы статьи
+// (title/body[]/list?) хранятся структурированным JSON с zod-валидацией на входе.
+model Article {
+    id           String   @id @default(cuid())
+    slug         String   @unique
+    title        String
+    description  String
+    category     String
+    date         String
+    readTime     String
+    heroNote     String
+    highlights   String[]
+    sections     Json
+    checklist    String[]
+    relatedSlugs String[]
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@index([category])
 }
 
 model Admin {

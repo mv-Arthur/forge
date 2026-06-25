@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
-import type { Project } from "@forge/shared";
+import type { Article, Project } from "@forge/shared";
 
 const prisma = new PrismaClient();
 
@@ -117,6 +117,32 @@ async function seedSettings() {
     console.log(`Seeded ${Object.keys(settings).length} settings`);
 }
 
+async function seedArticles() {
+    const file = resolve(__dirname, "seed-data/articles.json");
+    const articles = JSON.parse(readFileSync(file, "utf-8")) as Article[];
+    for (const article of articles) {
+        const data = {
+            slug: article.slug,
+            title: article.title,
+            description: article.description,
+            category: article.category,
+            date: article.date,
+            readTime: article.readTime,
+            heroNote: article.heroNote,
+            highlights: article.highlights,
+            sections: article.sections as object,
+            checklist: article.checklist,
+            relatedSlugs: article.relatedSlugs,
+        };
+        await prisma.article.upsert({
+            where: { slug: article.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${articles.length} articles`);
+}
+
 async function main() {
     const file = resolve(__dirname, "seed-data/projects.json");
     const projects = JSON.parse(readFileSync(file, "utf-8")) as Project[];
@@ -139,6 +165,7 @@ async function main() {
 
     console.log(`Seeded ${projects.length} projects`);
 
+    await seedArticles();
     await seedSettings();
     await seedAdmin();
 }
