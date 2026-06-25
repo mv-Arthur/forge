@@ -3,21 +3,16 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/widgets/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import {
-    ADDRESSES,
-    CITIES,
-    EMAIL,
-    PHONES,
-    WORK_HOURS,
-} from "@/content/contacts";
-import { NAV_ITEMS } from "@/content/site";
+    getContacts,
+    getFooter,
+    getNavigation,
+    toContactLinks,
+    toFooterContent,
+    toHeaderContacts,
+} from "@/data/settings";
 import { SelectionProvider } from "@/lib/selection";
 import { CallbackProvider } from "@/lib/callback";
 import { FloatingContact } from "@/components/shared/FloatingContact";
-
-const CITY_ADDRESSES = {
-    spb: ADDRESSES.spb,
-    msk: ADDRESSES.msk,
-};
 
 const inter = Inter({
     subsets: ["latin", "cyrillic"],
@@ -47,27 +42,41 @@ export const viewport: Viewport = {
     initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const [navigation, footer, contacts] = await Promise.all([
+        getNavigation(),
+        getFooter(),
+        getContacts(),
+    ]);
+    const headerContacts = toHeaderContacts(contacts);
+    const links = toContactLinks(contacts);
+
     return (
         <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
             <body>
                 <SelectionProvider>
                     <CallbackProvider>
                         <SiteHeader
-                            cities={CITIES}
-                            phones={PHONES}
-                            addresses={CITY_ADDRESSES}
-                            email={EMAIL}
-                            workHours={WORK_HOURS}
-                            navItems={NAV_ITEMS}
+                            cities={headerContacts.cities}
+                            phones={headerContacts.phones}
+                            addresses={headerContacts.addresses}
+                            email={headerContacts.email}
+                            workHours={headerContacts.workHours}
+                            navItems={navigation.items}
                         />
                         <main>{children}</main>
-                        <Footer />
-                        <FloatingContact />
+                        <Footer
+                            content={toFooterContent(footer)}
+                            vkHref={links.vk}
+                        />
+                        <FloatingContact
+                            whatsapp={links.whatsapp}
+                            telegram={links.telegram}
+                        />
                     </CallbackProvider>
                 </SelectionProvider>
             </body>

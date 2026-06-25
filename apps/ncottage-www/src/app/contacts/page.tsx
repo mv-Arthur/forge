@@ -2,13 +2,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import {
-    ADDRESSES,
-    EMAIL,
-    LEGAL,
-    PHONES,
-    WORK_HOURS,
-} from "@/content/contacts";
+import { getContacts, toContactRecords } from "@/data/settings";
 import { ContactRequestForm } from "./ContactRequestForm";
 import styles from "./page.module.css";
 
@@ -18,43 +12,47 @@ export const metadata: Metadata = {
         "Контакты строительной компании Новый Коттедж: офисы в Санкт-Петербурге и Москве, производство, телефоны, почта и график работы.",
 };
 
-const offices = [
-    {
-        city: "Санкт-Петербург",
-        title: "Офис Санкт-Петербург",
-        address: `${ADDRESSES.spb}, офис 405`,
-        phone: PHONES.spb,
-        note: "Офис расположен в бизнес-центре «Строй дом». Здесь можно выбрать готовый проект дома вместе со специалистом или обсудить индивидуальное проектирование.",
-    },
-    {
-        city: "Москва",
-        title: "Офис Москва",
-        address: ADDRESSES.msk,
-        phone: PHONES.msk,
-        note: "Офис расположен в БЦ «Ривер Плаза». Консультант поможет подобрать технологию строительства, комплектацию и следующий шаг по смете.",
-    },
-];
-
-const productions = [
-    {
-        title: "Производство домокомплектов",
-        address: ADDRESSES.lenobl,
-        phone: PHONES.spb,
-        note: "В Ленинградской области находится производство по изготовлению домокомплектов. На экскурсию можно записаться через заявку на сайте или по телефону.",
-    },
-    {
-        title: "Деревообрабатывающее производство",
-        address: ADDRESSES.novobl,
-        phone: PHONES.spb,
-        note: "В Новгородской области находится деревообрабатывающее производство. Покажем материалы и этапы подготовки конструкций по предварительной записи.",
-    },
-];
-
 function getMapUrl(address: string) {
     return `https://yandex.ru/maps/?text=${encodeURIComponent(address)}`;
 }
 
-export default function ContactsPage() {
+export default async function ContactsPage() {
+    const contacts = await getContacts();
+    const { phones, addresses, email, workHours, legal } =
+        toContactRecords(contacts);
+
+    const offices = [
+        {
+            city: "Санкт-Петербург",
+            title: "Офис Санкт-Петербург",
+            address: `${addresses.spb}, офис 405`,
+            phone: phones.spb,
+            note: "Офис расположен в бизнес-центре «Строй дом». Здесь можно выбрать готовый проект дома вместе со специалистом или обсудить индивидуальное проектирование.",
+        },
+        {
+            city: "Москва",
+            title: "Офис Москва",
+            address: addresses.msk,
+            phone: phones.msk,
+            note: "Офис расположен в БЦ «Ривер Плаза». Консультант поможет подобрать технологию строительства, комплектацию и следующий шаг по смете.",
+        },
+    ];
+
+    const productions = [
+        {
+            title: "Производство домокомплектов",
+            address: addresses.lenobl,
+            phone: phones.spb,
+            note: "В Ленинградской области находится производство по изготовлению домокомплектов. На экскурсию можно записаться через заявку на сайте или по телефону.",
+        },
+        {
+            title: "Деревообрабатывающее производство",
+            address: addresses.novobl,
+            phone: phones.spb,
+            note: "В Новгородской области находится деревообрабатывающее производство. Покажем материалы и этапы подготовки конструкций по предварительной записи.",
+        },
+    ];
+
     return (
         <section className={styles.page}>
             <Container>
@@ -81,29 +79,29 @@ export default function ContactsPage() {
                             <span className={styles.cardKicker}>Телефоны</span>
                             <a
                                 className={styles.primaryLink}
-                                href={`tel:${PHONES.spb.number}`}
+                                href={`tel:${phones.spb.number}`}
                             >
-                                {PHONES.spb.display}
+                                {phones.spb.display}
                             </a>
                             <a
                                 className={styles.primaryLink}
-                                href={`tel:${PHONES.msk.number}`}
+                                href={`tel:${phones.msk.number}`}
                             >
-                                {PHONES.msk.display}
+                                {phones.msk.display}
                             </a>
                         </div>
                         <div className={styles.quickItem}>
                             <span className={styles.cardKicker}>Почта</span>
                             <a
                                 className={styles.primaryLink}
-                                href={`mailto:${EMAIL}`}
+                                href={`mailto:${email}`}
                             >
-                                {EMAIL}
+                                {email}
                             </a>
                         </div>
                         <div className={styles.quickItem}>
                             <span className={styles.cardKicker}>График</span>
-                            <p className={styles.primaryValue}>{WORK_HOURS}</p>
+                            <p className={styles.primaryValue}>{workHours}</p>
                             <p className={styles.muted}>
                                 Выходные — по согласованию
                             </p>
@@ -249,20 +247,20 @@ export default function ContactsPage() {
                             <dl className={styles.requisitesList}>
                                 <div>
                                     <dt>ИНН</dt>
-                                    <dd>{LEGAL.inn}</dd>
+                                    <dd>{legal.inn}</dd>
                                 </div>
                                 <div>
                                     <dt>КПП</dt>
-                                    <dd>{LEGAL.kpp}</dd>
+                                    <dd>{legal.kpp}</dd>
                                 </div>
                                 <div>
                                     <dt>ОГРН</dt>
-                                    <dd>{LEGAL.ogrn}</dd>
+                                    <dd>{legal.ogrn}</dd>
                                 </div>
                                 <div>
                                     <dt>Почта</dt>
                                     <dd>
-                                        <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+                                        <a href={`mailto:${email}`}>{email}</a>
                                     </dd>
                                 </div>
                             </dl>
