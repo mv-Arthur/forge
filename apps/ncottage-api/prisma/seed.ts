@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
-import type { Article, Project, Promo } from "@forge/shared";
+import type { Article, Project, Promo, Vacancy } from "@forge/shared";
 
 const prisma = new PrismaClient();
 
@@ -114,6 +114,19 @@ async function seedPromos() {
     console.log(`Seeded ${promos.length} promos`);
 }
 
+async function seedVacancies() {
+    const file = resolve(__dirname, "seed-data/vacancies.json");
+    const vacancies = JSON.parse(readFileSync(file, "utf-8")) as Vacancy[];
+    for (const vacancy of vacancies) {
+        await prisma.vacancy.upsert({
+            where: { slug: vacancy.slug },
+            create: vacancy,
+            update: vacancy,
+        });
+    }
+    console.log(`Seeded ${vacancies.length} vacancies`);
+}
+
 async function seedSettings() {
     const file = resolve(__dirname, "seed-data/settings.json");
     const settings = JSON.parse(readFileSync(file, "utf-8")) as Record<
@@ -180,6 +193,7 @@ async function main() {
 
     await seedArticles();
     await seedPromos();
+    await seedVacancies();
     await seedSettings();
     await seedAdmin();
 }

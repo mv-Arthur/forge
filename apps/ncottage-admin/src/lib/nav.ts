@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
+    Briefcase,
     Building2,
     FileText,
     ImageIcon,
@@ -45,6 +46,7 @@ export const NAV_SECTIONS: NavSection[] = [
             { label: "Медиа", href: "/media", icon: ImageIcon },
             { label: "Блог", href: "/blog", icon: Newspaper },
             { label: "Акции", href: "/promos", icon: Tag },
+            { label: "Вакансии", href: "/vacancies", icon: Briefcase },
             { label: "Контент", href: "/content", icon: FileText },
         ],
     },

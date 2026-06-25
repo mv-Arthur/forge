@@ -12,6 +12,7 @@ import { ProjectsModule } from "./projects/projects.module.js";
 import { PromosModule } from "./promos/promos.module.js";
 import { RevalidateModule } from "./revalidate/revalidate.module.js";
 import { SettingsModule } from "./settings/settings.module.js";
+import { VacanciesModule } from "./vacancies/vacancies.module.js";
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { SettingsModule } from "./settings/settings.module.js";
         ProjectsModule,
         PromosModule,
         SettingsModule,
+        VacanciesModule,
     ],
     controllers: [AppController],
 })
