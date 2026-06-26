@@ -12,9 +12,11 @@ import {
     Inbox,
     LayoutGrid,
     Newspaper,
+    Route,
     Star,
     Tag,
     Users,
+    Wrench,
 } from "lucide-react";
 
 export interface NavItem {
@@ -57,6 +59,12 @@ export const NAV_SECTIONS: NavSection[] = [
         items: [
             { label: "Медиа", href: "/media", icon: ImageIcon },
             { label: "Блог", href: "/blog", icon: Newspaper },
+            { label: "Услуги", href: "/services", icon: Wrench },
+            {
+                label: "Сценарии услуг",
+                href: "/service-scenarios",
+                icon: Route,
+            },
             { label: "Построенные объекты", href: "/built-objects", icon: Hammer },
             { label: "Акции", href: "/promos", icon: Tag },
             { label: "Вакансии", href: "/vacancies", icon: Briefcase },

@@ -10,6 +10,7 @@ import type {
     Navigation,
     NavItem,
     NavSubItem,
+    ServicesUi,
 } from "@forge/shared";
 import { z } from "zod";
 
@@ -304,5 +305,76 @@ export function formValuesToBlogPage(values: BlogPageFormValues): BlogPage {
         featured: trim(values.featured),
         list: trim(values.list),
         cta: trim(values.cta),
+    };
+}
+
+// --- Services navigator UI (Setting services_ui) ---
+
+// SelectField cannot hold an empty value; use this sentinel for "no service".
+export const SERVICE_SLUG_NONE = "__none__";
+
+const wrappedStringMin = z.object({ value: z.string().min(1, "Не пусто") });
+
+export const servicesUiSchema = z.object({
+    quiz: z.object({
+        objectOptions: z.array(wrappedStringMin),
+        timingOptions: z.array(wrappedStringMin),
+    }),
+    routeSteps: z.array(
+        z.object({
+            title: z.string().min(1, "Укажите заголовок"),
+            description: z.string().min(1, "Добавьте описание"),
+            serviceSlug: z.string(),
+        })
+    ),
+    additionalLinks: z.array(
+        z.object({
+            title: z.string().min(1, "Укажите заголовок"),
+            parentSlug: z.string().min(1, "Выберите услугу"),
+        })
+    ),
+});
+export type ServicesUiFormValues = z.infer<typeof servicesUiSchema>;
+
+export function servicesUiToFormValues(ui: ServicesUi): ServicesUiFormValues {
+    return {
+        quiz: {
+            objectOptions: ui.quiz.objectOptions.map((value) => ({ value })),
+            timingOptions: ui.quiz.timingOptions.map((value) => ({ value })),
+        },
+        routeSteps: ui.routeSteps.map((s) => ({
+            title: s.title,
+            description: s.description,
+            serviceSlug: s.serviceSlug ?? SERVICE_SLUG_NONE,
+        })),
+        additionalLinks: ui.additionalLinks.map((l) => ({
+            title: l.title,
+            parentSlug: l.parentSlug,
+        })),
+    };
+}
+
+export function formValuesToServicesUi(
+    values: ServicesUiFormValues
+): ServicesUi {
+    const unwrap = (items: { value: string }[]) =>
+        items.map((i) => i.value.trim()).filter(Boolean);
+    return {
+        quiz: {
+            objectOptions: unwrap(values.quiz.objectOptions),
+            timingOptions: unwrap(values.quiz.timingOptions),
+        },
+        routeSteps: values.routeSteps.map((s) => ({
+            title: s.title.trim(),
+            description: s.description.trim(),
+            serviceSlug:
+                s.serviceSlug === SERVICE_SLUG_NONE
+                    ? null
+                    : s.serviceSlug.trim(),
+        })),
+        additionalLinks: values.additionalLinks.map((l) => ({
+            title: l.title.trim(),
+            parentSlug: l.parentSlug,
+        })),
     };
 }
