@@ -261,6 +261,39 @@ async function seedSettings() {
     console.log(`Seeded ${Object.keys(settings).length} settings`);
 }
 
+interface PageSeed {
+    key: string;
+    title: string;
+    seoTitle: string;
+    seoDescription: string;
+    sections: { type: string; data: unknown }[];
+}
+
+async function seedPages() {
+    const file = resolve(__dirname, "seed-data/pages.json");
+    const pages = JSON.parse(readFileSync(file, "utf-8")) as PageSeed[];
+    for (const page of pages) {
+        const meta = {
+            title: page.title,
+            seoTitle: page.seoTitle,
+            seoDescription: page.seoDescription,
+        };
+        const sections = {
+            create: page.sections.map((s, order) => ({
+                type: s.type,
+                order,
+                data: s.data as object,
+            })),
+        };
+        await prisma.page.upsert({
+            where: { key: page.key },
+            create: { key: page.key, ...meta, sections },
+            update: { ...meta, sections: { deleteMany: {}, ...sections } },
+        });
+    }
+    console.log(`Seeded ${pages.length} pages`);
+}
+
 async function seedArticles() {
     const file = resolve(__dirname, "seed-data/articles.json");
     const articles = JSON.parse(readFileSync(file, "utf-8")) as Article[];
@@ -319,6 +352,7 @@ async function main() {
     await seedFaq();
     await seedVacancies();
     await seedSettings();
+    await seedPages();
     await seedAdmin();
 }
 

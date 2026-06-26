@@ -179,6 +179,30 @@ model Setting {
     updatedAt DateTime @updatedAt
 }
 
+// Страницы с секциями (about, production, финансовые лендинги, legal и т.д.).
+// Каждая страница — фиксированный набор типизированных секций (PageSection),
+// type определяет zod-схему data; редактор правит секции по одной (не block-builder).
+model Page {
+    key            String        @id
+    title          String
+    seoTitle       String
+    seoDescription String
+    sections       PageSection[]
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @updatedAt
+}
+
+model PageSection {
+    id      String @id @default(cuid())
+    pageKey String
+    type    String
+    order   Int
+    data    Json
+    page    Page   @relation(fields: [pageKey], references: [key], onDelete: Cascade)
+
+    @@index([pageKey])
+}
+
 // Акции (коллекция). Все массивы — простые String[] (без вложенных объектов).
 model Promo {
     id           String   @id @default(cuid())

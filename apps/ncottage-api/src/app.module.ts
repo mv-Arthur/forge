@@ -10,6 +10,7 @@ import { FaqModule } from "./faq/faq.module.js";
 import { validateEnv } from "./config/env.validation.js";
 import { LeadsModule } from "./leads/leads.module.js";
 import { MediaModule } from "./media/media.module.js";
+import { PagesModule } from "./pages/pages.module.js";
 import { PartnersModule } from "./partners/partners.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { ProjectSelectionsModule } from "./project-selections/project-selections.module.js";
@@ -36,6 +37,7 @@ import { VacanciesModule } from "./vacancies/vacancies.module.js";
         FaqModule,
         LeadsModule,
         MediaModule,
+        PagesModule,
         PartnersModule,
         ProjectSelectionsModule,
         ProjectsModule,
