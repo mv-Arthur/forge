@@ -672,16 +672,206 @@ const leadForm: SectionFormDef = {
     ),
 };
 
+// --- contactsHero ---
+
+interface ContactsHeroForm {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    lead: string;
+    visitKicker: string;
+    visitText: string;
+    visitCtaLabel: string;
+    visitCtaHref: string;
+}
+
+const contactsHero: SectionFormDef = {
+    typeLabel: "Герой",
+    schema: z.object({
+        eyebrow: strReq,
+        title: strReq,
+        titleAccent: str.optional(),
+        lead: strReq,
+        visitKicker: strReq,
+        visitText: strReq,
+        visitCtaLabel: strReq,
+        visitCtaHref: strReq,
+    }),
+    toForm: (data) => {
+        const d = data as Partial<ContactsHeroForm>;
+        return {
+            eyebrow: d.eyebrow ?? "",
+            title: d.title ?? "",
+            titleAccent: d.titleAccent ?? "",
+            lead: d.lead ?? "",
+            visitKicker: d.visitKicker ?? "",
+            visitText: d.visitText ?? "",
+            visitCtaLabel: d.visitCtaLabel ?? "",
+            visitCtaHref: d.visitCtaHref ?? "",
+        } satisfies ContactsHeroForm;
+    },
+    toData: (values) => {
+        const v = values as ContactsHeroForm;
+        return {
+            eyebrow: v.eyebrow.trim(),
+            title: v.title.trim(),
+            ...(v.titleAccent.trim()
+                ? { titleAccent: v.titleAccent.trim() }
+                : {}),
+            lead: v.lead.trim(),
+            visitKicker: v.visitKicker.trim(),
+            visitText: v.visitText.trim(),
+            visitCtaLabel: v.visitCtaLabel.trim(),
+            visitCtaHref: v.visitCtaHref.trim(),
+        };
+    },
+    Fields: () => (
+        <>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField name="eyebrow" label="Надзаголовок" />
+                <TextField name="titleAccent" label="Акцент заголовка" />
+            </div>
+            <TextField name="title" label="Заголовок" />
+            <TextareaField name="lead" label="Подзаголовок" rows={3} />
+            <div className="grid gap-3 rounded-lg border border-dashed p-3">
+                <p className="text-sm font-medium text-muted-foreground">
+                    Карточка визита
+                </p>
+                <TextField name="visitKicker" label="Надпись" />
+                <TextareaField name="visitText" label="Текст" rows={3} />
+                <div className="grid gap-3 sm:grid-cols-2">
+                    <TextField name="visitCtaLabel" label="Текст ссылки" />
+                    <TextField name="visitCtaHref" label="Ссылка" />
+                </div>
+            </div>
+        </>
+    ),
+};
+
+// --- locationCards (офисы / производственные площадки) ---
+
+interface LocationCardsForm extends Heading {
+    items: {
+        city: string;
+        title: string;
+        address: string;
+        phoneNumber: string;
+        phoneDisplay: string;
+        note: string;
+    }[];
+}
+
+const locationCards: SectionFormDef = {
+    typeLabel: "Адреса",
+    schema: z.object({
+        ...headingShape,
+        items: z.array(
+            z.object({
+                city: str.optional(),
+                title: strReq,
+                address: strReq,
+                phoneNumber: strReq,
+                phoneDisplay: strReq,
+                note: strReq,
+            })
+        ),
+    }),
+    toForm: (data) => {
+        const d = data as Partial<Heading> & {
+            items?: Partial<LocationCardsForm["items"][number]>[];
+        };
+        return {
+            ...headingToForm(d),
+            items: (d.items ?? []).map((i) => ({
+                city: i.city ?? "",
+                title: i.title ?? "",
+                address: i.address ?? "",
+                phoneNumber: i.phoneNumber ?? "",
+                phoneDisplay: i.phoneDisplay ?? "",
+                note: i.note ?? "",
+            })),
+        } satisfies LocationCardsForm;
+    },
+    toData: (values) => {
+        const v = values as LocationCardsForm;
+        return {
+            ...headingToData(v),
+            items: v.items.map((i) => ({
+                ...(i.city.trim() ? { city: i.city.trim() } : {}),
+                title: i.title.trim(),
+                address: i.address.trim(),
+                phoneNumber: i.phoneNumber.trim(),
+                phoneDisplay: i.phoneDisplay.trim(),
+                note: i.note.trim(),
+            })),
+        };
+    },
+    Fields: () => (
+        <>
+            <HeadingFields />
+            <RepeaterField
+                name="items"
+                label="Карточки"
+                addLabel="Добавить карточку"
+                emptyMessage="Карточек нет"
+                newItem={() =>
+                    row({
+                        city: "",
+                        title: "",
+                        address: "",
+                        phoneNumber: "",
+                        phoneDisplay: "",
+                        note: "",
+                    })
+                }
+                itemLabel={(i) => `Адрес ${i + 1}`}
+                renderItem={(i) => (
+                    <>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            <TextField
+                                name={`items.${i}.city`}
+                                label="Город (необязательно)"
+                            />
+                            <TextField
+                                name={`items.${i}.title`}
+                                label="Название"
+                            />
+                        </div>
+                        <TextField name={`items.${i}.address`} label="Адрес" />
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            <TextField
+                                name={`items.${i}.phoneNumber`}
+                                label="Телефон (для ссылки)"
+                            />
+                            <TextField
+                                name={`items.${i}.phoneDisplay`}
+                                label="Телефон (отображение)"
+                            />
+                        </div>
+                        <TextareaField
+                            name={`items.${i}.note`}
+                            label="Описание"
+                            rows={3}
+                        />
+                    </>
+                )}
+            />
+        </>
+    ),
+};
+
 // Реестр. Типы без формы (добавляются по мере миграции страниц) отсутствуют здесь
 // и подставляют заглушку в редакторе.
 export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
     aboutHero,
     productionHero,
     financeHero,
+    contactsHero,
     valueList,
     cardGrid,
     stringList,
     leadForm,
+    locationCards,
     team,
     timeline,
     ctaLinks,

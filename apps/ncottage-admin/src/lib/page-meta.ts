@@ -37,6 +37,7 @@ export const PAGE_SECTION_LABELS: Record<string, string[]> = {
         "Форма заявки",
     ],
     payment: ["Герой", "Условия", "Этапы", "Способы расчёта", "Форма заявки"],
+    contacts: ["Герой", "Офисы", "Производство", "Форма заявки"],
 };
 
 export function sectionLabel(

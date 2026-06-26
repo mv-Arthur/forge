@@ -4,6 +4,7 @@ import type {
     PageSectionType,
 } from "@/domain/page";
 import { aboutPage } from "./pages/about";
+import { contactsPage } from "./pages/contacts";
 import { creditPage } from "./pages/credit";
 import { maternityCapitalPage } from "./pages/maternity-capital";
 import { mortgagePage } from "./pages/mortgage";
@@ -22,6 +23,7 @@ const FALLBACKS: Record<string, Page> = {
     credit: creditPage,
     "maternity-capital": maternityCapitalPage,
     payment: paymentPage,
+    contacts: contactsPage,
 };
 
 export async function getPage(key: string): Promise<Page | undefined> {
