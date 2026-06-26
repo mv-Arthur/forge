@@ -7,6 +7,7 @@
 // универсальный block-builder: набор типов закрыт, каждая секция — своя форма.
 
 export const PAGE_KEYS = [
+    "home",
     "about",
     "production",
     "mortgage",
@@ -46,6 +47,19 @@ export const PAGE_SECTION_TYPES = [
     "ctaLinks",
     "locationCards",
     "worksMap",
+    // Секции главной страницы (каждая — своя бесшаблонная вёрстка).
+    "homeHero",
+    "projectPicker",
+    "catalogSection",
+    "pullQuote",
+    "worksTeaser",
+    "stepsSection",
+    "geography",
+    "reviewsCarousel",
+    "featuredProject",
+    "guaranteeCards",
+    "faqList",
+    "homeContact",
 ] as const;
 
 export type PageSectionType = (typeof PAGE_SECTION_TYPES)[number];
@@ -227,6 +241,115 @@ export interface WorksMapData {
     ctaLabel: string;
 }
 
+// --- Секции главной страницы ---
+
+// На главной заголовок секции обязателен (в отличие от страниц с секциями).
+export interface HomeSectionHeading {
+    eyebrow: string;
+    title: string;
+    titleAccent?: string;
+    lead?: string;
+}
+
+export interface HomeHeroData {
+    eyebrow: string;
+    title: string;
+    titleAccent?: string;
+    text: string;
+    primaryCta: PageLink;
+    secondaryCta?: PageLink;
+    trust: ValueLabel[];
+    image: { src: string; alt: string };
+}
+
+export interface ProjectPickerData {
+    title: string;
+    text: string;
+    price: { min: number; max: number };
+    area: { min: number; max: number };
+    technologies: ValueLabel[];
+    floors: ValueLabel[];
+    submitLabel: string;
+}
+
+export interface CatalogSectionData extends HomeSectionHeading {
+    tabs: { id: string; label: string; technology: string | null }[];
+    cta: PageLink;
+    customProject: { text: string; linkLabel: string };
+}
+
+export interface PullQuoteData {
+    quote: string;
+    author: string;
+    role?: string;
+}
+
+export interface WorksTeaserData extends HomeSectionHeading {
+    cta: PageLink;
+    visitInvite: { title: string; text: string; ctaLabel: string };
+}
+
+export interface StepsSectionData extends HomeSectionHeading {
+    stages: { num: string; title: string; text: string }[];
+}
+
+export interface GeographyData extends HomeSectionHeading {
+    totalLabel: string;
+    totalValue: string;
+    regions: { label: string; count: number; percent: number; note?: string }[];
+    cta: PageLink;
+}
+
+export interface ReviewsCarouselData extends HomeSectionHeading {
+    showMoreLabel: string;
+    prevLabel: string;
+    nextLabel: string;
+}
+
+export interface FeaturedProjectData {
+    eyebrow: string;
+    overline: string;
+    ctaLabel: string;
+    objectId: string;
+    technology: string;
+}
+
+export type HomeGuaranteeIcon =
+    | "price"
+    | "contract"
+    | "steps"
+    | "eye"
+    | "shield"
+    | "umbrella";
+
+export interface GuaranteeCardsData extends HomeSectionHeading {
+    items: { icon: HomeGuaranteeIcon; title: string; text: string }[];
+}
+
+export interface FaqListData extends HomeSectionHeading {
+    items: { question: string; answer: string }[];
+}
+
+// Адреса/телефоны/email берутся из Setting key="contacts"; здесь — заголовок,
+// часы работы и копирайт формы.
+export interface HomeContactData {
+    eyebrow: string;
+    title: string;
+    titleAccent?: string;
+    lead: string;
+    hours: string;
+    form: {
+        title: string;
+        namePlaceholder: string;
+        phonePlaceholder: string;
+        messagePlaceholder: string;
+        submitLabel: string;
+        privacy: { text: string; linkLabel: string; linkHref: string };
+        successTitle: string;
+        successText: string;
+    };
+}
+
 // Сопоставление типа секции с её данными — для типобезопасного чтения на фронте.
 export interface PageSectionDataMap {
     aboutHero: AboutHeroData;
@@ -248,6 +371,18 @@ export interface PageSectionDataMap {
     ctaLinks: CtaLinksData;
     locationCards: LocationCardsData;
     worksMap: WorksMapData;
+    homeHero: HomeHeroData;
+    projectPicker: ProjectPickerData;
+    catalogSection: CatalogSectionData;
+    pullQuote: PullQuoteData;
+    worksTeaser: WorksTeaserData;
+    stepsSection: StepsSectionData;
+    geography: GeographyData;
+    reviewsCarousel: ReviewsCarouselData;
+    featuredProject: FeaturedProjectData;
+    guaranteeCards: GuaranteeCardsData;
+    faqList: FaqListData;
+    homeContact: HomeContactData;
 }
 
 export interface PageSection {
