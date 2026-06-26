@@ -4,6 +4,10 @@ import type {
     PageSectionType,
 } from "@/domain/page";
 import { aboutPage } from "./pages/about";
+import { creditPage } from "./pages/credit";
+import { maternityCapitalPage } from "./pages/maternity-capital";
+import { mortgagePage } from "./pages/mortgage";
+import { paymentPage } from "./pages/payment";
 import { productionPage } from "./pages/production";
 
 // Страницы с секциями приходят из ncottage-api. ISR-теги pages/page:<key>; при
@@ -14,6 +18,10 @@ const REVALIDATE = 60;
 const FALLBACKS: Record<string, Page> = {
     about: aboutPage,
     production: productionPage,
+    mortgage: mortgagePage,
+    credit: creditPage,
+    "maternity-capital": maternityCapitalPage,
+    payment: paymentPage,
 };
 
 export async function getPage(key: string): Promise<Page | undefined> {

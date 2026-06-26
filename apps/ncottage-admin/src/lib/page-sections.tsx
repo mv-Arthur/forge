@@ -553,14 +553,135 @@ const stringList: SectionFormDef = {
     ),
 };
 
+// --- financeHero ---
+
+interface FinanceHeroForm {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    lead: string;
+    stats: { value: string; label: string }[];
+}
+
+const financeHero: SectionFormDef = {
+    typeLabel: "Герой",
+    schema: z.object({
+        eyebrow: strReq,
+        title: strReq,
+        titleAccent: str.optional(),
+        lead: strReq,
+        stats: z.array(z.object({ value: str, label: str })),
+    }),
+    toForm: (data) => {
+        const d = data as Partial<FinanceHeroForm>;
+        return {
+            eyebrow: d.eyebrow ?? "",
+            title: d.title ?? "",
+            titleAccent: d.titleAccent ?? "",
+            lead: d.lead ?? "",
+            stats: d.stats ?? [],
+        } satisfies FinanceHeroForm;
+    },
+    toData: (values) => {
+        const v = values as FinanceHeroForm;
+        return {
+            eyebrow: v.eyebrow.trim(),
+            title: v.title.trim(),
+            ...(v.titleAccent.trim()
+                ? { titleAccent: v.titleAccent.trim() }
+                : {}),
+            lead: v.lead.trim(),
+            stats: v.stats.map((s) => ({
+                value: s.value.trim(),
+                label: s.label.trim(),
+            })),
+        };
+    },
+    Fields: () => (
+        <>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField name="eyebrow" label="Надзаголовок" />
+                <TextField name="titleAccent" label="Акцент заголовка" />
+            </div>
+            <TextField name="title" label="Заголовок" />
+            <TextareaField name="lead" label="Подзаголовок" rows={3} />
+            <RepeaterField
+                name="stats"
+                label="Показатели"
+                addLabel="Добавить показатель"
+                emptyMessage="Показателей нет"
+                newItem={() => row({ value: "", label: "" })}
+                itemLabel={(i) => `Показатель ${i + 1}`}
+                renderItem={(i) => (
+                    <>
+                        <TextField name={`stats.${i}.value`} label="Значение" />
+                        <TextareaField
+                            name={`stats.${i}.label`}
+                            label="Подпись"
+                            rows={2}
+                        />
+                    </>
+                )}
+            />
+        </>
+    ),
+};
+
+// --- leadForm (заголовок блока заявки; поля формы — статичны в вёрстке) ---
+
+interface LeadFormForm {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    button: string;
+}
+
+const leadForm: SectionFormDef = {
+    typeLabel: "Форма заявки",
+    schema: z.object({
+        eyebrow: str.optional(),
+        title: strReq,
+        lead: strReq,
+        button: strReq,
+    }),
+    toForm: (data) => {
+        const d = data as Partial<LeadFormForm>;
+        return {
+            eyebrow: d.eyebrow ?? "",
+            title: d.title ?? "",
+            lead: d.lead ?? "",
+            button: d.button ?? "",
+        } satisfies LeadFormForm;
+    },
+    toData: (values) => {
+        const v = values as LeadFormForm;
+        return {
+            ...(v.eyebrow.trim() ? { eyebrow: v.eyebrow.trim() } : {}),
+            title: v.title.trim(),
+            lead: v.lead.trim(),
+            button: v.button.trim(),
+        };
+    },
+    Fields: () => (
+        <>
+            <TextField name="eyebrow" label="Надзаголовок (необязательно)" />
+            <TextField name="title" label="Заголовок" />
+            <TextareaField name="lead" label="Описание" rows={3} />
+            <TextField name="button" label="Текст кнопки" />
+        </>
+    ),
+};
+
 // Реестр. Типы без формы (добавляются по мере миграции страниц) отсутствуют здесь
 // и подставляют заглушку в редакторе.
 export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
     aboutHero,
     productionHero,
+    financeHero,
     valueList,
     cardGrid,
     stringList,
+    leadForm,
     team,
     timeline,
     ctaLinks,
