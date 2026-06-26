@@ -1,0 +1,48 @@
+import type {
+    Page,
+    PageSectionDataMap,
+    PageSectionType,
+} from "@/domain/page";
+import { aboutPage } from "./pages/about";
+
+// Страницы с секциями приходят из ncottage-api. ISR-теги pages/page:<key>; при
+// недоступности API отдаём статический fallback (он же — источник сидов).
+const API_URL = process.env.NCOTTAGE_API_URL;
+const REVALIDATE = 60;
+
+const FALLBACKS: Record<string, Page> = {
+    about: aboutPage,
+};
+
+export async function getPage(key: string): Promise<Page | undefined> {
+    const fallback = FALLBACKS[key];
+    if (!API_URL) return fallback;
+    try {
+        const res = await fetch(`${API_URL}/pages/${encodeURIComponent(key)}`, {
+            next: { revalidate: REVALIDATE, tags: ["pages", `page:${key}`] },
+        });
+        if (!res.ok) return fallback;
+        return (await res.json()) as Page;
+    } catch {
+        return fallback;
+    }
+}
+
+// Типизированный доступ к первой секции заданного типа.
+export function section<T extends PageSectionType>(
+    page: Page | undefined,
+    type: T
+): PageSectionDataMap[T] | undefined {
+    const found = page?.sections.find((s) => s.type === type);
+    return found ? (found.data as PageSectionDataMap[T]) : undefined;
+}
+
+// Все секции заданного типа (для страниц, где тип повторяется).
+export function sectionsOf<T extends PageSectionType>(
+    page: Page | undefined,
+    type: T
+): PageSectionDataMap[T][] {
+    return (page?.sections ?? [])
+        .filter((s) => s.type === type)
+        .map((s) => s.data as PageSectionDataMap[T]);
+}
