@@ -70,6 +70,9 @@ model Project {
     specsWallMaterial String
     specsBuildTime    String
 
+    seoTitle       String?
+    seoDescription String?
+
     images     ProjectImage[]
     floorPlans ProjectFloorPlan[]
     packages   ProjectPackage[]
@@ -218,6 +221,8 @@ model Promo {
     terms        String[]
     includes     String[]
     details      String[]
+    seoTitle       String?
+    seoDescription String?
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
 }
@@ -331,6 +336,8 @@ model Article {
     sections     Json
     checklist    String[]
     relatedSlugs String[]
+    seoTitle       String?
+    seoDescription String?
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
 
@@ -372,6 +379,8 @@ model Service {
     relatedSlugs   String[]
     scenarioSlugs  String[]
     seoContent     Json
+    seoTitle       String?
+    seoDescription String?
     createdAt      DateTime @default(now())
     updatedAt      DateTime @updatedAt
 

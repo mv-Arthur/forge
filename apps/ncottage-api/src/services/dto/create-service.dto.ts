@@ -107,4 +107,7 @@ export class CreateServiceDto implements Service {
     @ValidateNested()
     @Type(() => SeoContentDto)
     seoContent!: SeoContentDto;
+
+    @IsOptional() @IsString() seoTitle?: string;
+    @IsOptional() @IsString() seoDescription?: string;
 }

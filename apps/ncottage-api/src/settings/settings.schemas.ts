@@ -110,10 +110,35 @@ const servicesUi = z.object({
     ),
 });
 
+const seoIndexMeta = z.object({
+    title: z.string(),
+    description: z.string(),
+});
+const seo = z.object({
+    baseUrl: z.string(),
+    siteName: z.string(),
+    defaultTitle: z.string(),
+    defaultDescription: z.string(),
+    ogImageUrl: z.string(),
+    indexes: z.object({
+        blog: seoIndexMeta,
+        services: seoIndexMeta,
+        projects: seoIndexMeta,
+        promos: seoIndexMeta,
+        reviews: seoIndexMeta,
+        faq: seoIndexMeta,
+        certificates: seoIndexMeta,
+        partners: seoIndexMeta,
+        vacancies: seoIndexMeta,
+        "project-selections": seoIndexMeta,
+    }),
+});
+
 export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {
     nav: navigation,
     footer,
     contacts,
     blog_page: blogPage,
     services_ui: servicesUi,
+    seo,
 };

@@ -46,6 +46,8 @@ function toDomain(row: ServiceRow): Service {
         relatedSlugs: row.relatedSlugs,
         scenarioSlugs: row.scenarioSlugs,
         seoContent: row.seoContent as unknown as ServiceSeoContent,
+        ...(row.seoTitle ? { seoTitle: row.seoTitle } : {}),
+        ...(row.seoDescription ? { seoDescription: row.seoDescription } : {}),
     };
 }
 
@@ -81,6 +83,8 @@ function toData(dto: CreateServiceDto): Prisma.ServiceCreateInput {
         relatedSlugs: dto.relatedSlugs,
         scenarioSlugs: dto.scenarioSlugs,
         seoContent: dto.seoContent as unknown as Prisma.InputJsonValue,
+        seoTitle: dto.seoTitle ?? null,
+        seoDescription: dto.seoDescription ?? null,
     };
 }
 
@@ -171,6 +175,10 @@ export class ServicesService {
         if (dto.seoContent !== undefined) {
             data.seoContent =
                 dto.seoContent as unknown as Prisma.InputJsonValue;
+        }
+        if (dto.seoTitle !== undefined) data.seoTitle = dto.seoTitle ?? null;
+        if (dto.seoDescription !== undefined) {
+            data.seoDescription = dto.seoDescription ?? null;
         }
 
         const row = await this.prisma.service.update({

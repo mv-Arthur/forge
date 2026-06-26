@@ -45,4 +45,7 @@ export class CreateArticleDto implements Article {
     @IsArray()
     @IsString({ each: true })
     relatedSlugs!: string[];
+
+    @IsOptional() @IsString() seoTitle?: string;
+    @IsOptional() @IsString() seoDescription?: string;
 }

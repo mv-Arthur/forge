@@ -68,6 +68,8 @@ export interface Service {
     relatedSlugs: string[];
     scenarioSlugs: string[];
     seoContent: ServiceSeoContent;
+    seoTitle?: string;
+    seoDescription?: string;
 }
 
 // Копия «персонального маршрута» сценария (раньше — SCENARIO_PLAN_PROFILES по

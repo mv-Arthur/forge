@@ -19,4 +19,6 @@ export interface Article {
     sections: ArticleSection[];
     checklist: string[];
     relatedSlugs: string[];
+    seoTitle?: string;
+    seoDescription?: string;
 }

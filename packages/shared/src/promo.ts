@@ -14,4 +14,6 @@ export interface Promo {
     includes: string[];
     details: string[];
     projectsHref: string;
+    seoTitle?: string;
+    seoDescription?: string;
 }

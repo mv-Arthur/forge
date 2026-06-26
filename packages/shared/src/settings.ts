@@ -96,12 +96,44 @@ export interface BlogPage {
     };
 }
 
+// Индексные (листинговые) страницы, чьи title/description управляются из CMS
+// через настройку seo (у них нет своей сущности Page или коллекции-владельца).
+export const SEO_INDEX_KEYS = [
+    "blog",
+    "services",
+    "projects",
+    "promos",
+    "reviews",
+    "faq",
+    "certificates",
+    "partners",
+    "vacancies",
+    "project-selections",
+] as const;
+export type SeoIndexKey = (typeof SEO_INDEX_KEYS)[number];
+
+export interface SeoIndexMeta {
+    title: string;
+    description: string;
+}
+
+// Сквозные SEO-настройки сайта: дефолты (layout), индексные страницы и Open Graph.
+export interface Seo {
+    baseUrl: string;
+    siteName: string;
+    defaultTitle: string;
+    defaultDescription: string;
+    ogImageUrl: string;
+    indexes: Record<SeoIndexKey, SeoIndexMeta>;
+}
+
 export const SETTING_KEYS = [
     "nav",
     "footer",
     "contacts",
     "blog_page",
     "services_ui",
+    "seo",
 ] as const;
 export type SettingKey = (typeof SETTING_KEYS)[number];
 
@@ -111,6 +143,7 @@ export interface SettingValues {
     contacts: Contacts;
     blog_page: BlogPage;
     services_ui: ServicesUi;
+    seo: Seo;
 }
 
 export interface Setting<K extends SettingKey = SettingKey> {

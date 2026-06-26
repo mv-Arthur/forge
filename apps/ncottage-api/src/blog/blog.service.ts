@@ -19,6 +19,8 @@ function toDomain(row: ArticleRow): Article {
         sections: row.sections as unknown as ArticleSection[],
         checklist: row.checklist,
         relatedSlugs: row.relatedSlugs,
+        ...(row.seoTitle ? { seoTitle: row.seoTitle } : {}),
+        ...(row.seoDescription ? { seoDescription: row.seoDescription } : {}),
     };
 }
 
@@ -35,6 +37,8 @@ function toData(dto: CreateArticleDto): Prisma.ArticleCreateInput {
         sections: dto.sections as unknown as Prisma.InputJsonValue,
         checklist: dto.checklist,
         relatedSlugs: dto.relatedSlugs,
+        seoTitle: dto.seoTitle ?? null,
+        seoDescription: dto.seoDescription ?? null,
     };
 }
 
@@ -86,6 +90,10 @@ export class BlogService {
         if (dto.checklist !== undefined) data.checklist = dto.checklist;
         if (dto.relatedSlugs !== undefined) {
             data.relatedSlugs = dto.relatedSlugs;
+        }
+        if (dto.seoTitle !== undefined) data.seoTitle = dto.seoTitle ?? null;
+        if (dto.seoDescription !== undefined) {
+            data.seoDescription = dto.seoDescription ?? null;
         }
 
         const row = await this.prisma.article.update({

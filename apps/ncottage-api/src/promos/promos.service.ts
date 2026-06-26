@@ -20,6 +20,8 @@ function toDomain(row: PromoRow): Promo {
         includes: row.includes,
         details: row.details,
         projectsHref: row.projectsHref,
+        ...(row.seoTitle ? { seoTitle: row.seoTitle } : {}),
+        ...(row.seoDescription ? { seoDescription: row.seoDescription } : {}),
     };
 }
 

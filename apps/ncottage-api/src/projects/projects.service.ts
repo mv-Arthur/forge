@@ -84,6 +84,8 @@ function toDomain(row: ProjectWithRelations): Project {
             : undefined,
         relatedObjectIds: row.relations.map((r) => r.relatedSlug),
         pdfUrl: row.pdfUrl ?? undefined,
+        seoTitle: row.seoTitle || undefined,
+        seoDescription: row.seoDescription || undefined,
     };
 }
 
@@ -195,6 +197,8 @@ export class ProjectsService {
                 featured: dto.featured,
                 description: dto.description,
                 pdfUrl: dto.pdfUrl ?? null,
+                seoTitle: dto.seoTitle ?? null,
+                seoDescription: dto.seoDescription ?? null,
                 features: dto.features,
                 specsDimensions: dto.specs.dimensions,
                 specsRoofType: dto.specs.roofType,
@@ -233,6 +237,10 @@ export class ProjectsService {
         if (dto.featured !== undefined) data.featured = dto.featured;
         if (dto.description !== undefined) data.description = dto.description;
         if (dto.pdfUrl !== undefined) data.pdfUrl = dto.pdfUrl ?? null;
+        if (dto.seoTitle !== undefined) data.seoTitle = dto.seoTitle ?? null;
+        if (dto.seoDescription !== undefined) {
+            data.seoDescription = dto.seoDescription ?? null;
+        }
         if (dto.features !== undefined) data.features = dto.features;
         if (dto.specs !== undefined) {
             data.specsDimensions = dto.specs.dimensions;

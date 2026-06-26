@@ -126,4 +126,7 @@ export class CreateProjectDto implements Project {
     @IsOptional()
     @IsString()
     pdfUrl?: string;
+
+    @IsOptional() @IsString() seoTitle?: string;
+    @IsOptional() @IsString() seoDescription?: string;
 }

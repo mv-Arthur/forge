@@ -1,4 +1,4 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsOptional, IsString } from "class-validator";
 import type { Promo } from "@forge/shared";
 
 export class CreatePromoDto implements Promo {
@@ -23,4 +23,7 @@ export class CreatePromoDto implements Promo {
     @IsArray()
     @IsString({ each: true })
     details!: string[];
+
+    @IsOptional() @IsString() seoTitle?: string;
+    @IsOptional() @IsString() seoDescription?: string;
 }

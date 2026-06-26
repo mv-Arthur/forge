@@ -94,6 +94,8 @@ export interface Project {
     options?: ProjectOption[];
     relatedObjectIds?: string[];
     pdfUrl?: string;
+    seoTitle?: string;
+    seoDescription?: string;
 }
 
 export interface BuiltObject {

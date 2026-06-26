@@ -28,7 +28,7 @@ export type {
 export type { Media } from "./media.js";
 export { ROLES } from "./admin.js";
 export type { Role, AdminUser } from "./admin.js";
-export { SETTING_KEYS } from "./settings.js";
+export { SETTING_KEYS, SEO_INDEX_KEYS } from "./settings.js";
 export type {
     SettingKey,
     Setting,
@@ -44,6 +44,9 @@ export type {
     ContactAddress,
     ContactSocial,
     BlogPage,
+    Seo,
+    SeoIndexKey,
+    SeoIndexMeta,
 } from "./settings.js";
 export type { Article, ArticleSection } from "./blog.js";
 export type {
