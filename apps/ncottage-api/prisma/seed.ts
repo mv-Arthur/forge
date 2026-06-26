@@ -12,6 +12,8 @@ import type {
     ProjectSelection,
     Promo,
     Review,
+    Service,
+    ServiceScenario,
     Vacancy,
 } from "@forge/shared";
 
@@ -245,6 +247,92 @@ async function seedVacancies() {
     console.log(`Seeded ${vacancies.length} vacancies`);
 }
 
+async function seedServices() {
+    const file = resolve(__dirname, "seed-data/services.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as Service[];
+    for (const item of items) {
+        const data = {
+            slug: item.slug,
+            order: item.order,
+            title: item.title,
+            shortTitle: item.shortTitle,
+            description: item.description,
+            sourceTitle: item.sourceTitle,
+            eyebrow: item.eyebrow,
+            lead: item.lead,
+            summary: item.summary,
+            image: item.image,
+            cta: item.cta,
+            highlights: item.highlights,
+            scopes: item.scopes,
+            stages: item.stages,
+            advantages: item.advantages,
+            fitFor: item.fitFor,
+            includes: item.includes,
+            notIncluded: item.notIncluded,
+            priceFactors: item.priceFactors,
+            deliverables: item.deliverables,
+            quickFacts: item.quickFacts,
+            detailPain: item.detailPain ?? null,
+            detailPromise: item.detailPromise ?? null,
+            detailVariants: item.detailVariants as object,
+            detailChecks: item.detailChecks,
+            detailNextStep: item.detailNextStep ?? null,
+            detailCta: item.detailCta ?? null,
+            relatedSlugs: item.relatedSlugs,
+            scenarioSlugs: item.scenarioSlugs,
+            seoContent: item.seoContent as object,
+        };
+        await prisma.service.upsert({
+            where: { slug: item.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} services`);
+}
+
+async function seedServiceScenarios() {
+    const file = resolve(__dirname, "seed-data/service-scenarios.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as ServiceScenario[];
+    for (const item of items) {
+        const data = {
+            slug: item.slug,
+            order: item.order,
+            title: item.title,
+            description: item.description,
+            questionLabel: item.questionLabel,
+            pain: item.pain ?? null,
+            promise: item.promise ?? null,
+            outcome: item.outcome ?? null,
+            cta: item.cta ?? null,
+            nextStep: item.nextStep,
+            serviceSlugs: item.serviceSlugs,
+            primaryServiceSlugs: item.primaryServiceSlugs,
+            nextServiceSlugs: item.nextServiceSlugs,
+            optionalServiceSlugs: item.optionalServiceSlugs,
+            planTitle: item.plan.title,
+            planResultLabel: item.plan.resultLabel,
+            planVisualTitle: item.plan.visualTitle,
+            planVisualCaption: item.plan.visualCaption,
+            planImage: item.plan.image,
+            planStartLabel: item.plan.startLabel,
+            planStartText: item.plan.startText ?? null,
+            planNextLabel: item.plan.nextLabel,
+            planNextText: item.plan.nextText,
+            planOptionalLabel: item.plan.optionalLabel,
+            planOptionalText: item.plan.optionalText,
+            planCtaText: item.plan.ctaText,
+        };
+        await prisma.serviceScenario.upsert({
+            where: { slug: item.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} service scenarios`);
+}
+
 async function seedSettings() {
     const file = resolve(__dirname, "seed-data/settings.json");
     const settings = JSON.parse(readFileSync(file, "utf-8")) as Record<
@@ -351,6 +439,8 @@ async function main() {
     await seedCertificates();
     await seedFaq();
     await seedVacancies();
+    await seedServices();
+    await seedServiceScenarios();
     await seedSettings();
     await seedPages();
     await seedAdmin();

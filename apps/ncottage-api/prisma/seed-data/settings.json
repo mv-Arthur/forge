@@ -5,14 +5,26 @@
                 "label": "Проекты",
                 "href": "/projects",
                 "children": [
-                    { "label": "Все проекты", "href": "/projects/all" },
+                    {
+                        "label": "Все проекты",
+                        "href": "/projects/all"
+                    },
                     {
                         "label": "Дома из газобетона",
                         "href": "/projects/gas-concrete"
                     },
-                    { "label": "Кирпичные дома", "href": "/projects/brick" },
-                    { "label": "Каркасные дома", "href": "/projects/frame" },
-                    { "label": "Дома из СИП-панелей", "href": "/projects/sip" },
+                    {
+                        "label": "Кирпичные дома",
+                        "href": "/projects/brick"
+                    },
+                    {
+                        "label": "Каркасные дома",
+                        "href": "/projects/frame"
+                    },
+                    {
+                        "label": "Дома из СИП-панелей",
+                        "href": "/projects/sip"
+                    },
                     {
                         "label": "Фахверковые дома",
                         "href": "/projects/fachwerk"
@@ -23,12 +35,18 @@
                 "label": "Услуги",
                 "href": "/services",
                 "children": [
-                    { "label": "Проектирование", "href": "/services/design" },
+                    {
+                        "label": "Проектирование",
+                        "href": "/services/design"
+                    },
                     {
                         "label": "Строительство домов",
                         "href": "/services/construction"
                     },
-                    { "label": "Фундаменты", "href": "/services/foundations" },
+                    {
+                        "label": "Фундаменты",
+                        "href": "/services/foundations"
+                    },
                     {
                         "label": "Инженерные сети",
                         "href": "/services/engineering"
@@ -55,38 +73,99 @@
                     }
                 ]
             },
-            { "label": "Наши работы", "href": "/works" },
+            {
+                "label": "Наши работы",
+                "href": "/works"
+            },
             {
                 "label": "Клиентам",
                 "href": "/about",
                 "children": [
-                    { "label": "О компании", "href": "/about" },
-                    { "label": "Гарантия", "href": "/guarantee" },
-                    { "label": "Отзывы", "href": "/reviews" },
-                    { "label": "Вопрос-ответ", "href": "/faq" },
-                    { "label": "Ипотека", "href": "/mortgage" },
-                    { "label": "Оплата", "href": "/payment" }
+                    {
+                        "label": "О компании",
+                        "href": "/about"
+                    },
+                    {
+                        "label": "Гарантия",
+                        "href": "/guarantee"
+                    },
+                    {
+                        "label": "Отзывы",
+                        "href": "/reviews"
+                    },
+                    {
+                        "label": "Вопрос-ответ",
+                        "href": "/faq"
+                    },
+                    {
+                        "label": "Ипотека",
+                        "href": "/mortgage"
+                    },
+                    {
+                        "label": "Оплата",
+                        "href": "/payment"
+                    }
                 ]
             },
-            { "label": "Акции", "href": "/promos", "badge": "sale" },
-            { "label": "Контакты", "href": "/contacts" }
+            {
+                "label": "Акции",
+                "href": "/promos",
+                "badge": "sale"
+            },
+            {
+                "label": "Контакты",
+                "href": "/contacts"
+            }
         ]
     },
     "footer": {
         "tagline": "Загородные дома под ключ в Санкт-Петербурге и Москве с 2007 года.",
         "navTitle": "Разделы",
         "navItems": [
-            { "label": "Проекты", "href": "/projects" },
-            { "label": "Услуги", "href": "/services" },
-            { "label": "Наши работы", "href": "/works" },
-            { "label": "О компании", "href": "/about" },
-            { "label": "Гарантия", "href": "/guarantee" },
-            { "label": "Отзывы", "href": "/reviews" },
-            { "label": "Вопрос-ответ", "href": "/faq" },
-            { "label": "Ипотека", "href": "/mortgage" },
-            { "label": "Акции", "href": "/promos" },
-            { "label": "Контакты", "href": "/contacts" },
-            { "label": "Реквизиты", "href": "/requisites" }
+            {
+                "label": "Проекты",
+                "href": "/projects"
+            },
+            {
+                "label": "Услуги",
+                "href": "/services"
+            },
+            {
+                "label": "Наши работы",
+                "href": "/works"
+            },
+            {
+                "label": "О компании",
+                "href": "/about"
+            },
+            {
+                "label": "Гарантия",
+                "href": "/guarantee"
+            },
+            {
+                "label": "Отзывы",
+                "href": "/reviews"
+            },
+            {
+                "label": "Вопрос-ответ",
+                "href": "/faq"
+            },
+            {
+                "label": "Ипотека",
+                "href": "/mortgage"
+            },
+            {
+                "label": "Акции",
+                "href": "/promos"
+            },
+            {
+                "label": "Контакты",
+                "href": "/contacts"
+            },
+            {
+                "label": "Реквизиты",
+                "href": "/requisites"
+            }
         ],
         "contactsTitle": "Контакты",
         "email": "info@ncottage.ru",
@@ -120,7 +199,10 @@
                 "label": "Обработка персональных данных",
                 "href": "/personal-data"
             },
-            { "label": "Карта сайта", "href": "/sitemap" }
+            {
+                "label": "Карта сайта",
+                "href": "/sitemap"
+            }
         ],
         "copyright": "© 2007–2026 Новый Коттедж",
         "disclaimer": "Информация на сайте носит справочный характер и не является публичной офертой (ст. 437 ГК РФ).",
@@ -165,7 +247,11 @@
             }
         ],
         "social": [
-            { "key": "vk", "label": "VK", "url": "https://vk.com/ncottage" },
+            {
+                "key": "vk",
+                "label": "VK",
+                "url": "https://vk.com/ncottage"
+            },
             {
                 "key": "telegram",
                 "label": "Telegram",
@@ -214,5 +300,96 @@
             "buttonLabel": "Получить консультацию",
             "buttonHref": "/contacts"
         }
+    },
+    "services_ui": {
+        "quiz": {
+            "objectOptions": [
+                "Дом для жизни",
+                "Баня или гостевой дом",
+                "Участок без проекта",
+                "Коммерческий объект"
+            ],
+            "timingOptions": [
+                "В ближайший месяц",
+                "Через 1–3 месяца",
+                "После проекта",
+                "Пока оцениваю бюджет"
+            ]
+        },
+        "routeSteps": [
+            {
+                "title": "Участок",
+                "description": "Проверяем подъезд, рельеф, коммуникации, ограничения и необходимость подготовки территории.",
+                "serviceSlug": null
+            },
+            {
+                "title": "Проект",
+                "description": "Фиксируем планировку, архитектуру, конструктив, инженерные разделы и сметные ориентиры.",
+                "serviceSlug": "design"
+            },
+            {
+                "title": "Фундамент",
+                "description": "Подбираем основание под грунт, нагрузки, уровень воды и будущую технологию строительства.",
+                "serviceSlug": "foundations"
+            },
+            {
+                "title": "Коробка",
+                "description": "Строим несущие конструкции, перекрытия, кровлю и тёплый контур в выбранной комплектации.",
+                "serviceSlug": "construction"
+            },
+            {
+                "title": "Инженерия",
+                "description": "Монтируем водоснабжение, канализацию, отопление, электрику и вентиляцию до чистовой отделки.",
+                "serviceSlug": "engineering"
+            },
+            {
+                "title": "Отделка",
+                "description": "Готовим поверхности, монтируем покрытия, фасадные решения и видимые элементы инженерии.",
+                "serviceSlug": "finishing"
+            },
+            {
+                "title": "Благоустройство",
+                "description": "Завершаем участок дорожками, освещением, посадками, дренажом и зонами отдыха.",
+                "serviceSlug": "landscaping"
+            }
+        ],
+        "additionalLinks": [
+            {
+                "title": "Строительство каркасных домов",
+                "parentSlug": "construction"
+            },
+            {
+                "title": "Строительство домов из СИП",
+                "parentSlug": "construction"
+            },
+            {
+                "title": "Строительство домов из кирпича",
+                "parentSlug": "construction"
+            },
+            {
+                "title": "Строительство домов из газобетона",
+                "parentSlug": "construction"
+            },
+            {
+                "title": "Водоотведение и водоснабжение",
+                "parentSlug": "engineering"
+            },
+            {
+                "title": "Монтаж электроснабжения частного дома",
+                "parentSlug": "engineering"
+            },
+            {
+                "title": "Канализация",
+                "parentSlug": "engineering"
+            },
+            {
+                "title": "Монтаж систем отопления",
+                "parentSlug": "engineering"
+            },
+            {
+                "title": "Монтаж вентиляции",
+                "parentSlug": "engineering"
+            }
+        ]
     }
 }

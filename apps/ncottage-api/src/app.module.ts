@@ -18,6 +18,8 @@ import { ProjectsModule } from "./projects/projects.module.js";
 import { PromosModule } from "./promos/promos.module.js";
 import { RevalidateModule } from "./revalidate/revalidate.module.js";
 import { ReviewsModule } from "./reviews/reviews.module.js";
+import { ServiceScenariosModule } from "./service-scenarios/service-scenarios.module.js";
+import { ServicesModule } from "./services/services.module.js";
 import { SettingsModule } from "./settings/settings.module.js";
 import { VacanciesModule } from "./vacancies/vacancies.module.js";
 
@@ -43,6 +45,8 @@ import { VacanciesModule } from "./vacancies/vacancies.module.js";
         ProjectsModule,
         PromosModule,
         ReviewsModule,
+        ServicesModule,
+        ServiceScenariosModule,
         SettingsModule,
         VacanciesModule,
     ],

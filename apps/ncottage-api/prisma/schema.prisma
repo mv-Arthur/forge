@@ -337,6 +337,83 @@ model Article {
     @@index([category])
 }
 
+// Услуги (коллекция, 9). Простые массивы — колонки String[]; вложенные структуры
+// (detailVariants, seoContent) — структурированный JSON с zod-валидацией на входе.
+// order — явный порядок вывода (re-seed не должен ломать порядок).
+model Service {
+    id             String   @id @default(cuid())
+    slug           String   @unique
+    order          Int
+    title          String
+    shortTitle     String
+    description    String
+    sourceTitle    String
+    eyebrow        String
+    lead           String
+    summary        String
+    image          String
+    cta            String
+    highlights     String[]
+    scopes         String[]
+    stages         String[]
+    advantages     String[]
+    fitFor         String[]
+    includes       String[]
+    notIncluded    String[]
+    priceFactors   String[]
+    deliverables   String[]
+    quickFacts     String[]
+    detailPain     String?
+    detailPromise  String?
+    detailVariants Json
+    detailChecks   String[]
+    detailNextStep String?
+    detailCta      String?
+    relatedSlugs   String[]
+    scenarioSlugs  String[]
+    seoContent     Json
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    @@index([order])
+}
+
+// Сценарии навигатора услуг (коллекция, 6). Слаги услуг — мягкие ссылки String[].
+// plan*-поля — влитая копия «персонального маршрута» (бывш. ScenarioPlanProfile).
+model ServiceScenario {
+    id                   String   @id @default(cuid())
+    slug                 String   @unique
+    order                Int
+    title                String
+    description          String
+    questionLabel        String
+    pain                 String?
+    promise              String?
+    outcome              String?
+    cta                  String?
+    nextStep             String
+    serviceSlugs         String[]
+    primaryServiceSlugs  String[]
+    nextServiceSlugs     String[]
+    optionalServiceSlugs String[]
+    planTitle            String
+    planResultLabel      String
+    planVisualTitle      String
+    planVisualCaption    String
+    planImage            String
+    planStartLabel       String
+    planStartText        String?
+    planNextLabel        String
+    planNextText         String
+    planOptionalLabel    String
+    planOptionalText     String
+    planCtaText          String
+    createdAt            DateTime @default(now())
+    updatedAt            DateTime @updatedAt
+
+    @@index([order])
+}
+
 model Admin {
     id           String   @id @default(cuid())
     email        String   @unique

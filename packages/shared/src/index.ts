@@ -46,6 +46,20 @@ export type {
     BlogPage,
 } from "./settings.js";
 export type { Article, ArticleSection } from "./blog.js";
+export type {
+    Service,
+    ServiceDetailVariant,
+    ServiceTimingItem,
+    ServiceExample,
+    ServiceFaqItem,
+    ServiceSeoContent,
+    ServiceScenario,
+    ServiceScenarioPlan,
+    ServicesUi,
+    ServicesUiQuiz,
+    ServicesUiRouteStep,
+    ServicesUiAdditionalLink,
+} from "./service.js";
 export type { Promo } from "./promo.js";
 export type { Vacancy } from "./vacancy.js";
 export type { FaqItem } from "./faq.js";

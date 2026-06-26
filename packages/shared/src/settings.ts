@@ -1,6 +1,8 @@
 // Контент-настройки сайта (singletons). Хранятся в Setting по ключу,
 // редактируются типизированными формами в админке, читаются публичным www.
 
+import type { ServicesUi } from "./service.js";
+
 export interface NavSubItem {
     label: string;
     href: string;
@@ -94,7 +96,13 @@ export interface BlogPage {
     };
 }
 
-export const SETTING_KEYS = ["nav", "footer", "contacts", "blog_page"] as const;
+export const SETTING_KEYS = [
+    "nav",
+    "footer",
+    "contacts",
+    "blog_page",
+    "services_ui",
+] as const;
 export type SettingKey = (typeof SETTING_KEYS)[number];
 
 export interface SettingValues {
@@ -102,6 +110,7 @@ export interface SettingValues {
     footer: Footer;
     contacts: Contacts;
     blog_page: BlogPage;
+    services_ui: ServicesUi;
 }
 
 export interface Setting<K extends SettingKey = SettingKey> {

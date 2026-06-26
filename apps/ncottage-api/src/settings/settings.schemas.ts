@@ -90,9 +90,30 @@ const blogPage = z.object({
     }),
 });
 
+const servicesUi = z.object({
+    quiz: z.object({
+        objectOptions: z.array(z.string()),
+        timingOptions: z.array(z.string()),
+    }),
+    routeSteps: z.array(
+        z.object({
+            title: z.string(),
+            description: z.string(),
+            serviceSlug: z.string().nullable(),
+        })
+    ),
+    additionalLinks: z.array(
+        z.object({
+            title: z.string(),
+            parentSlug: z.string(),
+        })
+    ),
+});
+
 export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {
     nav: navigation,
     footer,
     contacts,
     blog_page: blogPage,
+    services_ui: servicesUi,
 };
