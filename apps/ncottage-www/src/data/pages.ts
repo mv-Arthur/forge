@@ -7,6 +7,7 @@ import { aboutPage } from "./pages/about";
 import { contactsPage } from "./pages/contacts";
 import { creditPage } from "./pages/credit";
 import { guaranteePage } from "./pages/guarantee";
+import { homePage } from "./pages/home";
 import { maternityCapitalPage } from "./pages/maternity-capital";
 import { mortgagePage } from "./pages/mortgage";
 import { offerPage } from "./pages/offer";
@@ -23,6 +24,7 @@ const API_URL = process.env.NCOTTAGE_API_URL;
 const REVALIDATE = 60;
 
 const FALLBACKS: Record<string, Page> = {
+    home: homePage,
     about: aboutPage,
     production: productionPage,
     mortgage: mortgagePage,

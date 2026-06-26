@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { OUR_WORKS_SECTION } from "@/content/home";
+import { OUR_WORKS_SECTION } from "@/data/pages/home";
 import builtObjectsData from "@/data/built-objects.json";
 import type { BuiltObject } from "@/domain/project";
 import { OurWorksSection } from "./OurWorksSection";
