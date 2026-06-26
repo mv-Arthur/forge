@@ -6,6 +6,7 @@ import type {
 import { aboutPage } from "./pages/about";
 import { contactsPage } from "./pages/contacts";
 import { creditPage } from "./pages/credit";
+import { guaranteePage } from "./pages/guarantee";
 import { maternityCapitalPage } from "./pages/maternity-capital";
 import { mortgagePage } from "./pages/mortgage";
 import { paymentPage } from "./pages/payment";
@@ -26,6 +27,7 @@ const FALLBACKS: Record<string, Page> = {
     payment: paymentPage,
     contacts: contactsPage,
     works: worksPage,
+    guarantee: guaranteePage,
 };
 
 export async function getPage(key: string): Promise<Page | undefined> {

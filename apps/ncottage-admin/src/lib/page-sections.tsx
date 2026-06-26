@@ -1007,6 +1007,109 @@ const worksMap: SectionFormDef = {
     ),
 };
 
+// --- guaranteeHero ---
+
+interface GuaranteeHeroForm {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    lead: string;
+    ctaText: string;
+    ctaAnchor: string;
+    secondaryLinkText: string;
+    secondaryLinkHref: string;
+    summaryNumber: string;
+    summaryLabel: string;
+    summaryText: string;
+}
+
+const guaranteeHero: SectionFormDef = {
+    typeLabel: "Герой",
+    schema: z.object({
+        eyebrow: strReq,
+        title: strReq,
+        titleAccent: str.optional(),
+        lead: strReq,
+        ctaText: strReq,
+        ctaAnchor: strReq,
+        secondaryLinkText: strReq,
+        secondaryLinkHref: strReq,
+        summaryNumber: strReq,
+        summaryLabel: strReq,
+        summaryText: strReq,
+    }),
+    toForm: (data) => {
+        const d = data as Partial<GuaranteeHeroForm>;
+        return {
+            eyebrow: d.eyebrow ?? "",
+            title: d.title ?? "",
+            titleAccent: d.titleAccent ?? "",
+            lead: d.lead ?? "",
+            ctaText: d.ctaText ?? "",
+            ctaAnchor: d.ctaAnchor ?? "",
+            secondaryLinkText: d.secondaryLinkText ?? "",
+            secondaryLinkHref: d.secondaryLinkHref ?? "",
+            summaryNumber: d.summaryNumber ?? "",
+            summaryLabel: d.summaryLabel ?? "",
+            summaryText: d.summaryText ?? "",
+        } satisfies GuaranteeHeroForm;
+    },
+    toData: (values) => {
+        const v = values as GuaranteeHeroForm;
+        return {
+            eyebrow: v.eyebrow.trim(),
+            title: v.title.trim(),
+            ...(v.titleAccent.trim()
+                ? { titleAccent: v.titleAccent.trim() }
+                : {}),
+            lead: v.lead.trim(),
+            ctaText: v.ctaText.trim(),
+            ctaAnchor: v.ctaAnchor.trim(),
+            secondaryLinkText: v.secondaryLinkText.trim(),
+            secondaryLinkHref: v.secondaryLinkHref.trim(),
+            summaryNumber: v.summaryNumber.trim(),
+            summaryLabel: v.summaryLabel.trim(),
+            summaryText: v.summaryText.trim(),
+        };
+    },
+    Fields: () => (
+        <>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField name="eyebrow" label="Надзаголовок" />
+                <TextField name="titleAccent" label="Акцент заголовка" />
+            </div>
+            <TextField name="title" label="Заголовок" />
+            <TextareaField name="lead" label="Подзаголовок" rows={3} />
+            <div className="grid gap-3 rounded-lg border border-dashed p-3">
+                <p className="text-sm font-medium text-muted-foreground">
+                    Кнопки
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                    <TextField name="ctaText" label="Основная кнопка" />
+                    <TextField name="ctaAnchor" label="Якорь / ссылка" />
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                    <TextField
+                        name="secondaryLinkText"
+                        label="Вторая ссылка"
+                    />
+                    <TextField name="secondaryLinkHref" label="Адрес ссылки" />
+                </div>
+            </div>
+            <div className="grid gap-3 rounded-lg border border-dashed p-3">
+                <p className="text-sm font-medium text-muted-foreground">
+                    Карточка-итог
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                    <TextField name="summaryNumber" label="Число" />
+                    <TextField name="summaryLabel" label="Подпись" />
+                </div>
+                <TextareaField name="summaryText" label="Текст" rows={2} />
+            </div>
+        </>
+    ),
+};
+
 // Реестр. Типы без формы (добавляются по мере миграции страниц) отсутствуют здесь
 // и подставляют заглушку в редакторе.
 export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
@@ -1015,6 +1118,7 @@ export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
     financeHero,
     contactsHero,
     worksHero,
+    guaranteeHero,
     sectionHeading,
     valueList,
     cardGrid,
