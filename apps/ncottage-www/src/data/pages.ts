@@ -9,8 +9,12 @@ import { creditPage } from "./pages/credit";
 import { guaranteePage } from "./pages/guarantee";
 import { maternityCapitalPage } from "./pages/maternity-capital";
 import { mortgagePage } from "./pages/mortgage";
+import { offerPage } from "./pages/offer";
 import { paymentPage } from "./pages/payment";
+import { personalDataPage } from "./pages/personal-data";
+import { privacyPage } from "./pages/privacy";
 import { productionPage } from "./pages/production";
+import { requisitesPage } from "./pages/requisites";
 import { worksPage } from "./pages/works";
 
 // Страницы с секциями приходят из ncottage-api. ISR-теги pages/page:<key>; при
@@ -28,6 +32,10 @@ const FALLBACKS: Record<string, Page> = {
     contacts: contactsPage,
     works: worksPage,
     guarantee: guaranteePage,
+    privacy: privacyPage,
+    offer: offerPage,
+    requisites: requisitesPage,
+    "personal-data": personalDataPage,
 };
 
 export async function getPage(key: string): Promise<Page | undefined> {

@@ -1,90 +1,44 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { EMAIL, LEGAL, PHONES } from "@/content/contacts";
+import { LEGAL } from "@/content/contacts";
+import { getPage, section, sectionsOf } from "@/data/pages";
+import type { LabelValue } from "@/domain/page";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Реквизиты — Новый Коттедж",
-    description:
-        "Юридические и банковские реквизиты ООО Новый коттедж и московского филиала.",
-    alternates: { canonical: "/requisites" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const page = await getPage("requisites");
+    return {
+        title: page?.seoTitle,
+        description: page?.seoDescription,
+        alternates: { canonical: "/requisites" },
+    };
+}
 
-const companyRows = [
-    [
-        "Полное наименование",
-        "Общество с ограниченной ответственностью «Новый коттедж»",
-    ],
-    ["ИНН", LEGAL.inn],
-    ["КПП", LEGAL.kpp],
-    ["ОГРН", LEGAL.ogrn],
-    [
-        "Юридический адрес",
-        "197227, Санкт-Петербург, Комендантский проспект, д. 4, офис 405",
-    ],
-    [
-        "Фактический адрес",
-        "197227, Санкт-Петербург, Комендантский проспект, д. 4, офис 405",
-    ],
-    ["Телефон", PHONES.spb.display],
-    ["Эл. почта", EMAIL],
-    ["Генеральный директор", "Бочанов Александр Борисович"],
-    ["Главный бухгалтер", "Бочанов Александр Борисович"],
-];
-
-const bankRows = [
-    ["Расчетный счет", "40702810003000066492"],
-    ["Банк", "Ф-Л «Северная столица» АО «Райффайзенбанк»"],
-    ["БИК", "044030723"],
-    ["Корр. счёт", "30101810100000000723"],
-    ["Расчётный счёт", "40702810455000012920"],
-    ["Банк", "Северо-Западный банк ПАО Сбербанк"],
-    ["БИК", "044030653"],
-    ["Корр. счёт", "30101810500000000653"],
-];
-
-const moscowRows = [
-    [
-        "Полное наименование",
-        "Общество с ограниченной ответственностью «Новый коттедж Мск»",
-    ],
-    ["ИНН", "7734445920"],
-    ["КПП", "773401001"],
-    ["ОГРН", "1217700425018"],
-    ["Расчетный счет", "40702810501500103345"],
-    ["Банк", "Филиал Точка ПАО Банка «Финансовая Корпорация Открытие»"],
-    ["БИК", "044525999"],
-    ["Корр. счёт", "30101810845250000999"],
-    [
-        "Юридический адрес",
-        "1-й Нагатинский проезд, д. 2, «Технопарк 19», цокольный этаж, офис 6",
-    ],
-    [
-        "Фактический адрес",
-        "1-й Нагатинский проезд, д. 2, «Технопарк 19», цокольный этаж, офис 6",
-    ],
-    ["Телефон", PHONES.msk.display],
-    ["Эл. почта", "msk@ncottage.ru"],
-    ["Генеральный директор", "Бочанов Александр Борисович"],
-    ["Главный бухгалтер", "Бочанов Александр Борисович"],
-];
-
-function RequisitesTable({ rows }: { rows: string[][] }) {
+function RequisitesTable({ rows }: { rows: LabelValue[] }) {
     return (
         <dl className={styles.table}>
-            {rows.map(([label, value], index) => (
-                <div key={`${label}-${index}`} className={styles.row}>
-                    <dt>{label}</dt>
-                    <dd>{value}</dd>
+            {rows.map((row, index) => (
+                <div key={`${row.label}-${index}`} className={styles.row}>
+                    <dt>{row.label}</dt>
+                    <dd>{row.value}</dd>
                 </div>
             ))}
         </dl>
     );
 }
 
-export default function RequisitesPage() {
+export default async function RequisitesPage() {
+    const page = await getPage("requisites");
+    if (!page) notFound();
+
+    const hero = section(page, "legalHero");
+    const tables = sectionsOf(page, "requisitesTable");
+    if (!hero || tables.length < 3) notFound();
+    const [company, bank, moscow] = tables;
+
     return (
         <section className={styles.page}>
             <Container>
@@ -98,16 +52,16 @@ export default function RequisitesPage() {
 
                 <section className={styles.hero}>
                     <SectionHeading
-                        eyebrow="Документы"
-                        title="Реквизиты"
-                        titleAccent="компании"
-                        lead="Юридические данные, банковские счета и контакты для договоров, счетов и бухгалтерских документов."
+                        eyebrow={hero.eyebrow}
+                        title={hero.title}
+                        titleAccent={hero.titleAccent}
+                        lead={hero.lead}
                         tone="h1"
                         align="left"
                     />
                     <aside className={styles.summaryCard}>
-                        <span>Для договора и оплаты</span>
-                        <strong>ООО «Новый коттедж»</strong>
+                        <span>{hero.summarySubtitle}</span>
+                        <strong>{hero.summaryTitle}</strong>
                         <dl>
                             <div>
                                 <dt>ИНН</dt>
@@ -123,18 +77,18 @@ export default function RequisitesPage() {
 
                 <div className={styles.grid}>
                     <section className={styles.block}>
-                        <h2>ООО «Новый коттедж»</h2>
-                        <RequisitesTable rows={companyRows} />
+                        <h2>{company.title}</h2>
+                        <RequisitesTable rows={company.rows} />
                     </section>
 
                     <section className={styles.block}>
-                        <h2>Банковские реквизиты</h2>
-                        <RequisitesTable rows={bankRows} />
+                        <h2>{bank.title}</h2>
+                        <RequisitesTable rows={bank.rows} />
                     </section>
 
                     <section className={styles.blockWide}>
-                        <h2>Реквизиты московского филиала</h2>
-                        <RequisitesTable rows={moscowRows} />
+                        <h2>{moscow.title}</h2>
+                        <RequisitesTable rows={moscow.rows} />
                     </section>
                 </div>
             </Container>

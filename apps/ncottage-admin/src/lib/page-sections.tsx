@@ -1110,6 +1110,227 @@ const guaranteeHero: SectionFormDef = {
     ),
 };
 
+// --- legalHero (герой юридических страниц; врезка/оператор/итог опциональны) ---
+
+interface LegalHeroForm {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    lead: string;
+    operatorName: string;
+    noteLabel: string;
+    noteText: string;
+    summaryTitle: string;
+    summarySubtitle: string;
+}
+
+const legalHero: SectionFormDef = {
+    typeLabel: "Герой",
+    schema: z.object({
+        eyebrow: strReq,
+        title: strReq,
+        titleAccent: str.optional(),
+        lead: strReq,
+        operatorName: str.optional(),
+        noteLabel: str.optional(),
+        noteText: str.optional(),
+        summaryTitle: str.optional(),
+        summarySubtitle: str.optional(),
+    }),
+    toForm: (data) => {
+        const d = data as Partial<LegalHeroForm>;
+        return {
+            eyebrow: d.eyebrow ?? "",
+            title: d.title ?? "",
+            titleAccent: d.titleAccent ?? "",
+            lead: d.lead ?? "",
+            operatorName: d.operatorName ?? "",
+            noteLabel: d.noteLabel ?? "",
+            noteText: d.noteText ?? "",
+            summaryTitle: d.summaryTitle ?? "",
+            summarySubtitle: d.summarySubtitle ?? "",
+        } satisfies LegalHeroForm;
+    },
+    toData: (values) => {
+        const v = values as LegalHeroForm;
+        const opt = (k: keyof LegalHeroForm) =>
+            v[k].trim() ? { [k]: v[k].trim() } : {};
+        return {
+            eyebrow: v.eyebrow.trim(),
+            title: v.title.trim(),
+            ...opt("titleAccent"),
+            lead: v.lead.trim(),
+            ...opt("operatorName"),
+            ...opt("noteLabel"),
+            ...opt("noteText"),
+            ...opt("summaryTitle"),
+            ...opt("summarySubtitle"),
+        };
+    },
+    Fields: () => (
+        <>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField name="eyebrow" label="Надзаголовок" />
+                <TextField name="titleAccent" label="Акцент заголовка" />
+            </div>
+            <TextField name="title" label="Заголовок" />
+            <TextareaField name="lead" label="Подзаголовок" rows={3} />
+            <div className="grid gap-3 rounded-lg border border-dashed p-3">
+                <p className="text-sm font-medium text-muted-foreground">
+                    Дополнительно (необязательно)
+                </p>
+                <TextField name="operatorName" label="Оператор" />
+                <div className="grid gap-3 sm:grid-cols-2">
+                    <TextField name="noteLabel" label="Надпись врезки" />
+                    <TextField name="summaryTitle" label="Итог: заголовок" />
+                </div>
+                <TextareaField name="noteText" label="Текст врезки" rows={2} />
+                <TextField name="summarySubtitle" label="Итог: подпись" />
+            </div>
+        </>
+    ),
+};
+
+// --- bulletSections (пронумерованные разделы {title, text?, список}) ---
+
+interface BulletSectionsForm extends Heading {
+    updated: string;
+    items: { title: string; text: string; list: { value: string }[] }[];
+}
+
+const bulletSections: SectionFormDef = {
+    typeLabel: "Разделы",
+    schema: z.object({
+        ...headingShape,
+        updated: str.optional(),
+        items: z.array(
+            z.object({
+                title: strReq,
+                text: str.optional(),
+                list: z.array(z.object({ value: str })),
+            })
+        ),
+    }),
+    toForm: (data) => {
+        const d = data as Partial<Heading> & {
+            updated?: string;
+            items?: { title: string; text?: string; list?: string[] }[];
+        };
+        return {
+            ...headingToForm(d),
+            updated: d.updated ?? "",
+            items: (d.items ?? []).map((i) => ({
+                title: i.title ?? "",
+                text: i.text ?? "",
+                list: (i.list ?? []).map((value) => ({ value })),
+            })),
+        } satisfies BulletSectionsForm;
+    },
+    toData: (values) => {
+        const v = values as BulletSectionsForm;
+        return {
+            ...headingToData(v),
+            ...(v.updated.trim() ? { updated: v.updated.trim() } : {}),
+            items: v.items.map((i) => {
+                const list = i.list
+                    .map((x) => x.value.trim())
+                    .filter(Boolean);
+                return {
+                    title: i.title.trim(),
+                    ...(i.text.trim() ? { text: i.text.trim() } : {}),
+                    ...(list.length ? { list } : {}),
+                };
+            }),
+        };
+    },
+    Fields: () => (
+        <>
+            <HeadingFields />
+            <TextField name="updated" label="Дата редакции (необязательно)" />
+            <RepeaterField
+                name="items"
+                label="Разделы"
+                addLabel="Добавить раздел"
+                emptyMessage="Разделов нет"
+                newItem={() => row({ title: "", text: "", list: [] })}
+                itemLabel={(i) => `Раздел ${i + 1}`}
+                renderItem={(i) => (
+                    <>
+                        <TextField
+                            name={`items.${i}.title`}
+                            label="Заголовок"
+                        />
+                        <TextareaField
+                            name={`items.${i}.text`}
+                            label="Текст (необязательно)"
+                            rows={3}
+                        />
+                        <StringListField
+                            name={`items.${i}.list`}
+                            label="Пункты списка"
+                            addLabel="Добавить пункт"
+                            emptyMessage="Списка нет"
+                            multiline
+                            rows={2}
+                        />
+                    </>
+                )}
+            />
+        </>
+    ),
+};
+
+// --- requisitesTable (таблица реквизитов: {label, value}) ---
+
+interface RequisitesTableForm {
+    title: string;
+    rows: { label: string; value: string }[];
+}
+
+const requisitesTable: SectionFormDef = {
+    typeLabel: "Таблица реквизитов",
+    schema: z.object({
+        title: strReq,
+        rows: z.array(z.object({ label: strReq, value: strReq })),
+    }),
+    toForm: (data) => {
+        const d = data as Partial<RequisitesTableForm>;
+        return {
+            title: d.title ?? "",
+            rows: d.rows ?? [],
+        } satisfies RequisitesTableForm;
+    },
+    toData: (values) => {
+        const v = values as RequisitesTableForm;
+        return {
+            title: v.title.trim(),
+            rows: v.rows.map((r) => ({
+                label: r.label.trim(),
+                value: r.value.trim(),
+            })),
+        };
+    },
+    Fields: () => (
+        <>
+            <TextField name="title" label="Заголовок таблицы" />
+            <RepeaterField
+                name="rows"
+                label="Строки"
+                addLabel="Добавить строку"
+                emptyMessage="Строк нет"
+                newItem={() => row({ label: "", value: "" })}
+                itemLabel={(i) => `Строка ${i + 1}`}
+                renderItem={(i) => (
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <TextField name={`rows.${i}.label`} label="Поле" />
+                        <TextField name={`rows.${i}.value`} label="Значение" />
+                    </div>
+                )}
+            />
+        </>
+    ),
+};
+
 // Реестр. Типы без формы (добавляются по мере миграции страниц) отсутствуют здесь
 // и подставляют заглушку в редакторе.
 export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
@@ -1119,10 +1340,13 @@ export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
     contactsHero,
     worksHero,
     guaranteeHero,
+    legalHero,
     sectionHeading,
     valueList,
     cardGrid,
     stringList,
+    bulletSections,
+    requisitesTable,
     leadForm,
     locationCards,
     worksMap,

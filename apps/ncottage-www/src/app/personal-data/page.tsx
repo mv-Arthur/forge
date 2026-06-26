@@ -1,52 +1,34 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EMAIL, LEGAL, PHONES } from "@/content/contacts";
+import { getPage, section, sectionsOf } from "@/data/pages";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Обработка персональных данных — Новый Коттедж",
-    description:
-        "Согласие на обработку персональных данных при отправке форм на сайте Новый Коттедж.",
-    alternates: { canonical: "/personal-data" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const page = await getPage("personal-data");
+    return {
+        title: page?.seoTitle,
+        description: page?.seoDescription,
+        alternates: { canonical: "/personal-data" },
+    };
+}
 
-const consentSections = [
-    {
-        title: "Что означает согласие",
-        text: "Нажимая кнопку отправки формы, пользователь свободно, своей волей и в своём интересе подтверждает согласие на обработку персональных данных оператором — ООО «Новый коттедж». Согласие действует для обработки обращения, подготовки ответа, консультации и дальнейшего сопровождения заявки.",
-    },
-    {
-        title: "Какие данные передаются",
-        text: "В формах сайта могут передаваться имя, телефон, адрес электронной почты, город, параметры будущего дома, комментарий к заявке и технические данные, необходимые для корректной работы сайта.",
-    },
-    {
-        title: "Разрешённые действия с данными",
-        text: "Оператор может собирать, записывать, систематизировать, хранить, уточнять, использовать, передавать уполномоченным подрядчикам, обезличивать, блокировать, удалять и уничтожать персональные данные в пределах целей обработки.",
-    },
-    {
-        title: "Срок действия и отзыв",
-        text: "Согласие действует до достижения целей обработки или до его отзыва пользователем. Отозвать согласие можно письменным обращением на электронную почту оператора. После отзыва компания прекращает обработку, если иное не требуется законом или договором.",
-    },
-];
+export default async function PersonalDataPage() {
+    const page = await getPage("personal-data");
+    if (!page) notFound();
 
-const purposes = [
-    "ответ на заявку и консультация по строительству дома",
-    "подбор проекта, технологии и комплектации",
-    "расчёт ориентировочной стоимости и подготовка коммерческого предложения",
-    "запись на встречу, экскурсию или обратный звонок",
-    "исполнение договора и подготовка документов",
-];
+    const hero = section(page, "legalHero");
+    const lists = sectionsOf(page, "stringList");
+    const steps = lists[0];
+    const purposes = lists[1];
+    const consent = section(page, "bulletSections");
+    const contact = section(page, "ctaLinks");
+    if (!hero || !steps || !purposes || !consent || !contact) notFound();
 
-const consentSteps = [
-    "Пользователь отправляет форму на сайте",
-    "Менеджер связывается по указанным контактам",
-    "Компания готовит консультацию, расчёт или документы",
-];
-
-export default function PersonalDataPage() {
     return (
         <section className={styles.page}>
             <Container>
@@ -60,17 +42,17 @@ export default function PersonalDataPage() {
                 <section className={styles.hero}>
                     <div>
                         <SectionHeading
-                            eyebrow="Согласие пользователя"
-                            title="Обработка"
-                            titleAccent="персональных данных"
-                            lead="Согласие применяется при отправке заявок, расчётов, форм обратной связи и записи на консультацию."
+                            eyebrow={hero.eyebrow}
+                            title={hero.title}
+                            titleAccent={hero.titleAccent}
+                            lead={hero.lead}
                             tone="h1"
                             align="left"
                         />
                     </div>
                     <aside className={styles.summaryCard}>
-                        <span>Оператор данных</span>
-                        <strong>ООО «Новый коттедж»</strong>
+                        <span>{hero.noteLabel}</span>
+                        <strong>{hero.operatorName}</strong>
                         <p>
                             ОГРН {LEGAL.ogrn} · ИНН {LEGAL.inn} · КПП{" "}
                             {LEGAL.kpp}
@@ -82,7 +64,7 @@ export default function PersonalDataPage() {
                     className={styles.steps}
                     aria-label="Как применяется согласие"
                 >
-                    {consentSteps.map((step, index) => (
+                    {steps.items.map((step, index) => (
                         <article key={step} className={styles.stepCard}>
                             <span>{String(index + 1).padStart(2, "0")}</span>
                             <p>{step}</p>
@@ -92,29 +74,29 @@ export default function PersonalDataPage() {
 
                 <div className={styles.grid}>
                     <article className={styles.mainCard}>
-                        <p className={styles.updated}>
-                            Редакция от 11 мая 2026 года
-                        </p>
-                        {consentSections.map((section, index) => (
+                        {consent.updated && (
+                            <p className={styles.updated}>{consent.updated}</p>
+                        )}
+                        {consent.items.map((item, index) => (
                             <section
-                                key={section.title}
+                                key={item.title}
                                 className={styles.textBlock}
                             >
                                 <div className={styles.textBlockHead}>
                                     <span>
                                         {String(index + 1).padStart(2, "0")}
                                     </span>
-                                    <h2>{section.title}</h2>
+                                    <h2>{item.title}</h2>
                                 </div>
-                                <p>{section.text}</p>
+                                <p>{item.text}</p>
                             </section>
                         ))}
                     </article>
 
                     <aside className={styles.sideCard}>
-                        <h2>Цели обработки</h2>
+                        <h2>{purposes.title}</h2>
                         <ul>
-                            {purposes.map((purpose) => (
+                            {purposes.items.map((purpose) => (
                                 <li key={purpose}>{purpose}</li>
                             ))}
                         </ul>
@@ -122,23 +104,20 @@ export default function PersonalDataPage() {
 
                     <section className={styles.contactCard}>
                         <div>
-                            <span>Контакты</span>
-                            <h2>Куда направить отзыв согласия</h2>
-                            <p>
-                                Отправьте письмо на почту оператора или
-                                обратитесь в офис компании. В обращении укажите,
-                                какие данные нужно уточнить, заблокировать или
-                                удалить.
-                            </p>
+                            <span>{contact.eyebrow}</span>
+                            <h2>{contact.title}</h2>
+                            {contact.description && <p>{contact.description}</p>}
                         </div>
                         <div className={styles.links}>
                             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
                             <a href={`tel:${PHONES.spb.number}`}>
                                 {PHONES.spb.display}
                             </a>
-                            <Link href="/privacy">
-                                Политика конфиденциальности
-                            </Link>
+                            {contact.links.map((link) => (
+                                <Link key={link.href} href={link.href}>
+                                    {link.label}
+                                </Link>
+                            ))}
                         </div>
                     </section>
                 </div>
