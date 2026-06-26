@@ -5,49 +5,28 @@ import Link from "next/link";
 import type { CSSProperties, FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import type { ServicePage, ServiceSlug } from "./services";
+import type {
+    Service,
+    ServiceScenario,
+    ServiceSlug,
+    ServicesUi,
+    ServicesUiAdditionalLink,
+    ServicesUiRouteStep,
+} from "@/domain/services";
+import { DEFAULT_PLAN_PROFILE } from "./navigatorContent";
 import styles from "./services.module.css";
 
-export type NavigatorService = ServicePage & {
-    fitFor?: string[];
-    deliverables?: string[];
-    scenarioSlugs?: string[];
-    quickFacts?: string[];
-};
-
-export interface NavigatorScenario {
-    slug: string;
-    title: string;
-    description: string;
-    nextStep: string;
-    questionLabel?: string;
-    pain?: string;
-    promise?: string;
-    outcome?: string;
-    cta?: string;
-    serviceSlugs?: ServiceSlug[];
-    primaryServiceSlugs?: ServiceSlug[];
-    nextServiceSlugs?: ServiceSlug[];
-    optionalServiceSlugs?: ServiceSlug[];
-}
-
-export interface BuildRouteStep {
-    title: string;
-    description?: string;
-    serviceSlug?: ServiceSlug | null;
-    serviceSlugs?: ServiceSlug[];
-}
-
-interface AdditionalLink {
-    title: string;
-    parentSlug: ServiceSlug;
-}
+// Локальные алиасы сохраняют прежние имена в сигнатурах хелперов ниже.
+type NavigatorService = Service;
+type NavigatorScenario = ServiceScenario;
+type BuildRouteStep = ServicesUiRouteStep;
 
 interface ServicesNavigatorProps {
-    services: NavigatorService[];
-    scenarios: NavigatorScenario[];
-    routeSteps: BuildRouteStep[];
-    additionalLinks: AdditionalLink[];
+    services: Service[];
+    scenarios: ServiceScenario[];
+    quiz: ServicesUi["quiz"];
+    routeSteps: ServicesUiRouteStep[];
+    additionalLinks: ServicesUiAdditionalLink[];
 }
 
 type CSSVariableStyle = CSSProperties & Record<`--${string}`, string>;
@@ -57,148 +36,7 @@ interface RouteGraphPoint {
     y: number;
 }
 
-interface ScenarioPlanProfile {
-    title: string;
-    resultLabel: string;
-    visualTitle: string;
-    visualCaption: string;
-    image: string;
-    startLabel: string;
-    startText?: string;
-    nextLabel: string;
-    nextText: string;
-    optionalLabel: string;
-    optionalText: string;
-    ctaText: string;
-}
-
-const SCENARIO_PLAN_PROFILES: Record<string, ScenarioPlanProfile> = {
-    "land-plot": {
-        title: "Проверяем участок до того, как тратить бюджет на стройку",
-        resultLabel: "Что станет понятно",
-        visualTitle: "Участок как отправная точка",
-        visualCaption:
-            "Сначала смотрим ограничения, подъезд, рельеф и место дома.",
-        image: "/images/hero/banner.jpg",
-        startLabel: "Сначала",
-        startText:
-            "Осмотр участка, ограничения, посадка дома и основание под будущую постройку.",
-        nextLabel: "Затем",
-        nextText:
-            "Закладываем подключения, инженерные вводы и зоны участка, чтобы не вскрывать готовые работы.",
-        optionalLabel: "Если нужно",
-        optionalText:
-            "Убираем старые строения и готовим площадку под фундамент, подъезд техники и складирование.",
-        ctaText:
-            "Соберём карту участка: ограничения, первые работы, риски и следующий платный этап.",
-    },
-    "house-from-scratch": {
-        title: "Собираем дом с нуля как управляемую последовательность",
-        resultLabel: "Маршрут строительства",
-        visualTitle: "Дом как последовательность решений",
-        visualCaption:
-            "Проект, основание, коробка и инженерия складываются в один маршрут.",
-        image: "/images/projects/nord.jpg",
-        startLabel: "Запуск",
-        startText:
-            "Фиксируем проект, основание, технологию стен и комплектацию до выхода на участок.",
-        nextLabel: "Стройка",
-        nextText:
-            "Связываем коробку, инженерные сети и отделку в этапы, которые можно покупать по очереди.",
-        optionalLabel: "Финал",
-        optionalText:
-            "Планируем благоустройство заранее, чтобы участок не стал отдельной дорогой переделкой.",
-        ctaText:
-            "Подготовим дорожную карту дома: от проекта и фундамента до заезда и участка вокруг.",
-    },
-    "existing-project": {
-        title: "Проверяем проект перед стройкой, чтобы смета не разъехалась",
-        resultLabel: "Итог проверки",
-        visualTitle: "Проект до выхода на площадку",
-        visualCaption: "Ищем слабые места до договора, закупок и старта работ.",
-        image: "/images/projects/alaster.jpg",
-        startLabel: "Аудит",
-        startText:
-            "Смотрим проект, конструктив, фундамент и места, где решения могут быть дорогими на площадке.",
-        nextLabel: "Расчёт",
-        nextText:
-            "Переводим проект в смету, этапы работ и список уточнений перед договором.",
-        optionalLabel: "После",
-        optionalText:
-            "Отделку и инженерные решения можно вынести в следующую очередь без потери контекста.",
-        ctaText:
-            "Разберём проект и покажем, что можно строить сразу, а что лучше уточнить до договора.",
-    },
-    "engineering-and-finishing": {
-        title: "Доводим коробку до жизни без конфликтов между сетями и отделкой",
-        resultLabel: "Готовность к заезду",
-        visualTitle: "Скрытые системы до финиша",
-        visualCaption: "Сети и отделка должны идти в правильной очередности.",
-        image: "/images/projects/berg.jpg",
-        startLabel: "Скрытые работы",
-        startText:
-            "Сначала проверяем коробку, трассы, вводы, котельную и точки подключения.",
-        nextLabel: "Финиш",
-        nextText:
-            "После инженерии запускаем отделку так, чтобы не вскрывать готовые поверхности.",
-        optionalLabel: "Снаружи",
-        optionalText:
-            "Участок, свет, дорожки и водоотведение связываем с готовностью дома к эксплуатации.",
-        ctaText:
-            "Соберём очередность работ от коммуникаций до отделки и понятной даты заезда.",
-    },
-    "bath-complex": {
-        title: "Проектируем баню вокруг тепла, воды и сценария отдыха",
-        resultLabel: "Банный сценарий",
-        visualTitle: "Баня как отдельный сценарий",
-        visualCaption: "Печь, вода, влажность и отдых проектируются вместе.",
-        image: "/images/projects/karl.jpg",
-        startLabel: "Основа",
-        startText:
-            "Выбираем формат бани, фундамент, печь, влажные зоны и требования к вентиляции.",
-        nextLabel: "Комфорт",
-        nextText:
-            "Инженерия и отделка подбираются под пар, воду, безопасность и обслуживание.",
-        optionalLabel: "Атмосфера",
-        optionalText:
-            "Терраса, дорожки, приватность и зона отдыха превращают баню в отдельный комплекс.",
-        ctaText:
-            "Соберём банный сценарий: планировка, печь, сети, отделка и зона вокруг.",
-    },
-    "commercial-object": {
-        title: "Собираем объект под запуск бизнеса, а не просто под стройку",
-        resultLabel: "План запуска",
-        visualTitle: "Объект под поток людей",
-        visualCaption:
-            "Считаем функцию, инженерные мощности и первую очередь запуска.",
-        image: "/images/projects/otto.jpg",
-        startLabel: "Функция",
-        startText:
-            "Описываем поток людей, назначение помещений, требования бизнеса и первую очередь запуска.",
-        nextLabel: "Инфраструктура",
-        nextText:
-            "Считаем конструктив, инженерные мощности, отделку и эксплуатационные ограничения.",
-        optionalLabel: "Среда",
-        optionalText:
-            "Парковка, подходы, свет, навигация и благоустройство работают на впечатление клиента.",
-        ctaText:
-            "Подготовим план объекта: что запускать первым, что считать отдельно и где риски бюджета.",
-    },
-};
-
 const SCENARIO_PLAN_CLASS = styles.planRoute;
-const QUIZ_OBJECT_OPTIONS = [
-    "Дом для жизни",
-    "Баня или гостевой дом",
-    "Участок без проекта",
-    "Коммерческий объект",
-];
-const QUIZ_TIMING_OPTIONS = [
-    "В ближайший месяц",
-    "Через 1–3 месяца",
-    "После проекта",
-    "Пока оцениваю бюджет",
-];
 const INITIAL_QUIZ_FORM = {
     object: "",
     stage: "",
@@ -209,23 +47,6 @@ const INITIAL_QUIZ_FORM = {
 };
 const QUIZ_FOCUSABLE_SELECTOR =
     'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-const DEFAULT_PLAN_PROFILE: ScenarioPlanProfile = {
-    title: "Собираем услуги вокруг вашей ситуации",
-    resultLabel: "Результат",
-    visualTitle: "Маршрут работ",
-    visualCaption: "Покажем, какие этапы нужны сейчас, а какие можно отложить.",
-    image: "/images/projects/nord.jpg",
-    startLabel: "Начать с",
-    nextLabel: "Следующий этап",
-    nextText:
-        "Закрепить решение работами, которые влияют на сроки, бюджет и эксплуатацию.",
-    optionalLabel: "Запланировать заранее",
-    optionalText:
-        "Учесть работы, которые дешевле и проще связать с основным строительным маршрутом.",
-    ctaText:
-        "Мы можем собрать это в один план работ с этапами, сроками и бюджетными ориентирами.",
-};
 
 function cn(...classes: Array<string | false | undefined>) {
     return classes.filter(Boolean).join(" ");
@@ -290,7 +111,6 @@ function getRelatedServices(
 }
 
 function getRouteSlugs(step: BuildRouteStep) {
-    if (step.serviceSlugs?.length) return step.serviceSlugs;
     return step.serviceSlug ? [step.serviceSlug] : [];
 }
 
@@ -448,6 +268,7 @@ function getScenarioServiceGroups(
 export function ServicesNavigator({
     services,
     scenarios,
+    quiz,
     routeSteps,
     additionalLinks,
 }: ServicesNavigatorProps) {
@@ -472,10 +293,7 @@ export function ServicesNavigator({
     const selectedScenario =
         scenarios.find((scenario) => scenario.slug === selectedSlug) ??
         scenarios[0];
-    const planProfile = selectedScenario
-        ? (SCENARIO_PLAN_PROFILES[selectedScenario.slug] ??
-          DEFAULT_PLAN_PROFILE)
-        : DEFAULT_PLAN_PROFILE;
+    const planProfile = selectedScenario?.plan ?? DEFAULT_PLAN_PROFILE;
     const planClassName = selectedScenario ? SCENARIO_PLAN_CLASS : undefined;
 
     const activeServices = useMemo(() => {
@@ -925,7 +743,7 @@ export function ServicesNavigator({
                                     <span>Шаг 1</span>
                                     <h4>Что планируете строить?</h4>
                                     {renderQuizOptions(
-                                        QUIZ_OBJECT_OPTIONS,
+                                        quiz.objectOptions,
                                         quizForm.object,
                                         (object) =>
                                             setQuizForm((prev) => ({
@@ -961,7 +779,7 @@ export function ServicesNavigator({
                                     <span>Шаг 3</span>
                                     <h4>Когда хотите начать?</h4>
                                     {renderQuizOptions(
-                                        QUIZ_TIMING_OPTIONS,
+                                        quiz.timingOptions,
                                         quizForm.timing,
                                         (timing) =>
                                             setQuizForm((prev) => ({

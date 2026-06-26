@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { PROJECT_HUB_CATEGORIES } from "@/domain/technology";
-import { SERVICES } from "@/app/services/services";
+import { getServices } from "@/data/services";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -73,7 +73,8 @@ function LinkList({ items }: { items: { label: string; href: string }[] }) {
     );
 }
 
-export default function SitemapPage() {
+export default async function SitemapPage() {
+    const services = await getServices();
     const projectLinks = [
         { label: "Все проекты", href: "/projects" },
         ...PROJECT_HUB_CATEGORIES.map((category) => ({
@@ -84,7 +85,7 @@ export default function SitemapPage() {
 
     const serviceLinks = [
         { label: "Все услуги", href: "/services" },
-        ...SERVICES.map((service) => ({
+        ...services.map((service) => ({
             label: service.shortTitle,
             href: `/services/${service.slug}`,
         })),

@@ -5,10 +5,10 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { PHONES } from "@/content/contacts";
-import { SERVICE_MAP, SERVICES, type ServiceSlug } from "../services";
+import { getServiceBySlug, getServices } from "@/data/services";
+import type { Service, ServiceFaqItem, ServiceSlug } from "@/domain/services";
 import { ServiceCtaLink } from "./ServiceCtaLink";
 import styles from "./detail.module.css";
-import { SERVICE_SEO_CONTENT, type ServiceFaqItem } from "./seoContent";
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -31,11 +31,6 @@ type ServiceImage =
           alt?: string;
       };
 
-interface DetailVariant {
-    title: string;
-    description: string;
-}
-
 type DetailIconName =
     | "site"
     | "document"
@@ -50,22 +45,7 @@ type DetailIconName =
     | "home"
     | "leaf";
 
-type DetailService = (typeof SERVICES)[number] & {
-    fitFor?: string[];
-    includes?: string[];
-    notIncluded?: string[];
-    priceFactors?: string[];
-    deliverables?: string[];
-    quickFacts?: QuickFact[];
-    relatedSlugs?: ServiceSlug[];
-    image?: ServiceImage;
-    detailPain?: string;
-    detailPromise?: string;
-    detailVariants?: DetailVariant[];
-    detailChecks?: string[];
-    detailNextStep?: string;
-    detailCta?: string;
-};
+type DetailService = Service;
 
 const DEFAULT_IMAGE = "/images/projects/berg.jpg";
 const DEFAULT_QUICK_FACT_LABELS = ["Старт", "Расчёт", "Фиксация"];
@@ -289,8 +269,16 @@ function getServiceImage(service: DetailService) {
     return { src: DEFAULT_IMAGE, alt: service.title };
 }
 
-function getSupportingImage(service: DetailService) {
-    return SUPPORTING_IMAGES[service.slug];
+function getSupportingImage(service: DetailService): {
+    src: string;
+    alt: string;
+} {
+    return (
+        SUPPORTING_IMAGES[service.slug] ?? {
+            src: DEFAULT_IMAGE,
+            alt: service.title,
+        }
+    );
 }
 
 function getEntryFormats(service: DetailService) {
@@ -305,12 +293,14 @@ function getEntryFormats(service: DetailService) {
     }));
 }
 
-function getRelatedServices(service: DetailService) {
-    const relatedBySlug = service.relatedSlugs?.reduce<DetailService[]>(
+function getRelatedServices(
+    service: DetailService,
+    serviceMap: Map<string, DetailService>,
+    allServices: DetailService[]
+) {
+    const relatedBySlug = service.relatedSlugs.reduce<DetailService[]>(
         (items, relatedSlug) => {
-            const relatedService = SERVICE_MAP.get(relatedSlug) as
-                | DetailService
-                | undefined;
+            const relatedService = serviceMap.get(relatedSlug);
 
             if (
                 !relatedService ||
@@ -325,14 +315,11 @@ function getRelatedServices(service: DetailService) {
         []
     );
 
-    if (relatedBySlug && relatedBySlug.length > 0) {
+    if (relatedBySlug.length > 0) {
         return relatedBySlug.slice(0, 3);
     }
 
-    return SERVICES.filter((item) => item.slug !== service.slug).slice(
-        0,
-        3
-    ) as DetailService[];
+    return allServices.filter((item) => item.slug !== service.slug).slice(0, 3);
 }
 
 function getFaqJsonLd(service: DetailService, faq: ServiceFaqItem[]) {
@@ -355,13 +342,14 @@ function getFaqJsonLd(service: DetailService, faq: ServiceFaqItem[]) {
     }).replace(/</g, "\\u003c");
 }
 
-export function generateStaticParams() {
-    return SERVICES.map((service) => ({ slug: service.slug }));
+export async function generateStaticParams() {
+    const services = await getServices();
+    return services.map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const service = SERVICE_MAP.get(slug as ServiceSlug);
+    const service = await getServiceBySlug(slug);
 
     if (!service) return { title: "Услуга не найдена" };
 
@@ -374,11 +362,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceDetailPage({ params }: Props) {
     const { slug } = await params;
-    const service = SERVICE_MAP.get(slug as ServiceSlug) as
-        | DetailService
-        | undefined;
+    const service = await getServiceBySlug(slug);
 
     if (!service) notFound();
+
+    const allServices = await getServices();
+    const serviceMap = new Map<string, DetailService>(
+        allServices.map((s) => [s.slug, s])
+    );
 
     const quickFacts = getQuickFacts(service);
     const heroImage = getServiceImage(service);
@@ -424,9 +415,9 @@ export default async function ServiceDetailPage({ params }: Props) {
     const primaryCta = "Получить предварительный расчёт";
     const compactCta = "Получить расчёт";
     const engineerCta = "Обсудить с инженером";
-    const seoContent = SERVICE_SEO_CONTENT[service.slug];
+    const seoContent = service.seoContent;
     const faqJsonLd = getFaqJsonLd(service, seoContent.faq);
-    const related = getRelatedServices(service);
+    const related = getRelatedServices(service, serviceMap, allServices);
 
     return (
         <section className={styles.page}>
