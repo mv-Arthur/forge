@@ -76,6 +76,8 @@ export const projectSchema = z.object({
     options: z.array(optionSchema),
     relatedObjectIds: z.array(wrappedString),
     pdfUrl: z.string().optional(),
+    seoTitle: z.string(),
+    seoDescription: z.string(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectSchema>;
@@ -109,6 +111,8 @@ export function emptyProjectValues(): ProjectFormValues {
         options: [],
         relatedObjectIds: [],
         pdfUrl: "",
+        seoTitle: "",
+        seoDescription: "",
     };
 }
 
@@ -152,6 +156,8 @@ export function projectToFormValues(project: Project): ProjectFormValues {
             value,
         })),
         pdfUrl: project.pdfUrl ?? "",
+        seoTitle: project.seoTitle ?? "",
+        seoDescription: project.seoDescription ?? "",
     };
 }
 
@@ -180,5 +186,7 @@ export function formValuesToProject(values: ProjectFormValues): Project {
             .map((r) => r.value.trim())
             .filter(Boolean),
         pdfUrl: values.pdfUrl?.trim() ? values.pdfUrl.trim() : undefined,
+        seoTitle: values.seoTitle.trim(),
+        seoDescription: values.seoDescription.trim(),
     };
 }

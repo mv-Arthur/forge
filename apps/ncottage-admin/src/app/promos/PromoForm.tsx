@@ -144,6 +144,20 @@ export function PromoForm({
                     />
                 </Section>
 
+                <Section title="SEO">
+                    <TextField<V>
+                        name="seoTitle"
+                        label="SEO-заголовок"
+                        placeholder="Необязательно — по умолчанию из контента"
+                    />
+                    <TextareaField<V>
+                        name="seoDescription"
+                        label="SEO-описание"
+                        rows={2}
+                        placeholder="Необязательно — по умолчанию из описания"
+                    />
+                </Section>
+
                 <div className="sticky bottom-0 flex items-center gap-2 border-t bg-background/95 py-4 backdrop-blur">
                     <Button type="submit" disabled={pending}>
                         {pending ? "Сохранение…" : submitLabel}

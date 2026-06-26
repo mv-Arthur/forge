@@ -10,6 +10,7 @@ import type {
     Navigation,
     NavItem,
     NavSubItem,
+    Seo,
     ServicesUi,
 } from "@forge/shared";
 import { z } from "zod";
@@ -376,5 +377,64 @@ export function formValuesToServicesUi(
             title: l.title.trim(),
             parentSlug: l.parentSlug,
         })),
+    };
+}
+
+// --- Site SEO (Setting seo): defaults, index pages, Open Graph ---
+
+const seoIndexMetaSchema = z.object({
+    title: z.string().min(1, "Укажите заголовок"),
+    description: z.string().min(1, "Укажите описание"),
+});
+
+export const seoSchema = z.object({
+    baseUrl: z.string().min(1, "Укажите базовый URL"),
+    siteName: z.string().min(1, "Укажите название сайта"),
+    defaultTitle: z.string().min(1, "Укажите заголовок по умолчанию"),
+    defaultDescription: z.string().min(1, "Укажите описание по умолчанию"),
+    ogImageUrl: z.string(),
+    indexes: z.object({
+        blog: seoIndexMetaSchema,
+        services: seoIndexMetaSchema,
+        projects: seoIndexMetaSchema,
+        promos: seoIndexMetaSchema,
+        reviews: seoIndexMetaSchema,
+        faq: seoIndexMetaSchema,
+        certificates: seoIndexMetaSchema,
+        partners: seoIndexMetaSchema,
+        vacancies: seoIndexMetaSchema,
+        "project-selections": seoIndexMetaSchema,
+    }),
+});
+export type SeoFormValues = z.infer<typeof seoSchema>;
+
+export function seoToFormValues(seo: Seo): SeoFormValues {
+    const indexes = Object.fromEntries(
+        Object.entries(seo.indexes).map(([k, v]) => [k, { ...v }])
+    ) as SeoFormValues["indexes"];
+    return {
+        baseUrl: seo.baseUrl,
+        siteName: seo.siteName,
+        defaultTitle: seo.defaultTitle,
+        defaultDescription: seo.defaultDescription,
+        ogImageUrl: seo.ogImageUrl,
+        indexes,
+    };
+}
+
+export function formValuesToSeo(values: SeoFormValues): Seo {
+    const indexes = Object.fromEntries(
+        Object.entries(values.indexes).map(([k, v]) => [
+            k,
+            { title: v.title.trim(), description: v.description.trim() },
+        ])
+    ) as Seo["indexes"];
+    return {
+        baseUrl: values.baseUrl.trim(),
+        siteName: values.siteName.trim(),
+        defaultTitle: values.defaultTitle.trim(),
+        defaultDescription: values.defaultDescription.trim(),
+        ogImageUrl: values.ogImageUrl.trim(),
+        indexes,
     };
 }

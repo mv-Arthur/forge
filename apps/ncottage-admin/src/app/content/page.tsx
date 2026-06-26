@@ -6,6 +6,7 @@ import {
     Newspaper,
     PanelBottom,
     Route,
+    Search,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
@@ -48,6 +49,12 @@ const LINKS: ContentLink[] = [
         title: "Навигатор услуг",
         description: "Квиз, дорожная карта и доп. ссылки на странице /services",
         icon: Route,
+    },
+    {
+        href: "/content/seo",
+        title: "SEO",
+        description: "Мета-теги, Open Graph и заголовки листинговых страниц",
+        icon: Search,
     },
 ];
 

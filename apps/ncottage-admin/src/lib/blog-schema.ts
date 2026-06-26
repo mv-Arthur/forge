@@ -28,6 +28,8 @@ export const articleSchema = z.object({
     sections: z.array(sectionSchema),
     checklist: z.array(wrappedString),
     relatedSlugs: z.array(wrappedString),
+    seoTitle: z.string(),
+    seoDescription: z.string(),
 });
 
 export type ArticleFormValues = z.infer<typeof articleSchema>;
@@ -49,6 +51,8 @@ export function emptyArticleValues(): ArticleFormValues {
         sections: [],
         checklist: [],
         relatedSlugs: [],
+        seoTitle: "",
+        seoDescription: "",
     };
 }
 
@@ -69,6 +73,8 @@ export function articleToFormValues(article: Article): ArticleFormValues {
         })),
         checklist: wrap(article.checklist),
         relatedSlugs: wrap(article.relatedSlugs),
+        seoTitle: article.seoTitle ?? "",
+        seoDescription: article.seoDescription ?? "",
     };
 }
 
@@ -92,5 +98,7 @@ export function formValuesToArticle(values: ArticleFormValues): Article {
         }),
         checklist: unwrap(values.checklist),
         relatedSlugs: unwrap(values.relatedSlugs),
+        seoTitle: values.seoTitle.trim(),
+        seoDescription: values.seoDescription.trim(),
     };
 }

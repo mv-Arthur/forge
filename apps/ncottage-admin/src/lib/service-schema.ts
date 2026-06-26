@@ -73,6 +73,8 @@ export const serviceSchema = z.object({
     relatedSlugs: z.array(z.string()),
     scenarioSlugs: z.array(z.string()),
     seoContent: seoContentSchema,
+    seoTitle: z.string(),
+    seoDescription: z.string(),
 });
 
 export type ServiceFormValues = z.infer<typeof serviceSchema>;
@@ -120,6 +122,8 @@ export function emptyServiceValues(order = 0): ServiceFormValues {
             examples: [],
             faq: [],
         },
+        seoTitle: "",
+        seoDescription: "",
     };
 }
 
@@ -162,6 +166,8 @@ export function serviceToFormValues(service: Service): ServiceFormValues {
             examples: service.seoContent.examples.map((e) => ({ ...e })),
             faq: service.seoContent.faq.map((f) => ({ ...f })),
         },
+        seoTitle: service.seoTitle ?? "",
+        seoDescription: service.seoDescription ?? "",
     };
 }
 
@@ -225,5 +231,7 @@ export function formValuesToService(values: ServiceFormValues): Service {
         relatedSlugs: values.relatedSlugs,
         scenarioSlugs: values.scenarioSlugs,
         seoContent,
+        seoTitle: values.seoTitle.trim(),
+        seoDescription: values.seoDescription.trim(),
     };
 }

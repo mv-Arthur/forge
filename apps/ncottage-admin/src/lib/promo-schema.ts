@@ -22,6 +22,8 @@ export const promoSchema = z.object({
     terms: z.array(wrappedString),
     includes: z.array(wrappedString),
     details: z.array(wrappedString),
+    seoTitle: z.string(),
+    seoDescription: z.string(),
 });
 
 export type PromoFormValues = z.infer<typeof promoSchema>;
@@ -40,6 +42,8 @@ export function emptyPromoValues(): PromoFormValues {
         terms: [],
         includes: [],
         details: [],
+        seoTitle: "",
+        seoDescription: "",
     };
 }
 
@@ -57,6 +61,8 @@ export function promoToFormValues(promo: Promo): PromoFormValues {
         terms: wrap(promo.terms),
         includes: wrap(promo.includes),
         details: wrap(promo.details),
+        seoTitle: promo.seoTitle ?? "",
+        seoDescription: promo.seoDescription ?? "",
     };
 }
 
@@ -74,5 +80,7 @@ export function formValuesToPromo(values: PromoFormValues): Promo {
         terms: unwrap(values.terms),
         includes: unwrap(values.includes),
         details: unwrap(values.details),
+        seoTitle: values.seoTitle.trim(),
+        seoDescription: values.seoDescription.trim(),
     };
 }
