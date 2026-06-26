@@ -5,6 +5,7 @@ import { z } from "zod";
 import type { PageSectionType } from "@forge/shared";
 import { TextareaField, TextField } from "@/components/form/fields";
 import { RepeaterField } from "@/components/form/repeater-field";
+import { StringListField } from "@/components/form/string-list-field";
 
 // Помощник для newItem репитера: элементы репитеров типизированы локально, поэтому
 // приводим к ожидаемому RepeaterField типу единообразно.
@@ -440,12 +441,126 @@ const ctaLinks: SectionFormDef = {
     ),
 };
 
+// --- productionHero ---
+
+interface ProductionHeroForm {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    lead: string;
+    panelEyebrow: string;
+    panelValue: string;
+    panelDescription: string;
+}
+
+const productionHero: SectionFormDef = {
+    typeLabel: "Герой",
+    schema: z.object({
+        eyebrow: strReq,
+        title: strReq,
+        titleAccent: str.optional(),
+        lead: strReq,
+        panelEyebrow: strReq,
+        panelValue: strReq,
+        panelDescription: strReq,
+    }),
+    toForm: (data) => {
+        const d = data as Partial<ProductionHeroForm>;
+        return {
+            eyebrow: d.eyebrow ?? "",
+            title: d.title ?? "",
+            titleAccent: d.titleAccent ?? "",
+            lead: d.lead ?? "",
+            panelEyebrow: d.panelEyebrow ?? "",
+            panelValue: d.panelValue ?? "",
+            panelDescription: d.panelDescription ?? "",
+        } satisfies ProductionHeroForm;
+    },
+    toData: (values) => {
+        const v = values as ProductionHeroForm;
+        return {
+            eyebrow: v.eyebrow.trim(),
+            title: v.title.trim(),
+            ...(v.titleAccent.trim()
+                ? { titleAccent: v.titleAccent.trim() }
+                : {}),
+            lead: v.lead.trim(),
+            panelEyebrow: v.panelEyebrow.trim(),
+            panelValue: v.panelValue.trim(),
+            panelDescription: v.panelDescription.trim(),
+        };
+    },
+    Fields: () => (
+        <>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField name="eyebrow" label="Надзаголовок" />
+                <TextField name="titleAccent" label="Акцент заголовка" />
+            </div>
+            <TextField name="title" label="Заголовок" />
+            <TextareaField name="lead" label="Подзаголовок" rows={3} />
+            <div className="grid gap-3 rounded-lg border border-dashed p-3">
+                <p className="text-sm font-medium text-muted-foreground">
+                    Боковая панель
+                </p>
+                <TextField name="panelEyebrow" label="Надпись" />
+                <TextField name="panelValue" label="Значение" />
+                <TextareaField
+                    name="panelDescription"
+                    label="Описание"
+                    rows={2}
+                />
+            </div>
+        </>
+    ),
+};
+
+// --- stringList (заголовок + список строк) ---
+
+interface StringListForm extends Heading {
+    items: { value: string }[];
+}
+
+const stringList: SectionFormDef = {
+    typeLabel: "Список строк",
+    schema: z.object({
+        ...headingShape,
+        items: z.array(z.object({ value: str })),
+    }),
+    toForm: (data) => {
+        const d = data as Partial<Heading> & { items?: string[] };
+        return {
+            ...headingToForm(d),
+            items: (d.items ?? []).map((value) => ({ value })),
+        } satisfies StringListForm;
+    },
+    toData: (values) => {
+        const v = values as StringListForm;
+        return {
+            ...headingToData(v),
+            items: v.items.map((i) => i.value.trim()).filter(Boolean),
+        };
+    },
+    Fields: () => (
+        <>
+            <HeadingFields />
+            <StringListField
+                name="items"
+                label="Пункты"
+                addLabel="Добавить пункт"
+                emptyMessage="Пунктов нет"
+            />
+        </>
+    ),
+};
+
 // Реестр. Типы без формы (добавляются по мере миграции страниц) отсутствуют здесь
 // и подставляют заглушку в редакторе.
 export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
     aboutHero,
+    productionHero,
     valueList,
     cardGrid,
+    stringList,
     team,
     timeline,
     ctaLinks,

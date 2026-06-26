@@ -4,6 +4,7 @@ import type {
     PageSectionType,
 } from "@/domain/page";
 import { aboutPage } from "./pages/about";
+import { productionPage } from "./pages/production";
 
 // Страницы с секциями приходят из ncottage-api. ISR-теги pages/page:<key>; при
 // недоступности API отдаём статический fallback (он же — источник сидов).
@@ -12,6 +13,7 @@ const REVALIDATE = 60;
 
 const FALLBACKS: Record<string, Page> = {
     about: aboutPage,
+    production: productionPage,
 };
 
 export async function getPage(key: string): Promise<Page | undefined> {

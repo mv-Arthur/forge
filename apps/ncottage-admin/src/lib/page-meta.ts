@@ -26,6 +26,7 @@ export const PAGE_SECTION_LABELS: Record<string, string[]> = {
         "История",
         "Призыв к действию",
     ],
+    production: ["Герой", "Возможности", "Процесс", "Стандарты"],
 };
 
 export function sectionLabel(
