@@ -1,20 +1,24 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getBuiltObjects } from "@/data/built-objects";
+import { getPage, section } from "@/data/pages";
 import type { BuiltObject } from "@/domain/project";
 import { WorksVisitForm } from "./WorksVisitForm";
 import styles from "./works.module.css";
 
-export const metadata: Metadata = {
-    title: "Наши работы — построенные дома и карта объектов | Новый Коттедж",
-    description:
-        "Построенные дома компании Новый Коттедж на карте: СИП-панели, каркасные дома, газобетон и кирпич. Запишитесь на просмотр готового объекта.",
-    alternates: { canonical: "/works" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const page = await getPage("works");
+    return {
+        title: page?.seoTitle,
+        description: page?.seoDescription,
+        alternates: { canonical: "/works" },
+    };
+}
 
 const mapBounds = {
     minLat: 55.3,
@@ -61,10 +65,22 @@ function getPinStyle(object: BuiltObject): CSSProperties | undefined {
 }
 
 export default async function WorksPage() {
-    const objects = await getBuiltObjects();
+    const [objects, page] = await Promise.all([
+        getBuiltObjects(),
+        getPage("works"),
+    ]);
+    if (!page) notFound();
+
+    const hero = section(page, "worksHero");
+    const map = section(page, "worksMap");
+    const listHeading = section(page, "sectionHeading");
+    const visit = section(page, "leadForm");
+    if (!hero || !map || !listHeading || !visit) notFound();
+
     const objectsWithCoords = objects.filter((object) => object.coords);
     const totalArea = getTotalArea(objects);
     const mapHighlights = objectsWithCoords.slice(0, 4);
+    const statLabels = hero.statLabels;
 
     return (
         <section className={styles.page}>
@@ -78,10 +94,10 @@ export default async function WorksPage() {
 
                 <section className={styles.hero}>
                     <SectionHeading
-                        eyebrow="Наши работы"
-                        title="Построенные дома"
-                        titleAccent="на карте"
-                        lead="Готовые объекты в Санкт-Петербурге, Ленинградской области, Москве и соседних регионах. Покажем дома вживую, расскажем про технологию, сроки и реальную смету строительства."
+                        eyebrow={hero.eyebrow}
+                        title={hero.title}
+                        titleAccent={hero.titleAccent}
+                        lead={hero.lead}
                         align="left"
                         tone="h1"
                         className={styles.heroHeading}
@@ -92,7 +108,7 @@ export default async function WorksPage() {
                                 {objects.length}
                             </span>
                             <span className={styles.statLabel}>
-                                объектов в подборке
+                                {statLabels[0]}
                             </span>
                         </div>
                         <div className={styles.statCard}>
@@ -100,7 +116,7 @@ export default async function WorksPage() {
                                 {objectsWithCoords.length}
                             </span>
                             <span className={styles.statLabel}>
-                                отмечено на карте
+                                {statLabels[1]}
                             </span>
                         </div>
                         <div className={styles.statCard}>
@@ -108,7 +124,7 @@ export default async function WorksPage() {
                                 {totalArea.toLocaleString("ru-RU")}
                             </span>
                             <span className={styles.statLabel}>
-                                м² построенной площади
+                                {statLabels[2]}
                             </span>
                         </div>
                     </div>
@@ -120,26 +136,22 @@ export default async function WorksPage() {
                 >
                     <div className={styles.mapHead}>
                         <div>
-                            <span className={styles.eyebrow}>
-                                Карта объектов
-                            </span>
+                            <span className={styles.eyebrow}>{map.eyebrow}</span>
                             <h2 id="works-map" className={styles.sectionTitle}>
-                                Где можно посмотреть наши дома
+                                {map.heading}
                             </h2>
                         </div>
-                        <p className={styles.mapLead}>
-                            Отмечаем регионы, где уже строили дома. Для
-                            просмотра подберём ближайший объект и согласуем
-                            удобное время с владельцем.
-                        </p>
+                        <p className={styles.mapLead}>{map.lead}</p>
                     </div>
 
                     <div className={styles.mapCard}>
                         <div className={styles.mapCanvas} aria-hidden="true">
                             <span className={styles.mapLabelSpb}>
-                                Санкт-Петербург
+                                {map.mapLabelSpb}
                             </span>
-                            <span className={styles.mapLabelMsk}>Москва</span>
+                            <span className={styles.mapLabelMsk}>
+                                {map.mapLabelMsk}
+                            </span>
                             <span className={styles.mapAreaPrimary} />
                             <span className={styles.mapAreaSecondary} />
                             <span className={styles.mapRoute} />
@@ -154,15 +166,13 @@ export default async function WorksPage() {
                         </div>
                         <div className={styles.mapAside}>
                             <span className={styles.mapAsideLabel}>
-                                Маршрут просмотра
+                                {map.mapAsideLabel}
                             </span>
                             <h3 className={styles.mapAsideTitle}>
-                                Запишитесь на просмотр готового дома
+                                {map.mapAsideTitle}
                             </h3>
                             <p className={styles.mapAsideText}>
-                                Подберём ближайший объект по технологии и
-                                площади, покажем качество строительства и
-                                ответим на вопросы по смете.
+                                {map.mapAsideText}
                             </p>
                             <div className={styles.mapList}>
                                 {mapHighlights.map((object) => (
@@ -172,7 +182,7 @@ export default async function WorksPage() {
                                 ))}
                             </div>
                             <a className={styles.mapAsideCta} href="#visit">
-                                Записаться на просмотр
+                                {map.ctaLabel}
                             </a>
                         </div>
                     </div>
@@ -183,10 +193,10 @@ export default async function WorksPage() {
                     aria-labelledby="works-list"
                 >
                     <SectionHeading
-                        eyebrow="Построенные объекты"
-                        title="Дома, которые уже"
-                        titleAccent="стоят"
-                        lead="Подборка построенных объектов по разным технологиям и площадям. Для просмотра дома оставьте заявку — менеджер предложит ближайший объект."
+                        eyebrow={listHeading.eyebrow}
+                        title={listHeading.title ?? ""}
+                        titleAccent={listHeading.titleAccent}
+                        lead={listHeading.lead}
                         align="left"
                         className={styles.listHeading}
                     />
@@ -236,16 +246,11 @@ export default async function WorksPage() {
 
                 <section id="visit" className={styles.visitSection}>
                     <div className={styles.visitContent}>
-                        <span className={styles.eyebrow}>Просмотр объекта</span>
-                        <h2 className={styles.visitTitle}>
-                            Хотите увидеть качество строительства вживую?
-                        </h2>
-                        <p className={styles.visitText}>
-                            Оставьте контакты — подберём построенный дом рядом с
-                            вами, согласуем встречу и подготовим маршрут.
-                        </p>
+                        <span className={styles.eyebrow}>{visit.eyebrow}</span>
+                        <h2 className={styles.visitTitle}>{visit.title}</h2>
+                        <p className={styles.visitText}>{visit.lead}</p>
                     </div>
-                    <WorksVisitForm />
+                    <WorksVisitForm submitLabel={visit.button} />
                 </section>
             </Container>
         </section>

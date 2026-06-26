@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./works.module.css";
 
-export function WorksVisitForm() {
+export function WorksVisitForm({ submitLabel }: { submitLabel: string }) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
@@ -72,7 +72,7 @@ export function WorksVisitForm() {
                 type="submit"
                 disabled={isSubmitting}
             >
-                {isSubmitting ? "Отправляем…" : "Записаться на просмотр"}
+                {isSubmitting ? "Отправляем…" : submitLabel}
             </button>
             <p className={styles.privacy}>
                 Нажимая кнопку, вы соглашаетесь с обработкой персональных

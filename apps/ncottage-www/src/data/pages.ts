@@ -10,6 +10,7 @@ import { maternityCapitalPage } from "./pages/maternity-capital";
 import { mortgagePage } from "./pages/mortgage";
 import { paymentPage } from "./pages/payment";
 import { productionPage } from "./pages/production";
+import { worksPage } from "./pages/works";
 
 // Страницы с секциями приходят из ncottage-api. ISR-теги pages/page:<key>; при
 // недоступности API отдаём статический fallback (он же — источник сидов).
@@ -24,6 +25,7 @@ const FALLBACKS: Record<string, Page> = {
     "maternity-capital": maternityCapitalPage,
     payment: paymentPage,
     contacts: contactsPage,
+    works: worksPage,
 };
 
 export async function getPage(key: string): Promise<Page | undefined> {

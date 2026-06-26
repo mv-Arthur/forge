@@ -860,6 +860,153 @@ const locationCards: SectionFormDef = {
     ),
 };
 
+// --- sectionHeading (только заголовок секции) ---
+
+const sectionHeading: SectionFormDef = {
+    typeLabel: "Заголовок секции",
+    schema: z.object({ ...headingShape }),
+    toForm: (data) => headingToForm(data as Partial<Heading>),
+    toData: (values) => headingToData(values as Heading),
+    Fields: () => <HeadingFields leadRows={3} />,
+};
+
+// --- worksHero (герой страницы работ; значения статистики вычисляются на сайте) ---
+
+interface WorksHeroForm {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    lead: string;
+    statLabels: { value: string }[];
+}
+
+const worksHero: SectionFormDef = {
+    typeLabel: "Герой",
+    schema: z.object({
+        eyebrow: strReq,
+        title: strReq,
+        titleAccent: str.optional(),
+        lead: strReq,
+        statLabels: z.array(z.object({ value: str })),
+    }),
+    toForm: (data) => {
+        const d = data as Partial<Heading> & { statLabels?: string[] };
+        return {
+            eyebrow: d.eyebrow ?? "",
+            title: d.title ?? "",
+            titleAccent: d.titleAccent ?? "",
+            lead: d.lead ?? "",
+            statLabels: (d.statLabels ?? []).map((value) => ({ value })),
+        } satisfies WorksHeroForm;
+    },
+    toData: (values) => {
+        const v = values as WorksHeroForm;
+        return {
+            eyebrow: v.eyebrow.trim(),
+            title: v.title.trim(),
+            ...(v.titleAccent.trim()
+                ? { titleAccent: v.titleAccent.trim() }
+                : {}),
+            lead: v.lead.trim(),
+            statLabels: v.statLabels.map((i) => i.value.trim()).filter(Boolean),
+        };
+    },
+    Fields: () => (
+        <>
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField name="eyebrow" label="Надзаголовок" />
+                <TextField name="titleAccent" label="Акцент заголовка" />
+            </div>
+            <TextField name="title" label="Заголовок" />
+            <TextareaField name="lead" label="Подзаголовок" rows={3} />
+            <StringListField
+                name="statLabels"
+                label="Подписи показателей"
+                addLabel="Добавить подпись"
+                emptyMessage="Подписей нет"
+                itemNoun="Подпись"
+            />
+        </>
+    ),
+};
+
+// --- worksMap (карта объектов) ---
+
+interface WorksMapForm {
+    eyebrow: string;
+    heading: string;
+    lead: string;
+    mapLabelSpb: string;
+    mapLabelMsk: string;
+    mapAsideLabel: string;
+    mapAsideTitle: string;
+    mapAsideText: string;
+    ctaLabel: string;
+}
+
+const worksMap: SectionFormDef = {
+    typeLabel: "Карта",
+    schema: z.object({
+        eyebrow: strReq,
+        heading: strReq,
+        lead: strReq,
+        mapLabelSpb: strReq,
+        mapLabelMsk: strReq,
+        mapAsideLabel: strReq,
+        mapAsideTitle: strReq,
+        mapAsideText: strReq,
+        ctaLabel: strReq,
+    }),
+    toForm: (data) => {
+        const d = data as Partial<WorksMapForm>;
+        return {
+            eyebrow: d.eyebrow ?? "",
+            heading: d.heading ?? "",
+            lead: d.lead ?? "",
+            mapLabelSpb: d.mapLabelSpb ?? "",
+            mapLabelMsk: d.mapLabelMsk ?? "",
+            mapAsideLabel: d.mapAsideLabel ?? "",
+            mapAsideTitle: d.mapAsideTitle ?? "",
+            mapAsideText: d.mapAsideText ?? "",
+            ctaLabel: d.ctaLabel ?? "",
+        } satisfies WorksMapForm;
+    },
+    toData: (values) => {
+        const v = values as WorksMapForm;
+        return {
+            eyebrow: v.eyebrow.trim(),
+            heading: v.heading.trim(),
+            lead: v.lead.trim(),
+            mapLabelSpb: v.mapLabelSpb.trim(),
+            mapLabelMsk: v.mapLabelMsk.trim(),
+            mapAsideLabel: v.mapAsideLabel.trim(),
+            mapAsideTitle: v.mapAsideTitle.trim(),
+            mapAsideText: v.mapAsideText.trim(),
+            ctaLabel: v.ctaLabel.trim(),
+        };
+    },
+    Fields: () => (
+        <>
+            <TextField name="eyebrow" label="Надзаголовок" />
+            <TextField name="heading" label="Заголовок" />
+            <TextareaField name="lead" label="Описание" rows={2} />
+            <div className="grid gap-3 sm:grid-cols-2">
+                <TextField name="mapLabelSpb" label="Метка СПб" />
+                <TextField name="mapLabelMsk" label="Метка Москва" />
+            </div>
+            <div className="grid gap-3 rounded-lg border border-dashed p-3">
+                <p className="text-sm font-medium text-muted-foreground">
+                    Боковая панель
+                </p>
+                <TextField name="mapAsideLabel" label="Надпись" />
+                <TextField name="mapAsideTitle" label="Заголовок" />
+                <TextareaField name="mapAsideText" label="Текст" rows={3} />
+                <TextField name="ctaLabel" label="Текст кнопки" />
+            </div>
+        </>
+    ),
+};
+
 // Реестр. Типы без формы (добавляются по мере миграции страниц) отсутствуют здесь
 // и подставляют заглушку в редакторе.
 export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
@@ -867,11 +1014,14 @@ export const SECTION_FORMS: Partial<Record<PageSectionType, SectionFormDef>> = {
     productionHero,
     financeHero,
     contactsHero,
+    worksHero,
+    sectionHeading,
     valueList,
     cardGrid,
     stringList,
     leadForm,
     locationCards,
+    worksMap,
     team,
     timeline,
     ctaLinks,
