@@ -5,6 +5,42 @@ import { CreateLeadDto } from "./dto/create-lead.dto.js";
 import type { LeadStatusValue } from "./dto/update-lead-status.dto.js";
 import { LeadDeliveryPort } from "./delivery/lead-delivery.port.js";
 
+export interface LeadResponse {
+    id: string;
+    source: string;
+    phone: string;
+    name: string | null;
+    comment: string | null;
+    preferredTime: string | null;
+    project: string | null;
+    consent: boolean | null;
+    status: string;
+    deliveredAt: string | null;
+    deliveryError: string | null;
+    deliveryAttempts: number;
+    createdAt: string;
+}
+
+// Явный маппинг строки БД → ответ API (как в остальных модулях): фиксированная
+// форма контракта, ISO-даты, без утечки случайных будущих колонок таблицы.
+function toResponse(row: Lead): LeadResponse {
+    return {
+        id: row.id,
+        source: row.source,
+        phone: row.phone,
+        name: row.name,
+        comment: row.comment,
+        preferredTime: row.preferredTime,
+        project: row.project,
+        consent: row.consent,
+        status: row.status,
+        deliveredAt: row.deliveredAt ? row.deliveredAt.toISOString() : null,
+        deliveryError: row.deliveryError,
+        deliveryAttempts: row.deliveryAttempts,
+        createdAt: row.createdAt.toISOString(),
+    };
+}
+
 @Injectable()
 export class LeadsService {
     private readonly logger = new Logger(LeadsService.name);
@@ -31,8 +67,11 @@ export class LeadsService {
         return lead;
     }
 
-    list(): Promise<Lead[]> {
-        return this.prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
+    async list(): Promise<LeadResponse[]> {
+        const rows = await this.prisma.lead.findMany({
+            orderBy: { createdAt: "desc" },
+        });
+        return rows.map(toResponse);
     }
 
     async updateStatus(id: string, status: LeadStatusValue): Promise<Lead> {

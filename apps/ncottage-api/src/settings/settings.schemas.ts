@@ -55,7 +55,9 @@ const contactSocial = z.object({
     url: z.string(),
 });
 const contacts = z.object({
-    phones: z.array(contactPhone),
+    // Хотя бы один телефон обязателен: layout www строит города из phones и
+    // читает phones[activeCity] — пустой массив роняет весь сайт.
+    phones: z.array(contactPhone).min(1, "Нужен хотя бы один телефон"),
     email: z.string(),
     addresses: z.array(contactAddress),
     social: z.array(contactSocial),
@@ -127,11 +129,13 @@ const seo = z.object({
     ),
 });
 
+// .strict(): отвергаем неизвестные ключи на верхнем уровне (паритет с
+// forbidNonWhitelisted у class-validator-эндпоинтов), а не молча их отбрасываем.
 export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {
-    nav: navigation,
-    footer,
-    contacts,
-    blog_page: blogPage,
-    services_ui: servicesUi,
-    seo,
+    nav: navigation.strict(),
+    footer: footer.strict(),
+    contacts: contacts.strict(),
+    blog_page: blogPage.strict(),
+    services_ui: servicesUi.strict(),
+    seo: seo.strict(),
 };

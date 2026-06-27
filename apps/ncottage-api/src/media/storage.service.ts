@@ -82,12 +82,18 @@ export class StorageService implements OnModuleInit {
     }
 
     async put(key: string, body: Buffer, contentType: string): Promise<string> {
+        // Растровые картинки отдаём inline (их показывает www); всё остальное
+        // (PDF и т.п.) — как вложение, чтобы исключить inline-исполнение в браузере.
+        const inline =
+            contentType.startsWith("image/") &&
+            contentType !== "image/svg+xml";
         await this.client.send(
             new PutObjectCommand({
                 Bucket: this.bucket,
                 Key: key,
                 Body: body,
                 ContentType: contentType,
+                ContentDisposition: inline ? "inline" : "attachment",
             })
         );
         return this.urlFor(key);

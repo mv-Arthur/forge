@@ -19,6 +19,9 @@ import { MediaService } from "./media.service.js";
 
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 const ALLOWED_MIME_PREFIXES = ["image/", "application/pdf"];
+// SVG исполняет скрипты при inline-просмотре (stored XSS), поэтому запрещён,
+// несмотря на префикс image/.
+const BLOCKED_MIMES = ["image/svg+xml"];
 
 function fieldStr(field: unknown): string | undefined {
     const one = Array.isArray(field) ? field[0] : field;
@@ -50,12 +53,13 @@ export class MediaController {
             throw new BadRequestException("Файл не передан");
         }
         if (
+            BLOCKED_MIMES.includes(file.mimetype) ||
             !ALLOWED_MIME_PREFIXES.some((prefix) =>
                 file.mimetype.startsWith(prefix)
             )
         ) {
             throw new BadRequestException(
-                "Недопустимый тип файла (только изображения и PDF)"
+                "Недопустимый тип файла (растровые изображения и PDF; SVG не поддерживается)"
             );
         }
 

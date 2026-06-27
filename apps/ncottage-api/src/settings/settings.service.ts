@@ -51,9 +51,9 @@ export class SettingsService {
         const parsed = SETTING_SCHEMAS[key].safeParse(value);
         if (!parsed.success) {
             throw new BadRequestException(
-                parsed.error.issues
-                    .map((i) => `${i.path.join(".")}: ${i.message}`)
-                    .join("; ")
+                parsed.error.issues.map(
+                    (i) => `${i.path.join(".")}: ${i.message}`
+                )
             );
         }
         const json = parsed.data as Prisma.InputJsonValue;

@@ -5,6 +5,7 @@ import type { NestFastifyApplication } from "@nestjs/platform-fastify";
 import { FastifyAdapter } from "@nestjs/platform-fastify";
 import multipart from "@fastify/multipart";
 import { AppModule } from "./app.module.js";
+import { AllExceptionsFilter } from "./common/all-exceptions.filter.js";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -23,6 +24,8 @@ async function bootstrap() {
             forbidNonWhitelisted: true,
         })
     );
+
+    app.useGlobalFilters(new AllExceptionsFilter());
 
     const config = app.get(ConfigService);
     const corsOrigin = config.get<string>("CORS_ORIGIN");

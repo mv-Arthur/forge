@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { ThrottlerModule } from "@nestjs/throttler";
 import { AdminsModule } from "./admins/admins.module.js";
 import { AppController } from "./app.controller.js";
 import { AuthModule } from "./auth/auth.module.js";
@@ -29,6 +30,10 @@ import { VacanciesModule } from "./vacancies/vacancies.module.js";
             isGlobal: true,
             validate: validateEnv,
         }),
+        // Конфиг троттлинга; включается точечно через ThrottlerGuard на публичных
+        // эндпоинтах (POST /leads, POST /auth/login). Глобально не вешаем, чтобы
+        // не ограничивать SSR/ISR-фетчи www, идущие с одного IP.
+        ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
         PrismaModule,
         RevalidateModule,
         AdminsModule,

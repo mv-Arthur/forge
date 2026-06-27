@@ -92,9 +92,9 @@ export class PagesService {
         const parsed = schema.safeParse(data);
         if (!parsed.success) {
             throw new BadRequestException(
-                parsed.error.issues
-                    .map((i) => `${i.path.join(".")}: ${i.message}`)
-                    .join("; ")
+                parsed.error.issues.map(
+                    (i) => `${i.path.join(".")}: ${i.message}`
+                )
             );
         }
         await this.prisma.pageSection.update({

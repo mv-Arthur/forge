@@ -6,6 +6,10 @@ import {
     IsString,
     Max,
     Min,
+    MinLength,
+    Validate,
+    ValidatorConstraint,
+    type ValidatorConstraintInterface,
     validateSync,
 } from "class-validator";
 
@@ -13,6 +17,30 @@ enum NodeEnv {
     development = "development",
     production = "production",
     test = "test",
+}
+
+// Отклоняем известные плейсхолдеры секрета — иначе приложение запустится с
+// предсказуемым ключом и токены можно подделать.
+const WEAK_SECRETS = [
+    "change-me",
+    "changeme",
+    "local-dev-secret-change-me",
+    "secret",
+    "your-secret",
+    "jwt-secret",
+];
+
+@ValidatorConstraint({ name: "strongSecret", async: false })
+class StrongSecretConstraint implements ValidatorConstraintInterface {
+    validate(value: unknown): boolean {
+        if (typeof value !== "string") return false;
+        const normalized = value.trim().toLowerCase();
+        return !WEAK_SECRETS.includes(normalized);
+    }
+
+    defaultMessage(): string {
+        return "JWT_SECRET must not be a known placeholder value";
+    }
 }
 
 class EnvVars {
@@ -35,6 +63,10 @@ class EnvVars {
     CORS_ORIGIN?: string;
 
     @IsString()
+    @MinLength(32, {
+        message: "JWT_SECRET must be at least 32 characters long",
+    })
+    @Validate(StrongSecretConstraint)
     JWT_SECRET!: string;
 
     @IsOptional()
