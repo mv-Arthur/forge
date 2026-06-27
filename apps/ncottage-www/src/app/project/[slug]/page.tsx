@@ -23,6 +23,8 @@ import {
 } from "@/components/features/project-detail";
 import { getBuiltObjects } from "@/data/built-objects";
 import { getProjectBySlug, getProjects } from "@/data/projects";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import {
     PROJECT_HUB_CATEGORIES,
     PROJECT_TECHNOLOGY_LABELS,
@@ -43,12 +45,20 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const project = await getProjectBySlug(slug);
+    const [project, seo] = await Promise.all([
+        getProjectBySlug(slug),
+        getSeo(),
+    ]);
     if (!project) return { title: "Проект не найден" };
-    return {
-        title: `${project.name} — проект дома ${formatArea(project.area)} | Новый Коттедж`,
-        description: project.description,
-    };
+    return buildPageMetadata({
+        seo,
+        title:
+            project.seoTitle ??
+            `${project.name} — проект дома ${formatArea(project.area)} | Новый Коттедж`,
+        description: project.seoDescription ?? project.description,
+        path: `/project/${project.slug}`,
+        image: project.image,
+    });
 }
 
 export default async function ProjectPage({ params }: Props) {

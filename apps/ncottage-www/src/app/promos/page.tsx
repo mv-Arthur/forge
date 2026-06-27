@@ -4,14 +4,19 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPromos } from "@/data/promos";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Специальные предложения на строительство домов | Новый Коттедж",
-    description:
-        "Акции компании Новый Коттедж: специальные цены на каркасные и газобетонные дома, условия, комплектации и заявка на полный расчёт.",
-    alternates: { canonical: "/promos" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["promos"].title,
+        description: seo.indexes["promos"].description,
+        path: "/promos",
+    });
+}
 
 export default async function PromosPage() {
     const promos = await getPromos();

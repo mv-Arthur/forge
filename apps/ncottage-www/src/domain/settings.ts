@@ -11,4 +11,7 @@ export type {
     ContactPhone,
     ContactAddress,
     ContactSocial,
+    Seo,
+    SeoIndexKey,
+    SeoIndexMeta,
 } from "@forge/shared";

@@ -4,6 +4,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getReviews } from "@/data/reviews";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 const metrics = [
@@ -12,12 +14,15 @@ const metrics = [
     { value: "с 2007", label: "года строим дома" },
 ];
 
-export const metadata: Metadata = {
-    title: "Отзывы клиентов | Новый Коттедж",
-    description:
-        "Отзывы клиентов о строительстве домов из газобетона, кирпича, СИП-панелей и каркасных домов компанией Новый Коттедж.",
-    alternates: { canonical: "/reviews" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["reviews"].title,
+        description: seo.indexes["reviews"].description,
+        path: "/reviews",
+    });
+}
 
 export default async function ReviewsPage() {
     const reviews = await getReviews();

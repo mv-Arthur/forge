@@ -3,15 +3,20 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EMAIL } from "@/content/contacts";
+import { getSeo } from "@/data/settings";
 import { getVacancies } from "@/data/vacancies";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Вакансии — Новый Коттедж",
-    description:
-        "Открытые вакансии строительной компании Новый Коттедж: архитектор и менеджер по продажам.",
-    alternates: { canonical: "/vacancies" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["vacancies"].title,
+        description: seo.indexes["vacancies"].description,
+        path: "/vacancies",
+    });
+}
 
 export default async function VacanciesPage() {
     const vacancies = await getVacancies();

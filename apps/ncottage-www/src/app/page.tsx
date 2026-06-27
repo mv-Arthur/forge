@@ -19,16 +19,18 @@ import { getBuiltObjects } from "@/data/built-objects";
 import { getPage, section } from "@/data/pages";
 import { getFeaturedProjects } from "@/data/projects";
 import { getReviews } from "@/data/reviews";
-import { getContacts } from "@/data/settings";
+import { getContacts, getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import { formatMonthYear } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPage("home");
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: "/" },
-    };
+    const [page, seo] = await Promise.all([getPage("home"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? seo.defaultTitle,
+        description: page?.seoDescription ?? seo.defaultDescription,
+        path: "/",
+    });
 }
 
 export default async function HomePage() {

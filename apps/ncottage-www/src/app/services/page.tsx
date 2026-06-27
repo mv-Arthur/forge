@@ -6,15 +6,20 @@ import {
     getServices,
     getServicesUi,
 } from "@/data/services";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import { ServicesNavigator } from "./ServicesNavigator";
 import styles from "./services.module.css";
 
-export const metadata: Metadata = {
-    title: "Услуги — проектирование и строительство домов | Новый Коттедж",
-    description:
-        "Услуги компании Новый Коттедж: проектирование, строительство домов, фундаменты, бани, коммерческая недвижимость, отделка, благоустройство, инженерные сети и демонтаж.",
-    alternates: { canonical: "/services" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["services"].title,
+        description: seo.indexes["services"].description,
+        path: "/services",
+    });
+}
 
 export default async function ServicesPage() {
     const [services, scenarios, ui] = await Promise.all([

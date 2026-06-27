@@ -7,17 +7,20 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getBuiltObjects } from "@/data/built-objects";
 import { getPage, section } from "@/data/pages";
+import { getSeo } from "@/data/settings";
 import type { BuiltObject } from "@/domain/project";
+import { buildPageMetadata } from "@/lib/seo";
 import { WorksVisitForm } from "./WorksVisitForm";
 import styles from "./works.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPage("works");
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: "/works" },
-    };
+    const [page, seo] = await Promise.all([getPage("works"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/works",
+    });
 }
 
 const mapBounds = {
@@ -136,7 +139,9 @@ export default async function WorksPage() {
                 >
                     <div className={styles.mapHead}>
                         <div>
-                            <span className={styles.eyebrow}>{map.eyebrow}</span>
+                            <span className={styles.eyebrow}>
+                                {map.eyebrow}
+                            </span>
                             <h2 id="works-map" className={styles.sectionTitle}>
                                 {map.heading}
                             </h2>

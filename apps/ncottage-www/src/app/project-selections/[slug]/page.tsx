@@ -6,7 +6,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getProjects } from "@/data/projects";
 import { getSelectionBySlug, getSelections } from "@/data/project-selections";
+import { getSeo } from "@/data/settings";
 import { matchesSelection } from "@/domain/project-selection";
+import { buildPageMetadata } from "@/lib/seo";
 import { GROUP_LABELS } from "../selections";
 import styles from "./page.module.css";
 
@@ -23,15 +25,19 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const selection = await getSelectionBySlug(slug);
+    const [selection, seo] = await Promise.all([
+        getSelectionBySlug(slug),
+        getSeo(),
+    ]);
 
     if (!selection) return { title: "Подборка не найдена" };
 
-    return {
+    return buildPageMetadata({
+        seo,
         title: `${selection.title} — Новый Коттедж`,
         description: selection.metaDescription,
-        alternates: { canonical: `/project-selections/${selection.slug}` },
-    };
+        path: `/project-selections/${selection.slug}`,
+    });
 }
 
 export default async function ProjectSelectionPage({ params }: Props) {

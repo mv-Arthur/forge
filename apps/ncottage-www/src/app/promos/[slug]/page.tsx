@@ -5,6 +5,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPromoBySlug, getPromos } from "@/data/promos";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "../page.module.css";
 
 interface Props {
@@ -18,15 +20,20 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const promo = await getPromoBySlug(slug);
+    const [promo, seo] = await Promise.all([getPromoBySlug(slug), getSeo()]);
 
     if (!promo) return { title: "Акция не найдена" };
 
-    return {
-        title: `${promo.shortTitle} по специальным условиям | Новый Коттедж`,
-        description: `${promo.lead} ${promo.price}. Условия и заявка на полный расчёт строительства дома.`,
-        alternates: { canonical: `/promos/${promo.slug}` },
-    };
+    return buildPageMetadata({
+        seo,
+        title:
+            promo.seoTitle ??
+            `${promo.shortTitle} по специальным условиям | Новый Коттедж`,
+        description:
+            promo.seoDescription ??
+            `${promo.lead} ${promo.price}. Условия и заявка на полный расчёт строительства дома.`,
+        path: `/promos/${promo.slug}`,
+    });
 }
 
 export default async function PromoDetailPage({ params }: Props) {

@@ -4,6 +4,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getCertificates } from "@/data/certificates";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 const checks = [
@@ -21,12 +23,15 @@ const checks = [
     },
 ];
 
-export const metadata: Metadata = {
-    title: "Сертификаты и лицензии | Новый Коттедж",
-    description:
-        "Сертификаты, лицензии и подтверждающие документы компании Новый Коттедж: материалы, безопасность труда, экологический менеджмент.",
-    alternates: { canonical: "/certificates" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["certificates"].title,
+        description: seo.indexes["certificates"].description,
+        path: "/certificates",
+    });
+}
 
 export default async function CertificatesPage() {
     const certificates = await getCertificates();

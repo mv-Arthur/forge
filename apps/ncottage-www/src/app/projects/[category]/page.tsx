@@ -5,6 +5,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ProjectsCatalog } from "@/components/features/projects-catalog";
 import { PROJECT_HUB_CATEGORIES } from "@/domain/technology";
 import { getProjectBySlug, getProjects } from "@/data/projects";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./category.module.css";
 
 interface Props {
@@ -25,11 +27,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { category } = await params;
     const meta = findCategory(category);
     if (!meta) return { title: "Категория не найдена" };
-    return {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
         title: `${meta.title} — Новый Коттедж`,
         description: meta.description,
-        alternates: { canonical: `/projects/${meta.slug}` },
-    };
+        path: `/projects/${meta.slug}`,
+    });
 }
 
 export default async function CategoryPage({ params }: Props) {

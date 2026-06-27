@@ -5,16 +5,21 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getProjects } from "@/data/projects";
 import { getSelections } from "@/data/project-selections";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import { matchesSelection } from "@/domain/project-selection";
 import { GROUP_LABELS } from "./selections";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Подборки проектов домов — Новый Коттедж",
-    description:
-        "Подборки проектов домов по этажности, площади, стилю, назначению и особенностям планировки.",
-    alternates: { canonical: "/project-selections" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["project-selections"].title,
+        description: seo.indexes["project-selections"].description,
+        path: "/project-selections",
+    });
+}
 
 export const revalidate = 60;
 
@@ -32,9 +37,7 @@ export default async function ProjectSelectionsPage() {
     const grouped = Object.entries(GROUP_LABELS).map(([group, label]) => ({
         group,
         label,
-        selections: selections.filter(
-            (selection) => selection.group === group
-        ),
+        selections: selections.filter((selection) => selection.group === group),
     }));
 
     return (

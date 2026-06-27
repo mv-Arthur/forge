@@ -4,14 +4,19 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getArticleCategories, getArticles, getBlogPage } from "@/data/blog";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Блог о строительстве загородных домов | Новый Коттедж",
-    description:
-        "Экспертные статьи Нового Коттеджа о выборе технологии, проектировании, фундаменте, этапах строительства, инженерных сетях и ипотеке на дом.",
-    alternates: { canonical: "/blog" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["blog"].title,
+        description: seo.indexes["blog"].description,
+        path: "/blog",
+    });
+}
 
 export default async function BlogPage() {
     const [articles, blogPage] = await Promise.all([
@@ -31,7 +36,9 @@ export default async function BlogPage() {
 
                 <section className={styles.hero}>
                     <div className={styles.heroText}>
-                        <p className={styles.eyebrow}>{blogPage.hero.eyebrow}</p>
+                        <p className={styles.eyebrow}>
+                            {blogPage.hero.eyebrow}
+                        </p>
                         <h1 className={styles.title}>{blogPage.hero.title}</h1>
                         <p className={styles.lead}>{blogPage.hero.lead}</p>
                     </div>

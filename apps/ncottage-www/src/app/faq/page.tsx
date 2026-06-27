@@ -4,14 +4,19 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getFaqItems, groupFaqItems } from "@/data/faq";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Вопрос-ответ | Новый Коттедж",
-    description:
-        "Частые вопросы о строительстве домов, проектировании, сроках, контроле качества, инженерных коммуникациях и гарантии.",
-    alternates: { canonical: "/faq" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["faq"].title,
+        description: seo.indexes["faq"].description,
+        path: "/faq",
+    });
+}
 
 export default async function FaqPage() {
     const groups = groupFaqItems(await getFaqItems());

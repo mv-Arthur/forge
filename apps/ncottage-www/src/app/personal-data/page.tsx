@@ -6,15 +6,18 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EMAIL, LEGAL, PHONES } from "@/content/contacts";
 import { getPage, section, sectionsOf } from "@/data/pages";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPage("personal-data");
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: "/personal-data" },
-    };
+    const [page, seo] = await Promise.all([getPage("personal-data"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/personal-data",
+    });
 }
 
 export default async function PersonalDataPage() {
@@ -106,7 +109,9 @@ export default async function PersonalDataPage() {
                         <div>
                             <span>{contact.eyebrow}</span>
                             <h2>{contact.title}</h2>
-                            {contact.description && <p>{contact.description}</p>}
+                            {contact.description && (
+                                <p>{contact.description}</p>
+                            )}
                         </div>
                         <div className={styles.links}>
                             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>

@@ -4,15 +4,18 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPage, section, sectionsOf } from "@/data/pages";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPage("production");
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: "/production" },
-    };
+    const [page, seo] = await Promise.all([getPage("production"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/production",
+    });
 }
 
 export default async function ProductionPage() {

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPage, section, sectionsOf } from "@/data/pages";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import { FinanceLanding } from "./FinanceLanding";
 
 // Общий помощник для четырёх финансовых лендингов (mortgage/credit/
@@ -9,12 +11,13 @@ import { FinanceLanding } from "./FinanceLanding";
 // компоненте.
 
 export async function financeMetadata(pageKey: string): Promise<Metadata> {
-    const page = await getPage(pageKey);
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: `/${pageKey}` },
-    };
+    const [page, seo] = await Promise.all([getPage(pageKey), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: `/${pageKey}`,
+    });
 }
 
 export async function FinancePage({ pageKey }: { pageKey: string }) {

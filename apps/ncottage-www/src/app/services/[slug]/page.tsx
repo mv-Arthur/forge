@@ -6,7 +6,9 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { PHONES } from "@/content/contacts";
 import { getServiceBySlug, getServices } from "@/data/services";
+import { getSeo } from "@/data/settings";
 import type { Service, ServiceFaqItem, ServiceSlug } from "@/domain/services";
+import { buildPageMetadata } from "@/lib/seo";
 import { ServiceCtaLink } from "./ServiceCtaLink";
 import styles from "./detail.module.css";
 
@@ -349,15 +351,22 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const service = await getServiceBySlug(slug);
+    const [service, seo] = await Promise.all([
+        getServiceBySlug(slug),
+        getSeo(),
+    ]);
 
     if (!service) return { title: "Услуга не найдена" };
 
-    return {
-        title: `${service.shortTitle} — услуги | Новый Коттедж`,
-        description: service.description,
-        alternates: { canonical: `/services/${service.slug}` },
-    };
+    return buildPageMetadata({
+        seo,
+        title:
+            service.seoTitle ??
+            `${service.shortTitle} — услуги | Новый Коттедж`,
+        description: service.seoDescription ?? service.description,
+        path: `/services/${service.slug}`,
+        image: service.image,
+    });
 }
 
 export default async function ServiceDetailPage({ params }: Props) {

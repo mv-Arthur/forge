@@ -5,6 +5,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getArticleBySlug, getArticles, getRelatedArticles } from "@/data/blog";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 interface Props {
@@ -18,17 +20,22 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const article = await getArticleBySlug(slug);
+    const [article, seo] = await Promise.all([
+        getArticleBySlug(slug),
+        getSeo(),
+    ]);
 
     if (!article) {
         return { title: "Статья не найдена" };
     }
 
-    return {
-        title: `${article.title} | Блог Нового Коттеджа`,
-        description: article.description,
-        alternates: { canonical: `/blog/${article.slug}` },
-    };
+    return buildPageMetadata({
+        seo,
+        title: article.seoTitle ?? `${article.title} | Блог Нового Коттеджа`,
+        description: article.seoDescription ?? article.description,
+        path: `/blog/${article.slug}`,
+        type: "article",
+    });
 }
 
 export default async function BlogArticlePage({ params }: Props) {

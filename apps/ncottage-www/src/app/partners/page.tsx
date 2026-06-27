@@ -4,6 +4,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPartners } from "@/data/partners";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 const principles = [
@@ -12,12 +14,15 @@ const principles = [
     "фиксируем комплектацию и материалы в смете до начала строительства",
 ];
 
-export const metadata: Metadata = {
-    title: "Партнёры | Новый Коттедж",
-    description:
-        "Партнёры и поставщики компании Новый Коттедж: строительные материалы, изоляция, фасадные решения и домокомплекты.",
-    alternates: { canonical: "/partners" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["partners"].title,
+        description: seo.indexes["partners"].description,
+        path: "/partners",
+    });
+}
 
 export default async function PartnersPage() {
     const partners = await getPartners();

@@ -5,15 +5,18 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPage, section } from "@/data/pages";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPage("about");
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: "/about" },
-    };
+    const [page, seo] = await Promise.all([getPage("about"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/about",
+    });
 }
 
 export default async function AboutPage() {
@@ -40,7 +43,9 @@ export default async function AboutPage() {
                 {hero && (
                     <section className={styles.hero}>
                         <div className={styles.heroText}>
-                            <span className={styles.eyebrow}>{hero.eyebrow}</span>
+                            <span className={styles.eyebrow}>
+                                {hero.eyebrow}
+                            </span>
                             <h1 className={styles.title}>{hero.title}</h1>
                             <p className={styles.lead}>{hero.lead}</p>
                         </div>
@@ -168,7 +173,9 @@ export default async function AboutPage() {
                 <Container>
                     <section className={styles.cta}>
                         <div>
-                            <span className={styles.eyebrow}>{cta.eyebrow}</span>
+                            <span className={styles.eyebrow}>
+                                {cta.eyebrow}
+                            </span>
                             <h2>{cta.title}</h2>
                         </div>
                         <div className={styles.ctaLinks}>

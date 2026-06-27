@@ -5,16 +5,19 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { LEGAL } from "@/content/contacts";
 import { getPage, section, sectionsOf } from "@/data/pages";
+import { getSeo } from "@/data/settings";
 import type { LabelValue } from "@/domain/page";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPage("requisites");
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: "/requisites" },
-    };
+    const [page, seo] = await Promise.all([getPage("requisites"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/requisites",
+    });
 }
 
 function RequisitesTable({ rows }: { rows: LabelValue[] }) {

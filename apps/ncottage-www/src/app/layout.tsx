@@ -6,6 +6,7 @@ import {
     getContacts,
     getFooter,
     getNavigation,
+    getSeo,
     toContactLinks,
     toFooterContent,
     toHeaderContacts,
@@ -31,11 +32,23 @@ const playfair = Playfair_Display({
 
 import "./globals.css";
 
-export const metadata: Metadata = {
-    title: "Строительство домов в СПб и ЛО под ключ — Новый Коттедж",
-    description:
-        "Строительная компания Новый Коттедж. Строительство загородных домов под ключ в Санкт-Петербурге и Ленинградской области.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return {
+        metadataBase: new URL(seo.baseUrl),
+        title: seo.defaultTitle,
+        description: seo.defaultDescription,
+        openGraph: {
+            title: seo.defaultTitle,
+            description: seo.defaultDescription,
+            url: "/",
+            siteName: seo.siteName,
+            locale: "ru_RU",
+            type: "website",
+            ...(seo.ogImageUrl ? { images: [seo.ogImageUrl] } : {}),
+        },
+    };
+}
 
 export const viewport: Viewport = {
     width: "device-width",

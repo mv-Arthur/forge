@@ -6,15 +6,18 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EMAIL, LEGAL, PHONES } from "@/content/contacts";
 import { getPage, section } from "@/data/pages";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPage("offer");
-    return {
-        title: page?.seoTitle,
-        description: page?.seoDescription,
-        alternates: { canonical: "/offer" },
-    };
+    const [page, seo] = await Promise.all([getPage("offer"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/offer",
+    });
 }
 
 export default async function OfferPage() {
