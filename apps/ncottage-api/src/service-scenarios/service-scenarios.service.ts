@@ -3,6 +3,11 @@ import { Prisma, type ServiceScenario as ScenarioRow } from "@prisma/client";
 import type { ServiceScenario } from "@forge/shared";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { RevalidateService } from "../revalidate/revalidate.service.js";
+import {
+    assertRefsExist,
+    assertSlugImmutable,
+    findMissing,
+} from "../common/references.js";
 import { CreateServiceScenarioDto } from "./dto/create-service-scenario.dto.js";
 import { UpdateServiceScenarioDto } from "./dto/update-service-scenario.dto.js";
 
@@ -102,7 +107,32 @@ export class ServiceScenariosService {
         return toDomain(await this.requireBySlug(slug));
     }
 
+    // Все *ServiceSlugs ссылаются на Service.slug.
+    private async assertServiceRefs(
+        dto: Partial<CreateServiceScenarioDto>
+    ): Promise<void> {
+        const slugs = [
+            ...(dto.serviceSlugs ?? []),
+            ...(dto.primaryServiceSlugs ?? []),
+            ...(dto.nextServiceSlugs ?? []),
+            ...(dto.optionalServiceSlugs ?? []),
+        ];
+        if (slugs.length === 0) return;
+        const rows = await this.prisma.service.findMany({
+            where: { slug: { in: slugs } },
+            select: { slug: true },
+        });
+        assertRefsExist(
+            "услуги сценария",
+            findMissing(
+                slugs,
+                rows.map((r) => r.slug)
+            )
+        );
+    }
+
     async create(dto: CreateServiceScenarioDto): Promise<ServiceScenario> {
+        await this.assertServiceRefs(dto);
         const row = await this.prisma.serviceScenario.create({
             data: toData(dto),
         });
@@ -115,9 +145,10 @@ export class ServiceScenariosService {
         dto: UpdateServiceScenarioDto
     ): Promise<ServiceScenario> {
         await this.requireBySlug(slug);
+        assertSlugImmutable(slug, dto.slug);
+        await this.assertServiceRefs(dto);
 
         const data: Prisma.ServiceScenarioUpdateInput = {};
-        if (dto.slug !== undefined) data.slug = dto.slug;
         if (dto.order !== undefined) data.order = dto.order;
         if (dto.title !== undefined) data.title = dto.title;
         if (dto.description !== undefined) data.description = dto.description;

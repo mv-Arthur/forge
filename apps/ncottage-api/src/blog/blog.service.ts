@@ -3,6 +3,11 @@ import { Prisma, type Article as ArticleRow } from "@prisma/client";
 import type { Article, ArticleSection } from "@forge/shared";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { RevalidateService } from "../revalidate/revalidate.service.js";
+import {
+    assertRefsExist,
+    assertSlugImmutable,
+    findMissing,
+} from "../common/references.js";
 import { CreateArticleDto } from "./dto/create-article.dto.js";
 import { UpdateArticleDto } from "./dto/update-article.dto.js";
 
@@ -66,7 +71,24 @@ export class BlogService {
         return toDomain(await this.requireBySlug(slug));
     }
 
+    // relatedSlugs -> Article.slug.
+    private async assertRelatedArticles(slugs?: string[]): Promise<void> {
+        if (!slugs || slugs.length === 0) return;
+        const rows = await this.prisma.article.findMany({
+            where: { slug: { in: slugs } },
+            select: { slug: true },
+        });
+        assertRefsExist(
+            "связанные статьи",
+            findMissing(
+                slugs,
+                rows.map((r) => r.slug)
+            )
+        );
+    }
+
     async create(dto: CreateArticleDto): Promise<Article> {
+        await this.assertRelatedArticles(dto.relatedSlugs);
         const row = await this.prisma.article.create({ data: toData(dto) });
         this.revalidateArticles(row.slug);
         return toDomain(row);
@@ -74,9 +96,10 @@ export class BlogService {
 
     async update(slug: string, dto: UpdateArticleDto): Promise<Article> {
         await this.requireBySlug(slug);
+        assertSlugImmutable(slug, dto.slug);
+        await this.assertRelatedArticles(dto.relatedSlugs);
 
         const data: Prisma.ArticleUpdateInput = {};
-        if (dto.slug !== undefined) data.slug = dto.slug;
         if (dto.title !== undefined) data.title = dto.title;
         if (dto.description !== undefined) data.description = dto.description;
         if (dto.category !== undefined) data.category = dto.category;

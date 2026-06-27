@@ -3,6 +3,11 @@ import { Prisma } from "@prisma/client";
 import type { Project } from "@forge/shared";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { RevalidateService } from "../revalidate/revalidate.service.js";
+import {
+    assertRefsExist,
+    assertSlugImmutable,
+    findMissing,
+} from "../common/references.js";
 import { CreateProjectDto } from "./dto/create-project.dto.js";
 import { UpdateProjectDto } from "./dto/update-project.dto.js";
 
@@ -180,7 +185,25 @@ export class ProjectsService {
         return toDomain(await this.requireBySlug(slug));
     }
 
+    // relatedObjectIds ссылаются на доменный BuiltObject.id, который хранится в
+    // колонке BuiltObject.slug (toDomain мапит id: row.slug).
+    private async assertRelatedObjects(ids: string[]): Promise<void> {
+        if (ids.length === 0) return;
+        const rows = await this.prisma.builtObject.findMany({
+            where: { slug: { in: ids } },
+            select: { slug: true },
+        });
+        assertRefsExist(
+            "построенные объекты",
+            findMissing(
+                ids,
+                rows.map((r) => r.slug)
+            )
+        );
+    }
+
     async create(dto: CreateProjectDto): Promise<Project> {
+        await this.assertRelatedObjects(dto.relatedObjectIds ?? []);
         const row = await this.prisma.project.create({
             data: {
                 slug: dto.slug,
@@ -221,9 +244,12 @@ export class ProjectsService {
 
     async update(slug: string, dto: UpdateProjectDto): Promise<Project> {
         await this.requireBySlug(slug);
+        assertSlugImmutable(slug, dto.slug);
+        if (dto.relatedObjectIds !== undefined) {
+            await this.assertRelatedObjects(dto.relatedObjectIds);
+        }
 
         const data: Prisma.ProjectUpdateInput = {};
-        if (dto.slug !== undefined) data.slug = dto.slug;
         if (dto.name !== undefined) data.name = dto.name;
         if (dto.technology !== undefined) data.technology = dto.technology;
         if (dto.area !== undefined) data.area = dto.area;

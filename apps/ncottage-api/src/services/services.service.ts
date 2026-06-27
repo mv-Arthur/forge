@@ -7,6 +7,11 @@ import type {
 } from "@forge/shared";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { RevalidateService } from "../revalidate/revalidate.service.js";
+import {
+    assertRefsExist,
+    assertSlugImmutable,
+    findMissing,
+} from "../common/references.js";
 import { CreateServiceDto } from "./dto/create-service.dto.js";
 import { UpdateServiceDto } from "./dto/update-service.dto.js";
 
@@ -112,7 +117,41 @@ export class ServicesService {
         return toDomain(await this.requireBySlug(slug));
     }
 
+    // relatedSlugs -> Service.slug, scenarioSlugs -> ServiceScenario.slug.
+    private async assertServiceRefs(
+        relatedSlugs?: string[],
+        scenarioSlugs?: string[]
+    ): Promise<void> {
+        if (relatedSlugs && relatedSlugs.length > 0) {
+            const rows = await this.prisma.service.findMany({
+                where: { slug: { in: relatedSlugs } },
+                select: { slug: true },
+            });
+            assertRefsExist(
+                "связанные услуги",
+                findMissing(
+                    relatedSlugs,
+                    rows.map((r) => r.slug)
+                )
+            );
+        }
+        if (scenarioSlugs && scenarioSlugs.length > 0) {
+            const rows = await this.prisma.serviceScenario.findMany({
+                where: { slug: { in: scenarioSlugs } },
+                select: { slug: true },
+            });
+            assertRefsExist(
+                "сценарии услуг",
+                findMissing(
+                    scenarioSlugs,
+                    rows.map((r) => r.slug)
+                )
+            );
+        }
+    }
+
     async create(dto: CreateServiceDto): Promise<Service> {
+        await this.assertServiceRefs(dto.relatedSlugs, dto.scenarioSlugs);
         const row = await this.prisma.service.create({ data: toData(dto) });
         this.revalidateServices(row.slug);
         return toDomain(row);
@@ -120,9 +159,10 @@ export class ServicesService {
 
     async update(slug: string, dto: UpdateServiceDto): Promise<Service> {
         await this.requireBySlug(slug);
+        assertSlugImmutable(slug, dto.slug);
+        await this.assertServiceRefs(dto.relatedSlugs, dto.scenarioSlugs);
 
         const data: Prisma.ServiceUpdateInput = {};
-        if (dto.slug !== undefined) data.slug = dto.slug;
         if (dto.order !== undefined) data.order = dto.order;
         if (dto.title !== undefined) data.title = dto.title;
         if (dto.shortTitle !== undefined) data.shortTitle = dto.shortTitle;
