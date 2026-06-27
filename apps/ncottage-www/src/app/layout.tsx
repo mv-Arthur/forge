@@ -11,6 +11,7 @@ import {
     toFooterContent,
     toHeaderContacts,
 } from "@/data/settings";
+import { toMetadataBase } from "@/lib/seo";
 import { SelectionProvider } from "@/lib/selection";
 import { CallbackProvider } from "@/lib/callback";
 import { FloatingContact } from "@/components/shared/FloatingContact";
@@ -35,7 +36,7 @@ import "./globals.css";
 export async function generateMetadata(): Promise<Metadata> {
     const seo = await getSeo();
     return {
-        metadataBase: new URL(seo.baseUrl),
+        metadataBase: toMetadataBase(seo.baseUrl),
         title: seo.defaultTitle,
         description: seo.defaultDescription,
         openGraph: {

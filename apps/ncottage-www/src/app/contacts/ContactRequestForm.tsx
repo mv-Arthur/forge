@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { EMAIL } from "@/content/contacts";
 import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./page.module.css";
 
@@ -10,11 +9,13 @@ export function ContactRequestForm({
     title,
     lead,
     button,
+    email,
 }: {
     eyebrow: string;
     title: string;
     lead: string;
     button: string;
+    email: string;
 }) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -109,8 +110,8 @@ export function ContactRequestForm({
             <p className={styles.privacy}>
                 Нажимая на кнопку, вы соглашаетесь на обработку персональных
                 данных. Также можно написать напрямую на{" "}
-                <a className={styles.inlineLink} href={`mailto:${EMAIL}`}>
-                    {EMAIL}
+                <a className={styles.inlineLink} href={`mailto:${email}`}>
+                    {email}
                 </a>
                 .
             </p>

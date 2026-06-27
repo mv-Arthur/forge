@@ -1,4 +1,4 @@
-import type { SettingKey } from "@forge/shared";
+import { SEO_INDEX_KEYS, type SettingKey } from "@forge/shared";
 import { z } from "zod";
 
 const navSubItem = z.object({ label: z.string(), href: z.string() });
@@ -115,23 +115,16 @@ const seoIndexMeta = z.object({
     description: z.string(),
 });
 const seo = z.object({
-    baseUrl: z.string(),
+    baseUrl: z.string().url(),
     siteName: z.string(),
     defaultTitle: z.string(),
     defaultDescription: z.string(),
     ogImageUrl: z.string(),
-    indexes: z.object({
-        blog: seoIndexMeta,
-        services: seoIndexMeta,
-        projects: seoIndexMeta,
-        promos: seoIndexMeta,
-        reviews: seoIndexMeta,
-        faq: seoIndexMeta,
-        certificates: seoIndexMeta,
-        partners: seoIndexMeta,
-        vacancies: seoIndexMeta,
-        "project-selections": seoIndexMeta,
-    }),
+    indexes: z.object(
+        Object.fromEntries(
+            SEO_INDEX_KEYS.map((key) => [key, seoIndexMeta])
+        ) as Record<(typeof SEO_INDEX_KEYS)[number], typeof seoIndexMeta>
+    ),
 });
 
 export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {

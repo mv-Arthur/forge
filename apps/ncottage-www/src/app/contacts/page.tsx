@@ -248,6 +248,7 @@ export default async function ContactsPage() {
                                 title={form.title}
                                 lead={form.lead}
                                 button={form.button}
+                                email={email}
                             />
                         )}
 

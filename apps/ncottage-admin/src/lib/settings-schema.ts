@@ -388,7 +388,9 @@ const seoIndexMetaSchema = z.object({
 });
 
 export const seoSchema = z.object({
-    baseUrl: z.string().min(1, "Укажите базовый URL"),
+    baseUrl: z
+        .string()
+        .url("Укажите полный URL со схемой, например https://ncottage.ru"),
     siteName: z.string().min(1, "Укажите название сайта"),
     defaultTitle: z.string().min(1, "Укажите заголовок по умолчанию"),
     defaultDescription: z.string().min(1, "Укажите описание по умолчанию"),
