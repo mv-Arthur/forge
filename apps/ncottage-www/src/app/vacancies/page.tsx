@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { EMAIL } from "@/content/contacts";
-import { getSeo } from "@/data/settings";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
 import { getVacancies } from "@/data/vacancies";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
@@ -19,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function VacanciesPage() {
+    const { email } = toContactRecords(await getContacts());
     const vacancies = await getVacancies();
 
     return (
@@ -43,7 +43,7 @@ export default async function VacanciesPage() {
                     />
                     <div className={styles.applyCard}>
                         <span>Отклик</span>
-                        <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+                        <a href={`mailto:${email}`}>{email}</a>
                         <p>
                             В теме письма укажите вакансию, а в письме — опыт,
                             сильные стороны и удобный формат связи.
@@ -92,7 +92,7 @@ export default async function VacanciesPage() {
                         <span>Отклик</span>
                         <h2>Расскажите о своем опыте и приложите резюме</h2>
                     </div>
-                    <a href={`mailto:${EMAIL}`}>Отправить резюме</a>
+                    <a href={`mailto:${email}`}>Отправить резюме</a>
                 </section>
             </Container>
         </section>

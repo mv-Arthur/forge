@@ -1,4 +1,3 @@
-import { PHONES } from "@/content/contacts";
 import { ServiceCtaLink } from "./ServiceCtaLink";
 import styles from "./ServiceFinalCta.module.css";
 
@@ -10,7 +9,7 @@ interface ServiceFinalCtaProps {
     requestLabel?: string;
     requestHref?: string;
     callLabel?: string;
-    callHref?: string;
+    callHref: string;
 }
 
 const DEFAULT_REQUEST_HREF = "/contacts#request";
@@ -24,7 +23,7 @@ export function ServiceFinalCta({
     requestLabel = "Получить консультацию",
     requestHref = DEFAULT_REQUEST_HREF,
     callLabel = "Позвонить",
-    callHref = `tel:${PHONES.spb.number}`,
+    callHref,
 }: ServiceFinalCtaProps) {
     const finalText =
         text ??

@@ -3,9 +3,8 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { LEGAL } from "@/content/contacts";
 import { getPage, section, sectionsOf } from "@/data/pages";
-import { getSeo } from "@/data/settings";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
 import type { LabelValue } from "@/domain/page";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
@@ -34,6 +33,7 @@ function RequisitesTable({ rows }: { rows: LabelValue[] }) {
 }
 
 export default async function RequisitesPage() {
+    const { legal } = toContactRecords(await getContacts());
     const page = await getPage("requisites");
     if (!page) notFound();
 
@@ -68,11 +68,11 @@ export default async function RequisitesPage() {
                         <dl>
                             <div>
                                 <dt>ИНН</dt>
-                                <dd>{LEGAL.inn}</dd>
+                                <dd>{legal.inn}</dd>
                             </div>
                             <div>
                                 <dt>ОГРН</dt>
-                                <dd>{LEGAL.ogrn}</dd>
+                                <dd>{legal.ogrn}</dd>
                             </div>
                         </dl>
                     </aside>

@@ -4,9 +4,8 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { EMAIL, LEGAL, PHONES } from "@/content/contacts";
 import { getPage, section, sectionsOf } from "@/data/pages";
-import { getSeo } from "@/data/settings";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -21,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PersonalDataPage() {
+    const { phones, email, legal } = toContactRecords(await getContacts());
     const page = await getPage("personal-data");
     if (!page) notFound();
 
@@ -57,8 +57,8 @@ export default async function PersonalDataPage() {
                         <span>{hero.noteLabel}</span>
                         <strong>{hero.operatorName}</strong>
                         <p>
-                            ОГРН {LEGAL.ogrn} · ИНН {LEGAL.inn} · КПП{" "}
-                            {LEGAL.kpp}
+                            ОГРН {legal.ogrn} · ИНН {legal.inn} · КПП{" "}
+                            {legal.kpp}
                         </p>
                     </aside>
                 </section>
@@ -114,9 +114,9 @@ export default async function PersonalDataPage() {
                             )}
                         </div>
                         <div className={styles.links}>
-                            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-                            <a href={`tel:${PHONES.spb.number}`}>
-                                {PHONES.spb.display}
+                            <a href={`mailto:${email}`}>{email}</a>
+                            <a href={`tel:${phones.spb.number}`}>
+                                {phones.spb.display}
                             </a>
                             {contact.links.map((link) => (
                                 <Link key={link.href} href={link.href}>

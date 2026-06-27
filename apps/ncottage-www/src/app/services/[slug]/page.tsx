@@ -4,9 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
-import { PHONES } from "@/content/contacts";
 import { getServiceBySlug, getServices } from "@/data/services";
-import { getSeo } from "@/data/settings";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
 import type { Service, ServiceFaqItem, ServiceSlug } from "@/domain/services";
 import { buildPageMetadata } from "@/lib/seo";
 import { ServiceCtaLink } from "./ServiceCtaLink";
@@ -375,6 +374,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
     if (!service) notFound();
 
+    const { phones } = toContactRecords(await getContacts());
     const allServices = await getServices();
     const serviceMap = new Map<string, DetailService>(
         allServices.map((s) => [s.slug, s])
@@ -462,7 +462,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                             </ServiceCtaLink>
                             <ServiceCtaLink
                                 className={styles.secondaryButton}
-                                href={`tel:${PHONES.spb.number}`}
+                                href={`tel:${phones.spb.number}`}
                                 serviceSlug={service.slug}
                                 serviceTitle={service.shortTitle}
                                 action="call"
@@ -855,7 +855,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                         </ServiceCtaLink>
                         <ServiceCtaLink
                             className={styles.secondaryButton}
-                            href={`tel:${PHONES.spb.number}`}
+                            href={`tel:${phones.spb.number}`}
                             serviceSlug={service.slug}
                             serviceTitle={service.shortTitle}
                             action="call"

@@ -4,9 +4,8 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { EMAIL, LEGAL, PHONES } from "@/content/contacts";
 import { getPage, section } from "@/data/pages";
-import { getSeo } from "@/data/settings";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -23,6 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function OfferPage() {
     const page = await getPage("offer");
     if (!page) notFound();
+    const { phones, email, legal } = toContactRecords(await getContacts());
 
     const hero = section(page, "legalHero");
     const notes = section(page, "cardGrid");
@@ -83,23 +83,23 @@ export default async function OfferPage() {
                             </Link>
                         ))}
                         <a
-                            href={`tel:${PHONES.spb.number}`}
+                            href={`tel:${phones.spb.number}`}
                             className={styles.secondaryLink}
                         >
-                            {PHONES.spb.display}
+                            {phones.spb.display}
                         </a>
                         <a
-                            href={`mailto:${EMAIL}`}
+                            href={`mailto:${email}`}
                             className={styles.secondaryLink}
                         >
-                            {EMAIL}
+                            {email}
                         </a>
                     </div>
                 </section>
 
                 <p className={styles.company}>
-                    Оператор сайта: ООО «Новый коттедж», ОГРН {LEGAL.ogrn}, ИНН{" "}
-                    {LEGAL.inn}.
+                    Оператор сайта: ООО «Новый коттедж», ОГРН {legal.ogrn}, ИНН{" "}
+                    {legal.inn}.
                 </p>
             </Container>
         </section>

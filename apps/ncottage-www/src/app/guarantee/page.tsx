@@ -4,9 +4,8 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { EMAIL, PHONES } from "@/content/contacts";
 import { getPage, section, sectionsOf } from "@/data/pages";
-import { getSeo } from "@/data/settings";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -21,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function GuaranteePage() {
+    const { phones, email } = toContactRecords(await getContacts());
     const page = await getPage("guarantee");
     if (!page) notFound();
 
@@ -143,23 +143,23 @@ export default async function GuaranteePage() {
                             <div>
                                 <dt>Санкт-Петербург</dt>
                                 <dd>
-                                    <a href={`tel:${PHONES.spb.number}`}>
-                                        {PHONES.spb.display}
+                                    <a href={`tel:${phones.spb.number}`}>
+                                        {phones.spb.display}
                                     </a>
                                 </dd>
                             </div>
                             <div>
                                 <dt>Москва</dt>
                                 <dd>
-                                    <a href={`tel:${PHONES.msk.number}`}>
-                                        {PHONES.msk.display}
+                                    <a href={`tel:${phones.msk.number}`}>
+                                        {phones.msk.display}
                                     </a>
                                 </dd>
                             </div>
                             <div>
                                 <dt>Email</dt>
                                 <dd>
-                                    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+                                    <a href={`mailto:${email}`}>{email}</a>
                                 </dd>
                             </div>
                         </dl>
