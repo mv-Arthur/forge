@@ -1,3 +1,9 @@
+import { LEAD_SOURCES, type LeadSource } from "@forge/shared";
+
+// Источники лида — единый источник правды в @forge/shared (общий с www/api).
+export { LEAD_SOURCES };
+export type { LeadSource };
+
 export type LeadStatus = "new" | "contacted" | "archived";
 
 export const LEAD_STATUSES: LeadStatus[] = ["new", "contacted", "archived"];
@@ -7,14 +13,6 @@ export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
     contacted: "В работе",
     archived: "Архив",
 };
-
-export const LEAD_SOURCES = [
-    "contacts",
-    "callback",
-    "project",
-    "works",
-] as const;
-export type LeadSource = (typeof LEAD_SOURCES)[number];
 
 export const LEAD_SOURCE_LABELS: Record<string, string> = {
     contacts: "Контакты",
