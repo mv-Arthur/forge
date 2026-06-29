@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getBuiltObjects } from "@/data/built-objects";
 import { getPage, section } from "@/data/pages";
 import { getSeo } from "@/data/settings";
@@ -207,6 +208,12 @@ export default async function WorksPage() {
                         className={styles.listHeading}
                     />
 
+                    {objects.length === 0 && (
+                        <EmptyState
+                            title="Построенных объектов пока нет"
+                            description="Мы готовим галерею завершённых домов — она скоро появится здесь."
+                        />
+                    )}
                     <div id="works-list" className={styles.grid}>
                         {objects.map((object) => (
                             <Link

@@ -1,0 +1,25 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    text-align: center;
+    border: 1px dashed var(--color-line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-alt);
+}
+
+.title {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.description {
+    margin: 0;
+    max-width: 42ch;
+    color: var(--color-ink-muted);
+}

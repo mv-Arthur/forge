@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getPromos } from "@/data/promos";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
@@ -84,6 +85,12 @@ export default async function PromosPage() {
                         className={styles.sectionHead}
                     />
 
+                    {promos.length === 0 && (
+                        <EmptyState
+                            title="Акций пока нет"
+                            description="Сейчас активных предложений нет — свяжитесь с нами, и мы подберём условия под ваш проект."
+                        />
+                    )}
                     <div className={styles.cardsGrid}>
                         {promos.map((promo) => (
                             <article

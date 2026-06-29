@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getReviews } from "@/data/reviews";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
@@ -59,6 +60,12 @@ export default async function ReviewsPage() {
                     </div>
                 </section>
 
+                {reviews.length === 0 && (
+                    <EmptyState
+                        title="Отзывов пока нет"
+                        description="Мы только собираем истории клиентов — скоро здесь появятся отзывы."
+                    />
+                )}
                 <section
                     className={styles.reviewsGrid}
                     aria-label="Отзывы клиентов"

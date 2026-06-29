@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getPartners } from "@/data/partners";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
@@ -81,6 +82,12 @@ export default async function PartnersPage() {
                         align="left"
                         className={styles.sectionHead}
                     />
+                    {partners.length === 0 && (
+                        <EmptyState
+                            title="Список партнёров пуст"
+                            description="Мы обновляем список поставщиков и партнёров — он скоро появится здесь."
+                        />
+                    )}
                     <div className={styles.partnerGrid}>
                         {partners.map((partner) => {
                             const content = (

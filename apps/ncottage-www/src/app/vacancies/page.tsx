@@ -3,6 +3,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getContacts, getSeo, toContactRecords } from "@/data/settings";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getVacancies } from "@/data/vacancies";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
@@ -51,6 +52,12 @@ export default async function VacanciesPage() {
                     </div>
                 </section>
 
+                {vacancies.length === 0 && (
+                    <EmptyState
+                        title="Открытых вакансий нет"
+                        description="Сейчас активных вакансий нет, но мы всегда рады резюме — напишите нам."
+                    />
+                )}
                 <div className={styles.list}>
                     {vacancies.map((vacancy) => (
                         <article key={vacancy.title} className={styles.card}>

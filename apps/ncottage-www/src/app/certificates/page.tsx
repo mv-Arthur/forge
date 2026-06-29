@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getCertificates } from "@/data/certificates";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
@@ -87,6 +88,12 @@ export default async function CertificatesPage() {
                         align="left"
                         className={styles.sectionHead}
                     />
+                    {certificates.length === 0 && (
+                        <EmptyState
+                            title="Документов пока нет"
+                            description="Актуальные сертификаты и лицензии покажем в офисе или приложим к коммерческому предложению."
+                        />
+                    )}
                     <div className={styles.documentsGrid}>
                         {certificates.map((certificate, index) => {
                             const preview = (

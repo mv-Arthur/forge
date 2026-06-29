@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getFaqItems, groupFaqItems } from "@/data/faq";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
@@ -67,6 +68,12 @@ export default async function FaqPage() {
                         </nav>
                     </aside>
 
+                    {groups.length === 0 && (
+                        <EmptyState
+                            title="Вопросов пока нет"
+                            description="Мы наполняем раздел ответами — задайте свой вопрос, и мы ответим лично."
+                        />
+                    )}
                     <div className={styles.groups}>
                         {groups.map((group) => (
                             <section
