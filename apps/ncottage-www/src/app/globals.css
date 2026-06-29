@@ -28,20 +28,6 @@
     --color-brand-green: #479332;
     --color-brand-green-hover: #52a73a;
 
-    /* Legacy aliases — kept for components not yet migrated */
-    --color-green: var(--color-brand-green);
-    --color-green-hover: var(--color-brand-green-hover);
-    --color-green-dark: #3d7e2a;
-    --color-red: var(--color-danger);
-    --color-bg-light: var(--color-surface-alt);
-    --color-bg-green: var(--color-accent);
-    --color-text: var(--color-ink-muted);
-    --color-text-dark: var(--color-ink);
-    --color-text-light: var(--color-ink-subtle);
-    --color-text-white: var(--color-ink-on-accent);
-    --color-border: var(--color-line);
-    --color-border-light: var(--color-line-strong);
-
     /* Typography */
     --font-sans-stack:
         var(--font-sans), "Inter", "Helvetica Neue", Arial, sans-serif;
