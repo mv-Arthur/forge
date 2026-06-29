@@ -27,11 +27,11 @@ export function partnerToFormValues(partner: Partner): PartnerFormValues {
 }
 
 export function formValuesToPartner(values: PartnerFormValues): Partner {
-    const href = values.href.trim();
+    // Всегда отправляем href (в т.ч. пустой), чтобы его можно было очистить.
     return {
         slug: values.slug.trim(),
         name: values.name.trim(),
         category: values.category.trim(),
-        ...(href ? { href } : {}),
+        href: values.href.trim(),
     };
 }

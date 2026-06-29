@@ -41,16 +41,15 @@ export function reviewToFormValues(review: Review): ReviewFormValues {
 }
 
 export function formValuesToReview(values: ReviewFormValues): ReviewInput {
-    const type = values.type.trim();
-    const image = values.image.trim();
-    const videoUrl = values.videoUrl.trim();
+    // Всегда отправляем опциональные поля (в т.ч. пустые), чтобы их можно было
+    // очистить: API хранит "", а toDomain опускает пустые → www берёт фолбэк.
     return {
         author: values.author.trim(),
         date: values.date.trim(),
         text: values.text.trim(),
         featured: values.featured,
-        ...(type ? { type } : {}),
-        ...(image ? { image } : {}),
-        ...(videoUrl ? { videoUrl } : {}),
+        type: values.type.trim(),
+        image: values.image.trim(),
+        videoUrl: values.videoUrl.trim(),
     };
 }

@@ -171,11 +171,6 @@ export function serviceToFormValues(service: Service): ServiceFormValues {
     };
 }
 
-function withOptional(key: string, value: string): Record<string, string> {
-    const trimmed = value.trim();
-    return trimmed.length ? { [key]: trimmed } : {};
-}
-
 export function formValuesToService(values: ServiceFormValues): Service {
     const seoContent: ServiceSeoContent = {
         priceNote: values.seoContent.priceNote.trim(),
@@ -219,15 +214,15 @@ export function formValuesToService(values: ServiceFormValues): Service {
         priceFactors: unwrap(values.priceFactors),
         deliverables: unwrap(values.deliverables),
         quickFacts: unwrap(values.quickFacts),
-        ...withOptional("detailPain", values.detailPain),
-        ...withOptional("detailPromise", values.detailPromise),
+        detailPain: values.detailPain.trim(),
+        detailPromise: values.detailPromise.trim(),
         detailVariants: values.detailVariants.map((v) => ({
             title: v.title.trim(),
             description: v.description.trim(),
         })),
         detailChecks: unwrap(values.detailChecks),
-        ...withOptional("detailNextStep", values.detailNextStep),
-        ...withOptional("detailCta", values.detailCta),
+        detailNextStep: values.detailNextStep.trim(),
+        detailCta: values.detailCta.trim(),
         relatedSlugs: values.relatedSlugs,
         scenarioSlugs: values.scenarioSlugs,
         seoContent,

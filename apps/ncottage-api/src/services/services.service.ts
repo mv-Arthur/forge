@@ -38,16 +38,12 @@ function toDomain(row: ServiceRow): Service {
         priceFactors: row.priceFactors,
         deliverables: row.deliverables,
         quickFacts: row.quickFacts,
-        ...(row.detailPain !== null ? { detailPain: row.detailPain } : {}),
-        ...(row.detailPromise !== null
-            ? { detailPromise: row.detailPromise }
-            : {}),
+        ...(row.detailPain ? { detailPain: row.detailPain } : {}),
+        ...(row.detailPromise ? { detailPromise: row.detailPromise } : {}),
         detailVariants: row.detailVariants as unknown as ServiceDetailVariant[],
         detailChecks: row.detailChecks,
-        ...(row.detailNextStep !== null
-            ? { detailNextStep: row.detailNextStep }
-            : {}),
-        ...(row.detailCta !== null ? { detailCta: row.detailCta } : {}),
+        ...(row.detailNextStep ? { detailNextStep: row.detailNextStep } : {}),
+        ...(row.detailCta ? { detailCta: row.detailCta } : {}),
         relatedSlugs: row.relatedSlugs,
         scenarioSlugs: row.scenarioSlugs,
         seoContent: row.seoContent as unknown as ServiceSeoContent,

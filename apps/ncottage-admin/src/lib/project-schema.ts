@@ -185,7 +185,7 @@ export function formValuesToProject(values: ProjectFormValues): Project {
         relatedObjectIds: values.relatedObjectIds
             .map((r) => r.value.trim())
             .filter(Boolean),
-        pdfUrl: values.pdfUrl?.trim() ? values.pdfUrl.trim() : undefined,
+        pdfUrl: values.pdfUrl?.trim() ?? "",
         seoTitle: values.seoTitle.trim(),
         seoDescription: values.seoDescription.trim(),
     };

@@ -88,7 +88,7 @@ function toDomain(row: ProjectWithRelations): Project {
               }))
             : undefined,
         relatedObjectIds: row.relations.map((r) => r.relatedSlug),
-        pdfUrl: row.pdfUrl ?? undefined,
+        ...(row.pdfUrl ? { pdfUrl: row.pdfUrl } : {}),
         seoTitle: row.seoTitle || undefined,
         seoDescription: row.seoDescription || undefined,
     };
