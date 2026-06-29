@@ -1,17 +1,29 @@
 import { Transform } from "class-transformer";
-import { IsBoolean, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsIn, IsOptional } from "class-validator";
+import {
+    PROJECT_LIVING_TYPES,
+    type ProjectLivingType,
+    TECHNOLOGIES,
+    type Technology,
+} from "@forge/shared";
 
 export class ListProjectsQueryDto {
     @IsOptional()
-    @IsString()
-    technology?: string;
+    @IsIn(TECHNOLOGIES)
+    technology?: Technology;
 
     @IsOptional()
-    @IsString()
-    livingType?: string;
+    @IsIn(PROJECT_LIVING_TYPES)
+    livingType?: ProjectLivingType;
 
+    // "true"/"false" → boolean; любое другое значение остаётся как есть и
+    // отвергается @IsBoolean (400), а не молча трактуется как false.
     @IsOptional()
-    @Transform(({ value }) => value === "true" || value === true)
+    @Transform(({ value }) => {
+        if (value === "true" || value === true) return true;
+        if (value === "false" || value === false) return false;
+        return value;
+    })
     @IsBoolean()
     featured?: boolean;
 }
