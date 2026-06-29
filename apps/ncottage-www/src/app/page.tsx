@@ -14,6 +14,7 @@ import { PullQuote } from "@/components/sections/PullQuote";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { StagesSection } from "@/components/sections/StagesSection";
 import { Catalog } from "@/components/features/home-catalog";
+import { JsonLd } from "@/components/seo/JsonLd";
 import type { AdvantagesSectionContent } from "@/content/home";
 import { getBuiltObjects } from "@/data/built-objects";
 import { getPage, section } from "@/data/pages";
@@ -21,6 +22,10 @@ import { getFeaturedProjects } from "@/data/projects";
 import { getReviews } from "@/data/reviews";
 import { getContacts, getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import {
+    organizationJsonLd,
+    webSiteJsonLd,
+} from "@/lib/structured-data";
 import { formatMonthYear } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -58,6 +63,7 @@ export default async function HomePage() {
     const builtObjects = await getBuiltObjects();
     const allReviews = await getReviews();
     const contacts = await getContacts();
+    const seo = await getSeo();
 
     const featuredReviews = allReviews.filter((r) => r.featured);
     const featuredObject =
@@ -66,6 +72,12 @@ export default async function HomePage() {
 
     return (
         <>
+            <JsonLd
+                data={[
+                    organizationJsonLd(seo, contacts),
+                    webSiteJsonLd(seo),
+                ]}
+            />
             {hero && <HeroSection {...hero} />}
             {picker && <ProjectPicker {...picker} />}
             {catalog && <Catalog {...catalog} projects={featuredProjects} />}

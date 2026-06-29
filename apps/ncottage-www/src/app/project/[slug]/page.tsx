@@ -21,10 +21,12 @@ import {
     SimilarProjects,
     pickSimilarProjects,
 } from "@/components/features/project-detail";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getBuiltObjects } from "@/data/built-objects";
 import { getProjectBySlug, getProjects } from "@/data/projects";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import { productJsonLd } from "@/lib/structured-data";
 import {
     PROJECT_HUB_CATEGORIES,
     PROJECT_TECHNOLOGY_LABELS,
@@ -72,6 +74,7 @@ export default async function ProjectPage({ params }: Props) {
     const allProjects = await getProjects();
     const similar = pickSimilarProjects(allProjects, project, 3);
     const builtObjects = await getBuiltObjects();
+    const seo = await getSeo();
     const showroomObjects = project.relatedObjectIds
         ? builtObjects.filter((o) => project.relatedObjectIds!.includes(o.id))
         : [];
@@ -95,6 +98,7 @@ export default async function ProjectPage({ params }: Props) {
 
     return (
         <ProjectConfigProvider>
+            <JsonLd data={productJsonLd(project, seo)} />
             <article className={styles.page}>
                 <Container>
                     <Breadcrumbs

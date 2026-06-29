@@ -4,9 +4,11 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getArticleBySlug, getArticles, getRelatedArticles } from "@/data/blog";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import { articleJsonLd } from "@/lib/structured-data";
 import styles from "./page.module.css";
 
 interface Props {
@@ -49,10 +51,14 @@ export default async function BlogArticlePage({ params }: Props) {
 
     if (!article) notFound();
 
-    const relatedArticles = await getRelatedArticles(article);
+    const [relatedArticles, seo] = await Promise.all([
+        getRelatedArticles(article),
+        getSeo(),
+    ]);
 
     return (
         <section className={styles.page}>
+            <JsonLd data={articleJsonLd(article, seo)} />
             <Container>
                 <Breadcrumbs
                     items={[

@@ -4,9 +4,11 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getReviews } from "@/data/reviews";
 import { getListingPages, getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import { reviewsJsonLd } from "@/lib/structured-data";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,14 +22,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ReviewsPage() {
-    const [reviews, listingPages] = await Promise.all([
+    const [reviews, listingPages, seo] = await Promise.all([
         getReviews(),
         getListingPages(),
+        getSeo(),
     ]);
     const { metrics } = listingPages.reviews;
 
     return (
         <section className={styles.page}>
+            {reviews.length > 0 && (
+                <JsonLd data={reviewsJsonLd(reviews, seo)} />
+            )}
             <Container>
                 <Breadcrumbs
                     items={[

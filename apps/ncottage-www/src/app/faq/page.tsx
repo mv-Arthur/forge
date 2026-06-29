@@ -4,9 +4,12 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getFaqItems, groupFaqItems } from "@/data/faq";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import { slugify } from "@/lib/slugify";
+import { faqPageJsonLd } from "@/lib/structured-data";
 import styles from "./page.module.css";
 
 function pluralSections(n: number) {
@@ -26,10 +29,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function FaqPage() {
-    const groups = groupFaqItems(await getFaqItems());
+    const items = await getFaqItems();
+    const groups = groupFaqItems(items);
 
     return (
         <section className={styles.page}>
+            <JsonLd data={faqPageJsonLd(items)} />
             <Container>
                 <Breadcrumbs
                     items={[
@@ -70,7 +75,10 @@ export default async function FaqPage() {
                         <span>Разделы</span>
                         <nav>
                             {groups.map((group) => (
-                                <a key={group.title} href={`#${group.title}`}>
+                                <a
+                                    key={group.title}
+                                    href={`#${slugify(group.title)}`}
+                                >
                                     {group.title}
                                 </a>
                             ))}
@@ -87,7 +95,7 @@ export default async function FaqPage() {
                         {groups.map((group) => (
                             <section
                                 key={group.title}
-                                id={group.title}
+                                id={slugify(group.title)}
                                 className={styles.group}
                             >
                                 <h2>{group.title}</h2>
