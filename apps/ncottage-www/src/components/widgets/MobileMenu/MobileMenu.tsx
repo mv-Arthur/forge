@@ -94,8 +94,8 @@ export function MobileMenu({
                     <Image
                         src="/images/logo.png"
                         alt="Новый Коттедж"
-                        width={140}
-                        height={32}
+                        width={772}
+                        height={317}
                     />
                 </Link>
                 <button

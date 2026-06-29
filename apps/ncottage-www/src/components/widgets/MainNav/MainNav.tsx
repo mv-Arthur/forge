@@ -73,8 +73,8 @@ export function MainNav({
                     <Image
                         src="/images/logo.png"
                         alt="Новый Коттедж"
-                        width={160}
-                        height={36}
+                        width={772}
+                        height={317}
                         priority
                     />
                 </Link>
