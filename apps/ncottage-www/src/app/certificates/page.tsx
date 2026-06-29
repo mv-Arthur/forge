@@ -88,25 +88,60 @@ export default async function CertificatesPage() {
                         className={styles.sectionHead}
                     />
                     <div className={styles.documentsGrid}>
-                        {certificates.map((certificate, index) => (
-                            <article
-                                key={certificate.slug}
-                                className={styles.documentCard}
-                            >
-                                <div className={styles.documentPreview}>
-                                    <span>
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
+                        {certificates.map((certificate, index) => {
+                            const preview = (
+                                <div
+                                    className={`${styles.documentPreview} ${
+                                        certificate.imageUrl
+                                            ? styles.documentPreviewImage
+                                            : ""
+                                    }`}
+                                >
+                                    {certificate.imageUrl ? (
+                                        // eslint-disable-next-line @next/next/no-img-element -- произвольный медиа-хост, не LCP
+                                        <img
+                                            src={certificate.imageUrl}
+                                            alt={certificate.title}
+                                            className={styles.documentImage}
+                                        />
+                                    ) : (
+                                        <span>
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
+                                    )}
                                 </div>
+                            );
+                            const body = (
                                 <div className={styles.documentBody}>
                                     <h2>{certificate.title}</h2>
                                     <p>
-                                        Документ доступен для проверки перед
-                                        заключением договора.
+                                        {certificate.fileUrl
+                                            ? "Открыть документ →"
+                                            : "Документ доступен для проверки перед заключением договора."}
                                     </p>
                                 </div>
-                            </article>
-                        ))}
+                            );
+                            return certificate.fileUrl ? (
+                                <a
+                                    key={certificate.slug}
+                                    className={styles.documentCard}
+                                    href={certificate.fileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {preview}
+                                    {body}
+                                </a>
+                            ) : (
+                                <article
+                                    key={certificate.slug}
+                                    className={styles.documentCard}
+                                >
+                                    {preview}
+                                    {body}
+                                </article>
+                            );
+                        })}
                     </div>
                 </section>
 

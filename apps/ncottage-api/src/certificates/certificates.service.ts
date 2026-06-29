@@ -7,7 +7,14 @@ import { CreateCertificateDto } from "./dto/create-certificate.dto.js";
 import { UpdateCertificateDto } from "./dto/update-certificate.dto.js";
 
 function toDomain(row: CertificateRow): Certificate {
-    return { slug: row.slug, order: row.order, title: row.title };
+    return {
+        slug: row.slug,
+        order: row.order,
+        title: row.title,
+        // truthy-omit: пустую строку трактуем как «не задано» → www-фолбэк.
+        ...(row.imageUrl ? { imageUrl: row.imageUrl } : {}),
+        ...(row.fileUrl ? { fileUrl: row.fileUrl } : {}),
+    };
 }
 
 @Injectable()

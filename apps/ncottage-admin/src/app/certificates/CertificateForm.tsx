@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { Certificate } from "@forge/shared";
 import { NumberField, TextField } from "@/components/form/fields";
+import { MediaField } from "@/components/media/media-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -80,6 +81,28 @@ export function CertificateForm({
                         <TextField<V>
                             name="title"
                             label="Название документа"
+                        />
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-base">
+                            Файл документа (опц.)
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <MediaField<V>
+                            name="imageUrl"
+                            label="Картинка-превью"
+                            folder="certificates"
+                            description="Скан или фото документа для превью на сайте."
+                        />
+                        <MediaField<V>
+                            name="fileUrl"
+                            label="Файл (PDF и т.п.)"
+                            folder="certificates"
+                            description="Ссылка на сам документ — карточка станет кликабельной."
                         />
                     </CardContent>
                 </Card>
