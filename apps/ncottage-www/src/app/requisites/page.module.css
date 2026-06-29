@@ -144,6 +144,25 @@
     margin: 0;
 }
 
+.bankGroups {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bankName {
+    margin: 0 0 8px;
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.bankGroup {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+}
+
 .row {
     display: grid;
     grid-template-columns: 220px minmax(0, 1fr);

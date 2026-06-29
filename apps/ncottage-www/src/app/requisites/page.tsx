@@ -32,6 +32,50 @@ function RequisitesTable({ rows }: { rows: LabelValue[] }) {
     );
 }
 
+// Делит плоский список реквизитов на блоки по банкам: новый банк начинается со
+// строки расчётного счёта. Имя из строки «Банк» выносим в подзаголовок, чтобы
+// подписи не повторялись вперемешку.
+function groupByBank(rows: LabelValue[]): { bank?: string; rows: LabelValue[] }[] {
+    const groups: LabelValue[][] = [];
+    for (const row of rows) {
+        if (/^расч[её]тный\s+сч[её]т/i.test(row.label) || groups.length === 0) {
+            groups.push([]);
+        }
+        groups[groups.length - 1].push(row);
+    }
+    return groups.map((g) => ({
+        bank: g.find((r) => /^банк$/i.test(r.label))?.value,
+        rows: g.filter((r) => !/^банк$/i.test(r.label)),
+    }));
+}
+
+function BankRequisites({ title, rows }: { title: string; rows: LabelValue[] }) {
+    const groups = groupByBank(rows);
+    if (groups.length <= 1) {
+        return (
+            <section className={styles.block}>
+                <h2>{title}</h2>
+                <RequisitesTable rows={rows} />
+            </section>
+        );
+    }
+    return (
+        <section className={styles.block}>
+            <h2>{title}</h2>
+            <div className={styles.bankGroups}>
+                {groups.map((group, index) => (
+                    <div key={index} className={styles.bankGroup}>
+                        {group.bank && (
+                            <h3 className={styles.bankName}>{group.bank}</h3>
+                        )}
+                        <RequisitesTable rows={group.rows} />
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+}
+
 export default async function RequisitesPage() {
     const { legal } = toContactRecords(await getContacts());
     const page = await getPage("requisites");
@@ -84,10 +128,7 @@ export default async function RequisitesPage() {
                         <RequisitesTable rows={company.rows} />
                     </section>
 
-                    <section className={styles.block}>
-                        <h2>{bank.title}</h2>
-                        <RequisitesTable rows={bank.rows} />
-                    </section>
+                    <BankRequisites title={bank.title} rows={bank.rows} />
 
                     <section className={styles.blockWide}>
                         <h2>{moscow.title}</h2>

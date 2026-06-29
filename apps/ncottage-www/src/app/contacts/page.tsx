@@ -163,8 +163,7 @@ export default async function ContactsPage() {
                                             {office.phoneDisplay}
                                         </a>
                                         <p className={styles.schedule}>
-                                            Будние дни с 10 до 19. Выходные по
-                                            согласованию.
+                                            {workHours}
                                         </p>
                                         <p className={styles.note}>
                                             {office.note}
