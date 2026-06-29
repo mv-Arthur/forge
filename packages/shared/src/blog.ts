@@ -15,6 +15,8 @@ export interface Article {
     date: string;
     readTime: string;
     heroNote: string;
+    // Картинка для соцсетей (og:image / twitter); на странице не выводится.
+    image?: string;
     highlights: string[];
     sections: ArticleSection[];
     checklist: string[];

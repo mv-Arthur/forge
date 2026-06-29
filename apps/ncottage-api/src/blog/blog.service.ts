@@ -20,6 +20,7 @@ function toDomain(row: ArticleRow): Article {
         date: row.date,
         readTime: row.readTime,
         heroNote: row.heroNote,
+        ...(row.image ? { image: row.image } : {}),
         highlights: row.highlights,
         sections: row.sections as unknown as ArticleSection[],
         checklist: row.checklist,
@@ -38,6 +39,7 @@ function toData(dto: CreateArticleDto): Prisma.ArticleCreateInput {
         date: dto.date,
         readTime: dto.readTime,
         heroNote: dto.heroNote,
+        image: dto.image ?? null,
         highlights: dto.highlights,
         sections: dto.sections as unknown as Prisma.InputJsonValue,
         checklist: dto.checklist,
@@ -106,6 +108,7 @@ export class BlogService {
         if (dto.date !== undefined) data.date = dto.date;
         if (dto.readTime !== undefined) data.readTime = dto.readTime;
         if (dto.heroNote !== undefined) data.heroNote = dto.heroNote;
+        if (dto.image !== undefined) data.image = dto.image ?? null;
         if (dto.highlights !== undefined) data.highlights = dto.highlights;
         if (dto.sections !== undefined) {
             data.sections = dto.sections as unknown as Prisma.InputJsonValue;

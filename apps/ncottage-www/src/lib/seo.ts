@@ -23,6 +23,8 @@ interface PageMetadataInput {
     path: string;
     image?: string;
     type?: "website" | "article";
+    // ISO-дата публикации (article:published_time), только для type: "article".
+    publishedTime?: string;
 }
 
 export function buildPageMetadata({
@@ -32,19 +34,30 @@ export function buildPageMetadata({
     path,
     image,
     type = "website",
+    publishedTime,
 }: PageMetadataInput): Metadata {
     const ogImage = image || seo.ogImageUrl;
+    const openGraph: Record<string, unknown> = {
+        title,
+        description,
+        url: path,
+        siteName: seo.siteName,
+        locale: "ru_RU",
+        type,
+    };
+    if (ogImage) openGraph.images = [ogImage];
+    if (type === "article" && publishedTime) {
+        openGraph.publishedTime = publishedTime;
+    }
     return {
         title,
         description,
         alternates: { canonical: path },
-        openGraph: {
+        openGraph: openGraph as Metadata["openGraph"],
+        twitter: {
+            card: ogImage ? "summary_large_image" : "summary",
             title,
             description,
-            url: path,
-            siteName: seo.siteName,
-            locale: "ru_RU",
-            type,
             ...(ogImage ? { images: [ogImage] } : {}),
         },
     };

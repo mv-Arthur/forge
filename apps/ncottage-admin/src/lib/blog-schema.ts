@@ -24,6 +24,7 @@ export const articleSchema = z.object({
     date: z.string().min(1, "Укажите дату"),
     readTime: z.string().min(1, "Укажите время чтения"),
     heroNote: z.string().min(1, "Добавьте главную мысль"),
+    image: z.string(),
     highlights: z.array(wrappedString),
     sections: z.array(sectionSchema),
     checklist: z.array(wrappedString),
@@ -47,6 +48,7 @@ export function emptyArticleValues(): ArticleFormValues {
         date: "",
         readTime: "",
         heroNote: "",
+        image: "",
         highlights: [],
         sections: [],
         checklist: [],
@@ -65,6 +67,7 @@ export function articleToFormValues(article: Article): ArticleFormValues {
         date: article.date,
         readTime: article.readTime,
         heroNote: article.heroNote,
+        image: article.image ?? "",
         highlights: wrap(article.highlights),
         sections: article.sections.map((s) => ({
             title: s.title,
@@ -87,6 +90,7 @@ export function formValuesToArticle(values: ArticleFormValues): Article {
         date: values.date.trim(),
         readTime: values.readTime.trim(),
         heroNote: values.heroNote.trim(),
+        image: values.image.trim(),
         highlights: unwrap(values.highlights),
         sections: values.sections.map((s): ArticleSection => {
             const list = unwrap(s.list);

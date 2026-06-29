@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import type { Article } from "@forge/shared";
 import { TextareaField, TextField } from "@/components/form/fields";
 import { RepeaterField } from "@/components/form/repeater-field";
+import { MediaField } from "@/components/media/media-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -115,6 +116,12 @@ export function ArticleForm({
                         name="heroNote"
                         label="Главная мысль (hero)"
                         rows={3}
+                    />
+                    <MediaField<V>
+                        name="image"
+                        label="Картинка для соцсетей (опц.)"
+                        folder="blog"
+                        description="og:image и Twitter-карточка при шаринге статьи; на странице не выводится."
                     />
                 </Section>
 

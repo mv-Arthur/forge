@@ -29,6 +29,8 @@ export class CreateArticleDto implements Article {
     @IsString() readTime!: string;
     @IsString() heroNote!: string;
 
+    @IsOptional() @IsString() image?: string;
+
     @IsArray()
     @IsString({ each: true })
     highlights!: string[];

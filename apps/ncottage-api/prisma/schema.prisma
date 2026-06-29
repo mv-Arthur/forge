@@ -348,6 +348,7 @@ model Article {
     date         String
     readTime     String
     heroNote     String
+    image        String?
     highlights   String[]
     sections     Json
     checklist    String[]

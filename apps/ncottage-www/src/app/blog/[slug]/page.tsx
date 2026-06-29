@@ -29,12 +29,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         return { title: "Статья не найдена" };
     }
 
+    const published = new Date(article.date);
     return buildPageMetadata({
         seo,
         title: article.seoTitle ?? `${article.title} | Блог Нового Коттеджа`,
         description: article.seoDescription ?? article.description,
         path: `/blog/${article.slug}`,
         type: "article",
+        ...(article.image ? { image: article.image } : {}),
+        ...(Number.isNaN(published.getTime())
+            ? {}
+            : { publishedTime: published.toISOString() }),
     });
 }
 
