@@ -7,7 +7,7 @@ import { CreateCertificateDto } from "./dto/create-certificate.dto.js";
 import { UpdateCertificateDto } from "./dto/update-certificate.dto.js";
 
 function toDomain(row: CertificateRow): Certificate {
-    return { slug: row.slug, title: row.title };
+    return { slug: row.slug, order: row.order, title: row.title };
 }
 
 @Injectable()
@@ -25,7 +25,7 @@ export class CertificatesService {
 
     async list(): Promise<Certificate[]> {
         const rows = await this.prisma.certificate.findMany({
-            orderBy: { createdAt: "asc" },
+            orderBy: [{ order: "asc" }, { id: "asc" }],
         });
         return rows.map(toDomain);
     }

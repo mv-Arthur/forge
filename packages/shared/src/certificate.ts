@@ -2,5 +2,6 @@
 
 export interface Certificate {
     slug: string;
+    order: number;
     title: string;
 }

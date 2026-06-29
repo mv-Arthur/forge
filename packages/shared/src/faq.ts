@@ -3,6 +3,7 @@
 
 export interface FaqItem {
     slug: string;
+    order: number;
     question: string;
     answer: string;
     group: string;

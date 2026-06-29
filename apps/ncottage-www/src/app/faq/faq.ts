@@ -1,8 +1,9 @@
 import type { FaqItem } from "@/domain/faq";
 
 // Fallback-данные FAQ (плоский список, группируется по `group`): отдаются, когда
-// ncottage-api недоступен. Этот же массив — источник сидов в БД.
-export const FAQ_ITEMS: FaqItem[] = [
+// ncottage-api недоступен. `order` проставляется по позиции в массиве (совпадает
+// с порядком сида).
+const FAQ_ITEMS_BASE: Omit<FaqItem, "order">[] = [
     {
         slug: "karkasnye-doma-kruglyy-god",
         group: "Строительство",
@@ -76,3 +77,8 @@ export const FAQ_ITEMS: FaqItem[] = [
         answer: "Да, демонтаж возможен по согласованию. Специалисты очищают участок от ненужных построек, а стоимость этой опции включается в смету.",
     },
 ];
+
+export const FAQ_ITEMS: FaqItem[] = FAQ_ITEMS_BASE.map((item, order) => ({
+    ...item,
+    order,
+}));

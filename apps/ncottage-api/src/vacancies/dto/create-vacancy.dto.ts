@@ -1,8 +1,9 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsInt, IsString, Min } from "class-validator";
 import type { Vacancy } from "@forge/shared";
 
 export class CreateVacancyDto implements Vacancy {
     @IsString() slug!: string;
+    @IsInt() @Min(0) order!: number;
     @IsString() title!: string;
     @IsString() intro!: string;
     @IsString() salary!: string;

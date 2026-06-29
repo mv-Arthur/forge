@@ -5,6 +5,7 @@ import { z } from "zod";
 export type ReviewInput = Omit<Review, "id">;
 
 export const reviewSchema = z.object({
+    order: z.number({ message: "Укажите порядок" }).int().min(0),
     author: z.string().min(1, "Укажите автора"),
     date: z.string().min(1, "Укажите дату"),
     text: z.string().min(1, "Укажите текст отзыва"),
@@ -16,8 +17,9 @@ export const reviewSchema = z.object({
 
 export type ReviewFormValues = z.infer<typeof reviewSchema>;
 
-export function emptyReviewValues(): ReviewFormValues {
+export function emptyReviewValues(order = 0): ReviewFormValues {
     return {
+        order,
         author: "",
         date: "",
         text: "",
@@ -30,6 +32,7 @@ export function emptyReviewValues(): ReviewFormValues {
 
 export function reviewToFormValues(review: Review): ReviewFormValues {
     return {
+        order: review.order,
         author: review.author,
         date: review.date,
         text: review.text,
@@ -44,6 +47,7 @@ export function formValuesToReview(values: ReviewFormValues): ReviewInput {
     // Всегда отправляем опциональные поля (в т.ч. пустые), чтобы их можно было
     // очистить: API хранит "", а toDomain опускает пустые → www берёт фолбэк.
     return {
+        order: values.order,
         author: values.author.trim(),
         date: values.date.trim(),
         text: values.text.trim(),

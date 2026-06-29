@@ -2,6 +2,7 @@
 
 export interface Vacancy {
     slug: string;
+    order: number;
     title: string;
     intro: string;
     salary: string;

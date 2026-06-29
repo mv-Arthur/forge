@@ -6,23 +6,32 @@ export const certificateSchema = z.object({
         .string()
         .min(1, "Укажите slug")
         .regex(/^[a-z0-9-]+$/, "Только строчные латиница, цифры и дефис"),
+    order: z.number({ message: "Укажите порядок" }).int().min(0),
     title: z.string().min(1, "Укажите название документа"),
 });
 
 export type CertificateFormValues = z.infer<typeof certificateSchema>;
 
-export function emptyCertificateValues(): CertificateFormValues {
-    return { slug: "", title: "" };
+export function emptyCertificateValues(order = 0): CertificateFormValues {
+    return { slug: "", order, title: "" };
 }
 
 export function certificateToFormValues(
     certificate: Certificate
 ): CertificateFormValues {
-    return { slug: certificate.slug, title: certificate.title };
+    return {
+        slug: certificate.slug,
+        order: certificate.order,
+        title: certificate.title,
+    };
 }
 
 export function formValuesToCertificate(
     values: CertificateFormValues
 ): Certificate {
-    return { slug: values.slug.trim(), title: values.title.trim() };
+    return {
+        slug: values.slug.trim(),
+        order: values.order,
+        title: values.title.trim(),
+    };
 }

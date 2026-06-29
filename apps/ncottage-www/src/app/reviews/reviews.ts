@@ -1,8 +1,9 @@
 import type { Review } from "@/domain/review";
 
-// Fallback-данные отзывов: отдаются, когда ncottage-api недоступен. Этот же
-// массив — источник сидов в БД. featured-отзывы попадают в карусель на главной.
-export const REVIEWS: Review[] = [
+// Fallback-данные отзывов: отдаются, когда ncottage-api недоступен.
+// featured-отзывы попадают в карусель на главной. `order` проставляется по
+// позиции в массиве (совпадает с порядком сида).
+const REVIEWS_BASE: Omit<Review, "order">[] = [
     {
         id: "review-1",
         author: "Алексей",
@@ -96,3 +97,8 @@ export const REVIEWS: Review[] = [
         featured: true,
     },
 ];
+
+export const REVIEWS: Review[] = REVIEWS_BASE.map((item, order) => ({
+    ...item,
+    order,
+}));

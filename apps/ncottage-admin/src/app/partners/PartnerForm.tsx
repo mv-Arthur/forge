@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { Partner } from "@forge/shared";
-import { TextField } from "@/components/form/fields";
+import { NumberField, TextField } from "@/components/form/fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -24,9 +24,11 @@ type V = PartnerFormValues;
 export function PartnerForm({
     initial,
     submitLabel,
+    nextOrder = 0,
 }: {
     initial?: Partner;
     submitLabel: string;
+    nextOrder?: number;
 }) {
     const router = useRouter();
     const [pending, setPending] = useState(false);
@@ -34,7 +36,7 @@ export function PartnerForm({
         resolver: zodResolver(partnerSchema),
         defaultValues: initial
             ? partnerToFormValues(initial)
-            : emptyPartnerValues(),
+            : emptyPartnerValues(nextOrder),
     });
 
     async function onSubmit(values: V) {
@@ -76,11 +78,17 @@ export function PartnerForm({
                                 placeholder="Top House"
                             />
                         </div>
-                        <TextField<V>
-                            name="category"
-                            label="Категория"
-                            placeholder="домокомплекты"
-                        />
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            <TextField<V>
+                                name="category"
+                                label="Категория"
+                                placeholder="домокомплекты"
+                            />
+                            <NumberField<V>
+                                name="order"
+                                label="Порядок вывода"
+                            />
+                        </div>
                         <TextField<V>
                             name="href"
                             label="Сайт (опц.)"

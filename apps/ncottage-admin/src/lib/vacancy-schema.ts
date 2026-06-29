@@ -11,6 +11,7 @@ export const vacancySchema = z.object({
         .string()
         .min(1, "Укажите slug")
         .regex(/^[a-z0-9-]+$/, "Только строчные латиница, цифры и дефис"),
+    order: z.number({ message: "Укажите порядок" }).int().min(0),
     title: z.string().min(1, "Укажите должность"),
     intro: z.string().min(1, "Добавьте описание"),
     salary: z.string().min(1, "Укажите зарплату"),
@@ -21,9 +22,10 @@ export const vacancySchema = z.object({
 
 export type VacancyFormValues = z.infer<typeof vacancySchema>;
 
-export function emptyVacancyValues(): VacancyFormValues {
+export function emptyVacancyValues(order = 0): VacancyFormValues {
     return {
         slug: "",
+        order,
         title: "",
         intro: "",
         salary: "",
@@ -36,6 +38,7 @@ export function emptyVacancyValues(): VacancyFormValues {
 export function vacancyToFormValues(vacancy: Vacancy): VacancyFormValues {
     return {
         slug: vacancy.slug,
+        order: vacancy.order,
         title: vacancy.title,
         intro: vacancy.intro,
         salary: vacancy.salary,
@@ -48,6 +51,7 @@ export function vacancyToFormValues(vacancy: Vacancy): VacancyFormValues {
 export function formValuesToVacancy(values: VacancyFormValues): Vacancy {
     return {
         slug: values.slug.trim(),
+        order: values.order,
         title: values.title.trim(),
         intro: values.intro.trim(),
         salary: values.salary.trim(),

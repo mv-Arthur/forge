@@ -6,7 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { FaqItem } from "@forge/shared";
-import { TextareaField, TextField } from "@/components/form/fields";
+import {
+    NumberField,
+    TextareaField,
+    TextField,
+} from "@/components/form/fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -24,15 +28,19 @@ type V = FaqFormValues;
 export function FaqForm({
     initial,
     submitLabel,
+    nextOrder = 0,
 }: {
     initial?: FaqItem;
     submitLabel: string;
+    nextOrder?: number;
 }) {
     const router = useRouter();
     const [pending, setPending] = useState(false);
     const form = useForm<V>({
         resolver: zodResolver(faqSchema),
-        defaultValues: initial ? faqToFormValues(initial) : emptyFaqValues(),
+        defaultValues: initial
+            ? faqToFormValues(initial)
+            : emptyFaqValues(nextOrder),
     });
 
     async function onSubmit(values: V) {
@@ -72,6 +80,10 @@ export function FaqForm({
                                 name="group"
                                 label="Раздел"
                                 placeholder="Строительство"
+                            />
+                            <NumberField<V>
+                                name="order"
+                                label="Порядок вывода"
                             />
                         </div>
                         <TextField<V> name="question" label="Вопрос" />

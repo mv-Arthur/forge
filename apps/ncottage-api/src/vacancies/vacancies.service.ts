@@ -9,6 +9,7 @@ import { UpdateVacancyDto } from "./dto/update-vacancy.dto.js";
 function toDomain(row: VacancyRow): Vacancy {
     return {
         slug: row.slug,
+        order: row.order,
         title: row.title,
         intro: row.intro,
         salary: row.salary,
@@ -33,7 +34,7 @@ export class VacanciesService {
 
     async list(): Promise<Vacancy[]> {
         const rows = await this.prisma.vacancy.findMany({
-            orderBy: { createdAt: "asc" },
+            orderBy: [{ order: "asc" }, { id: "asc" }],
         });
         return rows.map(toDomain);
     }

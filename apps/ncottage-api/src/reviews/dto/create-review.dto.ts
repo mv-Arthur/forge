@@ -1,7 +1,8 @@
-import { IsBoolean, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsOptional, IsString, Min } from "class-validator";
 
 // id не принимаем от клиента — генерируется БД (cuid). Сид задаёт id явно.
 export class CreateReviewDto {
+    @IsInt() @Min(0) order!: number;
     @IsString() author!: string;
     @IsString() date!: string;
     @IsString() text!: string;

@@ -2,6 +2,7 @@
 
 export interface Partner {
     slug: string;
+    order: number;
     name: string;
     category: string;
     href?: string;

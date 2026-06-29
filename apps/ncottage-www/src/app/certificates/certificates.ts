@@ -1,8 +1,8 @@
 import type { Certificate } from "@/domain/certificate";
 
-// Fallback-данные сертификатов: отдаются, когда ncottage-api недоступен. Этот же
-// массив — источник сидов в БД.
-export const CERTIFICATES: Certificate[] = [
+// Fallback-данные сертификатов: отдаются, когда ncottage-api недоступен. `order`
+// проставляется по позиции в массиве (совпадает с порядком сида).
+const CERTIFICATES_BASE: Omit<Certificate, "order">[] = [
     {
         slug: "reestr-dobrosovestnyh-ispolniteley",
         title: "Реестр добросовестных исполнителей",
@@ -32,3 +32,7 @@ export const CERTIFICATES: Certificate[] = [
         title: "Сертификат соответствия на пенополистирол строительный",
     },
 ];
+
+export const CERTIFICATES: Certificate[] = CERTIFICATES_BASE.map(
+    (item, order) => ({ ...item, order })
+);

@@ -9,6 +9,7 @@ import { UpdateFaqItemDto } from "./dto/update-faq-item.dto.js";
 function toDomain(row: FaqItemRow): FaqItem {
     return {
         slug: row.slug,
+        order: row.order,
         question: row.question,
         answer: row.answer,
         group: row.group,
@@ -30,7 +31,7 @@ export class FaqService {
 
     async list(): Promise<FaqItem[]> {
         const rows = await this.prisma.faqItem.findMany({
-            orderBy: { createdAt: "asc" },
+            orderBy: [{ order: "asc" }, { id: "asc" }],
         });
         return rows.map(toDomain);
     }

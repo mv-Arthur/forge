@@ -4,6 +4,7 @@
 
 export interface Review {
     id: string;
+    order: number;
     author: string;
     date: string;
     text: string;

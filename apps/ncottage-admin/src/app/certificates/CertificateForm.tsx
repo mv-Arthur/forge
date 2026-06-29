@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { Certificate } from "@forge/shared";
-import { TextField } from "@/components/form/fields";
+import { NumberField, TextField } from "@/components/form/fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -24,9 +24,11 @@ type V = CertificateFormValues;
 export function CertificateForm({
     initial,
     submitLabel,
+    nextOrder = 0,
 }: {
     initial?: Certificate;
     submitLabel: string;
+    nextOrder?: number;
 }) {
     const router = useRouter();
     const [pending, setPending] = useState(false);
@@ -34,7 +36,7 @@ export function CertificateForm({
         resolver: zodResolver(certificateSchema),
         defaultValues: initial
             ? certificateToFormValues(initial)
-            : emptyCertificateValues(),
+            : emptyCertificateValues(nextOrder),
     });
 
     async function onSubmit(values: V) {
@@ -64,11 +66,17 @@ export function CertificateForm({
                         <CardTitle className="text-base">Документ</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <TextField<V>
-                            name="slug"
-                            label="Slug"
-                            placeholder="reestr-dobrosovestnyh-ispolniteley"
-                        />
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            <TextField<V>
+                                name="slug"
+                                label="Slug"
+                                placeholder="reestr-dobrosovestnyh-ispolniteley"
+                            />
+                            <NumberField<V>
+                                name="order"
+                                label="Порядок вывода"
+                            />
+                        </div>
                         <TextField<V>
                             name="title"
                             label="Название документа"

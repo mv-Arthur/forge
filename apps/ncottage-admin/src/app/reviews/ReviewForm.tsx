@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import type { Review } from "@forge/shared";
 import {
     CheckboxField,
+    NumberField,
     TextareaField,
     TextField,
 } from "@/components/form/fields";
@@ -28,9 +29,11 @@ type V = ReviewFormValues;
 export function ReviewForm({
     initial,
     submitLabel,
+    nextOrder = 0,
 }: {
     initial?: Review;
     submitLabel: string;
+    nextOrder?: number;
 }) {
     const router = useRouter();
     const [pending, setPending] = useState(false);
@@ -38,7 +41,7 @@ export function ReviewForm({
         resolver: zodResolver(reviewSchema),
         defaultValues: initial
             ? reviewToFormValues(initial)
-            : emptyReviewValues(),
+            : emptyReviewValues(nextOrder),
     });
 
     async function onSubmit(values: V) {
@@ -78,6 +81,10 @@ export function ReviewForm({
                                 name="date"
                                 label="Дата"
                                 placeholder="2023 или 22.02.2019"
+                            />
+                            <NumberField<V>
+                                name="order"
+                                label="Порядок вывода"
                             />
                         </div>
                         <TextField<V>

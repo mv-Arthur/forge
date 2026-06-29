@@ -9,6 +9,7 @@ import { UpdatePartnerDto } from "./dto/update-partner.dto.js";
 function toDomain(row: PartnerRow): Partner {
     return {
         slug: row.slug,
+        order: row.order,
         name: row.name,
         category: row.category,
         ...(row.href ? { href: row.href } : {}),
@@ -30,7 +31,7 @@ export class PartnersService {
 
     async list(): Promise<Partner[]> {
         const rows = await this.prisma.partner.findMany({
-            orderBy: { createdAt: "asc" },
+            orderBy: [{ order: "asc" }, { id: "asc" }],
         });
         return rows.map(toDomain);
     }

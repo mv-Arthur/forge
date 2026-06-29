@@ -142,6 +142,7 @@ async function seedReviews() {
     for (const item of items) {
         const data = {
             id: item.id,
+            order: item.order,
             author: item.author,
             date: item.date,
             text: item.text,

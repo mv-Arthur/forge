@@ -6,7 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { Vacancy } from "@forge/shared";
-import { TextareaField, TextField } from "@/components/form/fields";
+import {
+    NumberField,
+    TextareaField,
+    TextField,
+} from "@/components/form/fields";
 import { StringListField } from "@/components/form/string-list-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -42,9 +46,11 @@ function Section({
 export function VacancyForm({
     initial,
     submitLabel,
+    nextOrder = 0,
 }: {
     initial?: Vacancy;
     submitLabel: string;
+    nextOrder?: number;
 }) {
     const router = useRouter();
     const [pending, setPending] = useState(false);
@@ -52,7 +58,7 @@ export function VacancyForm({
         resolver: zodResolver(vacancySchema),
         defaultValues: initial
             ? vacancyToFormValues(initial)
-            : emptyVacancyValues(),
+            : emptyVacancyValues(nextOrder),
     });
 
     async function onSubmit(values: V) {
@@ -98,6 +104,10 @@ export function VacancyForm({
                             name="experience"
                             label="Опыт"
                             placeholder="3–6 лет"
+                        />
+                        <NumberField<V>
+                            name="order"
+                            label="Порядок вывода"
                         />
                     </div>
                     <TextareaField<V>

@@ -263,6 +263,7 @@ model ProjectSelection {
 // Отзывы (коллекция). type/image/videoUrl опциональны; featured — для карусели.
 model Review {
     id        String   @id @default(cuid())
+    order     Int      @default(0)
     author    String
     date      String
     text      String
@@ -272,32 +273,41 @@ model Review {
     featured  Boolean  @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@index([order])
 }
 
 // Партнёры и поставщики (коллекция). href опционален (часть партнёров без сайта).
 model Partner {
     id        String   @id @default(cuid())
     slug      String   @unique
+    order     Int      @default(0)
     name      String
     category  String
     href      String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@index([order])
 }
 
 // Сертификаты и документы компании (коллекция).
 model Certificate {
     id        String   @id @default(cuid())
     slug      String   @unique
+    order     Int      @default(0)
     title     String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@index([order])
 }
 
 // Вопросы FAQ (плоская коллекция; group — свободная строка-раздел).
 model FaqItem {
     id        String   @id @default(cuid())
     slug      String   @unique
+    order     Int      @default(0)
     question  String
     answer    String
     group     String
@@ -305,12 +315,14 @@ model FaqItem {
     updatedAt DateTime @updatedAt
 
     @@index([group])
+    @@index([order])
 }
 
 // Вакансии (коллекция).
 model Vacancy {
     id           String   @id @default(cuid())
     slug         String   @unique
+    order        Int      @default(0)
     title        String
     intro        String
     salary       String
@@ -319,6 +331,8 @@ model Vacancy {
     conditions   String[]
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
+
+    @@index([order])
 }
 
 // Статьи блога (коллекция). Простые массивы — колонки String[]; разделы статьи

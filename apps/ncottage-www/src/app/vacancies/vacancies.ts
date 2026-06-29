@@ -1,8 +1,8 @@
 import type { Vacancy } from "@/domain/vacancy";
 
-// Fallback-данные вакансий: отдаются, когда ncottage-api недоступен. Этот же
-// массив — источник сидов в БД.
-export const VACANCIES: Vacancy[] = [
+// Fallback-данные вакансий: отдаются, когда ncottage-api недоступен. `order`
+// проставляется по позиции в массиве (совпадает с порядком сида).
+const VACANCIES_BASE: Omit<Vacancy, "order">[] = [
     {
         slug: "arhitektor",
         title: "Архитектор",
@@ -50,3 +50,8 @@ export const VACANCIES: Vacancy[] = [
         ],
     },
 ];
+
+export const VACANCIES: Vacancy[] = VACANCIES_BASE.map((item, order) => ({
+    ...item,
+    order,
+}));

@@ -9,6 +9,7 @@ import { UpdateReviewDto } from "./dto/update-review.dto.js";
 function toDomain(row: ReviewRow): Review {
     return {
         id: row.id,
+        order: row.order,
         author: row.author,
         date: row.date,
         text: row.text,
@@ -34,7 +35,7 @@ export class ReviewsService {
 
     async list(): Promise<Review[]> {
         const rows = await this.prisma.review.findMany({
-            orderBy: { createdAt: "asc" },
+            orderBy: [{ order: "asc" }, { id: "asc" }],
         });
         return rows.map(toDomain);
     }
