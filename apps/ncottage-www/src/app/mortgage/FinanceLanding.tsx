@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { FinanceLeadForm } from "./FinanceLeadForm";
 import styles from "./finance.module.css";
 
 interface StatItem {
@@ -24,7 +25,6 @@ interface FinanceLandingProps {
     title: string;
     titleAccent?: string;
     lead: string;
-    canonicalPath: string;
     stats: StatItem[];
     conditionsTitle: string;
     conditionsLead: string;
@@ -47,7 +47,6 @@ export function FinanceLanding({
     title,
     titleAccent,
     lead,
-    canonicalPath,
     stats,
     conditionsTitle,
     conditionsLead,
@@ -219,31 +218,7 @@ export function FinanceLanding({
                         <h2>{formTitle}</h2>
                         <p>{formLead}</p>
                     </div>
-                    <form className={styles.form} action={canonicalPath}>
-                        <input
-                            name="name"
-                            type="text"
-                            placeholder="Ваше имя"
-                            autoComplete="name"
-                        />
-                        <input
-                            name="phone"
-                            type="tel"
-                            placeholder="Телефон *"
-                            autoComplete="tel"
-                            required
-                        />
-                        <textarea
-                            name="message"
-                            rows={4}
-                            placeholder="Коротко опишите проект, участок или вопрос"
-                        />
-                        <button type="submit">{formButton}</button>
-                        <p>
-                            Нажимая на кнопку, вы соглашаетесь с обработкой
-                            персональных данных.
-                        </p>
-                    </form>
+                    <FinanceLeadForm buttonLabel={formButton} program={title} />
                 </section>
             </Container>
         </div>

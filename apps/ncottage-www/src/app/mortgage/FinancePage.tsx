@@ -34,7 +34,6 @@ export async function FinancePage({ pageKey }: { pageKey: string }) {
             title={hero.title}
             titleAccent={hero.titleAccent}
             lead={hero.lead}
-            canonicalPath={`/${pageKey}`}
             stats={hero.stats}
             conditionsTitle={conditions.title ?? ""}
             conditionsLead={conditions.lead ?? ""}

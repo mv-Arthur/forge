@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPage, section, sectionsOf } from "@/data/pages";
 import { getContacts, getSeo, toContactRecords } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import { GuaranteeClaimForm } from "./GuaranteeClaimForm";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -165,44 +166,7 @@ export default async function GuaranteePage() {
                         </dl>
                     </div>
 
-                    <form className={styles.form}>
-                        <label>
-                            <span>Номер договора</span>
-                            <input
-                                name="contract"
-                                placeholder="Например, НК-2026-001"
-                            />
-                        </label>
-                        <label>
-                            <span>Ваше имя</span>
-                            <input
-                                name="name"
-                                placeholder="Как к вам обращаться"
-                            />
-                        </label>
-                        <label>
-                            <span>Телефон</span>
-                            <input name="phone" placeholder="+7" required />
-                        </label>
-                        <label>
-                            <span>Описание проблемы</span>
-                            <textarea
-                                name="message"
-                                placeholder="Что произошло и когда заметили проблему"
-                                rows={5}
-                            />
-                        </label>
-                        <button className={styles.cta} type="submit">
-                            {claim.button}
-                        </button>
-                        <p className={styles.privacy}>
-                            Нажимая кнопку, вы соглашаетесь с{" "}
-                            <Link href="/privacy">
-                                политикой конфиденциальности
-                            </Link>
-                            .
-                        </p>
-                    </form>
+                    <GuaranteeClaimForm buttonLabel={claim.button} />
                 </section>
             </Container>
         </section>

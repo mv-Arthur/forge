@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPromoBySlug, getPromos } from "@/data/promos";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import { PromoLeadForm } from "../PromoLeadForm";
 import styles from "../page.module.css";
 
 interface Props {
@@ -138,39 +139,11 @@ export default async function PromoDetailPage({ params }: Props) {
                             ваш участок.
                         </p>
                     </div>
-                    <form
-                        className={styles.form}
-                        action={`/promos/${promo.slug}`}
-                    >
-                        <input
-                            name="name"
-                            type="text"
-                            placeholder="Ваше имя"
-                            autoComplete="name"
-                        />
-                        <input
-                            name="phone"
-                            type="tel"
-                            placeholder="Телефон *"
-                            autoComplete="tel"
-                            required
-                        />
-                        <input
-                            name="promo"
-                            type="hidden"
-                            value={promo.shortTitle}
-                        />
-                        <textarea
-                            name="message"
-                            rows={4}
-                            placeholder="Площадь дома, участок, сроки строительства"
-                        />
-                        <button type="submit">Получить полный расчёт</button>
-                        <p>
-                            Нажимая кнопку, вы соглашаетесь с обработкой
-                            персональных данных.
-                        </p>
-                    </form>
+                    <PromoLeadForm
+                        buttonLabel="Получить полный расчёт"
+                        messagePlaceholder="Площадь дома, участок, сроки строительства"
+                        promoTitle={promo.shortTitle}
+                    />
                 </section>
             </Container>
         </section>

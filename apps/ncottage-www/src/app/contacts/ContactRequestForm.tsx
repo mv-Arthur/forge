@@ -30,6 +30,7 @@ export function ContactRequestForm({
             name: name.trim() || undefined,
             phone: phone.trim(),
             comment: message.trim() || undefined,
+            consent: true,
         });
     }
 

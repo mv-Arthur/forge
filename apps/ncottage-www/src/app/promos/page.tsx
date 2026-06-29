@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getPromos } from "@/data/promos";
 import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
+import { PromoLeadForm } from "./PromoLeadForm";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -178,44 +179,11 @@ export default async function PromosPage() {
                             следующий шаг.
                         </p>
                     </div>
-                    <form className={styles.form} action="/promos">
-                        <input
-                            name="name"
-                            type="text"
-                            placeholder="Ваше имя"
-                            autoComplete="name"
-                        />
-                        <input
-                            name="phone"
-                            type="tel"
-                            placeholder="Телефон *"
-                            autoComplete="tel"
-                            required
-                        />
-                        <select name="technology" defaultValue="">
-                            <option value="" disabled>
-                                Интересующая технология
-                            </option>
-                            {promos.map((promo) => (
-                                <option
-                                    key={promo.slug}
-                                    value={promo.shortTitle}
-                                >
-                                    {promo.shortTitle}
-                                </option>
-                            ))}
-                        </select>
-                        <textarea
-                            name="message"
-                            rows={4}
-                            placeholder="Площадь, участок, пожелания по комплектации"
-                        />
-                        <button type="submit">Получить расчёт</button>
-                        <p>
-                            Нажимая кнопку, вы соглашаетесь с обработкой
-                            персональных данных.
-                        </p>
-                    </form>
+                    <PromoLeadForm
+                        buttonLabel="Получить расчёт"
+                        messagePlaceholder="Площадь, участок, пожелания по комплектации"
+                        options={promos.map((promo) => promo.shortTitle)}
+                    />
                 </section>
             </Container>
         </section>

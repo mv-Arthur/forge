@@ -2,9 +2,15 @@
 
 import { useState } from "react";
 import { useLeadForm } from "@/lib/useLeadForm";
-import styles from "./works.module.css";
+import styles from "./finance.module.css";
 
-export function WorksVisitForm({ submitLabel }: { submitLabel: string }) {
+interface FinanceLeadFormProps {
+    buttonLabel: string;
+    // Название программы (Ипотека/Кредит/…) для контекста заявки.
+    program: string;
+}
+
+export function FinanceLeadForm({ buttonLabel, program }: FinanceLeadFormProps) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
@@ -13,53 +19,55 @@ export function WorksVisitForm({ submitLabel }: { submitLabel: string }) {
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (!phone.trim() || isSubmitting) return;
+        const comment = [`Программа: ${program}`, message.trim()]
+            .filter(Boolean)
+            .join(". ");
         void submit({
-            source: "works",
+            source: "callback",
             name: name.trim() || undefined,
             phone: phone.trim(),
-            comment: message.trim() || undefined,
+            comment,
             consent: true,
         });
     }
 
     if (isSuccess) {
         return (
-            <div className={styles.visitSuccess} role="status">
-                <h3 className={styles.visitSuccessTitle}>Заявка отправлена</h3>
-                <p className={styles.visitSuccessText}>
-                    Мы свяжемся с вами и предложим несколько объектов для
-                    просмотра.
+            <div className={styles.form} role="status">
+                <p>
+                    Заявка отправлена — менеджер свяжется с вами в ближайшее
+                    время.
                 </p>
             </div>
         );
     }
 
     return (
-        <form className={styles.visitForm} onSubmit={handleSubmit} noValidate>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
             <input
-                className={styles.input}
-                type="text"
                 name="name"
-                autoComplete="name"
+                type="text"
+                aria-label="Имя"
                 placeholder="Ваше имя"
+                autoComplete="name"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
             />
             <input
-                className={styles.input}
-                type="tel"
                 name="phone"
+                type="tel"
+                aria-label="Телефон"
+                placeholder="Телефон *"
                 autoComplete="tel"
-                placeholder="Телефон"
+                required
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
-                required
             />
             <textarea
-                className={styles.textarea}
                 name="message"
-                rows={3}
-                placeholder="Какие объекты хотите посмотреть"
+                rows={4}
+                aria-label="Сообщение"
+                placeholder="Коротко опишите проект, участок или вопрос"
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
             />
@@ -68,15 +76,11 @@ export function WorksVisitForm({ submitLabel }: { submitLabel: string }) {
                     {error}
                 </p>
             )}
-            <button
-                className={styles.submit}
-                type="submit"
-                disabled={isSubmitting}
-            >
-                {isSubmitting ? "Отправляем…" : submitLabel}
+            <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Отправляем…" : buttonLabel}
             </button>
-            <p className={styles.privacy}>
-                Нажимая кнопку, вы соглашаетесь с обработкой персональных
+            <p>
+                Нажимая на кнопку, вы соглашаетесь с обработкой персональных
                 данных.
             </p>
         </form>

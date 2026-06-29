@@ -48,11 +48,22 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true });
     }
 
+    // Пробрасываем реальный IP клиента, чтобы троттлинг на backend считал по
+    // посетителю, а не по одному IP www-прокси.
+    const forwardedFor =
+        request.headers.get("x-forwarded-for") ??
+        request.headers.get("x-real-ip");
+
     let res: Response;
     try {
         res = await fetch(`${API_URL}/leads`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                ...(forwardedFor
+                    ? { "x-forwarded-for": forwardedFor }
+                    : {}),
+            },
             body: JSON.stringify(lead),
         });
     } catch {

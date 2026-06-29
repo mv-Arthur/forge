@@ -30,5 +30,7 @@ export function isValidLead(
     if (typeof lead.phone !== "string") return false;
     if (countPhoneDigits(lead.phone) < MIN_PHONE_DIGITS) return false;
     if (!lead.source || !LEAD_SOURCES.includes(lead.source)) return false;
+    // Согласие на обработку персональных данных обязательно.
+    if (lead.consent !== true) return false;
     return true;
 }
