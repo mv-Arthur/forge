@@ -27,6 +27,22 @@ export default async function BlogPage() {
     const featuredArticle = articles[0];
     const regularArticles = articles.slice(1);
 
+    // Валидный (без кириллицы/пробелов) и уникальный якорь на категорию. Цель —
+    // первая статья категории (включая featured), чтобы ссылка не была мёртвой
+    // и не дублировала id.
+    const categoryAnchor = (category: string) =>
+        `category-${categories.indexOf(category)}`;
+    const anchorSlugByCategory = new Map<string, string>();
+    for (const article of articles) {
+        if (!anchorSlugByCategory.has(article.category)) {
+            anchorSlugByCategory.set(article.category, article.slug);
+        }
+    }
+    const anchorIdFor = (article: { slug: string; category: string }) =>
+        anchorSlugByCategory.get(article.category) === article.slug
+            ? categoryAnchor(article.category)
+            : undefined;
+
     return (
         <section className={styles.page}>
             <Container>
@@ -51,7 +67,10 @@ export default async function BlogPage() {
                         </div>
                         <div className={styles.categoryList}>
                             {categories.map((category) => (
-                                <a key={category} href={`#${category}`}>
+                                <a
+                                    key={category}
+                                    href={`#${categoryAnchor(category)}`}
+                                >
                                     {category}
                                 </a>
                             ))}
@@ -70,6 +89,7 @@ export default async function BlogPage() {
                             className={styles.sectionHead}
                         />
                         <Link
+                            id={anchorIdFor(featuredArticle)}
                             href={`/blog/${featuredArticle.slug}`}
                             className={styles.featuredCard}
                         >
@@ -100,7 +120,7 @@ export default async function BlogPage() {
                         {regularArticles.map((article) => (
                             <Link
                                 key={article.slug}
-                                id={article.category}
+                                id={anchorIdFor(article)}
                                 href={`/blog/${article.slug}`}
                                 className={styles.card}
                             >

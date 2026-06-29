@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
@@ -208,7 +209,11 @@ export default async function WorksPage() {
 
                     <div id="works-list" className={styles.grid}>
                         {objects.map((object) => (
-                            <article key={object.id} className={styles.card}>
+                            <Link
+                                key={object.id}
+                                href={object.href}
+                                className={styles.card}
+                            >
                                 <div className={styles.cardImage}>
                                     <Image
                                         src={object.image}
@@ -244,7 +249,7 @@ export default async function WorksPage() {
                                         )}
                                     </dl>
                                 </div>
-                            </article>
+                            </Link>
                         ))}
                     </div>
                 </section>

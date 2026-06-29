@@ -66,9 +66,11 @@ export default async function ReviewsPage() {
                     {reviews.map((review) => (
                         <article key={review.id} className={styles.card}>
                             <div className={styles.cardTop}>
-                                <span className={styles.type}>
-                                    {review.type}
-                                </span>
+                                {review.type && (
+                                    <span className={styles.type}>
+                                        {review.type}
+                                    </span>
+                                )}
                                 <time>{review.date}</time>
                             </div>
                             <p className={styles.text}>«{review.text}»</p>
