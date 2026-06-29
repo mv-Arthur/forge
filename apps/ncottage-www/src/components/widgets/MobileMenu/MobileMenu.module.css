@@ -73,19 +73,19 @@
 
 .body {
     flex: 1;
-    padding: 24px var(--container-padding) 32px;
+    padding: var(--space-24) var(--container-padding) var(--space-32);
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-4);
 }
 
 .cityRow {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 0 16px;
+    gap: var(--space-12);
+    padding: var(--space-12) 0 var(--space-16);
     border-bottom: 1px solid var(--color-line);
-    margin-bottom: 16px;
+    margin-bottom: var(--space-16);
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
 }
@@ -94,7 +94,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 4px;
+    padding: 18px var(--space-4);
     border-bottom: 1px solid var(--color-line);
     font-family: var(--font-display-stack);
     font-style: italic;
@@ -116,7 +116,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 4px;
+    padding: 18px var(--space-4);
     font-family: var(--font-display-stack);
     font-style: italic;
     font-size: var(--text-2xl);
@@ -150,13 +150,13 @@
 }
 
 .subpanelInner {
-    padding: 4px 4px 20px;
+    padding: var(--space-4) var(--space-4) var(--space-20);
     display: flex;
     flex-direction: column;
 }
 
 .subLink {
-    padding: 10px 0;
+    padding: var(--space-10) 0;
     font-size: var(--text-base);
     color: var(--color-ink);
     transition: color var(--transition);
@@ -169,15 +169,15 @@
 .actions {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 24px 0 0;
-    margin-top: 24px;
+    gap: var(--space-12);
+    padding: var(--space-24) 0 0;
+    margin-top: var(--space-24);
 }
 
 .actionItem {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-12);
     padding: 14px 0;
     color: var(--color-ink);
     font-size: var(--text-base);
@@ -188,7 +188,7 @@
     align-items: center;
     justify-content: center;
     height: 52px;
-    padding: 0 24px;
+    padding: 0 var(--space-24);
     border-radius: var(--radius-pill);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
@@ -204,8 +204,8 @@
 .contacts {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 16px 0 0;
+    gap: var(--space-8);
+    padding: var(--space-16) 0 0;
     color: var(--color-ink-muted);
     font-size: var(--text-sm);
 }

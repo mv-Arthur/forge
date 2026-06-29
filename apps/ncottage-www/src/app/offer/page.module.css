@@ -1,14 +1,14 @@
 .page {
-    padding: 24px 0 80px;
+    padding: var(--space-24) 0 var(--space-80);
     background: var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 48px;
+    gap: var(--space-48);
     align-items: stretch;
-    margin-top: 24px;
+    margin-top: var(--space-24);
     padding: 42px;
     border: 1px solid var(--color-line);
     border-radius: 28px;
@@ -36,7 +36,7 @@
 
 .accentCard {
     align-self: end;
-    padding: 28px;
+    padding: var(--space-28);
     background: var(--color-accent-soft);
 }
 
@@ -63,7 +63,7 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
+    gap: var(--space-24);
 }
 
 .card {
@@ -103,7 +103,7 @@
 }
 
 .contactCard h2 {
-    margin-top: 10px;
+    margin-top: var(--space-10);
     font-size: clamp(1.75rem, 3vw, 2.5rem);
 }
 
@@ -122,16 +122,16 @@
 .contactCard {
     display: flex;
     justify-content: space-between;
-    gap: 32px;
+    gap: var(--space-32);
     align-items: center;
-    margin-top: 24px;
-    padding: 36px;
+    margin-top: var(--space-24);
+    padding: var(--space-36);
 }
 
 .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: var(--space-12);
     justify-content: flex-end;
 }
 
@@ -162,7 +162,7 @@
 }
 
 .company {
-    margin: 24px 0 0;
+    margin: var(--space-24) 0 0;
     font-size: var(--text-sm);
 }
 
@@ -184,12 +184,12 @@
 
 @media (max-width: 640px) {
     .page {
-        padding: 16px 0 56px;
+        padding: var(--space-16) 0 var(--space-56);
     }
 
     .hero {
-        gap: 28px;
-        padding: 28px 20px;
+        gap: var(--space-28);
+        padding: var(--space-28) var(--space-20);
     }
 
     .accentCard,

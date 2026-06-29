@@ -1,10 +1,10 @@
 .root {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-8);
     align-items: center;
     justify-content: center;
-    padding: 64px 24px;
+    padding: var(--space-64) var(--space-24);
     text-align: center;
     border: 1px dashed var(--color-line-strong);
     border-radius: var(--radius-lg);

@@ -1,27 +1,27 @@
 .page {
-    padding: 72px 0 96px;
+    padding: var(--space-72) 0 var(--space-96);
     background: var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(340px, 0.52fr);
-    gap: 56px;
+    gap: var(--space-56);
     align-items: stretch;
-    padding: 28px 0 56px;
+    padding: var(--space-28) 0 var(--space-56);
 }
 
 .heroText {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--space-32);
     max-width: 820px;
 }
 
 .heroActions {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: var(--space-16);
     align-items: center;
 }
 
@@ -32,7 +32,7 @@
     justify-content: center;
     min-height: 48px;
     border-radius: var(--radius-pill);
-    padding: 0 24px;
+    padding: 0 var(--space-24);
     font-size: var(--text-sm);
     font-weight: 600;
     transition:
@@ -74,7 +74,7 @@
     flex-direction: column;
     justify-content: flex-end;
     overflow: hidden;
-    gap: 16px;
+    gap: var(--space-16);
     min-height: 430px;
     padding: 30px;
     border-radius: 28px;
@@ -129,17 +129,17 @@
 .section,
 .splitSection,
 .claimSection {
-    margin-top: 96px;
+    margin-top: var(--space-96);
 }
 
 .sectionHead {
-    margin-bottom: 32px;
+    margin-bottom: var(--space-32);
 }
 
 .conditionGrid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .conditionCard,
@@ -147,12 +147,12 @@
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
-    padding: 28px;
+    padding: var(--space-28);
 }
 
 .cardIndex {
     display: inline-flex;
-    margin-bottom: 32px;
+    margin-bottom: var(--space-32);
     font-size: var(--text-xs);
     letter-spacing: 0.16em;
     color: var(--color-accent);
@@ -161,13 +161,13 @@
 .splitSection {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 380px;
-    gap: 40px;
+    gap: var(--space-40);
 }
 
 .caseList {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: var(--space-16);
 }
 
 .caseCard h3,
@@ -175,24 +175,24 @@
     font-size: var(--text-xl);
     font-weight: 600;
     line-height: 1.25;
-    margin: 0 0 12px;
+    margin: 0 0 var(--space-12);
 }
 
 .noteCard {
-    padding: 32px;
+    padding: var(--space-32);
     background: var(--color-surface-alt);
 }
 
 .noteCard ul {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 24px;
+    gap: var(--space-12);
+    margin-top: var(--space-24);
 }
 
 .noteCard li {
     position: relative;
-    padding-left: 20px;
+    padding-left: var(--space-20);
     color: var(--color-ink-muted);
 }
 
@@ -210,9 +210,9 @@
 .claimSection {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 420px;
-    gap: 56px;
+    gap: var(--space-56);
     align-items: start;
-    padding: 56px;
+    padding: var(--space-56);
     border-radius: var(--radius-lg);
     background: var(--color-ink);
     color: var(--color-ink-on-accent);
@@ -224,11 +224,11 @@
 .contacts {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    gap: var(--space-16);
 }
 
 .contacts div {
-    padding-top: 16px;
+    padding-top: var(--space-16);
     border-top: 1px solid rgb(var(--color-bg-rgb) / 0.2);
 }
 
@@ -240,22 +240,22 @@
 }
 
 .contacts dd {
-    margin: 8px 0 0;
+    margin: var(--space-8) 0 0;
     font-size: var(--text-lg);
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 24px;
+    gap: var(--space-16);
+    padding: var(--space-24);
     color: var(--color-ink);
 }
 
 .form label {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-8);
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
 }
@@ -266,7 +266,7 @@
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: var(--color-bg);
-    padding: 14px 16px;
+    padding: 14px var(--space-16);
     color: var(--color-ink);
     resize: vertical;
 }
@@ -274,7 +274,7 @@
 .form .cta {
     width: 100%;
     border: 0;
-    margin-top: 8px;
+    margin-top: var(--space-8);
 }
 
 .privacy {
@@ -302,13 +302,13 @@
 
 @media (max-width: 640px) {
     .page {
-        padding: 90px 0 64px;
+        padding: 90px 0 var(--space-64);
     }
 
     .section,
     .splitSection,
     .claimSection {
-        margin-top: 64px;
+        margin-top: var(--space-64);
     }
 
     .conditionGrid,
@@ -318,6 +318,6 @@
     }
 
     .claimSection {
-        padding: 32px 20px;
+        padding: var(--space-32) var(--space-20);
     }
 }

@@ -1,7 +1,7 @@
 .root {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-16);
 }
 
 .list {
@@ -17,8 +17,8 @@
 .item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px 24px;
+    gap: var(--space-16);
+    padding: 18px var(--space-24);
     border-bottom: 1px solid var(--color-line);
     transition: background-color var(--transition);
 }
@@ -47,7 +47,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--space-2);
 }
 
 .label {
@@ -72,5 +72,5 @@
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
     margin: 0;
-    padding-left: 4px;
+    padding-left: var(--space-4);
 }

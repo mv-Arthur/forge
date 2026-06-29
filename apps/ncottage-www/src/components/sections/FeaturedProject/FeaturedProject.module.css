@@ -37,14 +37,14 @@
     height: 100%;
     display: flex;
     align-items: flex-end;
-    padding: 48px 0;
+    padding: var(--space-48) 0;
     color: var(--color-ink-on-accent);
 }
 
 .content {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 32px;
+    gap: var(--space-32);
     align-items: end;
     width: 100%;
 }
@@ -52,15 +52,15 @@
 .body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-12);
     max-width: 640px;
 }
 
 .eyebrowRow {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 4px;
+    gap: var(--space-16);
+    margin-bottom: var(--space-4);
 }
 
 .eyebrow {
@@ -105,11 +105,11 @@
 .meta {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--space-16);
     flex-wrap: wrap;
     font-size: var(--text-base);
     color: rgb(var(--color-bg-rgb) / 0.85);
-    margin-top: 8px;
+    margin-top: var(--space-8);
 }
 
 .metaArea {
@@ -122,9 +122,9 @@
 .cta {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-8);
     height: 52px;
-    padding: 0 28px;
+    padding: 0 var(--space-28);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
     border-radius: var(--radius-pill);
@@ -147,12 +147,12 @@
     }
 
     .inner {
-        padding: 32px 0;
+        padding: var(--space-32) 0;
     }
 
     .content {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: var(--space-20);
     }
 
     .cta {

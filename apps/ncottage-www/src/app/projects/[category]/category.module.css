@@ -1,10 +1,10 @@
 .page {
-    padding: 72px 0 80px;
+    padding: var(--space-72) 0 var(--space-80);
     background: var(--color-bg);
 }
 
 .title {
-    margin: 8px 0 6px;
+    margin: var(--space-8) 0 var(--space-6);
     font-size: 38px;
     font-weight: 800;
     line-height: 1.1;
@@ -13,7 +13,7 @@
 }
 
 .lead {
-    margin: 0 0 28px;
+    margin: 0 0 var(--space-28);
     max-width: 760px;
     font-size: 16px;
     line-height: 1.5;

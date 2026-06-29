@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
+    padding: var(--space-24);
 }
 
 .modal {
@@ -16,7 +16,7 @@
     max-width: 440px;
     max-height: calc(100dvh - 48px);
     overflow: auto;
-    padding: 36px;
+    padding: var(--space-36);
     color: var(--color-ink);
     background-color: var(--color-surface);
     border: 1px solid var(--color-line);
@@ -49,7 +49,7 @@
 
 .title {
     max-width: calc(100% - 44px);
-    margin: 0 0 10px;
+    margin: 0 0 var(--space-10);
     font-family: var(--font-sans-stack);
     font-size: var(--text-xl);
     font-weight: 600;
@@ -58,7 +58,7 @@
 }
 
 .subtitle {
-    margin: 0 0 28px;
+    margin: 0 0 var(--space-28);
     max-width: 340px;
     font-size: var(--text-base);
     line-height: 1.55;
@@ -68,13 +68,13 @@
 .form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--space-6);
 }
 
 .fieldLabel {
@@ -86,7 +86,7 @@
 .input {
     width: 100%;
     height: 52px;
-    padding: 0 16px;
+    padding: 0 var(--space-16);
     font-size: var(--text-base);
     background-color: var(--color-bg);
     border: 1px solid var(--color-line);
@@ -113,7 +113,7 @@
 .textarea {
     height: auto;
     min-height: 96px;
-    padding: 14px 16px;
+    padding: 14px var(--space-16);
     line-height: 1.45;
     resize: vertical;
 }
@@ -121,8 +121,8 @@
 .checkboxRow {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    margin: 2px 0 4px;
+    gap: var(--space-10);
+    margin: var(--space-2) 0 var(--space-4);
     color: var(--color-ink-muted);
     font-size: var(--text-sm);
     line-height: 1.45;
@@ -133,7 +133,7 @@
     flex: 0 0 auto;
     width: 18px;
     height: 18px;
-    margin-top: 2px;
+    margin-top: var(--space-2);
     accent-color: var(--color-accent);
 }
 
@@ -149,7 +149,7 @@
     justify-content: center;
     width: 100%;
     height: 52px;
-    margin-top: 4px;
+    margin-top: var(--space-4);
     border-radius: var(--radius-pill);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
@@ -177,7 +177,7 @@
 }
 
 .successTitle {
-    margin: 0 0 8px;
+    margin: 0 0 var(--space-8);
     font-family: var(--font-display-stack);
     font-size: var(--text-2xl);
     font-style: italic;
@@ -187,20 +187,20 @@
 }
 
 .successText {
-    margin: 0 0 24px;
+    margin: 0 0 var(--space-24);
     color: var(--color-ink-muted);
 }
 
 @media (max-width: 540px) {
     .backdrop {
         align-items: flex-start;
-        padding: 16px;
-        padding-top: 72px;
+        padding: var(--space-16);
+        padding-top: var(--space-72);
     }
 
     .modal {
         max-height: calc(100dvh - 88px);
-        padding: 28px 20px 20px;
+        padding: var(--space-28) var(--space-20) var(--space-20);
     }
 
     .close {

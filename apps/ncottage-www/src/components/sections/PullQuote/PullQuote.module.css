@@ -11,7 +11,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--space-32);
 }
 
 .mark {
@@ -47,7 +47,7 @@
 .author {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-4);
     font-style: normal;
     color: var(--color-ink);
 }
@@ -69,11 +69,11 @@
 
 @media (max-width: 768px) {
     .section {
-        padding: 64px 0;
+        padding: var(--space-64) 0;
     }
 
     .inner {
-        gap: 24px;
+        gap: var(--space-24);
     }
 
     .quote {

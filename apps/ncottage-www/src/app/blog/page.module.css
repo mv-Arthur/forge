@@ -1,14 +1,14 @@
 .page {
-    padding: 72px 0 96px;
+    padding: var(--space-72) 0 var(--space-96);
     background: var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
-    gap: 48px;
+    gap: var(--space-48);
     align-items: end;
-    padding: 28px 0 64px;
+    padding: var(--space-28) 0 var(--space-64);
 }
 
 .heroText {
@@ -36,7 +36,7 @@
 }
 
 .lead {
-    margin: 28px 0 0;
+    margin: var(--space-28) 0 0;
     max-width: 720px;
     font-size: var(--text-lg);
     line-height: 1.65;
@@ -47,7 +47,7 @@
     position: relative;
     overflow: hidden;
     min-height: 360px;
-    padding: 28px;
+    padding: var(--space-28);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background:
@@ -148,7 +148,7 @@
     z-index: 2;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: var(--space-10);
     margin-top: 210px;
 }
 
@@ -158,7 +158,7 @@
     align-items: center;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-pill);
-    padding: 0 16px;
+    padding: 0 var(--space-16);
     color: var(--color-ink-muted);
     font-size: var(--text-sm);
     transition:
@@ -180,16 +180,16 @@
 }
 
 .sectionHead {
-    margin-bottom: 40px;
+    margin-bottom: var(--space-40);
 }
 
 .featuredCard {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 220px;
-    gap: 40px;
+    gap: var(--space-40);
     align-items: end;
     min-height: 360px;
-    padding: 40px;
+    padding: var(--space-40);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background:
@@ -241,7 +241,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: var(--space-16);
     color: var(--color-ink-muted);
 }
 
@@ -260,7 +260,7 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .card {
@@ -270,7 +270,7 @@
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
-    padding: 28px;
+    padding: var(--space-28);
     box-shadow: var(--shadow-soft);
     scroll-margin-top: calc(var(--site-header-height) + 32px);
     transition:
@@ -293,8 +293,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    margin-top: 28px;
+    gap: var(--space-16);
+    margin-top: var(--space-28);
     color: var(--color-ink-subtle);
     font-size: var(--text-sm);
 }
@@ -302,10 +302,10 @@
 .cta {
     display: flex;
     justify-content: space-between;
-    gap: 32px;
+    gap: var(--space-32);
     align-items: center;
-    margin-top: 24px;
-    padding: 36px;
+    margin-top: var(--space-24);
+    padding: var(--space-36);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
@@ -325,7 +325,7 @@
     justify-content: center;
     min-height: 48px;
     border-radius: var(--radius-pill);
-    padding: 0 24px;
+    padding: 0 var(--space-24);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
     font-weight: 600;
@@ -357,11 +357,11 @@
 
 @media (max-width: 640px) {
     .page {
-        padding: 88px 0 64px;
+        padding: var(--space-88) 0 var(--space-64);
     }
 
     .hero {
-        padding-bottom: 48px;
+        padding-bottom: var(--space-48);
     }
 
     .heroPanel {
@@ -371,7 +371,7 @@
     .heroMark {
         position: relative;
         inset: auto;
-        margin: 0 0 24px;
+        margin: 0 0 var(--space-24);
     }
 
     .categoryList {
@@ -380,13 +380,13 @@
 
     .featured,
     .section {
-        padding: 56px 0;
+        padding: var(--space-56) 0;
     }
 
     .featuredCard,
     .card,
     .cta {
-        padding: 24px;
+        padding: var(--space-24);
     }
 
     .grid {

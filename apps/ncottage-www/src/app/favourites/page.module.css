@@ -1,5 +1,5 @@
 .page {
-    padding: 24px 0 80px;
+    padding: var(--space-24) 0 var(--space-80);
     background: var(--color-bg);
 }
 
@@ -14,10 +14,10 @@
 .emptyState {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 420px;
-    gap: 48px;
+    gap: var(--space-48);
     align-items: center;
-    margin-top: 28px;
-    padding: 48px;
+    margin-top: var(--space-28);
+    padding: var(--space-48);
     background:
         radial-gradient(
             circle at 88% 0%,
@@ -125,9 +125,9 @@
 .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: var(--space-12);
     justify-content: center;
-    margin-top: 32px;
+    margin-top: var(--space-32);
 }
 
 .primaryButton,
@@ -141,7 +141,7 @@
 }
 
 .primaryButton {
-    padding: 0 24px;
+    padding: 0 var(--space-24);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
 }
@@ -153,16 +153,16 @@
 }
 
 .results {
-    margin-top: 28px;
+    margin-top: var(--space-28);
 }
 
 .resultsHead {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 16px;
+    gap: var(--space-16);
     flex-wrap: wrap;
-    margin-bottom: 24px;
+    margin-bottom: var(--space-24);
 }
 
 .clear {
@@ -189,11 +189,11 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .tipsCard {
-    margin-top: 24px;
+    margin-top: var(--space-24);
     padding: 30px;
 }
 
@@ -210,7 +210,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
-    margin-top: 20px;
+    margin-top: var(--space-20);
 }
 
 .tipsCard li {
@@ -244,12 +244,12 @@
 
 @media (max-width: 640px) {
     .page {
-        padding: 16px 0 56px;
+        padding: var(--space-16) 0 var(--space-56);
     }
 
     .emptyState {
-        gap: 32px;
-        padding: 28px 20px;
+        gap: var(--space-32);
+        padding: var(--space-28) var(--space-20);
     }
 
     .tipsCard {

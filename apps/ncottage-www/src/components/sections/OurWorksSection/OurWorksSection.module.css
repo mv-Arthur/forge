@@ -5,7 +5,7 @@
 }
 
 .head {
-    margin-bottom: 48px;
+    margin-bottom: var(--space-48);
 }
 
 .card {
@@ -46,10 +46,10 @@
 }
 
 .cardBody {
-    padding: 20px 22px 24px;
+    padding: var(--space-20) 22px var(--space-24);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-8);
 }
 
 .cardTitle {
@@ -63,7 +63,7 @@
 .cardMeta {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-12);
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
 }
@@ -80,8 +80,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 16px;
-    padding: 32px;
+    gap: var(--space-16);
+    padding: var(--space-32);
     background: var(--color-ink);
     color: var(--color-ink-on-accent);
     border-radius: var(--radius-lg);
@@ -116,7 +116,7 @@
 .inviteCta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--space-6);
     margin-top: auto;
     font-size: var(--text-sm);
     font-weight: 600;
@@ -126,14 +126,14 @@
 .footer {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: var(--space-40);
 }
 
 .footerLink {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 14px 24px;
+    gap: var(--space-6);
+    padding: 14px var(--space-24);
     border: 1px solid var(--color-line-strong);
     border-radius: var(--radius-pill);
     font-size: var(--text-sm);
@@ -153,7 +153,7 @@
 
 @media (max-width: 768px) {
     .head {
-        margin-bottom: 32px;
+        margin-bottom: var(--space-32);
     }
 
     .card,
@@ -162,6 +162,6 @@
     }
 
     .invite {
-        padding: 28px;
+        padding: var(--space-28);
     }
 }

@@ -4,13 +4,13 @@
 }
 
 .head {
-    margin-bottom: 56px;
+    margin-bottom: var(--space-56);
 }
 
 .grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 64px;
+    gap: var(--space-64);
     align-items: start;
 }
 
@@ -18,7 +18,7 @@
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
-    padding: 36px 36px 32px;
+    padding: var(--space-36) var(--space-36) var(--space-32);
 }
 
 .formTitle {
@@ -27,19 +27,19 @@
     font-size: var(--text-xl);
     line-height: 1.25;
     color: var(--color-ink);
-    margin: 0 0 20px;
+    margin: 0 0 var(--space-20);
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .input,
 .textarea {
     width: 100%;
-    padding: 14px 16px;
+    padding: 14px var(--space-16);
     font-family: inherit;
     font-size: var(--text-base);
     color: var(--color-ink);
@@ -75,7 +75,7 @@
 
 .submit {
     height: 52px;
-    margin-top: 6px;
+    margin-top: var(--space-6);
     border-radius: var(--radius-pill);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
@@ -95,7 +95,7 @@
     font-size: var(--text-xs);
     line-height: 1.5;
     color: var(--color-ink-subtle);
-    margin: 4px 0 0;
+    margin: var(--space-4) 0 0;
 }
 
 .privacyLink {
@@ -109,7 +109,7 @@
 }
 
 .success {
-    padding: 32px 8px;
+    padding: var(--space-32) var(--space-8);
     text-align: center;
 }
 
@@ -118,7 +118,7 @@
     font-style: italic;
     font-size: var(--text-2xl);
     color: var(--color-ink);
-    margin: 0 0 12px;
+    margin: 0 0 var(--space-12);
 }
 
 .successText {
@@ -129,14 +129,14 @@
 .contactsCol {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: var(--space-28);
 }
 
 .contactsBlock {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-bottom: 28px;
+    gap: var(--space-8);
+    padding-bottom: var(--space-28);
     border-bottom: 1px solid var(--color-line);
 }
 
@@ -159,7 +159,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-4);
 }
 
 .contactsLink,
@@ -182,7 +182,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-10);
 }
 
 .addressItem {
@@ -194,11 +194,11 @@
 @media (max-width: 900px) {
     .grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: var(--space-40);
     }
 
     .formCol {
-        padding: 28px 24px;
+        padding: var(--space-28) var(--space-24);
         order: 2;
     }
 
@@ -207,6 +207,6 @@
     }
 
     .head {
-        margin-bottom: 40px;
+        margin-bottom: var(--space-40);
     }
 }

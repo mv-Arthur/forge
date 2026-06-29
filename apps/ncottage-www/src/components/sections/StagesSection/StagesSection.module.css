@@ -4,7 +4,7 @@
 }
 
 .head {
-    margin-bottom: 64px;
+    margin-bottom: var(--space-64);
 }
 
 .list {
@@ -17,9 +17,9 @@
 .row {
     display: grid;
     grid-template-columns: 1fr 1.6fr;
-    gap: 56px;
+    gap: var(--space-56);
     align-items: baseline;
-    padding: 36px 0;
+    padding: var(--space-36) 0;
     border-bottom: 1px solid var(--color-line);
 }
 
@@ -32,7 +32,7 @@
     top: calc(var(--site-header-height) + 32px);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-8);
 }
 
 .itemNum {
@@ -58,7 +58,7 @@
 .bodyCol {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-16);
 }
 
 .itemText {
@@ -71,20 +71,20 @@
 
 @media (max-width: 900px) {
     .head {
-        margin-bottom: 40px;
+        margin-bottom: var(--space-40);
     }
 
     .row {
         grid-template-columns: 1fr;
-        gap: 24px;
-        padding: 40px 0 48px;
+        gap: var(--space-24);
+        padding: var(--space-40) 0 var(--space-48);
     }
 
     .numWrap {
         position: static;
         flex-direction: row;
         align-items: baseline;
-        gap: 20px;
+        gap: var(--space-20);
     }
 
     .itemNum {

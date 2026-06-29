@@ -1,20 +1,20 @@
 .about {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--space-24);
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-8);
 }
 
 .tag {
     display: inline-flex;
     align-items: center;
     height: 28px;
-    padding: 0 12px;
+    padding: 0 var(--space-12);
     border-radius: var(--radius-pill);
     background-color: var(--color-surface-alt);
     color: var(--color-ink-muted);
@@ -33,14 +33,14 @@
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 12px 24px;
-    margin-top: 8px;
+    gap: var(--space-12) var(--space-24);
+    margin-top: var(--space-8);
 }
 
 .feature {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--space-10);
     font-size: var(--text-base);
     color: var(--color-ink);
 }

@@ -1,7 +1,7 @@
 .layout {
     display: grid;
     grid-template-columns: 300px 1fr;
-    gap: 32px;
+    gap: var(--space-32);
     align-items: start;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .empty {
-    padding: 64px 24px;
+    padding: var(--space-64) var(--space-24);
     text-align: center;
     color: var(--color-ink-muted);
     background-color: var(--color-surface);
@@ -44,7 +44,7 @@
 }
 
 .loading {
-    padding: 64px 0;
+    padding: var(--space-64) 0;
     text-align: center;
     color: var(--color-ink-muted);
 }
@@ -81,7 +81,7 @@
 .drawerApply {
     display: none;
     width: 100%;
-    margin-top: 16px;
+    margin-top: var(--space-16);
     padding: 14px;
     font-size: 15px;
     font-weight: 600;

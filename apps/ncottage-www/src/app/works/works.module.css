@@ -1,14 +1,14 @@
 .page {
-    padding: 72px 0 96px;
+    padding: var(--space-72) 0 var(--space-96);
     background: var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 420px;
-    gap: 64px;
+    gap: var(--space-64);
     align-items: end;
-    margin-top: 8px;
+    margin-top: var(--space-8);
 }
 
 .heroHeading {
@@ -18,12 +18,12 @@
 .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .statCard {
     min-height: 132px;
-    padding: 22px 20px;
+    padding: 22px var(--space-20);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -52,15 +52,15 @@
 .mapSection,
 .objectsSection,
 .visitSection {
-    margin-top: 88px;
+    margin-top: var(--space-88);
 }
 
 .mapHead {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.65fr);
-    gap: 48px;
+    gap: var(--space-48);
     align-items: end;
-    margin-bottom: 28px;
+    margin-bottom: var(--space-28);
 }
 
 .eyebrow {
@@ -229,7 +229,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 36px;
+    padding: var(--space-36);
     background: var(--color-ink);
     color: var(--color-ink-on-accent);
 }
@@ -244,7 +244,7 @@
 }
 
 .mapAsideTitle {
-    margin: 80px 0 14px;
+    margin: var(--space-80) 0 14px;
     font-family: var(--font-display-stack);
     font-size: var(--text-3xl);
     font-style: italic;
@@ -261,9 +261,9 @@
 
 .mapList {
     display: grid;
-    gap: 10px;
-    margin-top: 28px;
-    padding-top: 24px;
+    gap: var(--space-10);
+    margin-top: var(--space-28);
+    padding-top: var(--space-24);
     border-top: 1px solid rgb(var(--color-bg-rgb) / 0.16);
 }
 
@@ -289,7 +289,7 @@
 .mapAsideCta {
     display: inline-flex;
     align-self: flex-start;
-    margin-top: 28px;
+    margin-top: var(--space-28);
     padding: 14px 22px;
     border-radius: var(--radius-pill);
     background: var(--color-accent);
@@ -307,13 +307,13 @@
 }
 
 .listHeading {
-    margin-bottom: 36px;
+    margin-bottom: var(--space-36);
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .card {
@@ -353,19 +353,19 @@
 }
 
 .cardBody {
-    padding: 20px 22px 24px;
+    padding: var(--space-20) 22px var(--space-24);
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: var(--space-8);
+    margin-bottom: var(--space-16);
 }
 
 .tag {
     display: inline-flex;
-    padding: 6px 10px;
+    padding: var(--space-6) var(--space-10);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-pill);
     font-size: var(--text-xs);
@@ -384,13 +384,13 @@
 
 .cardMeta {
     display: grid;
-    gap: 12px;
-    margin: 20px 0 0;
+    gap: var(--space-12);
+    margin: var(--space-20) 0 0;
 }
 
 .cardMeta div {
     display: grid;
-    gap: 4px;
+    gap: var(--space-4);
 }
 
 .cardMeta dt {
@@ -411,9 +411,9 @@
 .visitSection {
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(360px, 0.65fr);
-    gap: 56px;
+    gap: var(--space-56);
     align-items: start;
-    padding: 48px;
+    padding: var(--space-48);
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
@@ -433,8 +433,8 @@
 .visitSuccess {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 32px;
+    gap: var(--space-12);
+    padding: var(--space-32);
     background: var(--color-bg);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
@@ -443,7 +443,7 @@
 .input,
 .textarea {
     width: 100%;
-    padding: 14px 16px;
+    padding: 14px var(--space-16);
     font-size: var(--text-base);
     color: var(--color-ink);
     background: var(--color-surface);
@@ -489,7 +489,7 @@
 
 .submit {
     height: 52px;
-    margin-top: 6px;
+    margin-top: var(--space-6);
     border-radius: var(--radius-pill);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
@@ -506,7 +506,7 @@
 }
 
 .privacy {
-    margin: 4px 0 0;
+    margin: var(--space-4) 0 0;
     font-size: var(--text-xs);
     line-height: 1.5;
     color: var(--color-ink-subtle);
@@ -546,7 +546,7 @@
     }
 
     .mapAsideTitle {
-        margin-top: 56px;
+        margin-top: var(--space-56);
     }
 
     .visitContent {
@@ -556,13 +556,13 @@
 
 @media (max-width: 720px) {
     .page {
-        padding: 90px 0 64px;
+        padding: 90px 0 var(--space-64);
     }
 
     .mapSection,
     .objectsSection,
     .visitSection {
-        margin-top: 56px;
+        margin-top: var(--space-56);
     }
 
     .stats,
@@ -582,7 +582,7 @@
     .visitSection,
     .visitForm,
     .visitSuccess {
-        padding: 24px;
+        padding: var(--space-24);
     }
 
     .mapAsideTitle {

@@ -1,14 +1,14 @@
 .page {
-    padding: 24px 0 80px;
+    padding: var(--space-24) 0 var(--space-80);
     background: var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 48px;
+    gap: var(--space-48);
     align-items: stretch;
-    margin-top: 24px;
+    margin-top: var(--space-24);
     padding: 42px;
     border: 1px solid var(--color-line);
     border-radius: 28px;
@@ -41,7 +41,7 @@
 .sideCard,
 .contactCard,
 .stepCard {
-    padding: 28px;
+    padding: var(--space-28);
 }
 
 .summaryCard span,
@@ -59,7 +59,7 @@
 
 .summaryCard strong {
     display: block;
-    margin-top: 12px;
+    margin-top: var(--space-12);
     font-family: var(--font-display-stack);
     font-style: italic;
     font-weight: 400;
@@ -80,14 +80,14 @@
 .steps {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    margin: 24px 0;
+    gap: var(--space-16);
+    margin: var(--space-24) 0;
 }
 
 .stepCard {
     display: grid;
     grid-template-columns: 44px minmax(0, 1fr);
-    gap: 16px;
+    gap: var(--space-16);
     align-items: start;
 }
 
@@ -103,22 +103,22 @@
 .grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 24px;
+    gap: var(--space-24);
     align-items: start;
 }
 
 .mainCard {
     grid-row: span 2;
-    padding: 36px;
+    padding: var(--space-36);
 }
 
 .updated {
-    margin: 0 0 28px;
+    margin: 0 0 var(--space-28);
 }
 
 .textBlock + .textBlock {
-    margin-top: 32px;
-    padding-top: 28px;
+    margin-top: var(--space-32);
+    padding-top: var(--space-28);
     border-top: 1px solid var(--color-line);
 }
 
@@ -158,22 +158,22 @@
 
 .sideCard ul {
     display: grid;
-    gap: 12px;
+    gap: var(--space-12);
     margin-top: 18px;
-    padding-left: 20px;
+    padding-left: var(--space-20);
     list-style: disc;
 }
 
 .contactCard {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--space-24);
 }
 
 .links {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .links a {
@@ -197,12 +197,12 @@
 
 @media (max-width: 640px) {
     .page {
-        padding: 16px 0 56px;
+        padding: var(--space-16) 0 var(--space-56);
     }
 
     .hero {
-        gap: 28px;
-        padding: 28px 20px;
+        gap: var(--space-28);
+        padding: var(--space-28) var(--space-20);
     }
 
     .summaryCard,
@@ -216,7 +216,7 @@
     .textBlockHead,
     .stepCard {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: var(--space-8);
     }
 
     .textBlock p {
