@@ -1,5 +1,6 @@
 import { PARTNERS as STATIC_PARTNERS } from "@/app/partners/partners";
 import type { Partner } from "@/domain/partner";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Партнёры приходят из ncottage-api (ISR-тег partners); при недоступности API
 // отдаём статику из src/app/partners/partners.ts (источник сидов).
@@ -14,7 +15,8 @@ export async function getPartners(): Promise<Partner[]> {
         });
         if (!res.ok) return STATIC_PARTNERS;
         return (await res.json()) as Partner[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("partners", error);
         return STATIC_PARTNERS;
     }
 }

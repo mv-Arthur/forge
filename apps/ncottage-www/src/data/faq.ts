@@ -1,5 +1,6 @@
 import { FAQ_ITEMS as STATIC_FAQ } from "@/app/faq/faq";
 import type { FaqItem } from "@/domain/faq";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Вопросы FAQ приходят из ncottage-api (ISR-тег faq); при недоступности API
 // отдаём статику из src/app/faq/faq.ts (источник сидов).
@@ -19,7 +20,8 @@ export async function getFaqItems(): Promise<FaqItem[]> {
         });
         if (!res.ok) return STATIC_FAQ;
         return (await res.json()) as FaqItem[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("faq", error);
         return STATIC_FAQ;
     }
 }

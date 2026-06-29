@@ -16,6 +16,7 @@ import type {
     ServiceScenario,
     ServicesUi,
 } from "@/domain/services";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Услуги, сценарии навигатора и его чрома приходят из ncottage-api.
 // ISR: ответы кешируются и ревалидируются по тегам services/service:<slug>,
@@ -68,7 +69,8 @@ export async function getServices(): Promise<Service[]> {
         });
         if (!res.ok) return SERVICES_FALLBACK;
         return (await res.json()) as Service[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("services", error);
         return SERVICES_FALLBACK;
     }
 }
@@ -92,7 +94,8 @@ export async function getServiceBySlug(
         if (res.status === 404) return undefined;
         if (!res.ok) return SERVICES_FALLBACK.find((s) => s.slug === slug);
         return (await res.json()) as Service;
-    } catch {
+    } catch (error) {
+        warnApiFallback(`service ${slug}`, error);
         return SERVICES_FALLBACK.find((s) => s.slug === slug);
     }
 }
@@ -105,7 +108,8 @@ export async function getServiceScenarios(): Promise<ServiceScenario[]> {
         });
         if (!res.ok) return SCENARIOS_FALLBACK;
         return (await res.json()) as ServiceScenario[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("service-scenarios", error);
         return SCENARIOS_FALLBACK;
     }
 }
@@ -122,7 +126,8 @@ export async function getServicesUi(): Promise<ServicesUi> {
         if (!res.ok) return SERVICES_UI_FALLBACK;
         const data = (await res.json()) as { value: ServicesUi };
         return data.value;
-    } catch {
+    } catch (error) {
+        warnApiFallback("services_ui", error);
         return SERVICES_UI_FALLBACK;
     }
 }

@@ -1,5 +1,6 @@
 import type { BuiltObject } from "@/domain/project";
 import builtObjectsData from "./built-objects.json";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Построенные объекты приходят из ncottage-api (ISR-тег built-objects); при
 // недоступности API отдаём статику из built-objects.json (источник сидов).
@@ -15,7 +16,8 @@ export async function getBuiltObjects(): Promise<BuiltObject[]> {
         });
         if (!res.ok) return STATIC_BUILT_OBJECTS;
         return (await res.json()) as BuiltObject[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("built-objects", error);
         return STATIC_BUILT_OBJECTS;
     }
 }

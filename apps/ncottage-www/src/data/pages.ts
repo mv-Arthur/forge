@@ -3,6 +3,7 @@ import type {
     PageSectionDataMap,
     PageSectionType,
 } from "@/domain/page";
+import { warnApiFallback } from "@/lib/api-fallback";
 import { aboutPage } from "./pages/about";
 import { contactsPage } from "./pages/contacts";
 import { creditPage } from "./pages/credit";
@@ -49,7 +50,8 @@ export async function getPage(key: string): Promise<Page | undefined> {
         });
         if (!res.ok) return fallback;
         return (await res.json()) as Page;
-    } catch {
+    } catch (error) {
+        warnApiFallback(`page ${key}`, error);
         return fallback;
     }
 }

@@ -1,5 +1,6 @@
 import { REVIEWS as STATIC_REVIEWS } from "@/app/reviews/reviews";
 import type { Review } from "@/domain/review";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Отзывы приходят из ncottage-api (ISR-тег reviews); при недоступности API
 // отдаём статику из src/app/reviews/reviews.ts (источник сидов).
@@ -14,7 +15,8 @@ export async function getReviews(): Promise<Review[]> {
         });
         if (!res.ok) return STATIC_REVIEWS;
         return (await res.json()) as Review[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("reviews", error);
         return STATIC_REVIEWS;
     }
 }

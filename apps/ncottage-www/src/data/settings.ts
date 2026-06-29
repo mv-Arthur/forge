@@ -18,6 +18,7 @@ import type {
     Navigation,
     Seo,
 } from "@/domain/settings";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Настройки сайта (навигация, футер, контакты) приходят из ncottage-api.
 // ISR: ответы кешируются и ревалидируются по тегам settings/settings:<key>.
@@ -223,7 +224,8 @@ async function getSetting<T>(key: string, fallback: T): Promise<T> {
         if (!res.ok) return fallback;
         const data = (await res.json()) as { value: T };
         return data.value;
-    } catch {
+    } catch (error) {
+        warnApiFallback(`settings:${key}`, error);
         return fallback;
     }
 }

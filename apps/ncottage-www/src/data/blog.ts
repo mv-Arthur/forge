@@ -1,5 +1,6 @@
 import { articles as STATIC_ARTICLES } from "@/app/blog/articles";
 import type { Article, BlogPage } from "@/domain/blog";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Статьи блога и чрома страницы /blog приходят из ncottage-api.
 // ISR: ответы кешируются и ревалидируются по тегам articles/article:<slug> и
@@ -43,7 +44,8 @@ export async function getArticles(): Promise<Article[]> {
         });
         if (!res.ok) return STATIC_ARTICLES;
         return (await res.json()) as Article[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("articles", error);
         return STATIC_ARTICLES;
     }
 }
@@ -67,7 +69,8 @@ export async function getArticleBySlug(
         if (res.status === 404) return undefined;
         if (!res.ok) return STATIC_ARTICLES.find((a) => a.slug === slug);
         return (await res.json()) as Article;
-    } catch {
+    } catch (error) {
+        warnApiFallback(`article ${slug}`, error);
         return STATIC_ARTICLES.find((a) => a.slug === slug);
     }
 }
@@ -96,7 +99,8 @@ export async function getBlogPage(): Promise<BlogPage> {
         if (!res.ok) return BLOG_PAGE_FALLBACK;
         const data = (await res.json()) as { value: BlogPage };
         return data.value;
-    } catch {
+    } catch (error) {
+        warnApiFallback("blog_page", error);
         return BLOG_PAGE_FALLBACK;
     }
 }

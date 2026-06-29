@@ -1,5 +1,6 @@
 import { PROMOS as STATIC_PROMOS } from "@/app/promos/promos";
 import type { Promo } from "@/domain/promo";
+import { warnApiFallback } from "@/lib/api-fallback";
 
 // Акции приходят из ncottage-api. ISR-теги promos/promo:<slug>; при недоступности
 // API отдаём статику из src/app/promos/promos.ts (источник сидов).
@@ -14,7 +15,8 @@ export async function getPromos(): Promise<Promo[]> {
         });
         if (!res.ok) return STATIC_PROMOS;
         return (await res.json()) as Promo[];
-    } catch {
+    } catch (error) {
+        warnApiFallback("promos", error);
         return STATIC_PROMOS;
     }
 }
@@ -28,7 +30,8 @@ export async function getPromoBySlug(slug: string): Promise<Promo | undefined> {
         if (res.status === 404) return undefined;
         if (!res.ok) return STATIC_PROMOS.find((p) => p.slug === slug);
         return (await res.json()) as Promo;
-    } catch {
+    } catch (error) {
+        warnApiFallback(`promo ${slug}`, error);
         return STATIC_PROMOS.find((p) => p.slug === slug);
     }
 }
