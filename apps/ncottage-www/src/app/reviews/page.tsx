@@ -5,15 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getReviews } from "@/data/reviews";
-import { getSeo } from "@/data/settings";
+import { getListingPages, getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
-
-const metrics = [
-    { value: "320+", label: "построенных домов" },
-    { value: "95%", label: "клиентов рекомендуют компанию" },
-    { value: "с 2007", label: "года строим дома" },
-];
 
 export async function generateMetadata(): Promise<Metadata> {
     const seo = await getSeo();
@@ -26,7 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ReviewsPage() {
-    const reviews = await getReviews();
+    const [reviews, listingPages] = await Promise.all([
+        getReviews(),
+        getListingPages(),
+    ]);
+    const { metrics } = listingPages.reviews;
 
     return (
         <section className={styles.page}>

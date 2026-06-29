@@ -44,6 +44,7 @@ export type {
     ContactAddress,
     ContactSocial,
     BlogPage,
+    ListingPages,
     Seo,
     SeoIndexKey,
     SeoIndexMeta,

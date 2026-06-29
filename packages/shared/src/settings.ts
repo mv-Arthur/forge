@@ -96,6 +96,15 @@ export interface BlogPage {
     };
 }
 
+// Чрома листинговых страниц: метрики /reviews, чек-лист /certificates, принципы
+// /partners. Сами коллекции (Review/Certificate/Partner) приходят отдельно; здесь
+// только статичные блоки-обрамления, которые редактор раньше не мог менять.
+export interface ListingPages {
+    reviews: { metrics: { value: string; label: string }[] };
+    certificates: { checks: { title: string; text: string }[] };
+    partners: { principles: string[] };
+}
+
 // Индексные (листинговые) страницы, чьи title/description управляются из CMS
 // через настройку seo (у них нет своей сущности Page или коллекции-владельца).
 export const SEO_INDEX_KEYS = [
@@ -133,6 +142,7 @@ export const SETTING_KEYS = [
     "contacts",
     "blog_page",
     "services_ui",
+    "listing_pages",
     "seo",
 ] as const;
 export type SettingKey = (typeof SETTING_KEYS)[number];
@@ -143,6 +153,7 @@ export interface SettingValues {
     contacts: Contacts;
     blog_page: BlogPage;
     services_ui: ServicesUi;
+    listing_pages: ListingPages;
     seo: Seo;
 }
 

@@ -5,15 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getPartners } from "@/data/partners";
-import { getSeo } from "@/data/settings";
+import { getListingPages, getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
-
-const principles = [
-    "работаем с поставщиками, чьи материалы применялись на реальных объектах",
-    "подбираем технологию под задачу заказчика, а не под универсальное решение",
-    "фиксируем комплектацию и материалы в смете до начала строительства",
-];
 
 export async function generateMetadata(): Promise<Metadata> {
     const seo = await getSeo();
@@ -26,7 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PartnersPage() {
-    const partners = await getPartners();
+    const [partners, listingPages] = await Promise.all([
+        getPartners(),
+        getListingPages(),
+    ]);
+    const { principles } = listingPages.partners;
 
     return (
         <section className={styles.page}>

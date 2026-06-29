@@ -112,6 +112,16 @@ const servicesUi = z.object({
     ),
 });
 
+const listingPages = z.object({
+    reviews: z.object({
+        metrics: z.array(z.object({ value: z.string(), label: z.string() })),
+    }),
+    certificates: z.object({
+        checks: z.array(z.object({ title: z.string(), text: z.string() })),
+    }),
+    partners: z.object({ principles: z.array(z.string()) }),
+});
+
 const seoIndexMeta = z.object({
     title: z.string(),
     description: z.string(),
@@ -137,5 +147,6 @@ export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {
     contacts: contacts.strict(),
     blog_page: blogPage.strict(),
     services_ui: servicesUi.strict(),
+    listing_pages: listingPages.strict(),
     seo: seo.strict(),
 };

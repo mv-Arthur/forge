@@ -5,24 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { getCertificates } from "@/data/certificates";
-import { getSeo } from "@/data/settings";
+import { getListingPages, getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
-
-const checks = [
-    {
-        title: "Материалы",
-        text: "Подтверждаем происхождение и характеристики материалов, которые используются в домокомплектах и строительных узлах.",
-    },
-    {
-        title: "Процессы",
-        text: "Фиксируем требования к безопасности труда, экологическому менеджменту и контролю качества на объекте.",
-    },
-    {
-        title: "Подрядчик",
-        text: "Показываем документы, которые помогают заказчику оценить надежность компании до подписания договора.",
-    },
-];
 
 export async function generateMetadata(): Promise<Metadata> {
     const seo = await getSeo();
@@ -35,7 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CertificatesPage() {
-    const certificates = await getCertificates();
+    const [certificates, listingPages] = await Promise.all([
+        getCertificates(),
+        getListingPages(),
+    ]);
+    const { checks } = listingPages.certificates;
 
     return (
         <section className={styles.page}>

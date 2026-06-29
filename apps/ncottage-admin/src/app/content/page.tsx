@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
     ChevronRight,
     Contact,
+    LayoutList,
     Menu,
     Newspaper,
     PanelBottom,
@@ -49,6 +50,12 @@ const LINKS: ContentLink[] = [
         title: "Навигатор услуг",
         description: "Квиз, дорожная карта и доп. ссылки на странице /services",
         icon: Route,
+    },
+    {
+        href: "/content/listing_pages",
+        title: "Страницы-листинги",
+        description: "Метрики /reviews, чек-лист /certificates, принципы /partners",
+        icon: LayoutList,
     },
     {
         href: "/content/seo",

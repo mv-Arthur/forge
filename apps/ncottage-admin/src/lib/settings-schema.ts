@@ -7,6 +7,7 @@ import type {
     Footer,
     FooterLink,
     FooterOffice,
+    ListingPages,
     Navigation,
     NavItem,
     NavSubItem,
@@ -377,6 +378,69 @@ export function formValuesToServicesUi(
             title: l.title.trim(),
             parentSlug: l.parentSlug,
         })),
+    };
+}
+
+// --- Listing pages chrome (Setting listing_pages) ---
+
+export const listingPagesSchema = z.object({
+    reviews: z.object({
+        metrics: z.array(
+            z.object({
+                value: z.string().min(1, "Укажите значение"),
+                label: z.string().min(1, "Укажите подпись"),
+            })
+        ),
+    }),
+    certificates: z.object({
+        checks: z.array(
+            z.object({
+                title: z.string().min(1, "Укажите заголовок"),
+                text: z.string().min(1, "Укажите текст"),
+            })
+        ),
+    }),
+    partners: z.object({
+        principles: z.array(z.object({ value: z.string().min(1, "Не пусто") })),
+    }),
+});
+export type ListingPagesFormValues = z.infer<typeof listingPagesSchema>;
+
+export function listingPagesToFormValues(
+    lp: ListingPages
+): ListingPagesFormValues {
+    return {
+        reviews: { metrics: lp.reviews.metrics.map((m) => ({ ...m })) },
+        certificates: {
+            checks: lp.certificates.checks.map((c) => ({ ...c })),
+        },
+        partners: {
+            principles: lp.partners.principles.map((value) => ({ value })),
+        },
+    };
+}
+
+export function formValuesToListingPages(
+    values: ListingPagesFormValues
+): ListingPages {
+    return {
+        reviews: {
+            metrics: values.reviews.metrics.map((m) => ({
+                value: m.value.trim(),
+                label: m.label.trim(),
+            })),
+        },
+        certificates: {
+            checks: values.certificates.checks.map((c) => ({
+                title: c.title.trim(),
+                text: c.text.trim(),
+            })),
+        },
+        partners: {
+            principles: values.partners.principles
+                .map((p) => p.value.trim())
+                .filter(Boolean),
+        },
     };
 }
 

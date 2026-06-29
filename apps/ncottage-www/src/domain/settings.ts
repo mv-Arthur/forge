@@ -11,6 +11,7 @@ export type {
     ContactPhone,
     ContactAddress,
     ContactSocial,
+    ListingPages,
     Seo,
     SeoIndexKey,
     SeoIndexMeta,

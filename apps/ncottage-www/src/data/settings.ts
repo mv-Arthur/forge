@@ -10,7 +10,13 @@ import {
 } from "@/content/contacts";
 import type { FooterContent } from "@/content/site";
 import { FOOTER, NAV_ITEMS } from "@/content/site";
-import type { Contacts, Footer, Navigation, Seo } from "@/domain/settings";
+import type {
+    Contacts,
+    Footer,
+    ListingPages,
+    Navigation,
+    Seo,
+} from "@/domain/settings";
 
 // Настройки сайта (навигация, футер, контакты) приходят из ncottage-api.
 // ISR: ответы кешируются и ревалидируются по тегам settings/settings:<key>.
@@ -141,6 +147,41 @@ const SEO_FALLBACK: Seo = {
     },
 };
 
+// Фолбэк чромы листинговых страниц. Совпадает с сидом settings.json (ключ
+// listing_pages) — метрики /reviews, чек-лист /certificates, принципы /partners.
+const LISTING_PAGES_FALLBACK: ListingPages = {
+    reviews: {
+        metrics: [
+            { value: "320+", label: "построенных домов" },
+            { value: "95%", label: "клиентов рекомендуют компанию" },
+            { value: "с 2007", label: "года строим дома" },
+        ],
+    },
+    certificates: {
+        checks: [
+            {
+                title: "Материалы",
+                text: "Подтверждаем происхождение и характеристики материалов, которые используются в домокомплектах и строительных узлах.",
+            },
+            {
+                title: "Процессы",
+                text: "Фиксируем требования к безопасности труда, экологическому менеджменту и контролю качества на объекте.",
+            },
+            {
+                title: "Подрядчик",
+                text: "Показываем документы, которые помогают заказчику оценить надежность компании до подписания договора.",
+            },
+        ],
+    },
+    partners: {
+        principles: [
+            "работаем с поставщиками, чьи материалы применялись на реальных объектах",
+            "подбираем технологию под задачу заказчика, а не под универсальное решение",
+            "фиксируем комплектацию и материалы в смете до начала строительства",
+        ],
+    },
+};
+
 async function getSetting<T>(key: string, fallback: T): Promise<T> {
     if (!API_URL) return fallback;
     try {
@@ -172,6 +213,10 @@ export async function getContacts(): Promise<Contacts> {
 
 export async function getSeo(): Promise<Seo> {
     return getSetting("seo", SEO_FALLBACK);
+}
+
+export async function getListingPages(): Promise<ListingPages> {
+    return getSetting("listing_pages", LISTING_PAGES_FALLBACK);
 }
 
 // --- Адаптеры: форма API → форма, которую ждут компоненты сайта ---
