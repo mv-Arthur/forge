@@ -38,11 +38,6 @@ const legalLinks = [
     { label: "Карта сайта", href: "/sitemap" },
 ];
 
-const userLinks = [
-    { label: "Избранное", href: "/favourites" },
-    { label: "Сравнение", href: "/compare" },
-];
-
 const featuredLinks = [
     {
         label: "Каталог проектов",
@@ -159,7 +154,6 @@ export default async function SitemapPage() {
                         <h2>Подборки и материалы</h2>
                         <LinkList
                             items={[
-                                ...userLinks,
                                 {
                                     label: "Подборки проектов",
                                     href: "/project-selections",

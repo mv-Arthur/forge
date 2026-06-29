@@ -50,15 +50,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             getSelections(),
         ]);
 
+    // Единая метка времени последней регенерации sitemap для записей без
+    // собственной даты контента.
+    const now = new Date();
+
     const entry = (
         path: string,
         priority: number,
-        changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]
+        changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"],
+        lastModified: Date = now
     ): MetadataRoute.Sitemap[number] => ({
-        url: `${base}${path}`,
+        // Корень — без завершающего слеша, чтобы совпадать с canonical главной.
+        url: `${base}${path === "/" ? "" : path}`,
+        lastModified,
         changeFrequency,
         priority,
     });
+
+    const articleDate = (value: string): Date => {
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? now : date;
+    };
 
     return [
         ...STATIC_PATHS.map((p) => entry(p, p === "/" ? 1 : 0.7, "weekly")),
@@ -67,7 +79,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ),
         ...projects.map((p) => entry(`/project/${p.slug}`, 0.8, "monthly")),
         ...services.map((s) => entry(`/services/${s.slug}`, 0.8, "monthly")),
-        ...articles.map((a) => entry(`/blog/${a.slug}`, 0.6, "monthly")),
+        ...articles.map((a) =>
+            entry(`/blog/${a.slug}`, 0.6, "monthly", articleDate(a.date))
+        ),
         ...promos.map((p) => entry(`/promos/${p.slug}`, 0.7, "weekly")),
         ...selections.map((s) =>
             entry(`/project-selections/${s.slug}`, 0.6, "weekly")
