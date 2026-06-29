@@ -1,5 +1,6 @@
 import type { BuiltObject } from "@forge/shared";
 import { z } from "zod";
+import { requiredUrlOrPath } from "./validators";
 
 // coords редактируется двумя полями lat/lng; refine требует оба или ни одного.
 export const builtObjectSchema = z
@@ -9,8 +10,8 @@ export const builtObjectSchema = z
             .min(1, "Укажите идентификатор")
             .regex(/^[a-z0-9-]+$/, "Только строчные латиница, цифры и дефис"),
         title: z.string().min(1, "Укажите название"),
-        image: z.string().min(1, "Укажите изображение"),
-        href: z.string().min(1, "Укажите ссылку"),
+        image: requiredUrlOrPath("Укажите изображение"),
+        href: requiredUrlOrPath("Укажите ссылку"),
         area: z.number({ message: "Число" }).int().nonnegative().optional(),
         location: z.string(),
         lat: z.number({ message: "Число" }).min(-90).max(90).optional(),

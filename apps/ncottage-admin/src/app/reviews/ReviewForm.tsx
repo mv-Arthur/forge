@@ -81,6 +81,7 @@ export function ReviewForm({
                                 name="date"
                                 label="Дата"
                                 placeholder="2023 или 22.02.2019"
+                                description="Свободный формат: год или дата — показывается на карточке отзыва как есть"
                             />
                             <NumberField<V>
                                 name="order"

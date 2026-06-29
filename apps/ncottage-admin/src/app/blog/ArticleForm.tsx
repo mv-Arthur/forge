@@ -95,6 +95,7 @@ export function ArticleForm({
                             name="date"
                             label="Дата"
                             type="date"
+                            description="Дата публикации — попадает в SEO-разметку статьи (article:published_time)"
                         />
                         <TextField<V>
                             name="readTime"

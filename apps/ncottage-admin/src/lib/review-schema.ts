@@ -1,5 +1,6 @@
 import type { Review } from "@forge/shared";
 import { z } from "zod";
+import { optionalUrlOrPath } from "./validators";
 
 // id отзыва генерируется на сервере, в форме его нет.
 export type ReviewInput = Omit<Review, "id">;
@@ -10,8 +11,8 @@ export const reviewSchema = z.object({
     date: z.string().min(1, "Укажите дату"),
     text: z.string().min(1, "Укажите текст отзыва"),
     type: z.string(),
-    image: z.string(),
-    videoUrl: z.string(),
+    image: optionalUrlOrPath(),
+    videoUrl: optionalUrlOrPath(),
     featured: z.boolean(),
 });
 

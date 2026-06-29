@@ -1,5 +1,6 @@
 import type { Promo } from "@forge/shared";
 import { z } from "zod";
+import { requiredUrlOrPath } from "./validators";
 
 const wrappedString = z.object({ value: z.string().min(1, "Не пусто") });
 const wrap = (values: string[]) => values.map((value) => ({ value }));
@@ -18,7 +19,7 @@ export const promoSchema = z.object({
     price: z.string().min(1, "Укажите цену"),
     priceNote: z.string().min(1, "Укажите подпись цены"),
     period: z.string().min(1, "Укажите примечание о сроках"),
-    projectsHref: z.string().min(1, "Укажите ссылку на проекты"),
+    projectsHref: requiredUrlOrPath("Укажите ссылку на проекты"),
     terms: z.array(wrappedString),
     includes: z.array(wrappedString),
     details: z.array(wrappedString),
