@@ -114,29 +114,31 @@ export function SiteHeader({
 
     return (
         <>
-            <TopBar
-                cities={cities}
-                activeCity={city}
-                onCityChange={setCity}
-                workHours={workHours}
-                email={email}
-            />
-            <div ref={stickyRef} className={styles.stickyWrapper}>
-                <MainNav
-                    navItems={navItems}
-                    phones={phones}
+            <header>
+                <TopBar
+                    cities={cities}
                     activeCity={city}
-                    favouritesCount={favouritesCount}
-                    compareCount={compareCount}
-                    mobileMenuOpen={mobileOpen}
-                    onBurgerClick={toggleBurger}
-                    onSearchClick={toggleSearch}
-                    onCallbackClick={openCallback}
-                    searchOpen={searchOpen}
-                    scrolled={scrolled}
+                    onCityChange={setCity}
+                    workHours={workHours}
+                    email={email}
                 />
-                <SiteSearch open={searchOpen} onClose={closeSearch} />
-            </div>
+                <div ref={stickyRef} className={styles.stickyWrapper}>
+                    <MainNav
+                        navItems={navItems}
+                        phones={phones}
+                        activeCity={city}
+                        favouritesCount={favouritesCount}
+                        compareCount={compareCount}
+                        mobileMenuOpen={mobileOpen}
+                        onBurgerClick={toggleBurger}
+                        onSearchClick={toggleSearch}
+                        onCallbackClick={openCallback}
+                        searchOpen={searchOpen}
+                        scrolled={scrolled}
+                    />
+                    <SiteSearch open={searchOpen} onClose={closeSearch} />
+                </div>
+            </header>
             {isMobileViewport && (
                 <MobileMenu
                     open={mobileOpen}

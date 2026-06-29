@@ -11,6 +11,20 @@ import { matchesSelection } from "@/domain/project-selection";
 import { GROUP_LABELS } from "./selections";
 import styles from "./page.module.css";
 
+function plural(n: number, forms: [string, string, string]): string {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return forms[0];
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20))
+        return forms[1];
+    return forms[2];
+}
+
+const projectsWord = (n: number) =>
+    plural(n, ["проект", "проекта", "проектов"]);
+const selectionsWord = (n: number) =>
+    plural(n, ["подборка", "подборки", "подборок"]);
+
 export async function generateMetadata(): Promise<Metadata> {
     const seo = await getSeo();
     return buildPageMetadata({
@@ -74,11 +88,11 @@ export default async function ProjectSelectionsPage() {
                         <div className={styles.panelStats}>
                             <div>
                                 <strong>{selections.length}</strong>
-                                <span>подборок</span>
+                                <span>{selectionsWord(selections.length)}</span>
                             </div>
                             <div>
                                 <strong>{projects.length}</strong>
-                                <span>проектов</span>
+                                <span>{projectsWord(projects.length)}</span>
                             </div>
                         </div>
                     </aside>
@@ -92,7 +106,7 @@ export default async function ProjectSelectionsPage() {
                             className={styles.featuredCard}
                         >
                             <span className={styles.cardMeta}>
-                                {selection.count} проектов
+                                {selection.count} {projectsWord(selection.count)}
                             </span>
                             <h2>{selection.shortTitle}</h2>
                             <p>{selection.description}</p>
@@ -106,7 +120,8 @@ export default async function ProjectSelectionsPage() {
                             <div className={styles.groupHeader}>
                                 <h2 className={styles.groupTitle}>{label}</h2>
                                 <span className={styles.groupCount}>
-                                    {selections.length} подборок
+                                    {selections.length}{" "}
+                                    {selectionsWord(selections.length)}
                                 </span>
                             </div>
                             <div className={styles.grid}>
@@ -120,7 +135,7 @@ export default async function ProjectSelectionsPage() {
                                             href={`/project-selections/${selection.slug}`}
                                         >
                                             <span className={styles.cardMeta}>
-                                                {count} проектов
+                                                {count} {projectsWord(count)}
                                             </span>
                                             <span className={styles.cardTitle}>
                                                 {selection.shortTitle}

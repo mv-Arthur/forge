@@ -97,6 +97,11 @@
     color: var(--color-ink-on-accent);
 }
 
+/* Тёмная первая карточка: акцентный лейбл — светлый терракотовый (WCAG AA). */
+.card:first-child .type {
+    color: var(--color-accent-on-dark);
+}
+
 .cardTop {
     display: flex;
     align-items: center;

@@ -6,12 +6,15 @@
 
     --color-ink: #1a1a1a;
     --color-ink-muted: #6b6b68;
-    --color-ink-subtle: #9a9a96;
+    /* Достаточно тёмный для WCAG AA (>=4.5:1) на светлых фонах bg/surface. */
+    --color-ink-subtle: #6a6a66;
     --color-ink-on-accent: #faf8f3;
 
     --color-accent: #9c4a2d;
     --color-accent-hover: #b25734;
     --color-accent-soft: #f4e7dd;
+    /* Светлый терракотовый для текста на тёмном фоне (WCAG AA). */
+    --color-accent-on-dark: #d98a6e;
 
     --color-sand: #e9e2d2;
     --color-line: #e6e2d9;
@@ -205,7 +208,7 @@ select {
     border-radius: 2px;
 }
 
-/* Display headings — Fraunces, only for hero/section h1–h2 use cases */
+/* Display headings — Playfair Display, only for hero/section h1–h2 use cases */
 .display {
     font-family: var(--font-display-stack);
     font-weight: 400;

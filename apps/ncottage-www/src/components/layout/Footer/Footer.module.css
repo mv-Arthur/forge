@@ -136,7 +136,7 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.45);
+    color: rgba(250, 248, 243, 0.62);
 }
 
 .contactPhone {
@@ -167,7 +167,7 @@
 
 .contactMute {
     font-size: var(--text-xs);
-    color: rgba(250, 248, 243, 0.45);
+    color: rgba(250, 248, 243, 0.62);
     margin-top: 2px;
 }
 
@@ -182,7 +182,7 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.45);
+    color: rgba(250, 248, 243, 0.62);
 }
 
 .officeAddress {
@@ -208,7 +208,7 @@
 .disclaimer {
     font-size: var(--text-xs);
     line-height: 1.55;
-    color: rgba(250, 248, 243, 0.45);
+    color: rgba(250, 248, 243, 0.62);
     margin: 0;
     max-width: 920px;
 }
@@ -225,7 +225,7 @@
 
 .copyright {
     font-size: var(--text-xs);
-    color: rgba(250, 248, 243, 0.45);
+    color: rgba(250, 248, 243, 0.62);
 }
 
 .bottomLinks {
@@ -239,7 +239,7 @@
 
 .bottomLink {
     font-size: var(--text-xs);
-    color: rgba(250, 248, 243, 0.45);
+    color: rgba(250, 248, 243, 0.62);
     transition: color var(--transition);
 }
 

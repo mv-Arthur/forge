@@ -49,7 +49,7 @@ export function Footer({ content = FOOTER, vkHref = SOCIAL.vk }: FooterProps) {
                     </div>
 
                     <div className={styles.col}>
-                        <h4 className={styles.colTitle}>{content.nav.title}</h4>
+                        <h2 className={styles.colTitle}>{content.nav.title}</h2>
                         <ul className={styles.colList}>
                             {content.nav.items.map((item) => (
                                 <li key={item.href + item.label}>
@@ -65,9 +65,9 @@ export function Footer({ content = FOOTER, vkHref = SOCIAL.vk }: FooterProps) {
                     </div>
 
                     <div className={styles.col}>
-                        <h4 className={styles.colTitle}>
+                        <h2 className={styles.colTitle}>
                             {content.contactsTitle}
-                        </h4>
+                        </h2>
                         <ul className={styles.contactList}>
                             {content.offices.map((office) => (
                                 <li
@@ -100,7 +100,7 @@ export function Footer({ content = FOOTER, vkHref = SOCIAL.vk }: FooterProps) {
                     </div>
 
                     <div className={styles.col}>
-                        <h4 className={styles.colTitle}>Офисы</h4>
+                        <h2 className={styles.colTitle}>Офисы</h2>
                         <ul className={styles.officeList}>
                             {content.offices.map((office) => (
                                 <li

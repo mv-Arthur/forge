@@ -36,9 +36,8 @@
 .image {
     position: absolute;
     inset: 0;
-    background-color: #2a2a2a;
-    background-size: cover;
-    background-position: center;
+    background-color: var(--color-ink);
+    object-fit: cover;
     transition: transform 0.6s ease;
     z-index: 0;
 }
@@ -96,8 +95,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     padding: 0;
     background-color: var(--color-surface);
     color: var(--color-accent);

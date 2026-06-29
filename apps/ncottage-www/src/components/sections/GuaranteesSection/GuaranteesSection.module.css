@@ -2,9 +2,9 @@
     padding: var(--section-padding);
     background: var(--color-ink);
     color: var(--color-ink-on-accent);
-    --heading-eyebrow-color: rgba(250, 248, 243, 0.55);
+    --heading-eyebrow-color: rgba(250, 248, 243, 0.65);
     --heading-title-color: var(--color-ink-on-accent);
-    --heading-accent-color: var(--color-accent);
+    --heading-accent-color: var(--color-accent-on-dark);
     --heading-lead-color: rgba(250, 248, 243, 0.75);
 }
 

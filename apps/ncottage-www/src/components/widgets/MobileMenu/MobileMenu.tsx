@@ -42,7 +42,7 @@ export function MobileMenu({
 }: MobileMenuProps) {
     const [openSections, setOpenSections] = useState<Set<string>>(new Set());
     const pathname = usePathname();
-    const phone = phones[activeCity];
+    const phone = phones[activeCity] ?? Object.values(phones)[0];
 
     useEffect(() => {
         if (!open) setOpenSections(new Set());
@@ -51,6 +51,16 @@ export function MobileMenu({
     useEffect(() => {
         onClose();
     }, [pathname, onClose]);
+
+    // Закрытие по Escape (паттерн диалога).
+    useEffect(() => {
+        if (!open) return;
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onClose();
+        };
+        document.addEventListener("keydown", onKey);
+        return () => document.removeEventListener("keydown", onKey);
+    }, [open, onClose]);
 
     const toggle = useCallback((key: string) => {
         setOpenSections((prev) => {
@@ -70,6 +80,9 @@ export function MobileMenu({
         <div
             className={`${styles.overlay} ${open ? styles.overlayOpen : ""}`}
             aria-hidden={!open}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Меню"
         >
             <div className={styles.header}>
                 <Link

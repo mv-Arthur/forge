@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { type MouseEvent } from "react";
 import type { Project } from "@/domain/project";
@@ -62,9 +63,12 @@ export function ProductCard({ project, variant = "grid" }: ProductCardProps) {
                 className={styles.cardLink}
                 aria-label={`Проект ${project.name}`}
             />
-            <div
+            <Image
+                src={project.image}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                 className={styles.image}
-                style={{ backgroundImage: `url(${project.image})` }}
             />
             <div className={styles.gradient} />
 
