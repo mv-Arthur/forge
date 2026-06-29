@@ -118,9 +118,11 @@ export default async function PromosPage() {
                                 </div>
 
                                 <ul className={styles.checkList}>
-                                    {promo.includes.slice(0, 4).map((item) => (
-                                        <li key={item}>{item}</li>
-                                    ))}
+                                    {promo.includes
+                                        .slice(0, 4)
+                                        .map((item, index) => (
+                                            <li key={index}>{item}</li>
+                                        ))}
                                 </ul>
 
                                 <div className={styles.cardFooter}>

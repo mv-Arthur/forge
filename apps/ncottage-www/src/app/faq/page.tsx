@@ -9,6 +9,12 @@ import { getSeo } from "@/data/settings";
 import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
+function pluralSections(n: number) {
+    if (n === 1) return "раздел";
+    if (n >= 2 && n <= 4) return "раздела";
+    return "разделов";
+}
+
 export async function generateMetadata(): Promise<Metadata> {
     const seo = await getSeo();
     return buildPageMetadata({
@@ -50,8 +56,11 @@ export default async function FaqPage() {
                         <span>Темы</span>
                         <strong>{groups.length}</strong>
                         <p>
-                            раздела: строительство, проектирование, контроль
-                            качества и гарантийные обязательства.
+                            {pluralSections(groups.length)}:{" "}
+                            {groups
+                                .map((group) => group.title.toLowerCase())
+                                .join(", ")}
+                            .
                         </p>
                     </aside>
                 </section>
@@ -85,7 +94,7 @@ export default async function FaqPage() {
                                 <div className={styles.list}>
                                     {group.items.map((item, index) => (
                                         <details
-                                            key={item.question}
+                                            key={item.slug}
                                             className={styles.item}
                                             open={index === 0}
                                         >

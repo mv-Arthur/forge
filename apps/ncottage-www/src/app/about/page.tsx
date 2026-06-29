@@ -24,6 +24,9 @@ export default async function AboutPage() {
     if (!page) notFound();
 
     const hero = section(page, "aboutHero");
+    // Hero — обязательная секция страницы; без неё отдаём чистый 404, а не
+    // «безголовую» страницу. Остальные секции остаются опциональными.
+    if (!hero) notFound();
     const facts = section(page, "valueList");
     const principles = section(page, "cardGrid");
     const team = section(page, "team");

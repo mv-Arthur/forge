@@ -32,6 +32,8 @@ export default async function ContactsPage() {
 
     const { phones, email, workHours, legal } = toContactRecords(contacts);
     const hero = section(page, "contactsHero");
+    // Hero обязателен: без него — чистый 404 вместо «безголовой» страницы.
+    if (!hero) notFound();
     const locations = sectionsOf(page, "locationCards");
     const offices = locations[0];
     const productions = locations[1];

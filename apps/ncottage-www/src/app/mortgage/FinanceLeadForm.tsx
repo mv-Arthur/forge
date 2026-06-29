@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./finance.module.css";
 
@@ -80,8 +81,8 @@ export function FinanceLeadForm({ buttonLabel, program }: FinanceLeadFormProps) 
                 {isSubmitting ? "Отправляем…" : buttonLabel}
             </button>
             <p>
-                Нажимая на кнопку, вы соглашаетесь с обработкой персональных
-                данных.
+                Нажимая на кнопку, вы соглашаетесь с{" "}
+                <Link href="/privacy">политикой конфиденциальности</Link>.
             </p>
         </form>
     );

@@ -23,6 +23,8 @@ export default async function ProductionPage() {
     if (!page) notFound();
 
     const hero = section(page, "productionHero");
+    // Hero обязателен: без него — чистый 404 вместо «безголовой» страницы.
+    if (!hero) notFound();
     const cards = sectionsOf(page, "cardGrid");
     const features = cards[0];
     const steps = cards[1];

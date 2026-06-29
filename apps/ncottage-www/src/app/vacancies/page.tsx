@@ -60,7 +60,7 @@ export default async function VacanciesPage() {
                 )}
                 <div className={styles.list}>
                     {vacancies.map((vacancy) => (
-                        <article key={vacancy.title} className={styles.card}>
+                        <article key={vacancy.slug} className={styles.card}>
                             <div className={styles.cardHead}>
                                 <div>
                                     <h2>{vacancy.title}</h2>
@@ -76,17 +76,21 @@ export default async function VacanciesPage() {
                                 <section>
                                     <h3>Требования</h3>
                                     <ul>
-                                        {vacancy.requirements.map((item) => (
-                                            <li key={item}>{item}</li>
-                                        ))}
+                                        {vacancy.requirements.map(
+                                            (item, index) => (
+                                                <li key={index}>{item}</li>
+                                            )
+                                        )}
                                     </ul>
                                 </section>
                                 <section>
                                     <h3>Условия</h3>
                                     <ul>
-                                        {vacancy.conditions.map((item) => (
-                                            <li key={item}>{item}</li>
-                                        ))}
+                                        {vacancy.conditions.map(
+                                            (item, index) => (
+                                                <li key={index}>{item}</li>
+                                            )
+                                        )}
                                     </ul>
                                 </section>
                             </div>
