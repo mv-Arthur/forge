@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import type { ColumnDef } from "@tanstack/react-table";
 import { KeyRound, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
 import { type AdminUser, type Role, ROLES } from "@forge/shared";
 import {
     AlertDialog,
@@ -28,8 +31,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Select,
     SelectContent,
@@ -37,6 +38,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { SelectField, TextField } from "@/components/form/fields";
+import { Form } from "@/components/ui/form";
 import {
     createAdminAction,
     deleteAdminAction,
@@ -49,23 +52,36 @@ const ROLE_LABELS: Record<Role, string> = {
     editor: "Редактор",
 };
 
+const ROLE_OPTIONS = ROLES.map((r) => ({ value: r, label: ROLE_LABELS[r] }));
+
 function formatDate(iso: string): string {
     return new Date(iso).toLocaleDateString("ru-RU");
 }
+
+const createUserSchema = z.object({
+    email: z.string().min(1, "Укажите email").email("Некорректный email"),
+    name: z.string(),
+    password: z.string().min(6, "Минимум 6 символов"),
+    role: z.string().min(1, "Выберите роль"),
+});
+type CreateUserValues = z.infer<typeof createUserSchema>;
 
 function CreateUserDialog() {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [pending, setPending] = useState(false);
-    const [role, setRole] = useState<Role>("editor");
+    const form = useForm<CreateUserValues>({
+        resolver: zodResolver(createUserSchema),
+        defaultValues: { email: "", name: "", password: "", role: "editor" },
+    });
 
-    async function onSubmit(formData: FormData) {
+    async function onSubmit(values: CreateUserValues) {
         setPending(true);
         const result = await createAdminAction({
-            email: String(formData.get("email") ?? "").trim(),
-            password: String(formData.get("password") ?? ""),
-            name: String(formData.get("name") ?? "").trim() || undefined,
-            role,
+            email: values.email.trim(),
+            password: values.password,
+            name: values.name.trim() || undefined,
+            role: values.role as Role,
         });
         setPending(false);
         if (result.error) {
@@ -74,12 +90,18 @@ function CreateUserDialog() {
         }
         toast.success("Пользователь создан");
         setOpen(false);
-        setRole("editor");
+        form.reset();
         router.refresh();
     }
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog
+            open={open}
+            onOpenChange={(v) => {
+                setOpen(v);
+                if (!v) form.reset();
+            }}
+        >
             <DialogTrigger asChild>
                 <Button>
                     <Plus className="size-4" />
@@ -93,49 +115,34 @@ function CreateUserDialog() {
                         Учётная запись для входа в админку.
                     </DialogDescription>
                 </DialogHeader>
-                <form action={onSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" name="email" type="email" required />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="name">Имя</Label>
-                        <Input id="name" name="name" />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="password">Пароль</Label>
-                        <Input
-                            id="password"
-                            name="password"
-                            type="password"
-                            minLength={6}
-                            required
+                <Form {...form} schema={createUserSchema}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
+                    >
+                        <TextField<CreateUserValues>
+                            name="email"
+                            label="Email"
+                            type="email"
                         />
-                    </div>
-                    <div className="space-y-2">
-                        <Label>Роль</Label>
-                        <Select
-                            value={role}
-                            onValueChange={(v) => setRole(v as Role)}
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {ROLES.map((r) => (
-                                    <SelectItem key={r} value={r}>
-                                        {ROLE_LABELS[r]}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <DialogFooter>
-                        <Button type="submit" disabled={pending}>
-                            {pending ? "Создание…" : "Создать"}
-                        </Button>
-                    </DialogFooter>
-                </form>
+                        <TextField<CreateUserValues> name="name" label="Имя" />
+                        <TextField<CreateUserValues>
+                            name="password"
+                            label="Пароль"
+                            type="password"
+                        />
+                        <SelectField<CreateUserValues>
+                            name="role"
+                            label="Роль"
+                            options={ROLE_OPTIONS}
+                        />
+                        <DialogFooter>
+                            <Button type="submit" disabled={pending}>
+                                {pending ? "Создание…" : "Создать"}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
             </DialogContent>
         </Dialog>
     );
@@ -171,15 +178,21 @@ function RoleSelect({ user }: { user: AdminUser }) {
     );
 }
 
+const resetPasswordSchema = z.object({
+    password: z.string().min(6, "Минимум 6 символов"),
+});
+type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;
+
 function ResetPasswordDialog({ user }: { user: AdminUser }) {
     const [open, setOpen] = useState(false);
     const [pending, setPending] = useState(false);
-    async function onSubmit(formData: FormData) {
+    const form = useForm<ResetPasswordValues>({
+        resolver: zodResolver(resetPasswordSchema),
+        defaultValues: { password: "" },
+    });
+    async function onSubmit(values: ResetPasswordValues) {
         setPending(true);
-        const result = await resetAdminPasswordAction(
-            user.id,
-            String(formData.get("password") ?? "")
-        );
+        const result = await resetAdminPasswordAction(user.id, values.password);
         setPending(false);
         if (result.error) {
             toast.error(result.error);
@@ -187,9 +200,16 @@ function ResetPasswordDialog({ user }: { user: AdminUser }) {
         }
         toast.success("Пароль обновлён");
         setOpen(false);
+        form.reset();
     }
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog
+            open={open}
+            onOpenChange={(v) => {
+                setOpen(v);
+                if (!v) form.reset();
+            }}
+        >
             <DialogTrigger asChild>
                 <Button
                     variant="ghost"
@@ -205,23 +225,23 @@ function ResetPasswordDialog({ user }: { user: AdminUser }) {
                     <DialogTitle>Сброс пароля</DialogTitle>
                     <DialogDescription>{user.email}</DialogDescription>
                 </DialogHeader>
-                <form action={onSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="new-password">Новый пароль</Label>
-                        <Input
-                            id="new-password"
+                <Form {...form} schema={resetPasswordSchema}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
+                    >
+                        <TextField<ResetPasswordValues>
                             name="password"
+                            label="Новый пароль"
                             type="password"
-                            minLength={6}
-                            required
                         />
-                    </div>
-                    <DialogFooter>
-                        <Button type="submit" disabled={pending}>
-                            {pending ? "Сохранение…" : "Сохранить"}
-                        </Button>
-                    </DialogFooter>
-                </form>
+                        <DialogFooter>
+                            <Button type="submit" disabled={pending}>
+                                {pending ? "Сохранение…" : "Сохранить"}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
             </DialogContent>
         </Dialog>
     );
