@@ -1545,7 +1545,7 @@
     position: absolute;
     inset: 38px;
     border: 1px solid rgba(156, 74, 45, 0.08);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     pointer-events: none;
 }
 
@@ -2525,7 +2525,7 @@
     bottom: 14px;
     width: 78px;
     height: 48px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
 }
 
 .cardSketch[data-sketch="design"]::after {
@@ -2956,7 +2956,7 @@
 
 .quizProgressDot {
     height: 5px;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     background: rgba(156, 74, 45, 0.14);
 }
 
@@ -3001,7 +3001,7 @@
     cursor: pointer;
     padding: 12px 14px;
     border: 1px solid rgba(156, 74, 45, 0.16);
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     background: rgba(255, 255, 255, 0.74);
     color: var(--color-ink-muted);
     font-family: inherit;
@@ -3054,7 +3054,7 @@
     min-height: 48px;
     padding: 0 14px;
     border: 1px solid rgba(156, 74, 45, 0.16);
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     background: rgba(255, 255, 255, 0.82);
     color: var(--color-ink);
     font-family: inherit;
@@ -3546,7 +3546,7 @@
         bottom: 28px;
         left: 28px;
         width: 2px;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         background: linear-gradient(
             180deg,
             rgba(156, 74, 45, 0.34),
@@ -3653,7 +3653,7 @@
     .cardSketch {
         height: 58px;
         margin: -10px 0 14px;
-        border-radius: 16px;
+        border-radius: var(--radius-lg);
         background-size: 18px 18px;
     }
 
@@ -3699,7 +3699,7 @@
         align-items: center;
         gap: 12px;
         padding: 14px 16px;
-        border-radius: 16px;
+        border-radius: var(--radius-lg);
     }
 
     .tagCard::after {
@@ -3723,7 +3723,7 @@
     .trustStrip li {
         min-height: auto;
         padding: 14px 16px;
-        border-radius: 16px;
+        border-radius: var(--radius-lg);
     }
 
     .ctaAction {
