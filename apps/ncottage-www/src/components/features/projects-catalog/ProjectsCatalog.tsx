@@ -19,15 +19,37 @@ interface ProjectsCatalogProps {
 }
 
 export function ProjectsCatalog(props: ProjectsCatalogProps) {
+    // Резервируем высоту грида под фактическое число карточек, чтобы при
+    // гидрации клиентского каталога страница не «прыгала» (CLS).
+    const count = props.lockedTechnology
+        ? props.projects.filter(
+              (p) => p.technology === props.lockedTechnology
+          ).length
+        : props.projects.length;
     return (
-        <React.Suspense fallback={<CatalogSkeleton />}>
+        <React.Suspense fallback={<CatalogSkeleton count={count} />}>
             <ProjectsCatalogContent {...props} />
         </React.Suspense>
     );
 }
 
-function CatalogSkeleton() {
-    return <div className={styles.loading}>Загрузка каталога…</div>;
+function CatalogSkeleton({ count }: { count: number }) {
+    return (
+        <div className={styles.layout} aria-hidden="true">
+            <div className={`${styles.sidebar} ${styles.sidebarSkeleton}`} />
+            <div className={styles.main}>
+                <div className={styles.sortbarSkeleton} />
+                <div className={styles.gridTwo}>
+                    {Array.from({ length: Math.max(count, 1) }).map((_, i) => (
+                        <div key={i} className={styles.cardSkeleton}>
+                            <div className={styles.cardSkeletonImage} />
+                            <div className={styles.cardSkeletonBody} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
 }
 
 function ProjectsCatalogContent({
