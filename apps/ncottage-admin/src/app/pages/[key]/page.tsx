@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import type { Page } from "@forge/shared";
+import type { BuiltObject, Page } from "@forge/shared";
 import { PageHeader } from "@/components/page-header";
 import { apiGet } from "@/lib/api";
 import { sectionLabel } from "@/lib/page-meta";
@@ -19,6 +19,15 @@ export default async function PageEditorPage({
         `/pages/${encodeURIComponent(key)}`
     ).catch(() => undefined);
     if (!page) notFound();
+
+    // Опции для пикеров внутри секций (featuredProject ссылается на объект).
+    const builtObjects = await apiGet<BuiltObject[]>("/built-objects").catch(
+        () => [] as BuiltObject[]
+    );
+    const builtObjectOptions = builtObjects.map((b) => ({
+        value: b.id,
+        label: b.title,
+    }));
 
     return (
         <div>
@@ -40,6 +49,7 @@ export default async function PageEditorPage({
                         key={section.id}
                         pageKey={key}
                         section={section}
+                        builtObjectOptions={builtObjectOptions}
                         label={sectionLabel(
                             key,
                             index,

@@ -136,6 +136,16 @@ export class MediaService {
         return this.prisma.media.findUnique({ where: { key } });
     }
 
+    async update(id: string, alt?: string): Promise<Media> {
+        const row = await this.prisma.media.findUnique({ where: { id } });
+        if (!row) throw new NotFoundException("Media not found");
+        const updated = await this.prisma.media.update({
+            where: { id },
+            data: { alt: alt?.trim() ? alt.trim() : null },
+        });
+        return toDomain(updated);
+    }
+
     async remove(id: string): Promise<void> {
         const row = await this.prisma.media.findUnique({ where: { id } });
         if (!row) throw new NotFoundException("Media not found");

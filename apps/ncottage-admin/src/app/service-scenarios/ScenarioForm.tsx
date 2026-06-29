@@ -92,7 +92,7 @@ export function ScenarioForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={serviceScenarioSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

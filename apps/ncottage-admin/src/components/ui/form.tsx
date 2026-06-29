@@ -11,12 +11,49 @@ import {
     type ControllerProps,
     type FieldPath,
     type FieldValues,
+    type UseFormReturn,
 } from "react-hook-form";
+import type { z } from "zod";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 
-const Form = FormProvider;
+// Опциональная zod-схема формы: поля сами выводят обязательность из неё, чтобы
+// не размечать каждое поле вручную. Поле обязательно, если оно не optional и не
+// принимает пустую строку (т.е. имеет .min(1) — в отличие от очищаемых полей).
+const FormSchemaContext = React.createContext<z.ZodType | null>(null);
+
+function Form<TFieldValues extends FieldValues, TContext = unknown>({
+    schema,
+    ...props
+}: UseFormReturn<TFieldValues, TContext> & {
+    children: React.ReactNode;
+    schema?: z.ZodType;
+}) {
+    return (
+        <FormSchemaContext.Provider value={schema ?? null}>
+            <FormProvider {...props} />
+        </FormSchemaContext.Provider>
+    );
+}
+
+export function useFieldRequired(name: string): boolean {
+    const schema = React.useContext(FormSchemaContext);
+    const shape = (schema as { shape?: Record<string, unknown> } | null)
+        ?.shape;
+    const field = shape?.[name] as
+        | { isOptional?: () => boolean; safeParse?: (v: unknown) => { success: boolean } }
+        | undefined;
+    if (!field) return false;
+    if (typeof field.isOptional === "function" && field.isOptional()) {
+        return false;
+    }
+    try {
+        return field.safeParse?.("").success === false;
+    } catch {
+        return true;
+    }
+}
 
 type FormFieldContextValue<
     TFieldValues extends FieldValues = FieldValues,

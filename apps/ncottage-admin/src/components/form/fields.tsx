@@ -13,6 +13,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
+    useFieldRequired,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,6 +32,21 @@ interface BaseFieldProps<T extends FieldValues> {
     placeholder?: string;
 }
 
+// Лейбл с маркером обязательности (выводится из zod-схемы формы через контекст).
+function FieldLabel({ name, label }: { name: string; label: string }) {
+    const required = useFieldRequired(name);
+    return (
+        <FormLabel>
+            {label}
+            {required && (
+                <span aria-hidden className="ml-0.5 text-destructive">
+                    *
+                </span>
+            )}
+        </FormLabel>
+    );
+}
+
 export function TextField<T extends FieldValues = FieldValues>({
     name,
     label,
@@ -45,7 +61,7 @@ export function TextField<T extends FieldValues = FieldValues>({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    {label && <FormLabel>{label}</FormLabel>}
+                    {label && <FieldLabel name={name} label={label} />}
                     <FormControl>
                         <Input
                             type={type}
@@ -77,7 +93,7 @@ export function NumberField<T extends FieldValues = FieldValues>({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    {label && <FormLabel>{label}</FormLabel>}
+                    {label && <FieldLabel name={name} label={label} />}
                     <FormControl>
                         <Input
                             type="number"
@@ -120,7 +136,7 @@ export function TextareaField<T extends FieldValues = FieldValues>({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    {label && <FormLabel>{label}</FormLabel>}
+                    {label && <FieldLabel name={name} label={label} />}
                     <FormControl>
                         <Textarea
                             rows={rows}
@@ -153,7 +169,7 @@ export function SelectField<T extends FieldValues = FieldValues>({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    {label && <FormLabel>{label}</FormLabel>}
+                    {label && <FieldLabel name={name} label={label} />}
                     <Select
                         value={field.value ?? ""}
                         onValueChange={field.onChange}

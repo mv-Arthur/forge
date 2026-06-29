@@ -43,7 +43,7 @@ export function BlogPageForm({ initial }: { initial: BlogPage }) {
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={blogPageSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

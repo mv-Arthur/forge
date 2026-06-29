@@ -54,7 +54,7 @@ export function BuiltObjectForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={builtObjectSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

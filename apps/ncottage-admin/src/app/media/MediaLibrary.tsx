@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Media } from "@forge/shared";
 import {
@@ -17,9 +17,20 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useIsAdmin } from "@/components/admin-context";
 import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { MediaThumb } from "@/components/media/media-thumb";
 import { UploadDropzone } from "@/components/media/upload-dropzone";
-import { deleteMediaAction } from "./actions";
+import { deleteMediaAction, updateMediaAction } from "./actions";
 
 function formatSize(bytes: number): string {
     if (bytes < 1024) return `${bytes} Б`;
@@ -72,6 +83,63 @@ function DeleteMediaButton({ onConfirm }: { onConfirm: () => Promise<void> }) {
     );
 }
 
+function EditAltDialog({
+    media,
+    onSave,
+}: {
+    media: Media;
+    onSave: (alt: string) => Promise<void>;
+}) {
+    const [open, setOpen] = useState(false);
+    const [alt, setAlt] = useState(media.alt ?? "");
+    const [pending, setPending] = useState(false);
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-7 shrink-0 text-muted-foreground hover:text-foreground"
+                    aria-label="Изменить alt-текст"
+                >
+                    <Pencil className="size-4" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Alt-текст</DialogTitle>
+                    <DialogDescription>
+                        Описание для скринридеров и SEO: «{media.filename}».
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-2">
+                    <Label htmlFor="media-alt">Alt-текст</Label>
+                    <Input
+                        id="media-alt"
+                        value={alt}
+                        onChange={(e) => setAlt(e.target.value)}
+                        placeholder="Например: фасад каркасного дома"
+                    />
+                </div>
+                <DialogFooter>
+                    <Button
+                        type="button"
+                        disabled={pending}
+                        onClick={() => {
+                            setPending(true);
+                            void onSave(alt)
+                                .then(() => setOpen(false))
+                                .finally(() => setPending(false));
+                        }}
+                    >
+                        {pending ? "Сохранение…" : "Сохранить"}
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
 export function MediaLibrary({ initial }: { initial: Media[] }) {
     const [items, setItems] = useState(initial);
 
@@ -83,6 +151,20 @@ export function MediaLibrary({ initial }: { initial: Media[] }) {
         }
         setItems((cur) => cur.filter((m) => m.id !== media.id));
         toast.success("Файл удалён");
+    }
+
+    async function onSaveAlt(media: Media, alt: string) {
+        const result = await updateMediaAction(media.id, alt);
+        if (result.error) {
+            toast.error(result.error);
+            return;
+        }
+        setItems((cur) =>
+            cur.map((m) =>
+                m.id === media.id ? { ...m, alt: alt.trim() || undefined } : m
+            )
+        );
+        toast.success("Alt-текст сохранён");
     }
 
     return (
@@ -124,10 +206,24 @@ export function MediaLibrary({ initial }: { initial: Media[] }) {
                                             : ""}
                                         {formatSize(media.size)}
                                     </p>
+                                    <p
+                                        className="truncate text-[11px] text-muted-foreground italic"
+                                        title={media.alt}
+                                    >
+                                        {media.alt
+                                            ? `alt: ${media.alt}`
+                                            : "alt не задан"}
+                                    </p>
                                 </div>
-                                <DeleteMediaButton
-                                    onConfirm={() => onDelete(media)}
-                                />
+                                <div className="flex shrink-0 items-center">
+                                    <EditAltDialog
+                                        media={media}
+                                        onSave={(alt) => onSaveAlt(media, alt)}
+                                    />
+                                    <DeleteMediaButton
+                                        onConfirm={() => onDelete(media)}
+                                    />
+                                </div>
                             </div>
                         </div>
                     ))}

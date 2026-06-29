@@ -62,7 +62,7 @@ export function ServicesUiForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={servicesUiSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

@@ -60,7 +60,7 @@ export function FaqForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={faqSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

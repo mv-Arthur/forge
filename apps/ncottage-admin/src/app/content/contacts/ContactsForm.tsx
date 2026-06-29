@@ -44,7 +44,7 @@ export function ContactsForm({ initial }: { initial: Contacts }) {
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={contactsSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

@@ -91,7 +91,7 @@ export function ProjectForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={projectSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

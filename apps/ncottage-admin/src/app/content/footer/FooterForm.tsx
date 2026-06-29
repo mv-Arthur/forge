@@ -48,7 +48,7 @@ export function FooterForm({ initial }: { initial: Footer }) {
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={footerSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"
@@ -170,14 +170,20 @@ export function FooterForm({ initial }: { initial: Footer }) {
                             `Ссылка ${i + 1}`
                         }
                         renderItem={(i) => (
-                            <div className="grid gap-3 sm:grid-cols-2">
-                                <TextField<V>
-                                    name={`bottomLinks.${i}.label`}
-                                    label="Название"
-                                />
-                                <TextField<V>
-                                    name={`bottomLinks.${i}.href`}
-                                    label="Ссылка"
+                            <div className="space-y-3">
+                                <div className="grid gap-3 sm:grid-cols-2">
+                                    <TextField<V>
+                                        name={`bottomLinks.${i}.label`}
+                                        label="Название"
+                                    />
+                                    <TextField<V>
+                                        name={`bottomLinks.${i}.href`}
+                                        label="Ссылка"
+                                    />
+                                </div>
+                                <CheckboxField<V>
+                                    name={`bottomLinks.${i}.external`}
+                                    label="Внешняя ссылка"
                                 />
                             </div>
                         )}

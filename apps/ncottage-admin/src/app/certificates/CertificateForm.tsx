@@ -57,7 +57,7 @@ export function CertificateForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={certificateSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

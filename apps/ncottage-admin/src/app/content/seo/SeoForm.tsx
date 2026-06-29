@@ -54,7 +54,7 @@ export function SeoForm({ initial }: { initial: Seo }) {
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={seoSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

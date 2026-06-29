@@ -46,6 +46,22 @@ export async function uploadMediaAction(
     return { media: result.data };
 }
 
+export async function updateMediaAction(
+    id: string,
+    alt: string
+): Promise<{ error?: string }> {
+    const result = await apiSend(
+        "PATCH",
+        `/media/${encodeURIComponent(id)}`,
+        { alt }
+    );
+    if (!result.ok) {
+        return { error: result.error };
+    }
+    revalidatePath("/media");
+    return {};
+}
+
 export async function deleteMediaAction(
     id: string
 ): Promise<{ error?: string }> {

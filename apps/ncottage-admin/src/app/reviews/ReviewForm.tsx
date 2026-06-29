@@ -61,7 +61,7 @@ export function ReviewForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={reviewSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

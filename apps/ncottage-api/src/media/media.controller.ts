@@ -1,10 +1,12 @@
 import {
     BadRequestException,
+    Body,
     Controller,
     Delete,
     Get,
     HttpCode,
     Param,
+    Patch,
     Post,
     Query,
     Req,
@@ -15,6 +17,7 @@ import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
 import { Roles } from "../auth/roles.decorator.js";
 import { RolesGuard } from "../auth/roles.guard.js";
 import { ListMediaQueryDto } from "./dto/list-media-query.dto.js";
+import { UpdateMediaDto } from "./dto/update-media.dto.js";
 import { MediaService } from "./media.service.js";
 
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
@@ -75,6 +78,11 @@ export class MediaController {
             folder: fieldStr(file.fields.folder),
             alt: fieldStr(file.fields.alt),
         });
+    }
+
+    @Patch(":id")
+    update(@Param("id") id: string, @Body() dto: UpdateMediaDto) {
+        return this.media.update(id, dto.alt);
     }
 
     @Delete(":id")

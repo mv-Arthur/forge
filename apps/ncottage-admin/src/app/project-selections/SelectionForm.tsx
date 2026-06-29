@@ -90,7 +90,7 @@ export function SelectionForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={selectionSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"

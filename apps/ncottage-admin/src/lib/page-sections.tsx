@@ -22,12 +22,18 @@ function row<R>(value: R): FieldArray<FieldValues, ArrayPath<FieldValues>> {
 // формы, конвертеры stored data ⇄ form values и набор полей. Это НЕ block-builder:
 // набор типов закрыт, секцию правит её собственная форма.
 
+// Опции, прокидываемые в поля секций из server-страницы редактора (например,
+// список построенных объектов для пикера featuredProject).
+export interface SectionFieldsProps {
+    builtObjectOptions: { value: string; label: string }[];
+}
+
 export interface SectionFormDef {
     typeLabel: string;
     schema: z.ZodType;
     toForm: (data: unknown) => FieldValues;
     toData: (values: FieldValues) => unknown;
-    Fields: () => React.ReactNode;
+    Fields: (props: SectionFieldsProps) => React.ReactNode;
 }
 
 // --- Общие поля заголовка (eyebrow/title/titleAccent/lead) ---
@@ -2090,14 +2096,19 @@ const featuredProject: SectionFormDef = {
             technology: v.technology.trim(),
         };
     },
-    Fields: () => (
+    Fields: ({ builtObjectOptions }) => (
         <>
             <div className="grid gap-3 sm:grid-cols-2">
                 <TextField name="eyebrow" label="Надзаголовок" />
                 <TextField name="overline" label="Подпись (месяц)" />
             </div>
             <TextField name="technology" label="Технология" />
-            <TextField name="objectId" label="ID объекта" />
+            <SelectField
+                name="objectId"
+                label="Объект"
+                placeholder="Выберите построенный объект"
+                options={builtObjectOptions}
+            />
             <TextField name="ctaLabel" label="Текст кнопки" />
         </>
     ),

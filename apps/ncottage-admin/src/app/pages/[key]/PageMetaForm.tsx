@@ -10,6 +10,7 @@ import { TextareaField, TextField } from "@/components/form/fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { useUnsavedGuard } from "@/lib/use-unsaved-guard";
 import { savePageMetaAction } from "../actions";
 
 const schema = z.object({
@@ -33,6 +34,8 @@ export function PageMetaForm({
         resolver: zodResolver(schema),
         defaultValues: initial,
     });
+    const isDirty = form.formState.isDirty;
+    useUnsavedGuard(isDirty);
 
     async function onSubmit(values: V) {
         setPending(true);
@@ -42,6 +45,7 @@ export function PageMetaForm({
             toast.error(result.error);
             return;
         }
+        form.reset(values);
         toast.success("Страница сохранена");
         router.refresh();
     }
@@ -49,10 +53,17 @@ export function PageMetaForm({
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="text-base">Заголовок и SEO</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-base">
+                    Заголовок и SEO
+                    {isDirty && (
+                        <span className="text-xs font-normal text-amber-600">
+                            ● Несохранённые изменения
+                        </span>
+                    )}
+                </CardTitle>
             </CardHeader>
             <CardContent>
-                <Form {...form}>
+                <Form {...form} schema={schema}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-4"

@@ -100,7 +100,7 @@ export function ServiceForm({
     }
 
     return (
-        <Form {...form}>
+        <Form {...form} schema={serviceSchema}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="max-w-3xl space-y-6"
