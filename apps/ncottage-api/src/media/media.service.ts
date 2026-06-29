@@ -132,12 +132,16 @@ export class MediaService {
         return { items: rows.map(toDomain), total };
     }
 
+    findByKey(key: string): Promise<MediaRow | null> {
+        return this.prisma.media.findUnique({ where: { key } });
+    }
+
     async remove(id: string): Promise<void> {
         const row = await this.prisma.media.findUnique({ where: { id } });
         if (!row) throw new NotFoundException("Media not found");
         // Удаление в хранилище не должно блокировать удаление записи.
         try {
-            await this.storage.remove(row.key);
+            await this.storage.remove(row.key, row.mime);
         } catch (error) {
             this.logger.warn(
                 `Failed to delete object ${row.key}: ${

@@ -84,6 +84,11 @@ class EnvVars {
     @IsString()
     S3_BUCKET!: string;
 
+    // Приватный бакет для не-картинок (PDF). Пусто — `${S3_BUCKET}-private`.
+    @IsOptional()
+    @IsString()
+    S3_PRIVATE_BUCKET?: string;
+
     @IsString()
     S3_ACCESS_KEY!: string;
 
@@ -99,6 +104,12 @@ class EnvVars {
     @IsOptional()
     @IsString()
     S3_FORCE_PATH_STYLE = "true";
+
+    // Внешняя база самого API — для стабильных ссылок на приватные файлы
+    // (`/media/raw?key=…` → 302 на signed URL). Пусто — http://localhost:<PORT>.
+    @IsOptional()
+    @IsString()
+    API_PUBLIC_URL?: string;
 
     // Доставка лидов (опционально; провайдер активен только при заданных кредах).
     @IsOptional()
