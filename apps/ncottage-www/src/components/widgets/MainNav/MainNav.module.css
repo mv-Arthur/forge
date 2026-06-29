@@ -9,7 +9,7 @@
 }
 
 .barScrolled {
-    background: rgba(250, 248, 243, 0.85);
+    background: rgb(var(--color-bg-rgb) / 0.85);
     backdrop-filter: saturate(140%) blur(12px);
     -webkit-backdrop-filter: saturate(140%) blur(12px);
     border-bottom-color: var(--color-line);

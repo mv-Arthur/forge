@@ -55,12 +55,12 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(26, 26, 26, 0.22);
+    background: rgb(var(--color-ink-rgb) / 0.22);
     transition: background var(--transition);
 }
 
 .videoFacade:hover::after {
-    background: rgba(26, 26, 26, 0.32);
+    background: rgb(var(--color-ink-rgb) / 0.32);
 }
 
 .playIcon {

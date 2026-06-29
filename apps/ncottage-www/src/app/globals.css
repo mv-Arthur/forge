@@ -28,6 +28,19 @@
     --color-brand-green: #479332;
     --color-brand-green-hover: #52a73a;
 
+    /* RGB channel triplets — mirror the hex palette above, for translucent
+       fills via rgb(var(--…-rgb) / <alpha>). Keep in sync with the hex tokens. */
+    --color-bg-rgb: 250 248 243;
+    --color-surface-rgb: 255 255 255;
+    --color-surface-alt-rgb: 243 239 230;
+    --color-ink-rgb: 26 26 26;
+    --color-accent-rgb: 156 74 45;
+    --color-accent-soft-rgb: 244 231 221;
+    --color-line-rgb: 230 226 217;
+    --color-line-strong-rgb: 207 201 188;
+    --color-danger-rgb: 179 64 47;
+    --color-brand-green-rgb: 71 147 50;
+
     /* Typography */
     --font-sans-stack:
         var(--font-sans), "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -60,8 +73,8 @@
     --radius-pill: 999px;
 
     /* Elevation — almost imperceptible, lines do the work */
-    --shadow-soft: 0 1px 2px rgba(26, 26, 26, 0.04);
-    --shadow-pop: 0 12px 32px -16px rgba(26, 26, 26, 0.18);
+    --shadow-soft: 0 1px 2px rgb(var(--color-ink-rgb) / 0.04);
+    --shadow-pop: 0 12px 32px -16px rgb(var(--color-ink-rgb) / 0.18);
 
     /* Motion */
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);

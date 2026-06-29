@@ -79,7 +79,7 @@
     padding: 30px;
     border-radius: 28px;
     background:
-        linear-gradient(180deg, rgba(26, 26, 26, 0.04), rgba(26, 26, 26, 0.62)),
+        linear-gradient(180deg, rgb(var(--color-ink-rgb) / 0.04), rgb(var(--color-ink-rgb) / 0.62)),
         url("/images/projects/valter.jpg") center / cover;
     color: var(--color-ink-on-accent);
     box-shadow: var(--shadow-pop);
@@ -89,7 +89,7 @@
     content: "";
     position: absolute;
     inset: 18px;
-    border: 1px solid rgba(250, 248, 243, 0.22);
+    border: 1px solid rgb(var(--color-bg-rgb) / 0.22);
     border-radius: 22px;
 }
 
@@ -123,7 +123,7 @@
 .summaryCard p {
     position: relative;
     z-index: 1;
-    color: rgba(250, 248, 243, 0.76);
+    color: rgb(var(--color-bg-rgb) / 0.76);
 }
 
 .section,
@@ -216,9 +216,9 @@
     border-radius: var(--radius-lg);
     background: var(--color-ink);
     color: var(--color-ink-on-accent);
-    --heading-eyebrow-color: rgba(250, 248, 243, 0.55);
+    --heading-eyebrow-color: rgb(var(--color-bg-rgb) / 0.55);
     --heading-title-color: var(--color-ink-on-accent);
-    --heading-lead-color: rgba(250, 248, 243, 0.72);
+    --heading-lead-color: rgb(var(--color-bg-rgb) / 0.72);
 }
 
 .contacts {
@@ -229,11 +229,11 @@
 
 .contacts div {
     padding-top: 16px;
-    border-top: 1px solid rgba(250, 248, 243, 0.2);
+    border-top: 1px solid rgb(var(--color-bg-rgb) / 0.2);
 }
 
 .contacts dt {
-    color: rgba(250, 248, 243, 0.55);
+    color: rgb(var(--color-bg-rgb) / 0.55);
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 0.14em;

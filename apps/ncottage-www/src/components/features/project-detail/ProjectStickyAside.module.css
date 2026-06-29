@@ -46,7 +46,7 @@
     display: grid;
     gap: 6px;
     padding: 14px 16px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: var(--radius-sm);
     background: var(--color-accent-soft);
 }

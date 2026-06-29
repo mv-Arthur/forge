@@ -110,7 +110,7 @@
 .inviteText {
     font-size: var(--text-base);
     line-height: 1.5;
-    color: rgba(250, 248, 243, 0.85);
+    color: rgb(var(--color-bg-rgb) / 0.85);
 }
 
 .inviteCta {

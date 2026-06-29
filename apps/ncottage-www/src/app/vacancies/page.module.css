@@ -29,7 +29,7 @@
     overflow: hidden;
     padding: 30px;
     background:
-        linear-gradient(180deg, rgba(26, 26, 26, 0.02), rgba(26, 26, 26, 0.58)),
+        linear-gradient(180deg, rgb(var(--color-ink-rgb) / 0.02), rgb(var(--color-ink-rgb) / 0.58)),
         url("/images/projects/berg.jpg") center / cover;
     color: var(--color-ink-on-accent);
     box-shadow: var(--shadow-pop);
@@ -47,7 +47,7 @@
 }
 
 .applyCard span {
-    color: rgba(250, 248, 243, 0.72);
+    color: rgb(var(--color-bg-rgb) / 0.72);
 }
 
 .applyCard a {
@@ -60,7 +60,7 @@
 
 .applyCard p {
     margin: 14px 0 0;
-    color: rgba(250, 248, 243, 0.76);
+    color: rgb(var(--color-bg-rgb) / 0.76);
 }
 
 .list {

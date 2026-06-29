@@ -24,7 +24,7 @@
     background:
         radial-gradient(
             circle at 20% 20%,
-            rgba(156, 74, 45, 0.18),
+            rgb(var(--color-accent-rgb) / 0.18),
             transparent 34%
         ),
         linear-gradient(135deg, var(--color-surface), var(--color-surface-alt));

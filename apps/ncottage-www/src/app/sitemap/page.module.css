@@ -15,7 +15,7 @@
     background:
         radial-gradient(
             circle at 88% 0%,
-            rgba(156, 74, 45, 0.14),
+            rgb(var(--color-accent-rgb) / 0.14),
             transparent 36%
         ),
         linear-gradient(

@@ -108,7 +108,7 @@
     gap: 28px;
     padding: 32px;
     background:
-        linear-gradient(145deg, rgba(156, 74, 45, 0.1), transparent 44%),
+        linear-gradient(145deg, rgb(var(--color-accent-rgb) / 0.1), transparent 44%),
         var(--color-surface);
 }
 
@@ -126,16 +126,16 @@
         linear-gradient(
             90deg,
             transparent 49.8%,
-            rgba(207, 201, 188, 0.6) 50%,
+            rgb(var(--color-line-strong-rgb) / 0.6) 50%,
             transparent 50.2%
         ),
         linear-gradient(
             0deg,
             transparent 49.8%,
-            rgba(207, 201, 188, 0.6) 50%,
+            rgb(var(--color-line-strong-rgb) / 0.6) 50%,
             transparent 50.2%
         ),
-        rgba(243, 239, 230, 0.58);
+        rgb(var(--color-surface-alt-rgb) / 0.58);
 }
 
 .visitMap::before {
@@ -146,7 +146,7 @@
     top: 48%;
     height: 1px;
     border-radius: var(--radius-pill);
-    background: rgba(156, 74, 45, 0.36);
+    background: rgb(var(--color-accent-rgb) / 0.36);
     transform: rotate(-12deg);
 }
 
@@ -157,8 +157,8 @@
     border-radius: 50%;
     background: var(--color-accent);
     box-shadow:
-        0 0 0 6px rgba(156, 74, 45, 0.1),
-        0 8px 20px rgba(26, 26, 26, 0.14);
+        0 0 0 6px rgb(var(--color-accent-rgb) / 0.1),
+        0 8px 20px rgb(var(--color-ink-rgb) / 0.14);
 }
 
 .visitMap span:nth-child(1) {

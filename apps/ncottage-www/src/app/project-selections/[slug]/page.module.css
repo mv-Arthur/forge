@@ -24,7 +24,7 @@
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background:
-        linear-gradient(145deg, rgba(156, 74, 45, 0.12), transparent 46%),
+        linear-gradient(145deg, rgb(var(--color-accent-rgb) / 0.12), transparent 46%),
         var(--color-surface);
     box-shadow: var(--shadow-soft);
 }
@@ -43,29 +43,29 @@
 .panelPlan {
     position: absolute;
     inset: 82px 30px 126px;
-    border: 1px solid rgba(207, 201, 188, 0.82);
+    border: 1px solid rgb(var(--color-line-strong-rgb) / 0.82);
     border-radius: var(--radius-md);
     background:
         linear-gradient(
             90deg,
             transparent 49.8%,
-            rgba(207, 201, 188, 0.72) 50%,
+            rgb(var(--color-line-strong-rgb) / 0.72) 50%,
             transparent 50.2%
         ),
         linear-gradient(
             0deg,
             transparent 49.8%,
-            rgba(207, 201, 188, 0.72) 50%,
+            rgb(var(--color-line-strong-rgb) / 0.72) 50%,
             transparent 50.2%
         ),
-        rgba(255, 255, 255, 0.42);
+        rgb(var(--color-surface-rgb) / 0.42);
 }
 
 .panelPlan::before,
 .panelPlan::after {
     content: "";
     position: absolute;
-    border: 1px solid rgba(156, 74, 45, 0.34);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.34);
 }
 
 .panelPlan::before {
@@ -90,7 +90,7 @@
     height: 9px;
     border-radius: 50%;
     background: var(--color-accent);
-    box-shadow: 0 0 0 6px rgba(156, 74, 45, 0.1);
+    box-shadow: 0 0 0 6px rgb(var(--color-accent-rgb) / 0.1);
 }
 
 .panelPlan span:nth-child(1) {
@@ -132,7 +132,7 @@
     padding: 14px 16px;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.84);
+    background: rgb(var(--color-surface-rgb) / 0.84);
     backdrop-filter: blur(10px);
 }
 
