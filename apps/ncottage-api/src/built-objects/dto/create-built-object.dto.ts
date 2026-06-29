@@ -23,6 +23,8 @@ export class CreateBuiltObjectDto implements BuiltObject {
 
     @IsOptional() @IsInt() @Min(0) area?: number;
     @IsOptional() @IsString() location?: string;
+    @IsOptional() @IsString() type?: string;
+    @IsOptional() @IsString() technology?: string;
 
     @IsOptional()
     @ValidateNested()

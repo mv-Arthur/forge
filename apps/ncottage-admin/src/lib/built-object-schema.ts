@@ -14,6 +14,8 @@ export const builtObjectSchema = z
         href: requiredUrlOrPath("Укажите ссылку"),
         area: z.number({ message: "Число" }).int().nonnegative().optional(),
         location: z.string(),
+        type: z.string(),
+        technology: z.string(),
         lat: z.number({ message: "Число" }).min(-90).max(90).optional(),
         lng: z.number({ message: "Число" }).min(-180).max(180).optional(),
     })
@@ -32,6 +34,8 @@ export function emptyBuiltObjectValues(): BuiltObjectFormValues {
         href: "",
         area: undefined,
         location: "",
+        type: "",
+        technology: "",
         lat: undefined,
         lng: undefined,
     };
@@ -47,6 +51,8 @@ export function builtObjectToFormValues(
         href: object.href,
         area: object.area,
         location: object.location ?? "",
+        type: object.type ?? "",
+        technology: object.technology ?? "",
         lat: object.coords?.lat,
         lng: object.coords?.lng,
     };
@@ -61,6 +67,9 @@ export function formValuesToBuiltObject(
         title: values.title.trim(),
         image: values.image.trim(),
         href: values.href.trim(),
+        // clearable-override: всегда шлём поле (вкл. ""), API truthy-omit на чтение.
+        type: values.type.trim(),
+        technology: values.technology.trim(),
         ...(values.area !== undefined ? { area: values.area } : {}),
         ...(location ? { location } : {}),
         ...(values.lat !== undefined && values.lng !== undefined

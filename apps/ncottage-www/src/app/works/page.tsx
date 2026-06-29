@@ -232,10 +232,12 @@ export default async function WorksPage() {
                                 <div className={styles.cardBody}>
                                     <div className={styles.tags}>
                                         <span className={styles.tag}>
-                                            {getObjectType(object.title)}
+                                            {object.type ??
+                                                getObjectType(object.title)}
                                         </span>
                                         <span className={styles.tag}>
-                                            {getTechnology(object.title)}
+                                            {object.technology ??
+                                                getTechnology(object.title)}
                                         </span>
                                     </div>
                                     <h3 className={styles.cardTitle}>

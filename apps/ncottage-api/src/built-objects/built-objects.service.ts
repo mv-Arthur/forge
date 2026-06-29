@@ -14,6 +14,8 @@ function toDomain(row: BuiltObjectRow): BuiltObject {
         href: row.href,
         ...(row.area != null ? { area: row.area } : {}),
         ...(row.location ? { location: row.location } : {}),
+        ...(row.objectType ? { type: row.objectType } : {}),
+        ...(row.technology ? { technology: row.technology } : {}),
         ...(row.coordsLat != null && row.coordsLng != null
             ? { coords: { lat: row.coordsLat, lng: row.coordsLng } }
             : {}),
@@ -53,6 +55,8 @@ export class BuiltObjectsService {
                 href: dto.href,
                 area: dto.area ?? null,
                 location: dto.location ?? null,
+                objectType: dto.type || null,
+                technology: dto.technology || null,
                 coordsLat: dto.coords?.lat ?? null,
                 coordsLng: dto.coords?.lng ?? null,
             },
@@ -73,6 +77,9 @@ export class BuiltObjectsService {
         if (dto.href !== undefined) data.href = dto.href;
         if (dto.area !== undefined) data.area = dto.area ?? null;
         if (dto.location !== undefined) data.location = dto.location ?? null;
+        if (dto.type !== undefined) data.objectType = dto.type || null;
+        if (dto.technology !== undefined)
+            data.technology = dto.technology || null;
         if (dto.coords !== undefined) {
             data.coordsLat = dto.coords?.lat ?? null;
             data.coordsLng = dto.coords?.lng ?? null;

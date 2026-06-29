@@ -230,17 +230,19 @@ model Promo {
 // Построенные объекты (коллекция). coords хранится двумя Float-колонками
 // (lat/lng) и собирается обратно в { lat, lng } в сервисе. slug = доменный id.
 model BuiltObject {
-    id        String   @id @default(cuid())
-    slug      String   @unique
-    title     String
-    image     String
-    href      String
-    area      Int?
-    location  String?
-    coordsLat Float?
-    coordsLng Float?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id         String   @id @default(cuid())
+    slug       String   @unique
+    title      String
+    image      String
+    href       String
+    area       Int?
+    location   String?
+    objectType String?
+    technology String?
+    coordsLat  Float?
+    coordsLng  Float?
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
 }
 
 // Подборки проектов (коллекция). filter — декларативный спек (Json), который

@@ -83,6 +83,20 @@ export function BuiltObjectForm({
                             />
                             <NumberField<V> name="area" label="Площадь, м²" />
                         </div>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            <TextField<V>
+                                name="type"
+                                label="Тип (опц.)"
+                                placeholder="Дом / Баня"
+                                description="Пусто — выводится по заголовку"
+                            />
+                            <TextField<V>
+                                name="technology"
+                                label="Технология (опц.)"
+                                placeholder="Каркас / СИП-панели / …"
+                                description="Пусто — выводится по заголовку"
+                            />
+                        </div>
                         <TextField<V>
                             name="image"
                             label="Фото (URL)"
