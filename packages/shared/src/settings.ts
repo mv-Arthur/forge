@@ -105,6 +105,22 @@ export interface ListingPages {
     partners: { principles: string[] };
 }
 
+// Чрома финансовых лендингов (/mortgage, /credit, /maternity-capital, /payment):
+// едина для всех четырёх (общий компонент FinanceLanding). Цифры, условия и банки
+// приходят из секций страницы; здесь — статичные обрамляющие подписи и блок
+// «единого сценария», которые редактор раньше не мог менять.
+export interface FinanceUi {
+    primaryCtaLabel: string;
+    secondaryCta: { label: string; href: string };
+    routeEyebrow: string;
+    routeTitle: string;
+    routeSteps: { title: string; text: string }[];
+    conditionsEyebrow: string;
+    stepsEyebrow: string;
+    banksEyebrow: string;
+    formEyebrow: string;
+}
+
 // Индексные (листинговые) страницы, чьи title/description управляются из CMS
 // через настройку seo (у них нет своей сущности Page или коллекции-владельца).
 export const SEO_INDEX_KEYS = [
@@ -143,6 +159,7 @@ export const SETTING_KEYS = [
     "blog_page",
     "services_ui",
     "listing_pages",
+    "finance_ui",
     "seo",
 ] as const;
 export type SettingKey = (typeof SETTING_KEYS)[number];
@@ -154,6 +171,7 @@ export interface SettingValues {
     blog_page: BlogPage;
     services_ui: ServicesUi;
     listing_pages: ListingPages;
+    finance_ui: FinanceUi;
     seo: Seo;
 }
 

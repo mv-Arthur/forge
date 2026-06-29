@@ -122,6 +122,18 @@ const listingPages = z.object({
     partners: z.object({ principles: z.array(z.string()) }),
 });
 
+const financeUi = z.object({
+    primaryCtaLabel: z.string(),
+    secondaryCta: z.object({ label: z.string(), href: z.string() }),
+    routeEyebrow: z.string(),
+    routeTitle: z.string(),
+    routeSteps: z.array(z.object({ title: z.string(), text: z.string() })),
+    conditionsEyebrow: z.string(),
+    stepsEyebrow: z.string(),
+    banksEyebrow: z.string(),
+    formEyebrow: z.string(),
+});
+
 const seoIndexMeta = z.object({
     title: z.string(),
     description: z.string(),
@@ -148,5 +160,6 @@ export const SETTING_SCHEMAS: Record<SettingKey, z.ZodType> = {
     blog_page: blogPage.strict(),
     services_ui: servicesUi.strict(),
     listing_pages: listingPages.strict(),
+    finance_ui: financeUi.strict(),
     seo: seo.strict(),
 };

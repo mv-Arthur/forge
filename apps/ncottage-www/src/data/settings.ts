@@ -12,6 +12,7 @@ import type { FooterContent } from "@/content/site";
 import { FOOTER, NAV_ITEMS } from "@/content/site";
 import type {
     Contacts,
+    FinanceUi,
     Footer,
     ListingPages,
     Navigation,
@@ -182,6 +183,34 @@ const LISTING_PAGES_FALLBACK: ListingPages = {
     },
 };
 
+// Фолбэк чромы финансовых лендингов. Совпадает с сидом settings.json (ключ
+// finance_ui) — общая обвязка четырёх страниц (/mortgage, /credit,
+// /maternity-capital, /payment).
+const FINANCE_UI_FALLBACK: FinanceUi = {
+    primaryCtaLabel: "Получить консультацию",
+    secondaryCta: { label: "Выбрать проект", href: "/projects/all" },
+    routeEyebrow: "Единый сценарий",
+    routeTitle: "От финансового вопроса — к готовому пакету",
+    routeSteps: [
+        {
+            title: "Консультация",
+            text: "Разбираем бюджет, участок, сроки и доступный способ оплаты.",
+        },
+        {
+            title: "Подбор проекта",
+            text: "Выбираем типовой дом или фиксируем индивидуальное ТЗ.",
+        },
+        {
+            title: "Пакет документов",
+            text: "Готовим смету, договорные данные и строительную часть для оплаты или банка.",
+        },
+    ],
+    conditionsEyebrow: "Условия",
+    stepsEyebrow: "Процесс",
+    banksEyebrow: "Форматы",
+    formEyebrow: "Заявка",
+};
+
 async function getSetting<T>(key: string, fallback: T): Promise<T> {
     if (!API_URL) return fallback;
     try {
@@ -217,6 +246,10 @@ export async function getSeo(): Promise<Seo> {
 
 export async function getListingPages(): Promise<ListingPages> {
     return getSetting("listing_pages", LISTING_PAGES_FALLBACK);
+}
+
+export async function getFinanceUi(): Promise<FinanceUi> {
+    return getSetting("finance_ui", FINANCE_UI_FALLBACK);
 }
 
 // --- Адаптеры: форма API → форма, которую ждут компоненты сайта ---

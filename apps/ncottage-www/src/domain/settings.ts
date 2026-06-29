@@ -12,6 +12,7 @@ export type {
     ContactAddress,
     ContactSocial,
     ListingPages,
+    FinanceUi,
     Seo,
     SeoIndexKey,
     SeoIndexMeta,

@@ -8,6 +8,7 @@ import {
     PanelBottom,
     Route,
     Search,
+    Wallet,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
@@ -56,6 +57,12 @@ const LINKS: ContentLink[] = [
         title: "Страницы-листинги",
         description: "Метрики /reviews, чек-лист /certificates, принципы /partners",
         icon: LayoutList,
+    },
+    {
+        href: "/content/finance_ui",
+        title: "Финансовые лендинги",
+        description: "Кнопки, «единый сценарий» и надзаголовки на /mortgage и др.",
+        icon: Wallet,
     },
     {
         href: "/content/seo",

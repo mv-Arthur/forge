@@ -45,6 +45,7 @@ export type {
     ContactSocial,
     BlogPage,
     ListingPages,
+    FinanceUi,
     Seo,
     SeoIndexKey,
     SeoIndexMeta,

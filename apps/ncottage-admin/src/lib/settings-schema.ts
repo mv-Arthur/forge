@@ -4,6 +4,7 @@ import type {
     ContactPhone,
     Contacts,
     ContactSocial,
+    FinanceUi,
     Footer,
     FooterLink,
     FooterOffice,
@@ -441,6 +442,63 @@ export function formValuesToListingPages(
                 .map((p) => p.value.trim())
                 .filter(Boolean),
         },
+    };
+}
+
+// --- Finance landings chrome (Setting finance_ui) ---
+
+export const financeUiSchema = z.object({
+    primaryCtaLabel: z.string().min(1, "Укажите подпись"),
+    secondaryCta: z.object({
+        label: z.string().min(1, "Укажите подпись"),
+        href: z.string().min(1, "Укажите ссылку"),
+    }),
+    routeEyebrow: z.string().min(1, "Укажите надзаголовок"),
+    routeTitle: z.string().min(1, "Укажите заголовок"),
+    routeSteps: z.array(
+        z.object({
+            title: z.string().min(1, "Укажите заголовок"),
+            text: z.string().min(1, "Укажите текст"),
+        })
+    ),
+    conditionsEyebrow: z.string().min(1, "Укажите надзаголовок"),
+    stepsEyebrow: z.string().min(1, "Укажите надзаголовок"),
+    banksEyebrow: z.string().min(1, "Укажите надзаголовок"),
+    formEyebrow: z.string().min(1, "Укажите надзаголовок"),
+});
+export type FinanceUiFormValues = z.infer<typeof financeUiSchema>;
+
+export function financeUiToFormValues(ui: FinanceUi): FinanceUiFormValues {
+    return {
+        primaryCtaLabel: ui.primaryCtaLabel,
+        secondaryCta: { ...ui.secondaryCta },
+        routeEyebrow: ui.routeEyebrow,
+        routeTitle: ui.routeTitle,
+        routeSteps: ui.routeSteps.map((s) => ({ ...s })),
+        conditionsEyebrow: ui.conditionsEyebrow,
+        stepsEyebrow: ui.stepsEyebrow,
+        banksEyebrow: ui.banksEyebrow,
+        formEyebrow: ui.formEyebrow,
+    };
+}
+
+export function formValuesToFinanceUi(values: FinanceUiFormValues): FinanceUi {
+    return {
+        primaryCtaLabel: values.primaryCtaLabel.trim(),
+        secondaryCta: {
+            label: values.secondaryCta.label.trim(),
+            href: values.secondaryCta.href.trim(),
+        },
+        routeEyebrow: values.routeEyebrow.trim(),
+        routeTitle: values.routeTitle.trim(),
+        routeSteps: values.routeSteps.map((s) => ({
+            title: s.title.trim(),
+            text: s.text.trim(),
+        })),
+        conditionsEyebrow: values.conditionsEyebrow.trim(),
+        stepsEyebrow: values.stepsEyebrow.trim(),
+        banksEyebrow: values.banksEyebrow.trim(),
+        formEyebrow: values.formEyebrow.trim(),
     };
 }
 
