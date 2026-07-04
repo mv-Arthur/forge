@@ -37,9 +37,10 @@ model Lead {
     consent       Boolean?
     status        LeadStatus @default(new)
     createdAt     DateTime   @default(now())
-    // Seam под будущую доставку (Telegram/email/CRM):
-    deliveredAt   DateTime?
-    deliveryError String?
+    // Доставка во внешние системы (Telegram/email):
+    deliveredAt      DateTime?
+    deliveryError    String?
+    deliveryAttempts Int       @default(0)
 
     @@index([status, createdAt])
 }
@@ -60,24 +61,409 @@ model Project {
     featured    Boolean  @default(false)
     description String
     pdfUrl      String?
-    // Вложенное/массивы:
-    images           String[]
-    features         String[]
-    relatedObjectIds String[]
-    specs            Json
-    floorPlans       Json?
-    packages         Json?
-    options          Json?
-    createdAt        DateTime @default(now())
-    updatedAt        DateTime @updatedAt
+    // features — простой enum-массив, не нормализуем.
+    features String[]
+    // specs (5 фиксированных полей) — колонки самого Project (D4).
+    specsDimensions   String
+    specsRoofType     String
+    specsFoundation   String
+    specsWallMaterial String
+    specsBuildTime    String
+
+    seoTitle       String?
+    seoDescription String?
+
+    images     ProjectImage[]
+    floorPlans ProjectFloorPlan[]
+    packages   ProjectPackage[]
+    options    ProjectOption[]
+    relations  ProjectRelation[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([technology])
     @@index([featured])
 }
 
+model ProjectImage {
+    id        String  @id @default(cuid())
+    projectId String
+    url       String
+    mediaId   String?
+    order     Int
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+}
+
+model ProjectFloorPlan {
+    id        String                 @id @default(cuid())
+    projectId String
+    label     String
+    image     String
+    mediaId   String?
+    area      Int?
+    order     Int
+    project   Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    rooms     ProjectFloorPlanRoom[]
+
+    @@index([projectId])
+}
+
+model ProjectFloorPlanRoom {
+    id          String           @id @default(cuid())
+    floorPlanId String
+    name        String
+    area        Int
+    order       Int
+    floorPlan   ProjectFloorPlan @relation(fields: [floorPlanId], references: [id], onDelete: Cascade)
+
+    @@index([floorPlanId])
+}
+
+model ProjectPackage {
+    id          String                  @id @default(cuid())
+    projectId   String
+    name        String
+    price       Int
+    tagline     String?
+    highlighted Boolean                 @default(false)
+    order       Int
+    project     Project                 @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    includes    ProjectPackageInclude[]
+
+    @@index([projectId])
+}
+
+model ProjectPackageInclude {
+    id        String         @id @default(cuid())
+    packageId String
+    label     String
+    value     String
+    order     Int
+    package   ProjectPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+    @@index([packageId])
+}
+
+model ProjectOption {
+    id        String  @id @default(cuid())
+    projectId String
+    label     String
+    price     Int
+    note      String?
+    order     Int
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+}
+
+model ProjectRelation {
+    id          String  @id @default(cuid())
+    projectId   String
+    relatedSlug String
+    order       Int
+    project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@unique([projectId, relatedSlug])
+    @@index([projectId])
+}
+
+enum Role {
+    admin
+    editor
+}
+
+// Контент-настройки сайта (singletons): nav, footer, contacts, blog_page. value — типизированный JSON.
+model Setting {
+    key       String   @id
+    value     Json
+    updatedAt DateTime @updatedAt
+}
+
+// Страницы с секциями (about, production, финансовые лендинги, legal и т.д.).
+// Каждая страница — фиксированный набор типизированных секций (PageSection),
+// type определяет zod-схему data; редактор правит секции по одной (не block-builder).
+model Page {
+    key            String        @id
+    title          String
+    seoTitle       String
+    seoDescription String
+    sections       PageSection[]
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @updatedAt
+}
+
+model PageSection {
+    id      String @id @default(cuid())
+    pageKey String
+    type    String
+    order   Int
+    data    Json
+    page    Page   @relation(fields: [pageKey], references: [key], onDelete: Cascade)
+
+    @@index([pageKey])
+}
+
+// Акции (коллекция). Все массивы — простые String[] (без вложенных объектов).
+model Promo {
+    id           String   @id @default(cuid())
+    slug         String   @unique
+    title        String
+    shortTitle   String
+    eyebrow      String
+    lead         String
+    price        String
+    priceNote    String
+    period       String
+    projectsHref String
+    terms        String[]
+    includes     String[]
+    details      String[]
+    seoTitle       String?
+    seoDescription String?
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+}
+
+// Построенные объекты (коллекция). coords хранится двумя Float-колонками
+// (lat/lng) и собирается обратно в { lat, lng } в сервисе. slug = доменный id.
+model BuiltObject {
+    id         String   @id @default(cuid())
+    slug       String   @unique
+    title      String
+    image      String
+    href       String
+    area       Int?
+    location   String?
+    objectType String?
+    technology String?
+    coordsLat  Float?
+    coordsLng  Float?
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+}
+
+// Подборки проектов (коллекция). filter — декларативный спек (Json), который
+// www интерпретирует через matchesSelection. group — одна из SELECTION_GROUPS.
+model ProjectSelection {
+    id              String   @id @default(cuid())
+    slug            String   @unique
+    group           String
+    title           String
+    shortTitle      String
+    description     String
+    metaDescription String
+    filter          Json
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@index([group])
+}
+
+// Отзывы (коллекция). type/image/videoUrl опциональны; featured — для карусели.
+model Review {
+    id        String   @id @default(cuid())
+    order     Int      @default(0)
+    author    String
+    date      String
+    text      String
+    type      String?
+    image     String?
+    videoUrl  String?
+    featured  Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([order])
+}
+
+// Партнёры и поставщики (коллекция). href опционален (часть партнёров без сайта).
+model Partner {
+    id        String   @id @default(cuid())
+    slug      String   @unique
+    order     Int      @default(0)
+    name      String
+    category  String
+    href      String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([order])
+}
+
+// Сертификаты и документы компании (коллекция).
+model Certificate {
+    id        String   @id @default(cuid())
+    slug      String   @unique
+    order     Int      @default(0)
+    title     String
+    imageUrl  String?
+    fileUrl   String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([order])
+}
+
+// Вопросы FAQ (плоская коллекция; group — свободная строка-раздел).
+model FaqItem {
+    id        String   @id @default(cuid())
+    slug      String   @unique
+    order     Int      @default(0)
+    question  String
+    answer    String
+    group     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([group])
+    @@index([order])
+}
+
+// Вакансии (коллекция).
+model Vacancy {
+    id           String   @id @default(cuid())
+    slug         String   @unique
+    order        Int      @default(0)
+    title        String
+    intro        String
+    salary       String
+    experience   String
+    requirements String[]
+    conditions   String[]
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@index([order])
+}
+
+// Статьи блога (коллекция). Простые массивы — колонки String[]; разделы статьи
+// (title/body[]/list?) хранятся структурированным JSON с zod-валидацией на входе.
+model Article {
+    id           String   @id @default(cuid())
+    slug         String   @unique
+    title        String
+    description  String
+    category     String
+    date         String
+    readTime     String
+    heroNote     String
+    image        String?
+    highlights   String[]
+    sections     Json
+    checklist    String[]
+    relatedSlugs String[]
+    seoTitle       String?
+    seoDescription String?
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@index([category])
+}
+
+// Услуги (коллекция, 9). Простые массивы — колонки String[]; вложенные структуры
+// (detailVariants, seoContent) — структурированный JSON с zod-валидацией на входе.
+// order — явный порядок вывода (re-seed не должен ломать порядок).
+model Service {
+    id             String   @id @default(cuid())
+    slug           String   @unique
+    order          Int
+    title          String
+    shortTitle     String
+    description    String
+    sourceTitle    String
+    eyebrow        String
+    lead           String
+    summary        String
+    image          String
+    cta            String
+    highlights     String[]
+    scopes         String[]
+    stages         String[]
+    advantages     String[]
+    fitFor         String[]
+    includes       String[]
+    notIncluded    String[]
+    priceFactors   String[]
+    deliverables   String[]
+    quickFacts     String[]
+    detailPain     String?
+    detailPromise  String?
+    detailVariants Json
+    detailChecks   String[]
+    detailNextStep String?
+    detailCta      String?
+    relatedSlugs   String[]
+    scenarioSlugs  String[]
+    seoContent     Json
+    seoTitle       String?
+    seoDescription String?
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    @@index([order])
+}
+
+// Сценарии навигатора услуг (коллекция, 6). Слаги услуг — мягкие ссылки String[].
+// plan*-поля — влитая копия «персонального маршрута» (бывш. ScenarioPlanProfile).
+model ServiceScenario {
+    id                   String   @id @default(cuid())
+    slug                 String   @unique
+    order                Int
+    title                String
+    description          String
+    questionLabel        String
+    pain                 String?
+    promise              String?
+    outcome              String?
+    cta                  String?
+    nextStep             String
+    serviceSlugs         String[]
+    primaryServiceSlugs  String[]
+    nextServiceSlugs     String[]
+    optionalServiceSlugs String[]
+    planTitle            String
+    planResultLabel      String
+    planVisualTitle      String
+    planVisualCaption    String
+    planImage            String
+    planStartLabel       String
+    planStartText        String?
+    planNextLabel        String
+    planNextText         String
+    planOptionalLabel    String
+    planOptionalText     String
+    planCtaText          String
+    createdAt            DateTime @default(now())
+    updatedAt            DateTime @updatedAt
+
+    @@index([order])
+}
+
 model Admin {
     id           String   @id @default(cuid())
     email        String   @unique
+    name         String?
     passwordHash String
+    role         Role     @default(editor)
     createdAt    DateTime @default(now())
+}
+
+model Media {
+    id        String   @id @default(cuid())
+    key       String   @unique
+    url       String
+    filename  String
+    mime      String
+    size      Int
+    width     Int?
+    height    Int?
+    alt       String?
+    folder    String?
+    createdAt DateTime @default(now())
+
+    @@index([folder])
+    @@index([createdAt])
 }

@@ -3,21 +3,18 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/widgets/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import {
-    ADDRESSES,
-    CITIES,
-    EMAIL,
-    PHONES,
-    WORK_HOURS,
-} from "@/content/contacts";
-import { NAV_ITEMS } from "@/content/site";
+    getContacts,
+    getFooter,
+    getNavigation,
+    getSeo,
+    toContactLinks,
+    toFooterContent,
+    toHeaderContacts,
+} from "@/data/settings";
+import { toMetadataBase } from "@/lib/seo";
 import { SelectionProvider } from "@/lib/selection";
 import { CallbackProvider } from "@/lib/callback";
 import { FloatingContact } from "@/components/shared/FloatingContact";
-
-const CITY_ADDRESSES = {
-    spb: ADDRESSES.spb,
-    msk: ADDRESSES.msk,
-};
 
 const inter = Inter({
     subsets: ["latin", "cyrillic"],
@@ -36,38 +33,64 @@ const playfair = Playfair_Display({
 
 import "./globals.css";
 
-export const metadata: Metadata = {
-    title: "Строительство домов в СПб и ЛО под ключ — Новый Коттедж",
-    description:
-        "Строительная компания Новый Коттедж. Строительство загородных домов под ключ в Санкт-Петербурге и Ленинградской области.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return {
+        metadataBase: toMetadataBase(seo.baseUrl),
+        title: seo.defaultTitle,
+        description: seo.defaultDescription,
+        openGraph: {
+            title: seo.defaultTitle,
+            description: seo.defaultDescription,
+            url: "/",
+            siteName: seo.siteName,
+            locale: "ru_RU",
+            type: "website",
+            ...(seo.ogImageUrl ? { images: [seo.ogImageUrl] } : {}),
+        },
+    };
+}
 
 export const viewport: Viewport = {
     width: "device-width",
     initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const [navigation, footer, contacts] = await Promise.all([
+        getNavigation(),
+        getFooter(),
+        getContacts(),
+    ]);
+    const headerContacts = toHeaderContacts(contacts);
+    const links = toContactLinks(contacts);
+
     return (
         <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
             <body>
                 <SelectionProvider>
                     <CallbackProvider>
                         <SiteHeader
-                            cities={CITIES}
-                            phones={PHONES}
-                            addresses={CITY_ADDRESSES}
-                            email={EMAIL}
-                            workHours={WORK_HOURS}
-                            navItems={NAV_ITEMS}
+                            cities={headerContacts.cities}
+                            phones={headerContacts.phones}
+                            addresses={headerContacts.addresses}
+                            email={headerContacts.email}
+                            workHours={headerContacts.workHours}
+                            navItems={navigation.items}
                         />
                         <main>{children}</main>
-                        <Footer />
-                        <FloatingContact />
+                        <Footer
+                            content={toFooterContent(footer)}
+                            vkHref={links.vk}
+                        />
+                        <FloatingContact
+                            whatsapp={links.whatsapp}
+                            telegram={links.telegram}
+                        />
                     </CallbackProvider>
                 </SelectionProvider>
             </body>

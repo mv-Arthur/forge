@@ -1,11 +1,14 @@
-import { createProject } from "../actions";
+import { PageHeader } from "@/components/page-header";
 import { ProjectForm } from "../ProjectForm";
 
 export default function NewProjectPage() {
     return (
-        <>
-            <h1>Новый проект</h1>
-            <ProjectForm action={createProject} submitLabel="Создать" />
-        </>
+        <div>
+            <PageHeader
+                title="Новый проект"
+                description="Заполните карточку проекта"
+            />
+            <ProjectForm submitLabel="Создать" />
+        </div>
     );
 }

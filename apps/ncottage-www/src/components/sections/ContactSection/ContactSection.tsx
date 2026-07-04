@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { ContactSectionContent } from "@/content/home";
+import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./ContactSection.module.css";
 
 interface ContactSectionProps {
@@ -32,13 +33,18 @@ export function ContactSection({
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    const { submit, error, isSubmitting, isSuccess } = useLeadForm();
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (!phone.trim()) return;
-        console.log("Contact submit:", { name, phone, message });
-        setSubmitted(true);
+        if (!phone.trim() || isSubmitting) return;
+        void submit({
+            source: "contacts",
+            name: name.trim() || undefined,
+            phone: phone.trim(),
+            comment: message.trim() || undefined,
+            consent: true,
+        });
     }
 
     return (
@@ -55,7 +61,7 @@ export function ContactSection({
 
                 <div className={styles.grid}>
                     <div className={styles.formCol}>
-                        {submitted ? (
+                        {isSuccess ? (
                             <div className={styles.success} role="status">
                                 <h3 className={styles.successTitle}>
                                     {form.successTitle}
@@ -78,6 +84,7 @@ export function ContactSection({
                                     type="text"
                                     name="name"
                                     autoComplete="name"
+                                    aria-label="Имя"
                                     placeholder={form.namePlaceholder}
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
@@ -87,6 +94,7 @@ export function ContactSection({
                                     type="tel"
                                     name="phone"
                                     autoComplete="tel"
+                                    aria-label="Телефон"
                                     placeholder={form.phonePlaceholder}
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
@@ -96,12 +104,24 @@ export function ContactSection({
                                     className={styles.textarea}
                                     name="message"
                                     rows={3}
+                                    aria-label="Комментарий"
                                     placeholder={form.messagePlaceholder}
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
                                 />
-                                <button type="submit" className={styles.submit}>
-                                    {form.submitLabel}
+                                {error && (
+                                    <p className={styles.privacy} role="alert">
+                                        {error}
+                                    </p>
+                                )}
+                                <button
+                                    type="submit"
+                                    className={styles.submit}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting
+                                        ? "Отправляем…"
+                                        : form.submitLabel}
                                 </button>
                                 <p className={styles.privacy}>
                                     {form.privacy.text}{" "}

@@ -1,19 +1,8 @@
-export interface PromoItem {
-    slug: string;
-    title: string;
-    shortTitle: string;
-    eyebrow: string;
-    lead: string;
-    price: string;
-    priceNote: string;
-    period: string;
-    terms: string[];
-    includes: string[];
-    details: string[];
-    projectsHref: string;
-}
+import type { Promo } from "@/domain/promo";
 
-export const PROMOS: PromoItem[] = [
+// Fallback-данные акций: отдаются, когда ncottage-api недоступен. Этот же массив —
+// источник сидов в БД.
+export const PROMOS: Promo[] = [
     {
         slug: "frame-houses-special-price",
         title: "Каркасные дома по специальной цене",
@@ -67,7 +56,3 @@ export const PROMOS: PromoItem[] = [
         projectsHref: "/projects/gas-concrete",
     },
 ];
-
-export function getPromoBySlug(slug: string) {
-    return PROMOS.find((promo) => promo.slug === slug);
-}

@@ -1,5 +1,5 @@
 .page {
-    padding-top: 24px;
+    padding-top: var(--space-24);
     padding-bottom: 0;
     background-color: var(--color-bg);
 }
@@ -7,8 +7,8 @@
 .headBlock {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin: 24px 0 32px;
+    gap: var(--space-12);
+    margin: var(--space-24) 0 var(--space-32);
     max-width: 880px;
 }
 
@@ -43,7 +43,7 @@
     position: sticky;
     top: var(--site-header-height);
     z-index: 10;
-    margin-top: 32px;
+    margin-top: var(--space-32);
     background-color: var(--color-bg);
     border-top: 1px solid var(--color-line);
     border-bottom: 1px solid var(--color-line);
@@ -52,10 +52,10 @@
 .layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 56px;
+    gap: var(--space-56);
     align-items: start;
-    padding-top: 48px;
-    padding-bottom: 96px;
+    padding-top: var(--space-48);
+    padding-bottom: var(--space-96);
 }
 
 .main {
@@ -68,11 +68,11 @@
 .section {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--space-24);
 }
 
 .section {
-    margin-top: 64px;
+    margin-top: var(--space-64);
     scroll-margin-top: calc(var(--site-header-height) + 80px);
 }
 
@@ -85,47 +85,47 @@
 }
 
 .aboutWrap {
-    margin-top: 8px;
+    margin-top: var(--space-8);
 }
 
 .similar {
-    padding: 80px 0;
+    padding: var(--space-80) 0;
     background-color: var(--color-surface-alt);
     margin-top: 0;
 }
 
 .similar .sectionHead {
-    margin-bottom: 32px;
+    margin-bottom: var(--space-32);
 }
 
 .lead {
-    padding: 80px 0 120px;
+    padding: var(--space-80) 0 120px;
     background-color: var(--color-bg);
 }
 
 @media (max-width: 1024px) {
     .layout {
         grid-template-columns: 1fr;
-        gap: 32px;
-        padding-top: 32px;
-        padding-bottom: 64px;
+        gap: var(--space-32);
+        padding-top: var(--space-32);
+        padding-bottom: var(--space-64);
     }
 
     .similar {
-        padding: 56px 0;
+        padding: var(--space-56) 0;
     }
 
     .lead {
-        padding: 56px 0 96px;
+        padding: var(--space-56) 0 var(--space-96);
     }
 }
 
 @media (max-width: 768px) {
     .headBlock {
-        margin: 16px 0 24px;
+        margin: var(--space-16) 0 var(--space-24);
     }
 
     .section {
-        margin-top: 48px;
+        margin-top: var(--space-48);
     }
 }

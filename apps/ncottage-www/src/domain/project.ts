@@ -5,7 +5,6 @@ export type {
     ProjectStyle,
     ProjectFeature,
     ProjectLivingType,
-    ProjectSpecs,
     ProjectFloorPlan,
     ProjectPackage,
     ProjectOption,

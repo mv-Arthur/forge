@@ -3,41 +3,29 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
+import { getCertificates } from "@/data/certificates";
+import { getListingPages, getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-const certificates = [
-    "Реестр добросовестных исполнителей",
-    "Система менеджмента безопасности труда и охраны здоровья",
-    "Система экологического менеджмента в строительстве",
-    "Разрешение на применение знака соответствия системы сертификации",
-    "Сертификат соответствия на ОСБ",
-    "Сертификат пожаробезопасности на пенополистирол строительный",
-    "Сертификат соответствия на пенополистирол строительный",
-];
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["certificates"].title,
+        description: seo.indexes["certificates"].description,
+        path: "/certificates",
+    });
+}
 
-const checks = [
-    {
-        title: "Материалы",
-        text: "Подтверждаем происхождение и характеристики материалов, которые используются в домокомплектах и строительных узлах.",
-    },
-    {
-        title: "Процессы",
-        text: "Фиксируем требования к безопасности труда, экологическому менеджменту и контролю качества на объекте.",
-    },
-    {
-        title: "Подрядчик",
-        text: "Показываем документы, которые помогают заказчику оценить надежность компании до подписания договора.",
-    },
-];
+export default async function CertificatesPage() {
+    const [certificates, listingPages] = await Promise.all([
+        getCertificates(),
+        getListingPages(),
+    ]);
+    const { checks } = listingPages.certificates;
 
-export const metadata: Metadata = {
-    title: "Сертификаты и лицензии | Новый Коттедж",
-    description:
-        "Сертификаты, лицензии и подтверждающие документы компании Новый Коттедж: материалы, безопасность труда, экологический менеджмент.",
-    alternates: { canonical: "/certificates" },
-};
-
-export default function CertificatesPage() {
     return (
         <section className={styles.page}>
             <Container>
@@ -89,26 +77,67 @@ export default function CertificatesPage() {
                         align="left"
                         className={styles.sectionHead}
                     />
+                    {certificates.length === 0 && (
+                        <EmptyState
+                            title="Документов пока нет"
+                            description="Актуальные сертификаты и лицензии покажем в офисе или приложим к коммерческому предложению."
+                        />
+                    )}
                     <div className={styles.documentsGrid}>
-                        {certificates.map((certificate, index) => (
-                            <article
-                                key={certificate}
-                                className={styles.documentCard}
-                            >
-                                <div className={styles.documentPreview}>
-                                    <span>
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
+                        {certificates.map((certificate, index) => {
+                            const preview = (
+                                <div
+                                    className={`${styles.documentPreview} ${
+                                        certificate.imageUrl
+                                            ? styles.documentPreviewImage
+                                            : ""
+                                    }`}
+                                >
+                                    {certificate.imageUrl ? (
+                                        // eslint-disable-next-line @next/next/no-img-element -- произвольный медиа-хост, не LCP
+                                        <img
+                                            src={certificate.imageUrl}
+                                            alt={certificate.title}
+                                            className={styles.documentImage}
+                                        />
+                                    ) : (
+                                        <span>
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
+                                    )}
                                 </div>
+                            );
+                            const body = (
                                 <div className={styles.documentBody}>
-                                    <h2>{certificate}</h2>
+                                    <h2>{certificate.title}</h2>
                                     <p>
-                                        Документ доступен для проверки перед
-                                        заключением договора.
+                                        {certificate.fileUrl
+                                            ? "Открыть документ →"
+                                            : "Документ доступен для проверки перед заключением договора."}
                                     </p>
                                 </div>
-                            </article>
-                        ))}
+                            );
+                            return certificate.fileUrl ? (
+                                <a
+                                    key={certificate.slug}
+                                    className={styles.documentCard}
+                                    href={certificate.fileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {preview}
+                                    {body}
+                                </a>
+                            ) : (
+                                <article
+                                    key={certificate.slug}
+                                    className={styles.documentCard}
+                                >
+                                    {preview}
+                                    {body}
+                                </article>
+                            );
+                        })}
                     </div>
                 </section>
 

@@ -1,7 +1,7 @@
 .layout {
     display: grid;
     grid-template-columns: 300px 1fr;
-    gap: 32px;
+    gap: var(--space-32);
     align-items: start;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .empty {
-    padding: 64px 24px;
+    padding: var(--space-64) var(--space-24);
     text-align: center;
     color: var(--color-ink-muted);
     background-color: var(--color-surface);
@@ -44,15 +44,44 @@
 }
 
 .loading {
-    padding: 64px 0;
+    padding: var(--space-64) 0;
     text-align: center;
     color: var(--color-ink-muted);
+}
+
+/* Скелет каталога: повторяет раскладку, чтобы зарезервировать высоту до гидрации. */
+.sidebarSkeleton {
+    min-height: 480px;
+}
+
+.sortbarSkeleton {
+    height: 56px;
+    margin-bottom: 18px;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+}
+
+.cardSkeleton {
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+}
+
+.cardSkeletonImage {
+    aspect-ratio: 16 / 11;
+    background-color: var(--color-surface-alt);
+}
+
+.cardSkeletonBody {
+    height: 120px;
 }
 
 .drawerApply {
     display: none;
     width: 100%;
-    margin-top: 16px;
+    margin-top: var(--space-16);
     padding: 14px;
     font-size: 15px;
     font-weight: 600;
@@ -73,7 +102,7 @@
     position: fixed;
     inset: 0;
     z-index: 120;
-    background-color: rgba(26, 26, 26, 0.46);
+    background-color: rgb(var(--color-ink-rgb) / 0.46);
     border: none;
     cursor: pointer;
 }

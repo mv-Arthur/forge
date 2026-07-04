@@ -1,0 +1,85 @@
+[
+    {
+        "slug": "lsr",
+        "order": 0,
+        "name": "ЛСР",
+        "href": "https://www.lsr.ru",
+        "category": "материалы"
+    },
+    {
+        "slug": "top-house",
+        "order": 1,
+        "name": "Top House",
+        "href": "https://www.tophouse.ru",
+        "category": "домокомплекты"
+    },
+    {
+        "slug": "petrovich",
+        "order": 2,
+        "name": "Петрович",
+        "href": "https://petrovich.ru",
+        "category": "строительные материалы"
+    },
+    {
+        "slug": "penopleks",
+        "order": 3,
+        "name": "Пеноплекс",
+        "href": "https://www.penoplex.ru",
+        "category": "теплоизоляция"
+    },
+    {
+        "slug": "paroc",
+        "order": 4,
+        "name": "Paroc",
+        "href": "https://www.paroc.ru",
+        "category": "изоляция"
+    },
+    {
+        "slug": "rockwool",
+        "order": 5,
+        "name": "Rockwool",
+        "href": "https://www.rockwool.ru",
+        "category": "каменная вата"
+    },
+    {
+        "slug": "nanoizol",
+        "order": 6,
+        "name": "Наноизол",
+        "href": "https://www.nanoizol.com",
+        "category": "мембраны"
+    },
+    {
+        "slug": "izospan",
+        "order": 7,
+        "name": "Изоспан",
+        "href": "https://isospan.gexa.ru",
+        "category": "изоляционные материалы"
+    },
+    {
+        "slug": "renessans-beton",
+        "order": 8,
+        "name": "Ренессанс Бетон",
+        "category": "бетон"
+    },
+    {
+        "slug": "monolit",
+        "order": 9,
+        "name": "Монолит",
+        "href": "https://www.monolittex.ru",
+        "category": "строительные решения"
+    },
+    {
+        "slug": "greenside",
+        "order": 10,
+        "name": "Greenside",
+        "href": "https://www.greenside.ru",
+        "category": "фасады"
+    },
+    {
+        "slug": "quickdeck",
+        "order": 11,
+        "name": "QuickDeck",
+        "href": "https://quickdeck.ru",
+        "category": "плиты"
+    }
+]

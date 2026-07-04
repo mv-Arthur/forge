@@ -1,3 +1,7 @@
+export function cn(...classes: Array<string | false | undefined>): string {
+    return classes.filter(Boolean).join(" ");
+}
+
 export function formatPrice(price: number): string {
     return new Intl.NumberFormat("ru-RU").format(price) + " \u20BD";
 }

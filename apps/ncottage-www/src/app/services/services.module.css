@@ -1,33 +1,33 @@
 .page {
     overflow-x: clip;
-    padding: 72px 0 96px;
+    padding: var(--space-72) 0 var(--space-96);
     background:
         radial-gradient(
             circle at 84% 0%,
-            rgba(156, 74, 45, 0.1),
+            rgb(var(--color-accent-rgb) / 0.1),
             transparent 34%
         ),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.72), transparent 28%),
+        linear-gradient(180deg, rgb(var(--color-surface-rgb) / 0.72), transparent 28%),
         var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
-    gap: 40px;
+    gap: var(--space-40);
     align-items: stretch;
-    padding: 32px 0 72px;
+    padding: var(--space-32) 0 var(--space-72);
 }
 
 .heroText {
     min-width: 0;
     max-width: 860px;
-    padding-top: 20px;
+    padding-top: var(--space-20);
 }
 
 .eyebrow {
     display: block;
-    margin: 0 0 16px;
+    margin: 0 0 var(--space-16);
     font-size: var(--text-xs);
     font-weight: 500;
     letter-spacing: 0.16em;
@@ -57,7 +57,7 @@
 }
 
 .lead {
-    margin: 28px 0 0;
+    margin: var(--space-28) 0 0;
     max-width: 720px;
     font-size: var(--text-lg);
     line-height: 1.65;
@@ -76,8 +76,8 @@
 .heroFacts {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin: 40px 0 0;
+    gap: var(--space-12);
+    margin: var(--space-40) 0 0;
     padding: 0;
     list-style: none;
 }
@@ -95,7 +95,7 @@
     padding: 22px;
     border: 1px solid var(--color-line);
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.64);
+    background: rgb(var(--color-surface-rgb) / 0.64);
     transition:
         background-color var(--transition),
         border-color var(--transition),
@@ -110,7 +110,7 @@
     border-radius: inherit;
     background: radial-gradient(
         circle at 86% 18%,
-        rgba(156, 74, 45, 0.12),
+        rgb(var(--color-accent-rgb) / 0.12),
         transparent 30%
     );
     opacity: 0;
@@ -136,7 +136,7 @@
 .heroFacts a:hover,
 .heroFacts a:focus-visible {
     transform: translateY(-3px);
-    border-color: rgba(156, 74, 45, 0.28);
+    border-color: rgb(var(--color-accent-rgb) / 0.28);
     background: var(--color-surface);
     box-shadow: var(--shadow-soft);
 }
@@ -160,7 +160,7 @@
 }
 
 .heroFacts strong {
-    margin-top: 28px;
+    margin-top: var(--space-28);
     color: var(--color-ink);
     font-size: var(--text-base);
     font-weight: 500;
@@ -170,7 +170,7 @@
 
 .heroFacts small {
     max-width: 220px;
-    margin-top: 8px;
+    margin-top: var(--space-8);
     color: var(--color-ink-muted);
     font-size: var(--text-sm);
     line-height: 1.35;
@@ -184,7 +184,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 18px;
-    padding-bottom: 4px;
+    padding-bottom: var(--space-4);
     color: var(--color-accent);
     font-size: var(--text-xs);
     font-style: normal;
@@ -226,18 +226,18 @@
     min-height: 480px;
     flex-direction: column;
     overflow: hidden;
-    padding: 32px;
-    border: 1px solid rgba(156, 74, 45, 0.18);
+    padding: var(--space-32);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.18);
     border-radius: 32px;
     background:
         radial-gradient(
             circle at 90% 8%,
-            rgba(156, 74, 45, 0.22),
+            rgb(var(--color-accent-rgb) / 0.22),
             transparent 28%
         ),
         linear-gradient(
             145deg,
-            rgba(255, 255, 255, 0.92),
+            rgb(var(--color-surface-rgb) / 0.92),
             rgba(245, 237, 226, 0.76)
         );
     box-shadow: var(--shadow-soft);
@@ -250,20 +250,20 @@
     bottom: -44px;
     width: 190px;
     height: 190px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 50%;
-    background: rgba(156, 74, 45, 0.08);
+    background: rgb(var(--color-accent-rgb) / 0.08);
 }
 
 .panelLabel {
     position: relative;
     z-index: 1;
     width: max-content;
-    margin-bottom: 24px;
-    padding: 8px 13px;
-    border: 1px solid rgba(156, 74, 45, 0.24);
+    margin-bottom: var(--space-24);
+    padding: var(--space-8) 13px;
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.24);
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.5);
+    background: rgb(var(--color-surface-rgb) / 0.5);
     font-size: var(--text-xs);
     font-weight: 600;
     letter-spacing: 0.14em;
@@ -297,8 +297,8 @@
     z-index: 1;
     display: flex;
     flex-wrap: wrap;
-    gap: 12px 10px;
-    margin-top: 28px;
+    gap: var(--space-12) var(--space-10);
+    margin-top: var(--space-28);
 }
 
 .heroScenarioPicker {
@@ -318,7 +318,7 @@
     border-radius: 0;
     background: transparent;
     opacity: 1;
-    box-shadow: 0 10px 36px rgba(26, 26, 26, 0);
+    box-shadow: 0 10px 36px rgb(var(--color-ink-rgb) / 0);
     transition:
         opacity 260ms ease,
         padding var(--transition),
@@ -336,12 +336,12 @@
     left: var(--scenario-target-left, 16px);
     z-index: 80;
     width: var(--scenario-target-width, min(1180px, calc(100vw - 32px)));
-    padding: 12px;
+    padding: var(--space-12);
     opacity: 1;
     transform: none;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 28px;
-    background: rgba(250, 248, 243, 0.82);
+    background: rgb(var(--color-bg-rgb) / 0.82);
     box-shadow: var(--shadow-soft);
     backdrop-filter: blur(18px);
 }
@@ -368,7 +368,7 @@
 
 .heroScenarioPicker > span {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: var(--space-12);
     color: var(--color-accent);
     font-size: var(--text-xs);
     font-weight: 800;
@@ -378,7 +378,7 @@
 
 .heroScenarioPicker .scenarioButtons {
     flex-wrap: nowrap;
-    gap: 8px;
+    gap: var(--space-8);
     overflow-x: auto;
     margin-top: 0;
     scrollbar-width: none;
@@ -390,18 +390,18 @@
 
 .heroScenarioPicker .scenarioButton {
     flex: 0 0 auto;
-    background: rgba(255, 255, 255, 0.86);
+    background: rgb(var(--color-surface-rgb) / 0.86);
 }
 
 .heroScenarioPicker:not(.heroScenarioPickerPinned) .scenarioButtons {
     flex-wrap: wrap;
-    gap: 12px 10px;
+    gap: var(--space-12) var(--space-10);
     overflow-x: visible;
 }
 
 .heroScenarioPicker:not(.heroScenarioPickerPinned) .scenarioButton {
     flex: initial;
-    background: rgba(255, 255, 255, 0.74);
+    background: rgb(var(--color-surface-rgb) / 0.74);
 }
 
 .heroScenarioPicker .scenarioButtonActive,
@@ -428,7 +428,7 @@
     overflow: hidden;
     padding: 11px 15px;
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.74);
+    background: rgb(var(--color-surface-rgb) / 0.74);
     color: var(--color-ink-muted);
     font-size: var(--text-sm);
 }
@@ -441,7 +441,7 @@
     background: linear-gradient(
         110deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.34) 42%,
+        rgb(var(--color-surface-rgb) / 0.34) 42%,
         transparent 74%
     );
     opacity: 0;
@@ -481,11 +481,11 @@
     z-index: 1;
     display: flex;
     min-height: 228px;
-    margin-top: clamp(28px, 3vw, 44px);
+    margin-top: clamp(var(--space-28), 3vw, var(--space-44));
     padding: 22px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.72);
+    background: rgb(var(--color-surface-rgb) / 0.72);
 }
 
 .nextStepContent {
@@ -494,7 +494,7 @@
 
 .nextStep span {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: var(--space-10);
     font-size: var(--text-xs);
     font-weight: 600;
     letter-spacing: 0.14em;
@@ -510,7 +510,7 @@
 }
 
 .nextStep p {
-    margin: 12px 0 0;
+    margin: var(--space-12) 0 0;
     font-size: var(--text-sm);
 }
 
@@ -571,16 +571,16 @@
         width: var(--scenario-start-width);
         min-height: var(--scenario-start-height);
         padding: 0;
-        border-color: rgba(156, 74, 45, 0);
+        border-color: rgb(var(--color-accent-rgb) / 0);
         border-radius: 0;
-        background: rgba(250, 248, 243, 0);
-        box-shadow: 0 10px 36px rgba(26, 26, 26, 0);
+        background: rgb(var(--color-bg-rgb) / 0);
+        box-shadow: 0 10px 36px rgb(var(--color-ink-rgb) / 0);
         backdrop-filter: blur(0);
     }
 
     42% {
-        border-color: rgba(156, 74, 45, 0.1);
-        background: rgba(250, 248, 243, 0.48);
+        border-color: rgb(var(--color-accent-rgb) / 0.1);
+        background: rgb(var(--color-bg-rgb) / 0.48);
     }
 
     to {
@@ -588,17 +588,17 @@
         left: var(--scenario-target-left, 16px);
         width: var(--scenario-target-width, min(1180px, calc(100vw - 32px)));
         min-height: auto;
-        padding: 12px;
-        border-color: rgba(156, 74, 45, 0.16);
+        padding: var(--space-12);
+        border-color: rgb(var(--color-accent-rgb) / 0.16);
         border-radius: 28px;
-        background: rgba(250, 248, 243, 0.82);
+        background: rgb(var(--color-bg-rgb) / 0.82);
         box-shadow: var(--shadow-soft);
         backdrop-filter: blur(18px);
     }
 }
 
 .section {
-    padding: 72px 0;
+    padding: var(--space-72) 0;
     border-top: 1px solid var(--color-line);
 }
 
@@ -608,16 +608,16 @@
     grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.45fr);
     gap: 18px;
     overflow: hidden;
-    padding: 28px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    padding: var(--space-28);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 32px;
     background:
         radial-gradient(
             circle at 96% 0%,
-            rgba(156, 74, 45, 0.12),
+            rgb(var(--color-accent-rgb) / 0.12),
             transparent 30%
         ),
-        rgba(255, 255, 255, 0.72);
+        rgb(var(--color-surface-rgb) / 0.72);
     box-shadow: var(--shadow-soft);
 }
 
@@ -627,9 +627,9 @@
     inset: auto -90px -90px auto;
     width: 260px;
     height: 260px;
-    border: 1px solid rgba(156, 74, 45, 0.12);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.12);
     border-radius: 50%;
-    background: rgba(156, 74, 45, 0.05);
+    background: rgb(var(--color-accent-rgb) / 0.05);
     pointer-events: none;
 }
 
@@ -663,21 +663,21 @@
     background:
         linear-gradient(
             90deg,
-            rgba(250, 248, 243, 0.94),
-            rgba(250, 248, 243, 0.48) 44%,
-            rgba(26, 26, 26, 0.44)
+            rgb(var(--color-bg-rgb) / 0.94),
+            rgb(var(--color-bg-rgb) / 0.48) 44%,
+            rgb(var(--color-ink-rgb) / 0.44)
         ),
         radial-gradient(
             circle at 75% 12%,
-            rgba(156, 74, 45, 0.18),
+            rgb(var(--color-accent-rgb) / 0.18),
             transparent 36%
         );
 }
 
 .planScene::after {
     background:
-        linear-gradient(rgba(250, 248, 243, 0.09) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(250, 248, 243, 0.08) 1px, transparent 1px);
+        linear-gradient(rgb(var(--color-bg-rgb) / 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(var(--color-bg-rgb) / 0.08) 1px, transparent 1px);
     background-size: 64px 64px;
     mix-blend-mode: soft-light;
 }
@@ -710,7 +710,7 @@
 
 .planSummary {
     display: grid;
-    gap: 12px;
+    gap: var(--space-12);
     align-self: stretch;
     border: 0;
     background: transparent;
@@ -719,12 +719,12 @@
 .planSceneCaption {
     max-width: 380px;
     justify-self: end;
-    padding: 8px 6px 2px;
+    padding: var(--space-8) var(--space-6) var(--space-2);
 }
 
 .planSceneCaption span {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-8);
     color: var(--color-accent);
     font-size: var(--text-xs);
     font-weight: 800;
@@ -734,7 +734,7 @@
 
 .planSceneCaption p {
     margin: 0;
-    color: rgba(26, 26, 26, 0.72);
+    color: rgb(var(--color-ink-rgb) / 0.72);
     font-size: var(--text-sm);
     line-height: 1.45;
 }
@@ -758,13 +758,13 @@
 .planStepSummary span,
 .routeDetail > div:last-child > span,
 .serviceGroupHeader span {
-    margin-bottom: 12px;
+    margin-bottom: var(--space-12);
     color: var(--color-accent);
 }
 
 .planResult {
     padding: 22px;
-    border: 1px solid rgba(156, 74, 45, 0.18);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.18);
     border-radius: 24px;
     background: var(--color-surface);
 }
@@ -781,7 +781,7 @@
     position: relative;
     min-height: 230px;
     overflow: hidden;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 24px;
     background: var(--color-surface-alt);
     box-shadow: var(--shadow-soft);
@@ -798,10 +798,10 @@
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(180deg, rgba(26, 26, 26, 0.02), rgba(26, 26, 26, 0.62)),
+        linear-gradient(180deg, rgb(var(--color-ink-rgb) / 0.02), rgb(var(--color-ink-rgb) / 0.62)),
         radial-gradient(
             circle at 90% 8%,
-            rgba(156, 74, 45, 0.22),
+            rgb(var(--color-accent-rgb) / 0.22),
             transparent 34%
         );
 }
@@ -816,7 +816,7 @@
 
 .planVisualOverlay span {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-8);
     color: var(--color-ink-on-accent);
     font-size: var(--text-xs);
     font-weight: 800;
@@ -827,7 +827,7 @@
 .planVisualOverlay p {
     max-width: 360px;
     margin: 0;
-    color: rgba(250, 248, 243, 0.82);
+    color: rgb(var(--color-bg-rgb) / 0.82);
     font-size: var(--text-sm);
     line-height: 1.45;
 }
@@ -836,7 +836,7 @@
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .planBrief,
@@ -844,16 +844,16 @@
     overflow: hidden;
     border: 1px solid var(--color-line);
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.68);
+    background: rgb(var(--color-surface-rgb) / 0.68);
 }
 
 .planBrief summary,
 .planStepSummary {
     position: relative;
     display: grid;
-    gap: 8px;
+    gap: var(--space-8);
     cursor: pointer;
-    padding: 20px 56px 20px 22px;
+    padding: var(--space-20) var(--space-56) var(--space-20) 22px;
     list-style: none;
 }
 
@@ -891,12 +891,12 @@
 .planBrief summary:focus-visible::after,
 .planStepSummary:hover::after,
 .planStepSummary:focus-visible::after {
-    background: rgba(156, 74, 45, 0.14);
+    background: rgb(var(--color-accent-rgb) / 0.14);
 }
 
 .planBrief summary:focus-visible,
 .planStepSummary:focus-visible {
-    outline: 2px solid rgba(156, 74, 45, 0.28);
+    outline: 2px solid rgb(var(--color-accent-rgb) / 0.28);
     outline-offset: -4px;
 }
 
@@ -929,7 +929,7 @@
 .planBrief p,
 .planStep p {
     margin: 0;
-    padding: 0 22px 20px;
+    padding: 0 22px var(--space-20);
     color: var(--color-ink-muted);
     line-height: 1.5;
 }
@@ -937,14 +937,14 @@
 .planLinks {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-8);
     margin: -4px 0 0;
     padding: 0 22px 22px;
 }
 
 .planLinks a {
     display: inline-flex;
-    padding: 8px 11px;
+    padding: var(--space-8) 11px;
     border-radius: var(--radius-pill);
     background: var(--color-accent-soft);
     color: var(--color-accent);
@@ -960,17 +960,17 @@
 .planLinks a:hover,
 .planLinks a:focus-visible {
     transform: translateY(-2px);
-    background: rgba(156, 74, 45, 0.14);
+    background: rgb(var(--color-accent-rgb) / 0.14);
     color: var(--color-accent-hover);
     box-shadow:
-        inset 0 0 0 1px rgba(156, 74, 45, 0.18),
-        0 10px 24px rgba(156, 74, 45, 0.12);
+        inset 0 0 0 1px rgb(var(--color-accent-rgb) / 0.18),
+        0 10px 24px rgb(var(--color-accent-rgb) / 0.12);
 }
 
 .planCta {
     display: flex;
     grid-column: 1 / -1;
-    gap: 20px;
+    gap: var(--space-20);
     align-items: center;
     justify-content: space-between;
     padding: 22px;
@@ -1012,14 +1012,14 @@
 
 .planLand {
     background:
-        linear-gradient(rgba(156, 74, 45, 0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(156, 74, 45, 0.07) 1px, transparent 1px),
+        linear-gradient(rgb(var(--color-accent-rgb) / 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(var(--color-accent-rgb) / 0.07) 1px, transparent 1px),
         radial-gradient(
             circle at 88% 10%,
-            rgba(156, 74, 45, 0.14),
+            rgb(var(--color-accent-rgb) / 0.14),
             transparent 30%
         ),
-        rgba(255, 255, 255, 0.74);
+        rgb(var(--color-surface-rgb) / 0.74);
     background-size:
         56px 56px,
         56px 56px,
@@ -1036,18 +1036,18 @@
     grid-template-columns: minmax(0, 1fr) minmax(360px, 0.54fr);
     gap: 22px;
     padding: 34px;
-    border-color: rgba(156, 74, 45, 0.22);
+    border-color: rgb(var(--color-accent-rgb) / 0.22);
     background:
-        linear-gradient(rgba(156, 74, 45, 0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(156, 74, 45, 0.07) 1px, transparent 1px),
+        linear-gradient(rgb(var(--color-accent-rgb) / 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(var(--color-accent-rgb) / 0.07) 1px, transparent 1px),
         radial-gradient(
             circle at 78% 14%,
-            rgba(156, 74, 45, 0.2),
+            rgb(var(--color-accent-rgb) / 0.2),
             transparent 31%
         ),
         linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.94),
+            rgb(var(--color-surface-rgb) / 0.94),
             rgba(245, 237, 226, 0.78)
         );
     background-size:
@@ -1055,15 +1055,15 @@
         64px 64px,
         auto,
         auto;
-    box-shadow: 0 26px 70px -46px rgba(156, 74, 45, 0.62);
+    box-shadow: 0 26px 70px -46px rgb(var(--color-accent-rgb) / 0.62);
 }
 
 .planRoute::before {
     inset: -120px auto auto 54%;
     width: 420px;
     height: 420px;
-    border-color: rgba(156, 74, 45, 0.14);
-    background: rgba(156, 74, 45, 0.06);
+    border-color: rgb(var(--color-accent-rgb) / 0.14);
+    background: rgb(var(--color-accent-rgb) / 0.06);
 }
 
 .planRoute::after {
@@ -1097,7 +1097,7 @@
 .planRoute .planSummary {
     gap: 14px;
     align-content: start;
-    padding-top: 10px;
+    padding-top: var(--space-10);
 }
 
 .planRoute .planScene {
@@ -1112,13 +1112,13 @@
 
 .planRoute .planSceneCaption {
     max-width: 420px;
-    margin: 10px 0 0;
-    padding: 16px 18px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
-    border-left: 2px solid rgba(156, 74, 45, 0.48);
+    margin: var(--space-10) 0 0;
+    padding: var(--space-16) 18px;
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
+    border-left: 2px solid rgb(var(--color-accent-rgb) / 0.48);
     border-radius: 18px;
-    background: rgba(250, 248, 243, 0.9);
-    box-shadow: 0 18px 44px -34px rgba(26, 26, 26, 0.34);
+    background: rgb(var(--color-bg-rgb) / 0.9);
+    box-shadow: 0 18px 44px -34px rgb(var(--color-ink-rgb) / 0.34);
     text-shadow: none;
     backdrop-filter: blur(14px);
 }
@@ -1139,26 +1139,26 @@
     font-weight: 500;
     line-height: 1.42;
     letter-spacing: -0.018em;
-    color: rgba(26, 26, 26, 0.78);
+    color: rgb(var(--color-ink-rgb) / 0.78);
 }
 
 .planRoute .planVisual {
     min-height: 270px;
     border-radius: 30px;
-    box-shadow: 0 22px 50px -32px rgba(26, 26, 26, 0.58);
+    box-shadow: 0 22px 50px -32px rgb(var(--color-ink-rgb) / 0.58);
 }
 
 .planRoute .planVisual::after {
     background:
-        linear-gradient(180deg, rgba(26, 26, 26, 0.03), rgba(26, 26, 26, 0.74)),
+        linear-gradient(180deg, rgb(var(--color-ink-rgb) / 0.03), rgb(var(--color-ink-rgb) / 0.74)),
         radial-gradient(
             circle at 14% 20%,
-            rgba(250, 248, 243, 0.22),
+            rgb(var(--color-bg-rgb) / 0.22),
             transparent 28%
         ),
         radial-gradient(
             circle at 88% 8%,
-            rgba(156, 74, 45, 0.34),
+            rgb(var(--color-accent-rgb) / 0.34),
             transparent 34%
         );
 }
@@ -1172,15 +1172,15 @@
     position: relative;
     justify-self: end;
     max-width: 450px;
-    margin-top: 24px;
-    padding: 7px 0 7px 24px;
+    margin-top: var(--space-24);
+    padding: 7px 0 7px var(--space-24);
     border: 0;
-    border-left: 2px solid rgba(156, 74, 45, 0.54);
+    border-left: 2px solid rgb(var(--color-accent-rgb) / 0.54);
     border-radius: 0;
     background: linear-gradient(
         90deg,
-        rgba(250, 248, 243, 0.62),
-        rgba(250, 248, 243, 0.22) 62%,
+        rgb(var(--color-bg-rgb) / 0.62),
+        rgb(var(--color-bg-rgb) / 0.22) 62%,
         transparent
     );
     box-shadow: none;
@@ -1193,14 +1193,14 @@
     left: -7px;
     width: 12px;
     height: 12px;
-    border: 3px solid rgba(250, 248, 243, 0.96);
+    border: 3px solid rgb(var(--color-bg-rgb) / 0.96);
     border-radius: 50%;
     background: var(--color-accent);
-    box-shadow: 0 0 0 7px rgba(156, 74, 45, 0.12);
+    box-shadow: 0 0 0 7px rgb(var(--color-accent-rgb) / 0.12);
 }
 
 .planRoute .planResult span {
-    margin-bottom: 10px;
+    margin-bottom: var(--space-10);
 }
 
 .planRoute .planResult strong {
@@ -1212,14 +1212,14 @@
 }
 
 .planRoute .planBrief {
-    border-color: rgba(156, 74, 45, 0.18);
-    background: rgba(250, 248, 243, 0.9);
-    box-shadow: 0 18px 44px -34px rgba(26, 26, 26, 0.34);
+    border-color: rgb(var(--color-accent-rgb) / 0.18);
+    background: rgb(var(--color-bg-rgb) / 0.9);
+    box-shadow: 0 18px 44px -34px rgb(var(--color-ink-rgb) / 0.34);
     backdrop-filter: blur(14px);
 }
 
 .planRoute .planBrief summary {
-    padding: 16px 54px 16px 18px;
+    padding: var(--space-16) 54px var(--space-16) 18px;
 }
 
 .planRoute .planBrief summary::after {
@@ -1236,12 +1236,12 @@
 
 .planRoute .planBrief p {
     padding: 0 18px 18px;
-    color: rgba(26, 26, 26, 0.72);
+    color: rgb(var(--color-ink-rgb) / 0.72);
     font-size: var(--text-sm);
 }
 
 .planRoute .planDisclosurePreview {
-    color: rgba(26, 26, 26, 0.68);
+    color: rgb(var(--color-ink-rgb) / 0.68);
 }
 
 .planRoute .planColumns {
@@ -1249,7 +1249,7 @@
     position: relative;
     gap: 14px;
     align-items: start;
-    padding-top: 8px;
+    padding-top: var(--space-8);
 }
 
 .planRoute .planColumns::before {
@@ -1259,15 +1259,15 @@
 .planRoute .planStep {
     counter-increment: plan-step;
     position: relative;
-    border-color: rgba(156, 74, 45, 0.2);
+    border-color: rgb(var(--color-accent-rgb) / 0.2);
     background:
         radial-gradient(
             circle at 86% 16%,
-            rgba(156, 74, 45, 0.16),
+            rgb(var(--color-accent-rgb) / 0.16),
             transparent 28%
         ),
-        rgba(255, 255, 255, 0.82);
-    box-shadow: 0 18px 46px -38px rgba(26, 26, 26, 0.38);
+        rgb(var(--color-surface-rgb) / 0.82);
+    box-shadow: 0 18px 46px -38px rgb(var(--color-ink-rgb) / 0.38);
 }
 
 .planRoute .planStep::before {
@@ -1275,7 +1275,7 @@
     position: absolute;
     top: 16px;
     right: 58px;
-    color: rgba(156, 74, 45, 0.13);
+    color: rgb(var(--color-accent-rgb) / 0.13);
     font-size: clamp(2.3rem, 5vw, 3.6rem);
     font-weight: 300;
     line-height: 0.8;
@@ -1296,39 +1296,39 @@
 }
 
 .planRoute .planLinks a {
-    background: rgba(156, 74, 45, 0.1);
+    background: rgb(var(--color-accent-rgb) / 0.1);
     font-weight: 700;
     letter-spacing: -0.02em;
 }
 
 .planRoute .planLinks a:hover,
 .planRoute .planLinks a:focus-visible {
-    background: rgba(156, 74, 45, 0.14);
+    background: rgb(var(--color-accent-rgb) / 0.14);
 }
 
 .planRoute .planCta {
-    padding: 24px 28px;
+    padding: var(--space-24) var(--space-28);
     background:
         radial-gradient(
             circle at 76% 50%,
-            rgba(156, 74, 45, 0.5),
+            rgb(var(--color-accent-rgb) / 0.5),
             transparent 32%
         ),
         var(--color-ink);
-    box-shadow: 0 24px 56px -42px rgba(26, 26, 26, 0.8);
+    box-shadow: 0 24px 56px -42px rgb(var(--color-ink-rgb) / 0.8);
 }
 
 .planEngineering {
     background:
         radial-gradient(
             circle at 82% 8%,
-            rgba(156, 74, 45, 0.18),
+            rgb(var(--color-accent-rgb) / 0.18),
             transparent 31%
         ),
         linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.9),
-            rgba(243, 239, 230, 0.86)
+            rgb(var(--color-surface-rgb) / 0.9),
+            rgb(var(--color-surface-alt-rgb) / 0.86)
         );
 }
 
@@ -1340,7 +1340,7 @@
     background:
         radial-gradient(
             circle at 92% 8%,
-            rgba(156, 74, 45, 0.22),
+            rgb(var(--color-accent-rgb) / 0.22),
             transparent 30%
         ),
         var(--color-ink);
@@ -1357,47 +1357,47 @@
 .planProject .planIntro p,
 .planProject .planBrief summary span,
 .planProject .planStepSummary span {
-    color: rgba(250, 248, 243, 0.7);
+    color: rgb(var(--color-bg-rgb) / 0.7);
 }
 
 .planProject .planResult,
 .planProject .planVisual,
 .planProject .planBrief,
 .planProject .planStep {
-    border-color: rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: rgb(var(--color-surface-rgb) / 0.14);
+    background: rgb(var(--color-surface-rgb) / 0.08);
 }
 
 .planProject .planBrief summary strong,
 .planProject .planDisclosurePreview,
 .planProject .planBrief p,
 .planProject .planStep p {
-    color: rgba(250, 248, 243, 0.82);
+    color: rgb(var(--color-bg-rgb) / 0.82);
 }
 
 .planProject .planCta {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(var(--color-surface-rgb) / 0.1);
 }
 
 .planBath {
     background:
         radial-gradient(
             circle at 86% 14%,
-            rgba(156, 74, 45, 0.2),
+            rgb(var(--color-accent-rgb) / 0.2),
             transparent 30%
         ),
         linear-gradient(
             145deg,
-            rgba(255, 255, 255, 0.86),
+            rgb(var(--color-surface-rgb) / 0.86),
             rgba(245, 237, 226, 0.82)
         );
 }
 
 .planCommercial {
     background:
-        linear-gradient(90deg, rgba(156, 74, 45, 0.08), transparent 1px),
-        linear-gradient(180deg, rgba(156, 74, 45, 0.08), transparent 1px),
-        rgba(255, 255, 255, 0.74);
+        linear-gradient(90deg, rgb(var(--color-accent-rgb) / 0.08), transparent 1px),
+        linear-gradient(180deg, rgb(var(--color-accent-rgb) / 0.08), transparent 1px),
+        rgb(var(--color-surface-rgb) / 0.74);
     background-size: 120px 120px;
 }
 
@@ -1416,9 +1416,9 @@
     cursor: help;
     place-items: center;
     padding: 0;
-    border: 1px solid rgba(156, 74, 45, 0.2);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.2);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.82);
+    background: rgb(var(--color-surface-rgb) / 0.82);
     color: var(--color-accent);
     font: inherit;
     font-size: 1rem;
@@ -1434,7 +1434,7 @@
 .routeGuideButton:hover,
 .routeGuideButton:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(156, 74, 45, 0.42);
+    border-color: rgb(var(--color-accent-rgb) / 0.42);
     background: var(--color-surface);
     outline: none;
 }
@@ -1445,9 +1445,9 @@
     top: calc(100% + 12px);
     width: min(320px, calc(100vw - 64px));
     padding: 18px;
-    border: 1px solid rgba(156, 74, 45, 0.18);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.18);
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.94);
+    background: rgb(var(--color-surface-rgb) / 0.94);
     box-shadow: var(--shadow-soft);
     opacity: 0;
     pointer-events: none;
@@ -1467,9 +1467,9 @@
     width: 14px;
     height: 14px;
     transform: rotate(45deg);
-    border-top: 1px solid rgba(156, 74, 45, 0.18);
-    border-left: 1px solid rgba(156, 74, 45, 0.18);
-    background: rgba(255, 255, 255, 0.94);
+    border-top: 1px solid rgb(var(--color-accent-rgb) / 0.18);
+    border-left: 1px solid rgb(var(--color-accent-rgb) / 0.18);
+    background: rgb(var(--color-surface-rgb) / 0.94);
 }
 
 .routeGuide:hover .routeGuidePanel,
@@ -1481,7 +1481,7 @@
 
 .routeGuidePanel strong {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: var(--space-12);
     color: var(--color-ink);
     font-size: var(--text-sm);
     font-weight: 560;
@@ -1489,7 +1489,7 @@
 
 .routeGuidePanel ol {
     display: grid;
-    gap: 10px;
+    gap: var(--space-10);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -1498,7 +1498,7 @@
 .routeGuidePanel li {
     display: grid;
     grid-template-columns: 34px minmax(0, 1fr);
-    gap: 10px;
+    gap: var(--space-10);
     align-items: start;
     color: var(--color-ink-muted);
     font-size: var(--text-sm);
@@ -1519,19 +1519,19 @@
 
     position: relative;
     min-height: clamp(430px, calc(var(--route-count, 7) * 78px), 560px);
-    margin-top: 36px;
+    margin-top: var(--space-36);
     overflow: hidden;
-    border: 1px solid rgba(156, 74, 45, 0.14);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.14);
     border-radius: 36px;
     background:
         radial-gradient(
             circle at 52% 48%,
-            rgba(156, 74, 45, 0.12),
+            rgb(var(--color-accent-rgb) / 0.12),
             transparent 34%
         ),
-        linear-gradient(90deg, rgba(156, 74, 45, 0.05) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(156, 74, 45, 0.05) 1px, transparent 1px),
-        rgba(255, 255, 255, 0.64);
+        linear-gradient(90deg, rgb(var(--color-accent-rgb) / 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgb(var(--color-accent-rgb) / 0.05) 1px, transparent 1px),
+        rgb(var(--color-surface-rgb) / 0.64);
     background-size:
         auto,
         92px 92px,
@@ -1544,8 +1544,8 @@
     content: "";
     position: absolute;
     inset: 38px;
-    border: 1px solid rgba(156, 74, 45, 0.08);
-    border-radius: 999px;
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.08);
+    border-radius: var(--radius-pill);
     pointer-events: none;
 }
 
@@ -1555,17 +1555,17 @@
     bottom: 24px;
     z-index: 2;
     max-width: 300px;
-    padding: 16px 18px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    padding: var(--space-16) 18px;
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.86);
+    background: rgb(var(--color-surface-rgb) / 0.86);
     box-shadow: var(--shadow-soft);
     backdrop-filter: blur(16px);
 }
 
 .routeHint span {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-8);
     color: var(--color-accent);
     font-size: var(--text-xs);
     font-weight: 700;
@@ -1600,14 +1600,14 @@
 }
 
 .routeGraphShadow {
-    stroke: rgba(156, 74, 45, 0.12);
+    stroke: rgb(var(--color-accent-rgb) / 0.12);
     stroke-linecap: round;
     stroke-width: 22;
     animation: routePathIn 760ms ease both;
 }
 
 .routeGraphLine {
-    stroke: rgba(156, 74, 45, 0.38);
+    stroke: rgb(var(--color-accent-rgb) / 0.38);
     stroke-dasharray: 12 12;
     stroke-linecap: round;
     stroke-width: 2;
@@ -1644,16 +1644,16 @@
     height: 22px;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: rgba(156, 74, 45, 0.22);
-    box-shadow: 0 0 0 14px rgba(156, 74, 45, 0.07);
+    background: rgb(var(--color-accent-rgb) / 0.22);
+    box-shadow: 0 0 0 14px rgb(var(--color-accent-rgb) / 0.07);
 }
 
 .routeStepActive::before,
 .routeStepSelected::before {
     background: var(--color-accent);
     box-shadow:
-        0 0 0 12px rgba(156, 74, 45, 0.12),
-        0 0 0 24px rgba(156, 74, 45, 0.06);
+        0 0 0 12px rgb(var(--color-accent-rgb) / 0.12),
+        0 0 0 24px rgb(var(--color-accent-rgb) / 0.06);
 }
 
 .routeStepSelected {
@@ -1678,9 +1678,9 @@
     height: 72px;
     place-items: center;
     padding: 7px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.82);
+    background: rgb(var(--color-surface-rgb) / 0.82);
     box-shadow: 0 18px 46px rgba(41, 28, 22, 0.08);
     color: inherit;
     cursor: pointer;
@@ -1699,23 +1699,23 @@
 .routeStepButton:hover,
 .routeStepButton:focus-visible {
     transform: scale(1.05);
-    border-color: rgba(156, 74, 45, 0.42);
-    background: rgba(255, 255, 255, 0.94);
+    border-color: rgb(var(--color-accent-rgb) / 0.42);
+    background: rgb(var(--color-surface-rgb) / 0.94);
     box-shadow: 0 24px 60px rgba(41, 28, 22, 0.12);
     outline: none;
 }
 
 .routeStepActive .routeStepButton {
-    border-color: rgba(156, 74, 45, 0.28);
-    background: rgba(255, 255, 255, 0.9);
+    border-color: rgb(var(--color-accent-rgb) / 0.28);
+    background: rgb(var(--color-surface-rgb) / 0.9);
 }
 
 .routeStepSelected .routeStepButton {
     transform: scale(1.08);
-    border-color: rgba(156, 74, 45, 0.58);
+    border-color: rgb(var(--color-accent-rgb) / 0.58);
     background:
-        linear-gradient(180deg, rgba(156, 74, 45, 0.08), transparent 72%),
-        rgba(255, 255, 255, 0.96);
+        linear-gradient(180deg, rgb(var(--color-accent-rgb) / 0.08), transparent 72%),
+        rgb(var(--color-surface-rgb) / 0.96);
     box-shadow: var(--shadow-soft);
 }
 
@@ -1724,7 +1724,7 @@
     width: 56px;
     height: 56px;
     place-items: center;
-    border: 1px solid rgba(156, 74, 45, 0.22);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.22);
     border-radius: 50%;
     background: var(--color-surface);
     font-family: var(--font-display-stack);
@@ -1736,8 +1736,8 @@
 
 .routeStepActive .routeIndex,
 .routeStepSelected .routeIndex {
-    border-color: rgba(156, 74, 45, 0.34);
-    background: rgba(156, 74, 45, 0.12);
+    border-color: rgb(var(--color-accent-rgb) / 0.34);
+    background: rgb(var(--color-accent-rgb) / 0.12);
 }
 
 .routeCopy {
@@ -1746,10 +1746,10 @@
     left: 50%;
     width: clamp(220px, 18vw, 300px);
     min-width: 0;
-    padding: 18px 20px;
-    border: 1px solid rgba(156, 74, 45, 0.18);
+    padding: 18px var(--space-20);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.18);
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgb(var(--color-surface-rgb) / 0.92);
     box-shadow: var(--shadow-soft);
     opacity: 0;
     pointer-events: none;
@@ -1787,7 +1787,7 @@
 
 .routeStep p {
     display: -webkit-box;
-    margin: 8px 0 0;
+    margin: var(--space-8) 0 0;
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -1831,10 +1831,10 @@
 }
 
 .routeLinks a {
-    padding: 7px 10px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    padding: 7px var(--space-10);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.88);
+    background: rgb(var(--color-surface-rgb) / 0.88);
     box-shadow: 0 12px 26px rgba(41, 28, 22, 0.08);
     color: var(--color-accent);
     font-size: 0.72rem;
@@ -1843,7 +1843,7 @@
 }
 
 .routeLinks a:hover {
-    border-color: rgba(156, 74, 45, 0.42);
+    border-color: rgb(var(--color-accent-rgb) / 0.42);
     color: var(--color-accent-hover);
 }
 
@@ -1874,10 +1874,10 @@
 .routeDetail {
     display: grid;
     grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
-    gap: 24px;
+    gap: var(--space-24);
     margin-top: 18px;
-    padding: 28px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    padding: var(--space-28);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 28px;
     background: var(--color-surface);
     box-shadow: var(--shadow-soft);
@@ -1893,7 +1893,7 @@
 }
 
 .routeDetail p {
-    margin: 12px 0 0;
+    margin: var(--space-12) 0 0;
     color: var(--color-ink-muted);
     line-height: 1.55;
 }
@@ -1901,17 +1901,17 @@
 .routeDetail ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: var(--space-12);
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .routeDetail li {
-    padding: 16px;
+    padding: var(--space-16);
     border: 1px solid var(--color-line);
     border-radius: 18px;
-    background: rgba(255, 255, 255, 0.68);
+    background: rgb(var(--color-surface-rgb) / 0.68);
 }
 
 .routeDetail li a {
@@ -1927,7 +1927,7 @@
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 14px;
-    margin-top: 36px;
+    margin-top: var(--space-36);
 }
 
 .scenarioCard {
@@ -1938,7 +1938,7 @@
     padding: 22px;
     border: 1px solid var(--color-line);
     border-radius: 26px;
-    background: rgba(255, 255, 255, 0.66);
+    background: rgb(var(--color-surface-rgb) / 0.66);
     transition:
         background-color var(--transition),
         border-color var(--transition),
@@ -1952,14 +1952,14 @@
 }
 
 .scenarioCardActive {
-    border-color: rgba(156, 74, 45, 0.38);
+    border-color: rgb(var(--color-accent-rgb) / 0.38);
     background: var(--color-surface);
     box-shadow: var(--shadow-soft);
 }
 
 .scenarioCard span {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: var(--space-12);
     font-size: var(--text-xs);
     font-weight: 600;
     letter-spacing: 0.14em;
@@ -1993,7 +1993,7 @@
 .scenarioServices {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-8);
     margin: auto 0 0;
     padding: 0;
     list-style: none;
@@ -2001,7 +2001,7 @@
 
 .scenarioServices a {
     display: inline-flex;
-    padding: 7px 10px;
+    padding: 7px var(--space-10);
     border-radius: var(--radius-pill);
     background: var(--color-accent-soft);
     color: var(--color-accent);
@@ -2012,8 +2012,8 @@
 .scenarioSelect {
     width: max-content;
     min-height: 42px;
-    margin-top: 2px;
-    padding: 0 16px;
+    margin-top: var(--space-2);
+    padding: 0 var(--space-16);
     border-radius: var(--radius-pill);
     background: transparent;
     color: var(--color-ink);
@@ -2036,32 +2036,32 @@
 
 .serviceGroups {
     display: grid;
-    gap: 24px;
-    margin-top: 36px;
+    gap: var(--space-24);
+    margin-top: var(--space-36);
 }
 
 .serviceGroup {
     display: grid;
     grid-template-columns: minmax(170px, 0.26fr) minmax(0, 1fr);
-    gap: 24px;
+    gap: var(--space-24);
     align-items: start;
-    padding: 24px;
-    border: 1px solid rgba(156, 74, 45, 0.14);
+    padding: var(--space-24);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.14);
     border-radius: 28px;
     background:
         radial-gradient(
             circle at 96% 0%,
-            rgba(156, 74, 45, 0.08),
+            rgb(var(--color-accent-rgb) / 0.08),
             transparent 28%
         ),
-        rgba(255, 255, 255, 0.42);
+        rgb(var(--color-surface-rgb) / 0.42);
 }
 
 .serviceGroupHeader {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .serviceGroupHeader span {
@@ -2089,11 +2089,11 @@
 .serviceGroupHeader small {
     display: inline-flex;
     width: max-content;
-    margin-top: 2px;
-    padding: 7px 10px;
-    border: 1px solid rgba(156, 74, 45, 0.14);
+    margin-top: var(--space-2);
+    padding: 7px var(--space-10);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.14);
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.56);
+    background: rgb(var(--color-surface-rgb) / 0.56);
     color: var(--color-ink-subtle);
     font-size: var(--text-xs);
     font-weight: 600;
@@ -2132,9 +2132,9 @@
     align-items: center;
     justify-content: center;
     padding: 0 18px;
-    border: 1px dashed rgba(156, 74, 45, 0.32);
+    border: 1px dashed rgb(var(--color-accent-rgb) / 0.32);
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.48);
+    background: rgb(var(--color-surface-rgb) / 0.48);
     color: var(--color-accent);
     font-size: var(--text-xs);
     font-weight: 700;
@@ -2172,21 +2172,21 @@
     min-height: 220px;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 24px;
-    border: 1px dashed rgba(156, 74, 45, 0.24);
+    padding: var(--space-24);
+    border: 1px dashed rgb(var(--color-accent-rgb) / 0.24);
     border-radius: 24px;
     background:
         radial-gradient(
             circle at 86% 16%,
-            rgba(156, 74, 45, 0.1),
+            rgb(var(--color-accent-rgb) / 0.1),
             transparent 34%
         ),
-        rgba(255, 255, 255, 0.36);
+        rgb(var(--color-surface-rgb) / 0.36);
 }
 
 .serviceGroupHint span {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: var(--space-12);
     color: var(--color-accent);
     font-size: var(--text-xs);
     font-weight: 700;
@@ -2203,7 +2203,7 @@
 
 .otherServices {
     display: grid;
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .showMoreServices {
@@ -2212,19 +2212,19 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--space-6);
     align-items: center;
     justify-content: center;
     padding: 14px 18px;
-    border: 1px dashed rgba(156, 74, 45, 0.38);
+    border: 1px dashed rgb(var(--color-accent-rgb) / 0.38);
     border-radius: 22px;
     background:
         radial-gradient(
             circle at 92% 0%,
-            rgba(156, 74, 45, 0.08),
+            rgb(var(--color-accent-rgb) / 0.08),
             transparent 28%
         ),
-        rgba(255, 255, 255, 0.58);
+        rgb(var(--color-surface-rgb) / 0.58);
     font: inherit;
     text-align: center;
     transition:
@@ -2259,7 +2259,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
-    margin-top: 36px;
+    margin-top: var(--space-36);
 }
 
 .card {
@@ -2271,7 +2271,7 @@
     padding: 26px;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
-    background: rgba(255, 255, 255, 0.76);
+    background: rgb(var(--color-surface-rgb) / 0.76);
     box-shadow: var(--shadow-soft);
     transition:
         transform var(--transition),
@@ -2287,7 +2287,7 @@
     bottom: 18px;
     width: 74px;
     height: 74px;
-    border: 1px solid rgba(156, 74, 45, 0.18);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.18);
     border-radius: 50%;
     background: var(--color-accent-soft);
     opacity: 0.48;
@@ -2311,9 +2311,9 @@
 }
 
 .cardActive {
-    border-color: rgba(156, 74, 45, 0.5);
+    border-color: rgb(var(--color-accent-rgb) / 0.5);
     background:
-        linear-gradient(180deg, rgba(156, 74, 45, 0.08), transparent 36%),
+        linear-gradient(180deg, rgb(var(--color-accent-rgb) / 0.08), transparent 36%),
         var(--color-surface);
 }
 
@@ -2340,7 +2340,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
+    gap: var(--space-16);
     margin-bottom: 30px;
 }
 
@@ -2349,12 +2349,12 @@
     height: 76px;
     overflow: hidden;
     margin: -14px 0 18px;
-    border: 1px solid rgba(156, 74, 45, 0.13);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.13);
     border-radius: 20px;
     background:
-        linear-gradient(rgba(156, 74, 45, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(156, 74, 45, 0.06) 1px, transparent 1px),
-        rgba(255, 255, 255, 0.48);
+        linear-gradient(rgb(var(--color-accent-rgb) / 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(var(--color-accent-rgb) / 0.06) 1px, transparent 1px),
+        rgb(var(--color-surface-rgb) / 0.48);
     background-size: 22px 22px;
 }
 
@@ -2364,7 +2364,7 @@
     content: "";
     position: absolute;
     display: block;
-    border-color: rgba(156, 74, 45, 0.42);
+    border-color: rgb(var(--color-accent-rgb) / 0.42);
     pointer-events: none;
 }
 
@@ -2373,9 +2373,9 @@
     bottom: 14px;
     width: 74px;
     height: 38px;
-    border: 2px solid rgba(156, 74, 45, 0.34);
+    border: 2px solid rgb(var(--color-accent-rgb) / 0.34);
     border-radius: 8px 8px 5px 5px;
-    background: rgba(156, 74, 45, 0.06);
+    background: rgb(var(--color-accent-rgb) / 0.06);
 }
 
 .cardSketch::after {
@@ -2384,8 +2384,8 @@
     width: 44px;
     height: 44px;
     transform: rotate(45deg);
-    border-top: 2px solid rgba(156, 74, 45, 0.42);
-    border-left: 2px solid rgba(156, 74, 45, 0.42);
+    border-top: 2px solid rgb(var(--color-accent-rgb) / 0.42);
+    border-left: 2px solid rgb(var(--color-accent-rgb) / 0.42);
 }
 
 .cardSketch span:nth-child(1) {
@@ -2393,7 +2393,7 @@
     bottom: 18px;
     width: 54%;
     height: 2px;
-    background: rgba(156, 74, 45, 0.42);
+    background: rgb(var(--color-accent-rgb) / 0.42);
 }
 
 .cardSketch span:nth-child(2) {
@@ -2401,8 +2401,8 @@
     bottom: 26px;
     width: 36%;
     height: 20px;
-    border-top: 2px solid rgba(156, 74, 45, 0.24);
-    border-left: 2px solid rgba(156, 74, 45, 0.24);
+    border-top: 2px solid rgb(var(--color-accent-rgb) / 0.24);
+    border-left: 2px solid rgb(var(--color-accent-rgb) / 0.24);
     border-radius: 999px 0 0;
 }
 
@@ -2411,9 +2411,9 @@
     bottom: 24px;
     width: 18px;
     height: 18px;
-    border: 2px solid rgba(156, 74, 45, 0.34);
+    border: 2px solid rgb(var(--color-accent-rgb) / 0.34);
     border-radius: 50%;
-    background: rgba(250, 248, 243, 0.78);
+    background: rgb(var(--color-bg-rgb) / 0.78);
 }
 
 .cardSketch[data-sketch="foundations"]::before {
@@ -2431,7 +2431,7 @@
     width: 64px;
     height: 14px;
     transform: skewX(-18deg);
-    border: 2px solid rgba(156, 74, 45, 0.34);
+    border: 2px solid rgb(var(--color-accent-rgb) / 0.34);
     border-radius: 5px;
 }
 
@@ -2453,10 +2453,10 @@
     width: 92px;
     height: 2px;
     border: 0;
-    background: rgba(156, 74, 45, 0.42);
+    background: rgb(var(--color-accent-rgb) / 0.42);
     box-shadow:
-        -34px -16px 0 rgba(156, 74, 45, 0.22),
-        -8px 16px 0 rgba(156, 74, 45, 0.22);
+        -34px -16px 0 rgb(var(--color-accent-rgb) / 0.22),
+        -8px 16px 0 rgb(var(--color-accent-rgb) / 0.22);
 }
 
 .cardSketch[data-sketch="engineering"]::after {
@@ -2465,7 +2465,7 @@
     width: 34px;
     height: 34px;
     transform: none;
-    border: 2px solid rgba(156, 74, 45, 0.36);
+    border: 2px solid rgb(var(--color-accent-rgb) / 0.36);
     border-radius: 50%;
 }
 
@@ -2494,7 +2494,7 @@
     transform: none;
     border: 0;
     border-radius: 999px 999px 0 0;
-    background: rgba(156, 74, 45, 0.16);
+    background: rgb(var(--color-accent-rgb) / 0.16);
 }
 
 .cardSketch[data-sketch="demolition"]::before {
@@ -2504,10 +2504,10 @@
     height: 2px;
     transform: rotate(-10deg);
     border: 0;
-    background: rgba(156, 74, 45, 0.42);
+    background: rgb(var(--color-accent-rgb) / 0.42);
     box-shadow:
-        -22px 16px 0 rgba(156, 74, 45, 0.22),
-        22px -16px 0 rgba(156, 74, 45, 0.22);
+        -22px 16px 0 rgb(var(--color-accent-rgb) / 0.22),
+        22px -16px 0 rgb(var(--color-accent-rgb) / 0.22);
 }
 
 .cardSketch[data-sketch="demolition"]::after {
@@ -2516,7 +2516,7 @@
     width: 36px;
     height: 36px;
     transform: rotate(28deg);
-    border: 2px solid rgba(156, 74, 45, 0.32);
+    border: 2px solid rgb(var(--color-accent-rgb) / 0.32);
     border-radius: 8px;
 }
 
@@ -2525,7 +2525,7 @@
     bottom: 14px;
     width: 78px;
     height: 48px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
 }
 
 .cardSketch[data-sketch="design"]::after {
@@ -2535,8 +2535,8 @@
     height: 22px;
     transform: none;
     border: 0;
-    border-top: 2px solid rgba(156, 74, 45, 0.34);
-    border-bottom: 2px solid rgba(156, 74, 45, 0.2);
+    border-top: 2px solid rgb(var(--color-accent-rgb) / 0.34);
+    border-bottom: 2px solid rgb(var(--color-accent-rgb) / 0.2);
 }
 
 .cardIndex {
@@ -2548,7 +2548,7 @@
 }
 
 .cardBadge {
-    padding: 7px 10px;
+    padding: 7px var(--space-10);
     border-radius: var(--radius-pill);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
@@ -2561,7 +2561,7 @@
 .cardBody {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .cardTitle {
@@ -2587,13 +2587,13 @@
 }
 
 .cardMeta div {
-    padding-top: 16px;
+    padding-top: var(--space-16);
     border-top: 1px solid var(--color-line);
 }
 
 .cardMeta span {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: var(--space-10);
     font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -2634,16 +2634,16 @@
 .quickFacts {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-8);
     margin-top: 14px;
     margin-bottom: 0;
 }
 
 .quickFacts li {
-    padding: 6px 9px;
+    padding: var(--space-6) 9px;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.68);
+    background: rgb(var(--color-surface-rgb) / 0.68);
     color: var(--color-ink-muted);
     font-size: 0.72rem;
     line-height: 1.35;
@@ -2654,7 +2654,7 @@
     min-height: 68px;
     align-items: flex-end;
     margin-top: auto;
-    padding-top: 24px;
+    padding-top: var(--space-24);
 }
 
 .cardButton {
@@ -2681,14 +2681,14 @@
 }
 
 .secondarySection {
-    padding-top: 56px;
+    padding-top: var(--space-56);
 }
 
 .tagsGrid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 32px;
+    gap: var(--space-12);
+    margin-top: var(--space-32);
 }
 
 .tagCard {
@@ -2696,11 +2696,11 @@
     min-height: 96px;
     flex-direction: column;
     justify-content: space-between;
-    gap: 16px;
+    gap: var(--space-16);
     padding: 18px;
-    border: 1px solid rgba(26, 26, 26, 0.08);
+    border: 1px solid rgb(var(--color-ink-rgb) / 0.08);
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.42);
+    background: rgb(var(--color-surface-rgb) / 0.42);
     opacity: 0.82;
     transition:
         background-color var(--transition),
@@ -2732,16 +2732,16 @@
 .cta {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 32px;
+    gap: var(--space-32);
     align-items: center;
-    margin-top: 8px;
-    padding: 40px;
+    margin-top: var(--space-8);
+    padding: var(--space-40);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background:
         radial-gradient(
             circle at 92% 0%,
-            rgba(156, 74, 45, 0.14),
+            rgb(var(--color-accent-rgb) / 0.14),
             transparent 32%
         ),
         var(--color-surface);
@@ -2759,24 +2759,24 @@
 
 .cta > div > p:not(.eyebrow) {
     max-width: 680px;
-    margin: 16px 0 0;
+    margin: var(--space-16) 0 0;
     color: var(--color-ink-muted);
 }
 
 .ctaList {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 20px 0 0;
+    gap: var(--space-8);
+    margin: var(--space-20) 0 0;
     padding: 0;
     list-style: none;
 }
 
 .ctaList li {
-    padding: 8px 12px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    padding: var(--space-8) var(--space-12);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: var(--radius-pill);
-    background: rgba(156, 74, 45, 0.08);
+    background: rgb(var(--color-accent-rgb) / 0.08);
     color: var(--color-accent);
     font-size: var(--text-xs);
     font-weight: 700;
@@ -2787,7 +2787,7 @@
 .ctaAction {
     display: grid;
     flex-shrink: 0;
-    gap: 10px;
+    gap: var(--space-10);
     justify-items: end;
 }
 
@@ -2828,8 +2828,8 @@
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin: 8px 0 0;
+    gap: var(--space-12);
+    margin: var(--space-8) 0 0;
     padding: 0;
     list-style: none;
 }
@@ -2837,9 +2837,9 @@
 .trustStrip li {
     min-height: 108px;
     padding: 18px;
-    border: 1px solid rgba(156, 74, 45, 0.14);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.14);
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.54);
+    background: rgb(var(--color-surface-rgb) / 0.54);
 }
 
 .trustStrip span {
@@ -2851,7 +2851,7 @@
 }
 
 .trustStrip p {
-    margin: 10px 0 0;
+    margin: var(--space-10) 0 0;
     color: var(--color-ink-muted);
     font-size: var(--text-sm);
     line-height: 1.45;
@@ -2867,8 +2867,8 @@
     z-index: 220;
     display: grid;
     place-items: center;
-    padding: 24px;
-    background: rgba(26, 26, 26, 0.42);
+    padding: var(--space-24);
+    background: rgb(var(--color-ink-rgb) / 0.42);
     backdrop-filter: blur(14px);
 }
 
@@ -2878,16 +2878,16 @@
     max-height: calc(100dvh - 48px);
     overflow: auto;
     padding: 34px;
-    border: 1px solid rgba(156, 74, 45, 0.2);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.2);
     border-radius: 32px;
     background:
         radial-gradient(
             circle at 90% 0%,
-            rgba(156, 74, 45, 0.14),
+            rgb(var(--color-accent-rgb) / 0.14),
             transparent 34%
         ),
         var(--color-surface);
-    box-shadow: 0 34px 90px rgba(26, 26, 26, 0.22);
+    box-shadow: 0 34px 90px rgb(var(--color-ink-rgb) / 0.22);
 }
 
 .quizClose {
@@ -2900,9 +2900,9 @@
     cursor: pointer;
     place-items: center;
     padding: 0;
-    border: 1px solid rgba(156, 74, 45, 0.16);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.72);
+    background: rgb(var(--color-surface-rgb) / 0.72);
     color: var(--color-ink-muted);
     font-family: inherit;
     font-size: 1.7rem;
@@ -2911,7 +2911,7 @@
 
 .quizClose:hover,
 .quizClose:focus-visible {
-    border-color: rgba(156, 74, 45, 0.34);
+    border-color: rgb(var(--color-accent-rgb) / 0.34);
     color: var(--color-accent);
     outline: none;
 }
@@ -2919,13 +2919,13 @@
 .quizForm,
 .quizSuccess {
     display: grid;
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .quizForm > h3,
 .quizSuccess h3 {
     max-width: 520px;
-    margin: -8px 44px 0 0;
+    margin: -8px var(--space-44) 0 0;
     color: var(--color-ink);
     font-size: clamp(1.75rem, 4vw, 2.35rem);
     font-weight: 400;
@@ -2951,13 +2951,13 @@
 .quizProgress {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    gap: var(--space-8);
 }
 
 .quizProgressDot {
     height: 5px;
-    border-radius: 999px;
-    background: rgba(156, 74, 45, 0.14);
+    border-radius: var(--radius-pill);
+    background: rgb(var(--color-accent-rgb) / 0.14);
 }
 
 .quizProgressDotActive {
@@ -2967,10 +2967,10 @@
 .quizStep {
     display: grid;
     gap: 14px;
-    padding: 20px;
-    border: 1px solid rgba(156, 74, 45, 0.14);
+    padding: var(--space-20);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.14);
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.58);
+    background: rgb(var(--color-surface-rgb) / 0.58);
 }
 
 .quizStep > span {
@@ -2993,16 +2993,16 @@
 .quizOptions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: var(--space-10);
 }
 
 .quizOption {
     min-height: 48px;
     cursor: pointer;
-    padding: 12px 14px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.74);
+    padding: var(--space-12) 14px;
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
+    border-radius: var(--radius-lg);
+    background: rgb(var(--color-surface-rgb) / 0.74);
     color: var(--color-ink-muted);
     font-family: inherit;
     font-size: var(--text-sm);
@@ -3019,7 +3019,7 @@
 .quizOption:hover,
 .quizOption:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(156, 74, 45, 0.36);
+    border-color: rgb(var(--color-accent-rgb) / 0.36);
     color: var(--color-ink);
     outline: none;
 }
@@ -3033,7 +3033,7 @@
 .quizFields {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: var(--space-10);
 }
 
 .quizFields label {
@@ -3053,26 +3053,26 @@
     width: 100%;
     min-height: 48px;
     padding: 0 14px;
-    border: 1px solid rgba(156, 74, 45, 0.16);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.16);
+    border-radius: var(--radius-lg);
+    background: rgb(var(--color-surface-rgb) / 0.82);
     color: var(--color-ink);
     font-family: inherit;
     font-size: var(--text-sm);
 }
 
 .quizFields input:focus {
-    border-color: rgba(156, 74, 45, 0.44);
+    border-color: rgb(var(--color-accent-rgb) / 0.44);
     outline: none;
 }
 
 .quizFields input[aria-invalid="true"] {
-    border-color: rgba(179, 64, 47, 0.44);
+    border-color: rgb(var(--color-danger-rgb) / 0.44);
 }
 
 .quizConsent {
     display: flex;
-    gap: 10px;
+    gap: var(--space-10);
     align-items: flex-start;
     color: var(--color-ink-muted);
     font-size: var(--text-xs);
@@ -3089,14 +3089,14 @@
 .quizActions {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: var(--space-10);
 }
 
 .quizBack,
 .quizNext {
     min-height: 48px;
     cursor: pointer;
-    padding: 0 20px;
+    padding: 0 var(--space-20);
     border-radius: var(--radius-pill);
     font-family: inherit;
     font-size: var(--text-sm);
@@ -3109,8 +3109,8 @@
 }
 
 .quizBack {
-    border: 1px solid rgba(156, 74, 45, 0.18);
-    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.18);
+    background: rgb(var(--color-surface-rgb) / 0.58);
     color: var(--color-accent);
 }
 
@@ -3158,7 +3158,7 @@
 @media (max-width: 860px) {
     .hero {
         grid-template-columns: 1fr;
-        gap: 28px;
+        gap: var(--space-28);
     }
 
     .heroText {
@@ -3167,7 +3167,7 @@
 
     .heroFacts {
         grid-template-columns: 1fr;
-        margin-top: 28px;
+        margin-top: var(--space-28);
     }
 
     .heroFacts li {
@@ -3200,7 +3200,7 @@
         grid-template-columns: 1fr;
         width: 100%;
         min-width: 0;
-        padding: 22px 12px;
+        padding: 22px var(--space-12);
     }
 
     .planRoute::after,
@@ -3236,8 +3236,8 @@
         justify-self: start;
         width: 100%;
         max-width: 100%;
-        margin-top: 10px;
-        padding-left: 20px;
+        margin-top: var(--space-10);
+        padding-left: var(--space-20);
     }
 
     .planRoute .planIntro h2 {
@@ -3315,7 +3315,7 @@
     }
 
     .serviceGroup {
-        padding: 20px;
+        padding: var(--space-20);
     }
 
     .serviceGroup .grid {
@@ -3333,7 +3333,7 @@
     }
 
     .hero {
-        padding: 24px 0 48px;
+        padding: var(--space-24) 0 var(--space-48);
     }
 
     .title {
@@ -3372,15 +3372,15 @@
     }
 
     .heroFacts {
-        gap: 8px;
+        gap: var(--space-8);
     }
 
     .heroFacts a {
         display: grid;
         min-height: auto;
         grid-template-columns: auto minmax(0, 1fr);
-        gap: 2px 12px;
-        padding: 14px 16px;
+        gap: var(--space-2) var(--space-12);
+        padding: 14px var(--space-16);
         border-radius: 18px;
     }
 
@@ -3405,7 +3405,7 @@
 
     .heroPanel {
         min-height: auto;
-        padding: 24px;
+        padding: var(--space-24);
         border-radius: 22px;
     }
 
@@ -3446,16 +3446,16 @@
     }
 
     .nextStep {
-        margin-top: 24px;
+        margin-top: var(--space-24);
     }
 
     .section {
-        padding: 48px 0;
+        padding: var(--space-48) 0;
     }
 
     .serviceGroups {
         gap: 18px;
-        margin-top: 28px;
+        margin-top: var(--space-28);
     }
 
     .serviceGroup {
@@ -3469,7 +3469,7 @@
     }
 
     .serviceGroupHeader {
-        gap: 8px;
+        gap: var(--space-8);
     }
 
     .serviceGroupHeader p {
@@ -3477,7 +3477,7 @@
     }
 
     .serviceGroupHeader small {
-        padding: 6px 9px;
+        padding: var(--space-6) 9px;
         font-size: 0.68rem;
     }
 
@@ -3519,7 +3519,7 @@
         bottom: auto;
         max-width: none;
         margin-bottom: 14px;
-        padding: 14px 16px;
+        padding: 14px var(--space-16);
         border-radius: 18px;
     }
 
@@ -3546,11 +3546,11 @@
         bottom: 28px;
         left: 28px;
         width: 2px;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         background: linear-gradient(
             180deg,
-            rgba(156, 74, 45, 0.34),
-            rgba(156, 74, 45, 0.08)
+            rgb(var(--color-accent-rgb) / 0.34),
+            rgb(var(--color-accent-rgb) / 0.08)
         );
     }
 
@@ -3580,7 +3580,7 @@
         gap: 14px;
         place-items: normal;
         align-items: start;
-        padding: 12px 14px 14px 12px;
+        padding: var(--space-12) 14px 14px var(--space-12);
         border-radius: 26px;
         transform: none;
     }
@@ -3626,7 +3626,7 @@
         left: auto;
         width: auto;
         max-width: none;
-        margin-top: 8px;
+        margin-top: var(--space-8);
         margin-left: 70px;
         opacity: 1;
         pointer-events: auto;
@@ -3647,13 +3647,13 @@
     }
 
     .cardHeader {
-        margin-bottom: 20px;
+        margin-bottom: var(--space-20);
     }
 
     .cardSketch {
         height: 58px;
         margin: -10px 0 14px;
-        border-radius: 16px;
+        border-radius: var(--radius-lg);
         background-size: 18px 18px;
     }
 
@@ -3681,7 +3681,7 @@
     }
 
     .secondarySection {
-        padding-top: 36px;
+        padding-top: var(--space-36);
     }
 
     .secondarySection header p {
@@ -3689,17 +3689,17 @@
     }
 
     .tagsGrid {
-        gap: 8px;
-        margin-top: 20px;
+        gap: var(--space-8);
+        margin-top: var(--space-20);
     }
 
     .tagCard {
         min-height: auto;
         flex-direction: row;
         align-items: center;
-        gap: 12px;
-        padding: 14px 16px;
-        border-radius: 16px;
+        gap: var(--space-12);
+        padding: 14px var(--space-16);
+        border-radius: var(--radius-lg);
     }
 
     .tagCard::after {
@@ -3713,17 +3713,17 @@
     }
 
     .cta {
-        padding: 24px;
+        padding: var(--space-24);
     }
 
     .trustStrip {
-        gap: 8px;
+        gap: var(--space-8);
     }
 
     .trustStrip li {
         min-height: auto;
-        padding: 14px 16px;
-        border-radius: 16px;
+        padding: 14px var(--space-16);
+        border-radius: var(--radius-lg);
     }
 
     .ctaAction {
@@ -3733,7 +3733,7 @@
 
     .ctaList {
         display: grid;
-        gap: 8px;
+        gap: var(--space-8);
     }
 
     .ctaButton,
@@ -3752,14 +3752,14 @@
         z-index: 120;
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
-        gap: 10px;
+        gap: var(--space-10);
         align-items: center;
         box-sizing: border-box;
-        padding: 12px 12px 12px 14px;
-        border: 1px solid rgba(156, 74, 45, 0.18);
+        padding: var(--space-12) var(--space-12) var(--space-12) 14px;
+        border: 1px solid rgb(var(--color-accent-rgb) / 0.18);
         border-radius: 22px;
-        background: rgba(250, 248, 243, 0.92);
-        box-shadow: 0 18px 56px rgba(26, 26, 26, 0.18);
+        background: rgb(var(--color-bg-rgb) / 0.92);
+        box-shadow: 0 18px 56px rgb(var(--color-ink-rgb) / 0.18);
         opacity: 0;
         pointer-events: none;
         transform: translateY(18px);
@@ -3793,7 +3793,7 @@
     .stickyCta small {
         display: block;
         overflow: hidden;
-        margin-top: 2px;
+        margin-top: var(--space-2);
         color: var(--color-ink-muted);
         font-size: 0.72rem;
         line-height: 1.25;
@@ -3804,7 +3804,7 @@
     .stickyCta button {
         min-height: 44px;
         cursor: pointer;
-        padding: 0 16px;
+        padding: 0 var(--space-16);
         border: 0;
         border-radius: var(--radius-pill);
         background: var(--color-ink);
@@ -3817,12 +3817,12 @@
 
     .quizBackdrop {
         align-items: end;
-        padding: 12px;
+        padding: var(--space-12);
     }
 
     .quizModal {
         max-height: calc(100dvh - 24px);
-        padding: 24px 18px 18px;
+        padding: var(--space-24) 18px 18px;
         border-radius: 26px;
     }
 
@@ -3835,7 +3835,7 @@
 
     .quizForm,
     .quizSuccess {
-        gap: 16px;
+        gap: var(--space-16);
     }
 
     .quizForm > h3,
@@ -3845,7 +3845,7 @@
     }
 
     .quizStep {
-        padding: 16px;
+        padding: var(--space-16);
         border-radius: 20px;
     }
 

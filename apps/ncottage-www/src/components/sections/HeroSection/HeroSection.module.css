@@ -43,9 +43,9 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding-top: 96px;
+    padding-top: var(--space-96);
     padding-bottom: 128px;
-    gap: 56px;
+    gap: var(--space-56);
 }
 
 .content {
@@ -60,7 +60,7 @@
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.78);
+    color: rgb(var(--color-bg-rgb) / 0.78);
 }
 
 .title {
@@ -86,15 +86,15 @@
     max-width: 560px;
     font-size: var(--text-lg);
     line-height: 1.55;
-    color: rgba(250, 248, 243, 0.85);
-    margin: 4px 0 0;
+    color: rgb(var(--color-bg-rgb) / 0.85);
+    margin: var(--space-4) 0 0;
 }
 
 .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 16px;
+    gap: var(--space-12);
+    margin-top: var(--space-16);
 }
 
 .primary,
@@ -103,7 +103,7 @@
     align-items: center;
     justify-content: center;
     height: 52px;
-    padding: 0 28px;
+    padding: 0 var(--space-28);
     border-radius: var(--radius-pill);
     font-size: var(--text-base);
     font-weight: 600;
@@ -129,26 +129,26 @@
 .secondary {
     background: transparent;
     color: var(--color-ink-on-accent);
-    border: 1px solid rgba(250, 248, 243, 0.5);
+    border: 1px solid rgb(var(--color-bg-rgb) / 0.5);
 }
 
 .secondary:hover {
-    background: rgba(250, 248, 243, 0.1);
-    border-color: rgba(250, 248, 243, 0.8);
+    background: rgb(var(--color-bg-rgb) / 0.1);
+    border-color: rgb(var(--color-bg-rgb) / 0.8);
 }
 
 .trust {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 32px;
-    padding-top: 32px;
-    border-top: 1px solid rgba(250, 248, 243, 0.22);
+    gap: var(--space-32);
+    padding-top: var(--space-32);
+    border-top: 1px solid rgb(var(--color-bg-rgb) / 0.22);
 }
 
 .trustItem {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--space-6);
 }
 
 .trustValue {
@@ -163,7 +163,7 @@
 
 .trustLabel {
     font-size: var(--text-sm);
-    color: rgba(250, 248, 243, 0.75);
+    color: rgb(var(--color-bg-rgb) / 0.75);
     line-height: 1.4;
 }
 
@@ -183,16 +183,16 @@
     }
 
     .inner {
-        padding-top: 64px;
-        padding-bottom: 88px;
+        padding-top: var(--space-64);
+        padding-bottom: var(--space-88);
         min-height: 640px;
-        gap: 36px;
+        gap: var(--space-36);
     }
 
     .trust {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
-        padding-top: 24px;
+        gap: var(--space-24);
+        padding-top: var(--space-24);
     }
 }
 
@@ -203,13 +203,13 @@
     }
 
     .inner {
-        padding-top: 40px;
-        padding-bottom: 80px;
-        gap: 32px;
+        padding-top: var(--space-40);
+        padding-bottom: var(--space-80);
+        gap: var(--space-32);
     }
 
     .content {
-        gap: 16px;
+        gap: var(--space-16);
     }
 
     .title {
@@ -226,11 +226,11 @@
     }
 
     .actions {
-        margin-top: 8px;
+        margin-top: var(--space-8);
     }
 
     .trust {
-        padding-top: 24px;
+        padding-top: var(--space-24);
     }
 }
 
@@ -258,7 +258,7 @@
     }
 
     .trust {
-        gap: 20px 16px;
+        gap: var(--space-20) var(--space-16);
     }
 
     .trustLabel {

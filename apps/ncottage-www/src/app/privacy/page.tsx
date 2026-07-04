@@ -1,91 +1,35 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { EMAIL, LEGAL, PHONES } from "@/content/contacts";
+import { getPage, section } from "@/data/pages";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Политика конфиденциальности — Новый Коттедж",
-    description:
-        "Политика конфиденциальности сайта ncottage.ru: какие данные обрабатываются, цели обработки, права пользователя и контакты оператора.",
-    alternates: { canonical: "/privacy" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const [page, seo] = await Promise.all([getPage("privacy"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/privacy",
+    });
+}
 
-const sections = [
-    {
-        title: "Термины",
-        items: [
-            "Сайт — интернет-сайт строительной компании «Новый Коттедж», размещённый на домене ncottage.ru и связанных с ним страницах.",
-            "Пользователь — лицо, которое получает доступ к сайту и использует его сервисы, формы обратной связи, каталог проектов и материалы.",
-            "Персональные данные — любая информация, относящаяся прямо или косвенно к определённому пользователю.",
-            "Обработка персональных данных — любое действие с персональными данными, включая сбор, запись, хранение, уточнение, использование, передачу, обезличивание, блокирование, удаление и уничтожение.",
-            "Cookie — небольшой фрагмент данных, который браузер сохраняет на устройстве пользователя для корректной работы сайта и аналитики.",
-        ],
-    },
-    {
-        title: "Цели обработки",
-        items: [
-            "Приём и обработка заявок на строительство, проектирование, расчёт стоимости, экскурсию на объект или консультацию специалиста.",
-            "Связь с пользователем по телефону, электронной почте или в мессенджерах для уточнения запроса.",
-            "Подготовка коммерческих предложений, смет, договоров и сопутствующих документов.",
-            "Информирование о проектах, услугах, акциях и новостях компании при наличии соответствующего согласия.",
-            "Улучшение качества сайта, аналитика посещаемости и защита от некорректного использования форм.",
-        ],
-    },
-    {
-        title: "Какие данные могут обрабатываться",
-        items: [
-            "Фамилия, имя, отчество, если пользователь указал их в форме или передал менеджеру.",
-            "Контактный телефон, адрес электронной почты и иные контактные данные, необходимые для ответа на заявку.",
-            "Информация о желаемом проекте, технологии строительства, участке, бюджете и комментарии пользователя.",
-            "Технические данные о работе сайта: cookie, IP-адрес, сведения о браузере, устройстве и просмотренных страницах.",
-        ],
-    },
-    {
-        title: "Передача и защита данных",
-        items: [
-            "Компания не передаёт персональные данные третьим лицам, не связанным с исполнением заявки, договора или законных требований.",
-            "Партнёры и подрядчики могут получать данные только в объёме, необходимом для обработки обращения, подготовки документов или оказания услуги.",
-            "Компания принимает организационные и технические меры для защиты данных от неправомерного доступа, изменения, раскрытия или уничтожения.",
-            "Данные обрабатываются в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» и настоящей политикой.",
-        ],
-    },
-    {
-        title: "Права пользователя",
-        items: [
-            "Пользователь вправе уточнить, какие персональные данные обрабатываются компанией.",
-            "Пользователь вправе потребовать актуализации, блокирования или удаления персональных данных, если они неполные, устаревшие или обрабатываются без законных оснований.",
-            "Пользователь может отозвать согласие на обработку персональных данных, направив обращение по контактам оператора.",
-        ],
-    },
-    {
-        title: "Дополнительные условия",
-        items: [
-            "Использование сайта означает согласие пользователя с настоящей политикой в применимой части.",
-            "Компания вправе обновлять политику. Новая редакция действует с момента публикации на сайте, если в ней не указан иной срок.",
-            "Если пользователь отключает cookie, отдельные функции сайта могут работать некорректно.",
-        ],
-    },
-];
+export default async function PrivacyPage() {
+    const { phones, email, legal } = toContactRecords(await getContacts());
+    const page = await getPage("privacy");
+    if (!page) notFound();
 
-const highlights = [
-    {
-        label: "Для чего",
-        text: "Чтобы ответить на заявку, подготовить расчёт и сопровождать обращение.",
-    },
-    {
-        label: "Что хранится",
-        text: "Контакты, параметры проекта и технические данные работы сайта.",
-    },
-    {
-        label: "Как управлять",
-        text: "Можно запросить уточнение, изменение или удаление данных.",
-    },
-];
+    const hero = section(page, "legalHero");
+    const highlights = section(page, "cardGrid");
+    const document = section(page, "bulletSections");
+    const sidebar = section(page, "ctaLinks");
+    if (!hero || !highlights || !document || !sidebar) notFound();
 
-export default function PrivacyPage() {
     return (
         <section className={styles.page}>
             <Container>
@@ -99,19 +43,19 @@ export default function PrivacyPage() {
                 <section className={styles.hero}>
                     <div>
                         <SectionHeading
-                            eyebrow="Правовая информация"
-                            title="Политика"
-                            titleAccent="конфиденциальности"
-                            lead="Коротко и по разделам: какие данные получает сайт, зачем они нужны и как пользователь может управлять их обработкой."
+                            eyebrow={hero.eyebrow}
+                            title={hero.title}
+                            titleAccent={hero.titleAccent}
+                            lead={hero.lead}
                             tone="h1"
                             align="left"
                         />
                     </div>
                     <aside className={styles.summaryCard}>
-                        <span>Оператор</span>
-                        <strong>ООО «Новый коттедж»</strong>
+                        <span>{hero.noteLabel}</span>
+                        <strong>{hero.operatorName}</strong>
                         <p>
-                            ОГРН {LEGAL.ogrn} · ИНН {LEGAL.inn}
+                            ОГРН {legal.ogrn} · ИНН {legal.inn}
                         </p>
                     </aside>
                 </section>
@@ -120,12 +64,12 @@ export default function PrivacyPage() {
                     className={styles.highlights}
                     aria-label="Кратко о политике"
                 >
-                    {highlights.map((item) => (
+                    {highlights.items.map((item) => (
                         <article
-                            key={item.label}
+                            key={item.title}
                             className={styles.highlightCard}
                         >
-                            <span>{item.label}</span>
+                            <span>{item.title}</span>
                             <p>{item.text}</p>
                         </article>
                     ))}
@@ -133,23 +77,20 @@ export default function PrivacyPage() {
 
                 <div className={styles.layout}>
                     <article className={styles.document}>
-                        <p className={styles.updated}>
-                            Редакция от 11 мая 2026 года
-                        </p>
-                        {sections.map((section, index) => (
-                            <section
-                                key={section.title}
-                                className={styles.block}
-                            >
+                        {document.updated && (
+                            <p className={styles.updated}>{document.updated}</p>
+                        )}
+                        {document.items.map((item, index) => (
+                            <section key={item.title} className={styles.block}>
                                 <div className={styles.blockHead}>
                                     <span>
                                         {String(index + 1).padStart(2, "0")}
                                     </span>
-                                    <h2>{section.title}</h2>
+                                    <h2>{item.title}</h2>
                                 </div>
                                 <ul>
-                                    {section.items.map((item) => (
-                                        <li key={item}>{item}</li>
+                                    {(item.list ?? []).map((point) => (
+                                        <li key={point}>{point}</li>
                                     ))}
                                 </ul>
                             </section>
@@ -157,19 +98,17 @@ export default function PrivacyPage() {
                     </article>
 
                     <aside className={styles.sidebar}>
-                        <h2>Связаться по вопросам данных</h2>
-                        <p>
-                            Направьте обращение на почту или позвоните в офис.
-                            Мы подскажем, как уточнить, изменить или удалить
-                            данные.
-                        </p>
-                        <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-                        <a href={`tel:${PHONES.spb.number}`}>
-                            {PHONES.spb.display}
+                        <h2>{sidebar.title}</h2>
+                        {sidebar.description && <p>{sidebar.description}</p>}
+                        <a href={`mailto:${email}`}>{email}</a>
+                        <a href={`tel:${phones.spb.number}`}>
+                            {phones.spb.display}
                         </a>
-                        <Link href="/personal-data">
-                            Согласие на обработку данных
-                        </Link>
+                        {sidebar.links.map((link) => (
+                            <Link key={link.href} href={link.href}>
+                                {link.label}
+                            </Link>
+                        ))}
                     </aside>
                 </div>
             </Container>

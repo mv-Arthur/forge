@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { AdvantagesSection } from "@/components/sections/AdvantagesSection";
 import { CertificatesStrip } from "@/components/sections/CertificatesStrip";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -12,39 +14,102 @@ import { PullQuote } from "@/components/sections/PullQuote";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { StagesSection } from "@/components/sections/StagesSection";
 import { Catalog } from "@/components/features/home-catalog";
-import { getHomeContent } from "@/content/home";
+import { JsonLd } from "@/components/seo/JsonLd";
+import type { AdvantagesSectionContent } from "@/content/home";
 import { getBuiltObjects } from "@/data/built-objects";
+import { getPage, section } from "@/data/pages";
 import { getFeaturedProjects } from "@/data/projects";
+import { getReviews } from "@/data/reviews";
+import { getContacts, getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
+import {
+    organizationJsonLd,
+    webSiteJsonLd,
+} from "@/lib/structured-data";
 import { formatMonthYear } from "@/lib/utils";
 
+export async function generateMetadata(): Promise<Metadata> {
+    const [page, seo] = await Promise.all([getPage("home"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? seo.defaultTitle,
+        description: page?.seoDescription ?? seo.defaultDescription,
+        path: "/",
+    });
+}
+
 export default async function HomePage() {
-    const home = await getHomeContent();
+    const page = await getPage("home");
+    if (!page) notFound();
+
+    const hero = section(page, "homeHero");
+    const picker = section(page, "projectPicker");
+    const catalog = section(page, "catalogSection");
+    // Преимущества переиспользуют тип cardGrid; на главной заголовок всегда задан.
+    const advantages = section(page, "cardGrid") as
+        | AdvantagesSectionContent
+        | undefined;
+    const quote = section(page, "pullQuote");
+    const works = section(page, "worksTeaser");
+    const stages = section(page, "stepsSection");
+    const geography = section(page, "geography");
+    const reviews = section(page, "reviewsCarousel");
+    const featured = section(page, "featuredProject");
+    const guarantees = section(page, "guaranteeCards");
+    const faq = section(page, "faqList");
+    const contact = section(page, "homeContact");
+
     const featuredProjects = await getFeaturedProjects();
-    const builtObjects = getBuiltObjects();
+    const builtObjects = await getBuiltObjects();
+    const allReviews = await getReviews();
+    const contacts = await getContacts();
+    const seo = await getSeo();
+
+    const featuredReviews = allReviews.filter((r) => r.featured);
     const featuredObject =
-        builtObjects.find((o) => o.id === home.featuredProject.objectId) ??
+        builtObjects.find((o) => o.id === featured?.objectId) ??
         builtObjects[0];
 
     return (
         <>
-            <HeroSection {...home.hero} />
-            <ProjectPicker {...home.projectPicker} />
-            <Catalog {...home.catalog} projects={featuredProjects} />
-            <AdvantagesSection {...home.advantages} />
-            <PullQuote {...home.pullQuote} />
-            <OurWorksSection {...home.ourWorks} objects={builtObjects} />
-            <StagesSection {...home.stages} />
-            <GeographySection {...home.geography} />
-            <ReviewsSection {...home.reviews} />
-            <FeaturedProject
-                {...home.featuredProject}
-                overline={formatMonthYear()}
-                project={featuredObject}
+            <JsonLd
+                data={[
+                    organizationJsonLd(seo, contacts),
+                    webSiteJsonLd(seo),
+                ]}
             />
-            <GuaranteesSection {...home.guarantees} />
+            {hero && <HeroSection {...hero} />}
+            {picker && <ProjectPicker {...picker} />}
+            {catalog && <Catalog {...catalog} projects={featuredProjects} />}
+            {advantages && <AdvantagesSection {...advantages} />}
+            {quote && <PullQuote {...quote} />}
+            {works && <OurWorksSection {...works} objects={builtObjects} />}
+            {stages && <StagesSection {...stages} />}
+            {geography && <GeographySection {...geography} />}
+            {reviews && (
+                <ReviewsSection {...reviews} reviews={featuredReviews} />
+            )}
+            {featured && (
+                <FeaturedProject
+                    {...featured}
+                    overline={formatMonthYear()}
+                    project={featuredObject}
+                />
+            )}
+            {guarantees && <GuaranteesSection {...guarantees} />}
             <CertificatesStrip />
-            <FaqSection {...home.faq} />
-            <ContactSection {...home.contact} />
+            {faq && <FaqSection {...faq} />}
+            {contact && (
+                <ContactSection
+                    {...contact}
+                    addresses={contacts.addresses.map((a) => a.value)}
+                    phones={contacts.phones.map((p) => ({
+                        number: p.number,
+                        display: p.display,
+                    }))}
+                    email={contacts.email}
+                />
+            )}
         </>
     );
 }

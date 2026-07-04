@@ -1,61 +1,35 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { getPage, section, sectionsOf } from "@/data/pages";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Производство — Новый Коттедж",
-    description:
-        "Собственное производство пиломатериала для каркасных домов и домов из СИП-панелей: сушка, строгание, контроль влажности и сортировка.",
-    alternates: { canonical: "/production" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const [page, seo] = await Promise.all([getPage("production"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/production",
+    });
+}
 
-const features = [
-    {
-        title: "Собственный пиломатериал",
-        text: "Используем ель и сосну 1 и 2 сорта. Заготовка и подготовка материала проходят в производственном цеху компании.",
-    },
-    {
-        title: "Камерная сушка",
-        text: "Древесина сушится до влажности 8–12%. Такой диапазон подходит для каркасной технологии и домов из СИП-панелей.",
-    },
-    {
-        title: "Немецкое оборудование",
-        text: "Профессиональная обработка помогает получать ровную поверхность и стабильную геометрию деталей.",
-    },
-    {
-        title: "Складское хранение",
-        text: "Готовый материал хранится в сухом проветриваемом помещении, чтобы сохранить эксплуатационные свойства.",
-    },
-];
+export default async function ProductionPage() {
+    const page = await getPage("production");
+    if (!page) notFound();
 
-const steps = [
-    {
-        num: "01",
-        title: "Отбор древесины",
-        text: "Специалисты вручную проверяют партии пиломатериала и отсеивают доски, которые не соответствуют стандартам.",
-    },
-    {
-        num: "02",
-        title: "Сушка и строгание",
-        text: "Материал проходит камерную сушку, обработку на оборудовании и контроль технического соответствия.",
-    },
-    {
-        num: "03",
-        title: "Защитная обработка",
-        text: "Обработка выполняется с учетом требований СП 28.13330-2017 и норм пожарной и химической безопасности.",
-    },
-    {
-        num: "04",
-        title: "Маркировка и склад",
-        text: "Финальная партия маркируется по стандартам и отправляется на хранение до комплектации объекта.",
-    },
-];
+    const hero = section(page, "productionHero");
+    // Hero обязателен: без него — чистый 404 вместо «безголовой» страницы.
+    if (!hero) notFound();
+    const cards = sectionsOf(page, "cardGrid");
+    const features = cards[0];
+    const steps = cards[1];
+    const standards = section(page, "stringList");
 
-const standards = ["ГОСТ 24454-80", "ГОСТ 8486-86", "СП 28.13330-2017"];
-
-export default function ProductionPage() {
     return (
         <section className={styles.page}>
             <Container>
@@ -67,80 +41,87 @@ export default function ProductionPage() {
                     ]}
                 />
 
-                <section className={styles.hero}>
-                    <SectionHeading
-                        eyebrow="Производство"
-                        title="Материал для дома начинается"
-                        titleAccent="с точной подготовки"
-                        lead="Для каркасных домов и домов из СИП-панелей компания использует строганную доску собственного производства. Контроль влажности, геометрии и условий хранения помогает получать надежные конструкции, перекрытия и несущие элементы."
-                        align="left"
-                        tone="h1"
-                    />
-                    <aside className={styles.heroPanel}>
-                        <span className={styles.panelEyebrow}>
-                            Пиломатериал
-                        </span>
-                        <strong>8–12%</strong>
-                        <p>
-                            рабочий диапазон влажности после камерной сушки
-                            перед строганием, сортировкой и хранением.
-                        </p>
-                    </aside>
-                </section>
+                {hero && (
+                    <section className={styles.hero}>
+                        <SectionHeading
+                            eyebrow={hero.eyebrow}
+                            title={hero.title}
+                            titleAccent={hero.titleAccent}
+                            lead={hero.lead}
+                            align="left"
+                            tone="h1"
+                        />
+                        <aside className={styles.heroPanel}>
+                            <span className={styles.panelEyebrow}>
+                                {hero.panelEyebrow}
+                            </span>
+                            <strong>{hero.panelValue}</strong>
+                            <p>{hero.panelDescription}</p>
+                        </aside>
+                    </section>
+                )}
 
-                <section className={styles.featureGrid}>
-                    {features.map((item) => (
-                        <article
-                            key={item.title}
-                            className={styles.featureCard}
-                        >
-                            <h2>{item.title}</h2>
-                            <p>{item.text}</p>
-                        </article>
-                    ))}
-                </section>
+                {features && (
+                    <section className={styles.featureGrid}>
+                        {features.items.map((item) => (
+                            <article
+                                key={item.title}
+                                className={styles.featureCard}
+                            >
+                                <h2>{item.title}</h2>
+                                <p>{item.text}</p>
+                            </article>
+                        ))}
+                    </section>
+                )}
             </Container>
 
-            <section className={styles.sectionAlt}>
+            {steps && (
+                <section className={styles.sectionAlt}>
+                    <Container>
+                        <SectionHeading
+                            eyebrow={steps.eyebrow}
+                            title={steps.title ?? ""}
+                            titleAccent={steps.titleAccent}
+                            lead={steps.lead}
+                            align="left"
+                            className={styles.sectionHead}
+                        />
+                        <ol className={styles.steps}>
+                            {steps.items.map((step, index) => (
+                                <li key={step.title} className={styles.step}>
+                                    <span>
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <div>
+                                        <h3>{step.title}</h3>
+                                        <p>{step.text}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+                    </Container>
+                </section>
+            )}
+
+            {standards && (
                 <Container>
-                    <SectionHeading
-                        eyebrow="Процесс"
-                        title="Как проходит"
-                        titleAccent="подготовка"
-                        lead="Каждый этап производства настроен так, чтобы материал соответствовал технологии строительства и условиям эксплуатации дома."
-                        align="left"
-                        className={styles.sectionHead}
-                    />
-                    <ol className={styles.steps}>
-                        {steps.map((step) => (
-                            <li key={step.num} className={styles.step}>
-                                <span>{step.num}</span>
-                                <div>
-                                    <h3>{step.title}</h3>
-                                    <p>{step.text}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ol>
+                    <section className={styles.qualityBlock}>
+                        <SectionHeading
+                            eyebrow={standards.eyebrow}
+                            title={standards.title ?? ""}
+                            titleAccent={standards.titleAccent}
+                            lead={standards.lead}
+                            align="left"
+                        />
+                        <div className={styles.standards}>
+                            {standards.items.map((item) => (
+                                <span key={item}>{item}</span>
+                            ))}
+                        </div>
+                    </section>
                 </Container>
-            </section>
-
-            <Container>
-                <section className={styles.qualityBlock}>
-                    <SectionHeading
-                        eyebrow="Стандарты"
-                        title="Контроль без случайностей"
-                        titleAccent="и лишней химии"
-                        lead="Производство ведется по действующим нормативам. Защитная обработка не должна вредить здоровью человека, а технический контроль идет на всех этапах."
-                        align="left"
-                    />
-                    <div className={styles.standards}>
-                        {standards.map((item) => (
-                            <span key={item}>{item}</span>
-                        ))}
-                    </div>
-                </section>
-            </Container>
+            )}
         </section>
     );
 }

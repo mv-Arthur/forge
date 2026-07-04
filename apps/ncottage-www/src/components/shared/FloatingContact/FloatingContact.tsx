@@ -7,7 +7,15 @@ import styles from "./FloatingContact.module.css";
 
 const SCROLL_REVEAL = 320;
 
-export function FloatingContact() {
+interface FloatingContactProps {
+    whatsapp?: string;
+    telegram?: string;
+}
+
+export function FloatingContact({
+    whatsapp = SOCIAL.whatsapp,
+    telegram = SOCIAL.telegram,
+}: FloatingContactProps = {}) {
     const { openCallback } = useCallbackModal();
     const [open, setOpen] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -27,7 +35,7 @@ export function FloatingContact() {
         >
             <div className={styles.actions} aria-hidden={!open}>
                 <a
-                    href={SOCIAL.whatsapp}
+                    href={whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`${styles.action} ${styles.whatsapp}`}
@@ -47,7 +55,7 @@ export function FloatingContact() {
                     </svg>
                 </a>
                 <a
-                    href={SOCIAL.telegram}
+                    href={telegram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`${styles.action} ${styles.telegram}`}

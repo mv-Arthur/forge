@@ -2,6 +2,39 @@ import { NextResponse } from "next/server";
 import type { LeadRequest } from "@/domain/lead";
 import { isValidLead } from "@/domain/lead";
 
+// Управляющие символы: всё C0/C1-подобное. Для однострочных полей режем целиком,
+// для многострочных оставляем табуляцию и перевод строки.
+// eslint-disable-next-line no-control-regex
+const CONTROL_ALL = /[\x00-\x1f\x7f]/g;
+// eslint-disable-next-line no-control-regex
+const CONTROL_KEEP_NEWLINES = /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g;
+
+// Чистим пользовательский текст: убираем управляющие символы и обрезаем по длине.
+// Для однострочных полей дополнительно схлопываем пробелы.
+function sanitizeText(
+    value: unknown,
+    maxLen: number,
+    singleLine: boolean
+): string | undefined {
+    if (typeof value !== "string") return undefined;
+    let v = singleLine
+        ? value.replace(CONTROL_ALL, " ").replace(/\s+/g, " ")
+        : value.replace(CONTROL_KEEP_NEWLINES, "");
+    v = v.trim().slice(0, maxLen);
+    return v || undefined;
+}
+
+// Санитизируем свободные поля до валидации/пересылки на backend (F049).
+function sanitizeLead(lead: Partial<LeadRequest>): Partial<LeadRequest> {
+    return {
+        ...lead,
+        name: sanitizeText(lead.name, 120, true),
+        comment: sanitizeText(lead.comment, 2000, false),
+        project: sanitizeText(lead.project, 200, true),
+        preferredTime: sanitizeText(lead.preferredTime, 100, true),
+    };
+}
+
 function maskPhone(phone: string): string {
     const digits = phone.replace(/\D/g, "");
     if (digits.length < 4) return "***";
@@ -35,7 +68,7 @@ export async function POST(request: Request) {
         );
     }
 
-    const lead = body as Partial<LeadRequest> | null;
+    const lead = sanitizeLead((body ?? {}) as Partial<LeadRequest>);
     if (!isValidLead(lead)) {
         return NextResponse.json(
             { error: "Укажите корректный номер телефона." },
@@ -48,11 +81,20 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true });
     }
 
+    // Пробрасываем реальный IP клиента, чтобы троттлинг на backend считал по
+    // посетителю, а не по одному IP www-прокси.
+    const forwardedFor =
+        request.headers.get("x-forwarded-for") ??
+        request.headers.get("x-real-ip");
+
     let res: Response;
     try {
         res = await fetch(`${API_URL}/leads`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                ...(forwardedFor ? { "x-forwarded-for": forwardedFor } : {}),
+            },
             body: JSON.stringify(lead),
         });
     } catch {

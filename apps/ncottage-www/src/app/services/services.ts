@@ -9,7 +9,7 @@ export type ServiceSlug =
     | "engineering"
     | "demolition";
 
-export type ServiceScenarioSlug =
+type ServiceScenarioSlug =
     | "land-plot"
     | "house-from-scratch"
     | "existing-project"
@@ -1271,10 +1271,6 @@ export const BUILD_ROUTE_STEPS: BuildRouteStep[] = [
         serviceSlug: "landscaping",
     },
 ];
-
-export const SERVICE_MAP = new Map(
-    SERVICES.map((service) => [service.slug, service])
-);
 
 export const ADDITIONAL_SERVICE_LINKS = [
     { title: "Строительство каркасных домов", parentSlug: "construction" },

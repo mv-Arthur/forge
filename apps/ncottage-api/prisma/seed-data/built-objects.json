@@ -1,0 +1,108 @@
+[
+    {
+        "id": "nizhnie-oselki",
+        "title": "Дом из СИП-панелей",
+        "location": "пос. Нижние Осельки, Ленобласть",
+        "area": 142,
+        "coords": { "lat": 60.215, "lng": 30.61 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/6ad24f1f-b37b-4958-ba9f-4cddbefbcdf0.jpg",
+        "href": "/our-works/sip-dom-po-tipovomu-proektu-garden-v-p-nizhnie-oselki"
+    },
+    {
+        "id": "banya-levashovo",
+        "title": "Баня из СИП-панелей",
+        "location": "п. Левашово, СПб",
+        "area": 64,
+        "coords": { "lat": 60.107, "lng": 30.18 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/kuznecov.jpg",
+        "href": "/our-works/banya-iz-sip-panelej-p-levashovo"
+    },
+    {
+        "id": "severnaya-zhemchuzhina-2",
+        "title": "Каркасный дом",
+        "location": "КП Северная Жемчужина, Ленобласть",
+        "area": 178,
+        "coords": { "lat": 60.18, "lng": 30.58 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/whatsapp20image202019-12-0320at2017.37.04.jpg",
+        "href": "/our-works/karkasnyj-dom-v-p-severnaya-zhemchuzhina-2"
+    },
+    {
+        "id": "priyutino",
+        "title": "Каркасный дом",
+        "location": "п. Приютино, Ленобласть",
+        "area": 165,
+        "coords": { "lat": 60.04, "lng": 30.68 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/798b08fe-c82d-4e4b-823f-3d62e55f9b36-1.jpg",
+        "href": "/our-works/karkasnyj-dom-v-p-priyutino"
+    },
+    {
+        "id": "vyborg",
+        "title": "Дом из СИП-панелей",
+        "location": "г. Выборг, Ленобласть",
+        "area": 198,
+        "coords": { "lat": 60.71, "lng": 28.73 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/smirnova.jpg",
+        "href": "/our-works/dom-iz-sip-panelej-v-g-vyborg"
+    },
+    {
+        "id": "oliki",
+        "title": "Дом из газобетона с гаражом",
+        "location": "дер. Олики, Ленобласть",
+        "area": 224,
+        "coords": { "lat": 60.1, "lng": 30.8 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/dsc01272-scaled.jpg",
+        "href": "/our-works/dom-i-gazobetona-s-garazhom-der-oliki"
+    },
+    {
+        "id": "kanon",
+        "title": "Каркасный дом, фасад «Каньон»",
+        "location": "Ленинградская область",
+        "area": 156,
+        "image": "https://ncottage.ru/app/uploads/2020/03/pgb2favbgwu-e1591215656105.jpg",
+        "href": "/our-works/karkasnyj-dom-s-otdelkoj-fasadnym-kamnem-kanon"
+    },
+    {
+        "id": "podmoshe",
+        "title": "Дом из газобетона",
+        "location": "дер. Подмошье, Новгородская обл.",
+        "area": 188,
+        "coords": { "lat": 58.38, "lng": 33.3 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/img_20191105_115323-scaled.jpg",
+        "href": "/our-works/dom-iz-gazobetona-v-der-podmoshe"
+    },
+    {
+        "id": "domodedovo",
+        "title": "Дом из поризованного кирпича",
+        "location": "г. Домодедово, МО",
+        "area": 256,
+        "coords": { "lat": 55.45, "lng": 37.77 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/domoded_2.jpg",
+        "href": "/our-works/dom-iz-porizovanogo-kirpicha-v-domodedovo"
+    },
+    {
+        "id": "brick-house",
+        "title": "Дом из кирпича",
+        "location": "Ленинградская область",
+        "area": 212,
+        "image": "https://ncottage.ru/app/uploads/2020/05/920368020.jpg",
+        "href": "/our-works/dom-iz-kirpicha"
+    },
+    {
+        "id": "sestroretsk",
+        "title": "Дом из газобетона",
+        "location": "г. Сестрорецк, СПб",
+        "area": 184,
+        "coords": { "lat": 60.1, "lng": 29.965 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/37f59816106b6d16.jpg",
+        "href": "/our-works/dom-iz-gazobetona-v-sestroretske"
+    },
+    {
+        "id": "severnaya-zhemchuzhina",
+        "title": "Каркасный дом",
+        "location": "КП Северная Жемчужина, Ленобласть",
+        "area": 152,
+        "coords": { "lat": 60.18, "lng": 30.58 },
+        "image": "https://ncottage.ru/app/uploads/2020/05/whatsapp20image202019-12-0320at2017.37.03.jpg",
+        "href": "/our-works/karkasnyj-dom-v-p-severnaya-zhemchuzhina"
+    }
+]

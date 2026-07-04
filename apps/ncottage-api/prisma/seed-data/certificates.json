@@ -1,0 +1,37 @@
+[
+    {
+        "slug": "reestr-dobrosovestnyh-ispolniteley",
+        "order": 0,
+        "title": "Реестр добросовестных исполнителей"
+    },
+    {
+        "slug": "menedzhment-bezopasnosti-truda",
+        "order": 1,
+        "title": "Система менеджмента безопасности труда и охраны здоровья"
+    },
+    {
+        "slug": "ekologicheskiy-menedzhment",
+        "order": 2,
+        "title": "Система экологического менеджмента в строительстве"
+    },
+    {
+        "slug": "znak-sootvetstviya",
+        "order": 3,
+        "title": "Разрешение на применение знака соответствия системы сертификации"
+    },
+    {
+        "slug": "sootvetstvie-osb",
+        "order": 4,
+        "title": "Сертификат соответствия на ОСБ"
+    },
+    {
+        "slug": "pozharobezopasnost-penopolistirol",
+        "order": 5,
+        "title": "Сертификат пожаробезопасности на пенополистирол строительный"
+    },
+    {
+        "slug": "sootvetstvie-penopolistirol",
+        "order": 6,
+        "title": "Сертификат соответствия на пенополистирол строительный"
+    }
+]

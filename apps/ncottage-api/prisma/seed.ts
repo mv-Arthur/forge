@@ -1,8 +1,21 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
-import type { Project } from "@forge/shared";
+import type {
+    Article,
+    BuiltObject,
+    Certificate,
+    FaqItem,
+    Partner,
+    Project,
+    ProjectSelection,
+    Promo,
+    Review,
+    Service,
+    ServiceScenario,
+    Vacancy,
+} from "@forge/shared";
 
 const prisma = new PrismaClient();
 
@@ -14,21 +27,16 @@ async function seedAdmin() {
         return;
     }
     const passwordHash = await bcrypt.hash(password, 10);
+    // Первый суперюзер — всегда роль admin (миграция существующей учётки).
     await prisma.admin.upsert({
         where: { email },
-        create: { email, passwordHash },
-        update: { passwordHash },
+        create: { email, passwordHash, role: "admin" },
+        update: { passwordHash, role: "admin" },
     });
-    console.log(`Seeded admin ${email}`);
+    console.log(`Seeded admin ${email} (role: admin)`);
 }
 
-function toJson(
-    value: unknown
-): Prisma.InputJsonValue | typeof Prisma.JsonNull {
-    return value == null ? Prisma.JsonNull : (value as Prisma.InputJsonValue);
-}
-
-function toData(p: Project): Prisma.ProjectUncheckedCreateInput {
+function scalars(p: Project) {
     return {
         slug: p.slug,
         name: p.name,
@@ -44,14 +52,361 @@ function toData(p: Project): Prisma.ProjectUncheckedCreateInput {
         featured: p.featured,
         description: p.description,
         pdfUrl: p.pdfUrl ?? null,
-        images: p.images,
         features: p.features,
-        relatedObjectIds: p.relatedObjectIds ?? [],
-        specs: toJson(p.specs),
-        floorPlans: toJson(p.floorPlans),
-        packages: toJson(p.packages),
-        options: toJson(p.options),
+        specsDimensions: p.specs.dimensions,
+        specsRoofType: p.specs.roofType,
+        specsFoundation: p.specs.foundation,
+        specsWallMaterial: p.specs.wallMaterial,
+        specsBuildTime: p.specs.buildTime,
     };
+}
+
+function childrenCreate(p: Project) {
+    return {
+        images: {
+            create: p.images.map((url, order) => ({ url, order })),
+        },
+        relations: {
+            create: (p.relatedObjectIds ?? []).map((relatedSlug, order) => ({
+                relatedSlug,
+                order,
+            })),
+        },
+        floorPlans: {
+            create: (p.floorPlans ?? []).map((fp, order) => ({
+                label: fp.label,
+                image: fp.image,
+                area: fp.area ?? null,
+                order,
+                rooms: {
+                    create: (fp.rooms ?? []).map((r, roomOrder) => ({
+                        name: r.name,
+                        area: r.area,
+                        order: roomOrder,
+                    })),
+                },
+            })),
+        },
+        packages: {
+            create: (p.packages ?? []).map((pkg, order) => ({
+                name: pkg.name,
+                price: pkg.price,
+                tagline: pkg.tagline ?? null,
+                highlighted: pkg.highlighted ?? false,
+                order,
+                includes: {
+                    create: pkg.includes.map((inc, incOrder) => ({
+                        label: inc.label,
+                        value: inc.value,
+                        order: incOrder,
+                    })),
+                },
+            })),
+        },
+        options: {
+            create: (p.options ?? []).map((o, order) => ({
+                label: o.label,
+                price: o.price,
+                note: o.note ?? null,
+                order,
+            })),
+        },
+    };
+}
+
+async function seedProjectSelections() {
+    const file = resolve(__dirname, "seed-data/project-selections.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as ProjectSelection[];
+    for (const item of items) {
+        const data = {
+            slug: item.slug,
+            group: item.group,
+            title: item.title,
+            shortTitle: item.shortTitle,
+            description: item.description,
+            metaDescription: item.metaDescription,
+            filter: item.filter as object,
+        };
+        await prisma.projectSelection.upsert({
+            where: { slug: item.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} project selections`);
+}
+
+async function seedReviews() {
+    const file = resolve(__dirname, "seed-data/reviews.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as Review[];
+    for (const item of items) {
+        const data = {
+            id: item.id,
+            order: item.order,
+            author: item.author,
+            date: item.date,
+            text: item.text,
+            type: item.type ?? null,
+            image: item.image ?? null,
+            videoUrl: item.videoUrl ?? null,
+            featured: item.featured,
+        };
+        await prisma.review.upsert({
+            where: { id: item.id },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} reviews`);
+}
+
+async function seedPromos() {
+    const file = resolve(__dirname, "seed-data/promos.json");
+    const promos = JSON.parse(readFileSync(file, "utf-8")) as Promo[];
+    for (const promo of promos) {
+        await prisma.promo.upsert({
+            where: { slug: promo.slug },
+            create: promo,
+            update: promo,
+        });
+    }
+    console.log(`Seeded ${promos.length} promos`);
+}
+
+async function seedBuiltObjects() {
+    const file = resolve(__dirname, "seed-data/built-objects.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as BuiltObject[];
+    for (const item of items) {
+        const data = {
+            slug: item.id,
+            title: item.title,
+            image: item.image,
+            href: item.href,
+            area: item.area ?? null,
+            location: item.location ?? null,
+            coordsLat: item.coords?.lat ?? null,
+            coordsLng: item.coords?.lng ?? null,
+        };
+        await prisma.builtObject.upsert({
+            where: { slug: item.id },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} built objects`);
+}
+
+async function seedPartners() {
+    const file = resolve(__dirname, "seed-data/partners.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as Partner[];
+    for (const item of items) {
+        await prisma.partner.upsert({
+            where: { slug: item.slug },
+            create: { ...item, href: item.href ?? null },
+            update: { ...item, href: item.href ?? null },
+        });
+    }
+    console.log(`Seeded ${items.length} partners`);
+}
+
+async function seedCertificates() {
+    const file = resolve(__dirname, "seed-data/certificates.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as Certificate[];
+    for (const item of items) {
+        await prisma.certificate.upsert({
+            where: { slug: item.slug },
+            create: item,
+            update: item,
+        });
+    }
+    console.log(`Seeded ${items.length} certificates`);
+}
+
+async function seedFaq() {
+    const file = resolve(__dirname, "seed-data/faq.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as FaqItem[];
+    for (const item of items) {
+        await prisma.faqItem.upsert({
+            where: { slug: item.slug },
+            create: item,
+            update: item,
+        });
+    }
+    console.log(`Seeded ${items.length} faq items`);
+}
+
+async function seedVacancies() {
+    const file = resolve(__dirname, "seed-data/vacancies.json");
+    const vacancies = JSON.parse(readFileSync(file, "utf-8")) as Vacancy[];
+    for (const vacancy of vacancies) {
+        await prisma.vacancy.upsert({
+            where: { slug: vacancy.slug },
+            create: vacancy,
+            update: vacancy,
+        });
+    }
+    console.log(`Seeded ${vacancies.length} vacancies`);
+}
+
+async function seedServices() {
+    const file = resolve(__dirname, "seed-data/services.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as Service[];
+    for (const item of items) {
+        const data = {
+            slug: item.slug,
+            order: item.order,
+            title: item.title,
+            shortTitle: item.shortTitle,
+            description: item.description,
+            sourceTitle: item.sourceTitle,
+            eyebrow: item.eyebrow,
+            lead: item.lead,
+            summary: item.summary,
+            image: item.image,
+            cta: item.cta,
+            highlights: item.highlights,
+            scopes: item.scopes,
+            stages: item.stages,
+            advantages: item.advantages,
+            fitFor: item.fitFor,
+            includes: item.includes,
+            notIncluded: item.notIncluded,
+            priceFactors: item.priceFactors,
+            deliverables: item.deliverables,
+            quickFacts: item.quickFacts,
+            detailPain: item.detailPain ?? null,
+            detailPromise: item.detailPromise ?? null,
+            detailVariants: item.detailVariants as object,
+            detailChecks: item.detailChecks,
+            detailNextStep: item.detailNextStep ?? null,
+            detailCta: item.detailCta ?? null,
+            relatedSlugs: item.relatedSlugs,
+            scenarioSlugs: item.scenarioSlugs,
+            seoContent: item.seoContent as object,
+        };
+        await prisma.service.upsert({
+            where: { slug: item.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} services`);
+}
+
+async function seedServiceScenarios() {
+    const file = resolve(__dirname, "seed-data/service-scenarios.json");
+    const items = JSON.parse(readFileSync(file, "utf-8")) as ServiceScenario[];
+    for (const item of items) {
+        const data = {
+            slug: item.slug,
+            order: item.order,
+            title: item.title,
+            description: item.description,
+            questionLabel: item.questionLabel,
+            pain: item.pain ?? null,
+            promise: item.promise ?? null,
+            outcome: item.outcome ?? null,
+            cta: item.cta ?? null,
+            nextStep: item.nextStep,
+            serviceSlugs: item.serviceSlugs,
+            primaryServiceSlugs: item.primaryServiceSlugs,
+            nextServiceSlugs: item.nextServiceSlugs,
+            optionalServiceSlugs: item.optionalServiceSlugs,
+            planTitle: item.plan.title,
+            planResultLabel: item.plan.resultLabel,
+            planVisualTitle: item.plan.visualTitle,
+            planVisualCaption: item.plan.visualCaption,
+            planImage: item.plan.image,
+            planStartLabel: item.plan.startLabel,
+            planStartText: item.plan.startText ?? null,
+            planNextLabel: item.plan.nextLabel,
+            planNextText: item.plan.nextText,
+            planOptionalLabel: item.plan.optionalLabel,
+            planOptionalText: item.plan.optionalText,
+            planCtaText: item.plan.ctaText,
+        };
+        await prisma.serviceScenario.upsert({
+            where: { slug: item.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${items.length} service scenarios`);
+}
+
+async function seedSettings() {
+    const file = resolve(__dirname, "seed-data/settings.json");
+    const settings = JSON.parse(readFileSync(file, "utf-8")) as Record<
+        string,
+        unknown
+    >;
+    for (const [key, value] of Object.entries(settings)) {
+        await prisma.setting.upsert({
+            where: { key },
+            create: { key, value: value as object },
+            update: { value: value as object },
+        });
+    }
+    console.log(`Seeded ${Object.keys(settings).length} settings`);
+}
+
+interface PageSeed {
+    key: string;
+    title: string;
+    seoTitle: string;
+    seoDescription: string;
+    sections: { type: string; data: unknown }[];
+}
+
+async function seedPages() {
+    const file = resolve(__dirname, "seed-data/pages.json");
+    const pages = JSON.parse(readFileSync(file, "utf-8")) as PageSeed[];
+    for (const page of pages) {
+        const meta = {
+            title: page.title,
+            seoTitle: page.seoTitle,
+            seoDescription: page.seoDescription,
+        };
+        const sections = {
+            create: page.sections.map((s, order) => ({
+                type: s.type,
+                order,
+                data: s.data as object,
+            })),
+        };
+        await prisma.page.upsert({
+            where: { key: page.key },
+            create: { key: page.key, ...meta, sections },
+            update: { ...meta, sections: { deleteMany: {}, ...sections } },
+        });
+    }
+    console.log(`Seeded ${pages.length} pages`);
+}
+
+async function seedArticles() {
+    const file = resolve(__dirname, "seed-data/articles.json");
+    const articles = JSON.parse(readFileSync(file, "utf-8")) as Article[];
+    for (const article of articles) {
+        const data = {
+            slug: article.slug,
+            title: article.title,
+            description: article.description,
+            category: article.category,
+            date: article.date,
+            readTime: article.readTime,
+            heroNote: article.heroNote,
+            highlights: article.highlights,
+            sections: article.sections as object,
+            checklist: article.checklist,
+            relatedSlugs: article.relatedSlugs,
+        };
+        await prisma.article.upsert({
+            where: { slug: article.slug },
+            create: data,
+            update: data,
+        });
+    }
+    console.log(`Seeded ${articles.length} articles`);
 }
 
 async function main() {
@@ -59,16 +414,36 @@ async function main() {
     const projects = JSON.parse(readFileSync(file, "utf-8")) as Project[];
 
     for (const project of projects) {
-        const data = toData(project);
+        const children = childrenCreate(project);
         await prisma.project.upsert({
             where: { slug: project.slug },
-            create: data,
-            update: data,
+            create: { ...scalars(project), ...children },
+            update: {
+                ...scalars(project),
+                images: { deleteMany: {}, ...children.images },
+                relations: { deleteMany: {}, ...children.relations },
+                floorPlans: { deleteMany: {}, ...children.floorPlans },
+                packages: { deleteMany: {}, ...children.packages },
+                options: { deleteMany: {}, ...children.options },
+            },
         });
     }
 
     console.log(`Seeded ${projects.length} projects`);
 
+    await seedArticles();
+    await seedProjectSelections();
+    await seedReviews();
+    await seedPromos();
+    await seedBuiltObjects();
+    await seedPartners();
+    await seedCertificates();
+    await seedFaq();
+    await seedVacancies();
+    await seedServices();
+    await seedServiceScenarios();
+    await seedSettings();
+    await seedPages();
     await seedAdmin();
 }
 

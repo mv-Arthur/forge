@@ -1,22 +1,7 @@
-import type { Project } from "@/domain/project";
+import type { ProjectSelection, SelectionGroup } from "@/domain/project-selection";
 
-export type SelectionGroup =
-    | "purpose"
-    | "floors"
-    | "area"
-    | "features"
-    | "styles";
-
-export interface ProjectSelection {
-    slug: string;
-    group: SelectionGroup;
-    title: string;
-    shortTitle: string;
-    description: string;
-    metaDescription: string;
-    filter: (project: Project) => boolean;
-}
-
+// Лейблы групп — UI-словарь (на фронте). Сами подборки приходят из API;
+// PROJECT_SELECTIONS ниже — fallback и источник сидов в БД.
 export const GROUP_LABELS: Record<SelectionGroup, string> = {
     purpose: "Назначение",
     floors: "Этажность",
@@ -24,14 +9,6 @@ export const GROUP_LABELS: Record<SelectionGroup, string> = {
     features: "Особенности",
     styles: "Стили",
 };
-
-const hasSauna = (project: Project) =>
-    project.description.toLowerCase().includes("саун");
-
-const hasWrightMood = (project: Project) =>
-    project.features.includes("panoramic-windows") &&
-    project.features.includes("terrace") &&
-    ["modern", "hi-tech", "minimalism"].includes(project.style);
 
 export const PROJECT_SELECTIONS: ProjectSelection[] = [
     {
@@ -43,7 +20,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Готовые проекты для строительства за городом: компактные дачные решения и дома для круглогодичной жизни.",
         metaDescription:
             "Подборка проектов загородных домов Новый Коттедж с ценами, площадями и фильтрами по технологии, этажности и планировке.",
-        filter: () => true,
+        filter: { mode: "all" },
     },
     {
         slug: "dlya-postoyannogo-prozhivaniya",
@@ -54,7 +31,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Проекты тёплых домов для круглогодичного проживания семьи с продуманными инженерными зонами.",
         metaDescription:
             "Проекты домов для постоянного проживания под ключ: цены, планировки, технологии строительства и удобные фильтры каталога.",
-        filter: (project) => project.livingType === "permanent",
+        filter: { mode: "match", livingType: "permanent" },
     },
     {
         slug: "dachnye-doma",
@@ -65,7 +42,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Сезонные и компактные дома для отдыха на участке, гостевого размещения и семейных выходных.",
         metaDescription:
             "Каталог проектов дачных домов: компактные площади, террасы, быстрые технологии строительства и понятная стоимость.",
-        filter: (project) => project.livingType === "seasonal",
+        filter: { mode: "match", livingType: "seasonal" },
     },
     {
         slug: "gostevye-doma",
@@ -76,7 +53,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Небольшие дома для гостей, отдыха и дополнительного строения на загородном участке.",
         metaDescription:
             "Проекты гостевых домов для загородного участка: готовые планировки, цены и подбор по параметрам.",
-        filter: (project) => project.features.includes("guest"),
+        filter: { mode: "match", featuresAll: ["guest"] },
     },
     {
         slug: "odnoetazhnye-doma",
@@ -87,7 +64,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Удобные одноэтажные планировки без лестниц: спальни, кухня-гостиная и выход на участок на одном уровне.",
         metaDescription:
             "Проекты одноэтажных домов Новый Коттедж: цены, площади, планировки и фильтры для выбора технологии строительства.",
-        filter: (project) => project.floors === 1,
+        filter: { mode: "match", floors: 1 },
     },
     {
         slug: "polutoraetazhnye-doma",
@@ -98,9 +75,12 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Рациональные дома с мансардным уровнем: больше полезной площади при компактном пятне застройки.",
         metaDescription:
             "Подборка полутораэтажных домов и проектов с мансардой: планировки, площади и стоимость строительства.",
-        filter: (project) =>
-            project.features.includes("attic") ||
-            project.description.toLowerCase().includes("мансард"),
+        filter: {
+            mode: "match",
+            matchAny: true,
+            featuresAll: ["attic"],
+            descriptionIncludes: ["мансард"],
+        },
     },
     {
         slug: "dvuhetazhnye-doma",
@@ -111,7 +91,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Двухэтажные дома для семей, которым нужны отдельные приватные зоны, несколько спален и просторная гостиная.",
         metaDescription:
             "Каталог проектов двухэтажных домов с ценами, площадями, спальнями и фильтрами по технологии строительства.",
-        filter: (project) => project.floors === 2,
+        filter: { mode: "match", floors: 2 },
     },
     {
         slug: "doma-s-mansardoy",
@@ -122,7 +102,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Дома с мансардным этажом для дополнительной жилой зоны, кабинета или спален под кровлей.",
         metaDescription:
             "Проекты домов с мансардой: готовые планировки, цены строительства и подбор по площади, стилю и технологии.",
-        filter: (project) => project.features.includes("attic"),
+        filter: { mode: "match", featuresAll: ["attic"] },
     },
     {
         slug: "doma-do-150-m2",
@@ -133,7 +113,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Компактные и практичные проекты до 150 м² для семьи, дачи или постоянного проживания.",
         metaDescription:
             "Проекты домов до 150 м²: каталог с ценами, планировками и фильтрами по этажности, технологии и особенностям.",
-        filter: (project) => project.area <= 150,
+        filter: { mode: "match", areaMax: 150 },
     },
     {
         slug: "doma-do-250-m2",
@@ -144,7 +124,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Семейные дома до 250 м² с несколькими спальнями, террасами, гаражами и гибкими планировками.",
         metaDescription:
             "Проекты домов до 250 м² от Новый Коттедж: стоимость, площади, этажность и подбор по параметрам.",
-        filter: (project) => project.area <= 250,
+        filter: { mode: "match", areaMax: 250 },
     },
     {
         slug: "doma-do-300-m2",
@@ -155,7 +135,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Просторные проекты для большой семьи с приватными комнатами, гостевыми зонами и техническими помещениями.",
         metaDescription:
             "Каталог проектов домов до 300 м² с ценами, планировками и фильтрацией по стилю, этажности и технологии.",
-        filter: (project) => project.area <= 300,
+        filter: { mode: "match", areaMax: 300 },
     },
     {
         slug: "doma-do-400-m2",
@@ -166,7 +146,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Большие загородные дома для комфортной жизни, приёма гостей и расширенного состава помещений.",
         metaDescription:
             "Проекты домов до 400 м²: подборка просторных загородных домов с ценами и фильтрами каталога.",
-        filter: (project) => project.area <= 400,
+        filter: { mode: "match", areaMax: 400 },
     },
     {
         slug: "doma-do-600-m2",
@@ -177,7 +157,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Крупные проекты и премиальные решения, которые можно адаптировать под участок и сценарий жизни семьи.",
         metaDescription:
             "Проекты домов до 600 м²: большой каталог загородных домов с ценами, площадями и подбором по параметрам.",
-        filter: (project) => project.area <= 600,
+        filter: { mode: "match", areaMax: 600 },
     },
     {
         slug: "doma-s-terrasoy",
@@ -188,7 +168,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Дома с открытой или крытой террасой для отдыха, семейных завтраков и выхода из кухни-гостиной на участок.",
         metaDescription:
             "Проекты домов с террасой: готовые планировки, цены строительства и фильтры по площади, этажности и технологии.",
-        filter: (project) => project.features.includes("terrace"),
+        filter: { mode: "match", featuresAll: ["terrace"] },
     },
     {
         slug: "doma-s-garazhom",
@@ -199,7 +179,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Проекты с встроенным или пристроенным гаражом и удобной связью с жилой частью дома.",
         metaDescription:
             "Проекты домов с гаражом: каталог с ценами, площадями, технологиями строительства и удобными фильтрами.",
-        filter: (project) => project.features.includes("garage"),
+        filter: { mode: "match", featuresAll: ["garage"] },
     },
     {
         slug: "doma-s-saunoy",
@@ -210,7 +190,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Подборка проектов, где можно предусмотреть банный блок, сауну или зону восстановления внутри дома.",
         metaDescription:
             "Проекты домов с сауной и банным блоком: варианты планировок, цены и подбор по площади и технологии.",
-        filter: hasSauna,
+        filter: { mode: "match", descriptionIncludes: ["саун"] },
     },
     {
         slug: "doma-s-kotelnoy",
@@ -221,7 +201,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Планировки с выделенной котельной и техническими помещениями для постоянного проживания.",
         metaDescription:
             "Проекты домов с котельной: готовые решения для круглогодичного проживания с ценами и фильтрами каталога.",
-        filter: (project) => project.features.includes("boiler-room"),
+        filter: { mode: "match", featuresAll: ["boiler-room"] },
     },
     {
         slug: "doma-s-panoramnymi-oknami",
@@ -232,7 +212,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Современные дома с большим остеклением, светлой гостиной и выразительным фасадом.",
         metaDescription:
             "Проекты домов с панорамными окнами: современные планировки, цены и подбор по стилю, площади и технологии.",
-        filter: (project) => project.features.includes("panoramic-windows"),
+        filter: { mode: "match", featuresAll: ["panoramic-windows"] },
     },
     {
         slug: "sovremennye-doma",
@@ -243,8 +223,10 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Актуальная архитектура с лаконичными фасадами, большими окнами и открытыми семейными пространствами.",
         metaDescription:
             "Проекты современных домов Новый Коттедж: каталог с ценами, планировками и фильтрами по площади и технологии.",
-        filter: (project) =>
-            ["modern", "hi-tech", "minimalism"].includes(project.style),
+        filter: {
+            mode: "match",
+            styleIn: ["modern", "hi-tech", "minimalism"],
+        },
     },
     {
         slug: "doma-v-stile-modern",
@@ -255,7 +237,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Дома в стиле модерн с выразительной геометрией, удобной планировкой и светлыми общими зонами.",
         metaDescription:
             "Проекты домов в стиле модерн: готовые планировки, цены строительства и подбор по параметрам каталога.",
-        filter: (project) => project.style === "modern",
+        filter: { mode: "match", style: "modern" },
     },
     {
         slug: "finskie-doma",
@@ -266,7 +248,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Тёплые и рациональные дома в северной традиции: компактность, энергоэффективность и уют.",
         metaDescription:
             "Проекты финских домов: каталог загородных домов с ценами, площадями и фильтрами по технологии строительства.",
-        filter: (project) => project.style === "finnish",
+        filter: { mode: "match", style: "finnish" },
     },
     {
         slug: "skandinavskie-doma",
@@ -277,7 +259,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Сдержанные северные фасады, простые формы, практичные площади и комфорт для круглогодичной жизни.",
         metaDescription:
             "Проекты скандинавских домов: цены, планировки и подбор по площади, этажности и технологии строительства.",
-        filter: (project) => ["finnish", "minimalism"].includes(project.style),
+        filter: { mode: "match", styleIn: ["finnish", "minimalism"] },
     },
     {
         slug: "doma-v-stile-loft",
@@ -288,9 +270,12 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Лаконичная архитектура, открытые пространства и выразительные материалы для загородного дома в стиле лофт.",
         metaDescription:
             "Проекты домов в стиле лофт: подборка планировок с ценами, площадями и фильтрами каталога.",
-        filter: (project) =>
-            project.style === "loft" ||
-            project.description.toLowerCase().includes("открытая планировка"),
+        filter: {
+            mode: "match",
+            matchAny: true,
+            style: "loft",
+            descriptionIncludes: ["открытая планировка"],
+        },
     },
     {
         slug: "doma-v-stile-haytek",
@@ -301,7 +286,7 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Современные дома с плоскими кровлями, панорамным остеклением и выразительной геометрией фасадов.",
         metaDescription:
             "Проекты домов в стиле хай-тек: цены, планировки и фильтры по площади, этажности и технологии.",
-        filter: (project) => project.style === "hi-tech",
+        filter: { mode: "match", style: "hi-tech" },
     },
     {
         slug: "doma-v-stile-rayt",
@@ -312,10 +297,10 @@ export const PROJECT_SELECTIONS: ProjectSelection[] = [
             "Горизонтальная архитектура, террасы и большое остекление для связи дома с природным окружением.",
         metaDescription:
             "Проекты домов в стиле Райта: загородные дома с террасами, панорамными окнами и подбором по параметрам.",
-        filter: hasWrightMood,
+        filter: {
+            mode: "match",
+            featuresAll: ["panoramic-windows", "terrace"],
+            styleIn: ["modern", "hi-tech", "minimalism"],
+        },
     },
 ];
-
-export function getSelectionBySlug(slug: string) {
-    return PROJECT_SELECTIONS.find((selection) => selection.slug === slug);
-}

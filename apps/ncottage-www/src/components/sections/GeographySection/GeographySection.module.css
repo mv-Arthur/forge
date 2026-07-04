@@ -6,14 +6,14 @@
 .layout {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
-    gap: 80px;
+    gap: var(--space-80);
     align-items: start;
 }
 
 .head {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-16);
     position: sticky;
     top: calc(var(--site-header-height) + 32px);
 }
@@ -52,9 +52,9 @@
 .total {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    margin-top: 16px;
-    padding-top: 24px;
+    gap: var(--space-4);
+    margin-top: var(--space-16);
+    padding-top: var(--space-24);
     border-top: 1px solid var(--color-line);
 }
 
@@ -87,8 +87,8 @@
 .row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 28px 0;
+    gap: var(--space-12);
+    padding: var(--space-28) 0;
     border-bottom: 1px solid var(--color-line);
 }
 
@@ -105,7 +105,7 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 24px;
+    gap: var(--space-24);
 }
 
 .regionLabel {
@@ -120,7 +120,7 @@
 .regionMeta {
     display: flex;
     align-items: baseline;
-    gap: 12px;
+    gap: var(--space-12);
     flex-shrink: 0;
 }
 
@@ -164,9 +164,9 @@
 .cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    margin-top: 40px;
-    padding: 14px 24px;
+    gap: var(--space-6);
+    margin-top: var(--space-40);
+    padding: 14px var(--space-24);
     border: 1px solid var(--color-line-strong);
     border-radius: var(--radius-pill);
     font-size: var(--text-sm);
@@ -187,7 +187,7 @@
 @media (max-width: 900px) {
     .layout {
         grid-template-columns: 1fr;
-        gap: 32px;
+        gap: var(--space-32);
     }
 
     .head {

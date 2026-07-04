@@ -1,30 +1,5 @@
+import type { ServiceSeoContent } from "@forge/shared";
 import type { ServiceSlug } from "../services";
-
-export interface ServiceTimingItem {
-    label: string;
-    value: string;
-    description: string;
-}
-
-export interface ServiceExample {
-    title: string;
-    description: string;
-    result: string;
-}
-
-export interface ServiceFaqItem {
-    question: string;
-    answer: string;
-}
-
-export interface ServiceSeoContent {
-    priceNote: string;
-    timingLead: string;
-    timing: ServiceTimingItem[];
-    examplesLead: string;
-    examples: ServiceExample[];
-    faq: ServiceFaqItem[];
-}
 
 export const SERVICE_SEO_CONTENT: Record<ServiceSlug, ServiceSeoContent> = {
     design: {

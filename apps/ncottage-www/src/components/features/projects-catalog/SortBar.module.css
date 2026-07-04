@@ -2,20 +2,20 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-12);
     padding: 14px 18px;
     background-color: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 12px;
-    margin-bottom: 20px;
+    margin-bottom: var(--space-20);
     box-shadow: var(--shadow-soft);
 }
 
 .filtersButton {
     display: none;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
+    gap: var(--space-6);
+    padding: var(--space-8) var(--space-16);
     font-size: 14px;
     font-weight: 600;
     color: var(--color-ink-on-accent);
@@ -38,8 +38,8 @@
 
 .sortSelect button {
     height: 40px;
-    gap: 24px;
-    padding: 0 18px 0 20px;
+    gap: var(--space-24);
+    padding: 0 18px 0 var(--space-20);
     font-size: 14px;
     font-weight: 500;
     color: var(--color-ink);
@@ -60,7 +60,7 @@
 
 .viewToggle {
     display: inline-flex;
-    gap: 4px;
+    gap: var(--space-4);
 }
 
 .viewButton {

@@ -4,42 +4,61 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { articles, getArticleBySlug, getRelatedArticles } from "../articles";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getArticleBySlug, getArticles, getRelatedArticles } from "@/data/blog";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
+import { articleJsonLd } from "@/lib/structured-data";
 import styles from "./page.module.css";
 
 interface Props {
     params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+    const articles = await getArticles();
     return articles.map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const article = getArticleBySlug(slug);
+    const [article, seo] = await Promise.all([
+        getArticleBySlug(slug),
+        getSeo(),
+    ]);
 
     if (!article) {
         return { title: "Статья не найдена" };
     }
 
-    return {
-        title: `${article.title} | Блог Нового Коттеджа`,
-        description: article.description,
-        alternates: { canonical: `/blog/${article.slug}` },
-    };
+    const published = new Date(article.date);
+    return buildPageMetadata({
+        seo,
+        title: article.seoTitle ?? `${article.title} | Блог Нового Коттеджа`,
+        description: article.seoDescription ?? article.description,
+        path: `/blog/${article.slug}`,
+        type: "article",
+        ...(article.image ? { image: article.image } : {}),
+        ...(Number.isNaN(published.getTime())
+            ? {}
+            : { publishedTime: published.toISOString() }),
+    });
 }
 
 export default async function BlogArticlePage({ params }: Props) {
     const { slug } = await params;
-    const article = getArticleBySlug(slug);
+    const article = await getArticleBySlug(slug);
 
     if (!article) notFound();
 
-    const relatedArticles = getRelatedArticles(article);
+    const [relatedArticles, seo] = await Promise.all([
+        getRelatedArticles(article),
+        getSeo(),
+    ]);
 
     return (
         <section className={styles.page}>
+            <JsonLd data={articleJsonLd(article, seo)} />
             <Container>
                 <Breadcrumbs
                     items={[

@@ -34,6 +34,7 @@ interface SiteHeaderProps {
 }
 
 const SCROLL_THRESHOLD = 24;
+const CITY_STORAGE_KEY = "nc:city";
 
 export function SiteHeader({
     cities,
@@ -54,6 +55,30 @@ export function SiteHeader({
     const [isMobileViewport, setIsMobileViewport] = useState(false);
     const pathname = usePathname();
     const stickyRef = useRef<HTMLDivElement>(null);
+
+    // Выбор города запоминается между перезагрузками. Начальное состояние —
+    // детерминированное (initialCity/первый город), чтобы не было рассинхрона
+    // гидрации; сохранённое значение подхватывается после монтирования.
+    const changeCity = useCallback((code: CityCode) => {
+        setCity(code);
+        try {
+            window.localStorage.setItem(CITY_STORAGE_KEY, code);
+        } catch {
+            // localStorage недоступен (приватный режим) — просто не запоминаем
+        }
+    }, []);
+
+    useEffect(() => {
+        let stored: string | null = null;
+        try {
+            stored = window.localStorage.getItem(CITY_STORAGE_KEY);
+        } catch {
+            stored = null;
+        }
+        if (stored && cities.some((c) => c.code === stored)) {
+            setCity(stored as CityCode);
+        }
+    }, [cities]);
 
     useEffect(() => {
         const mql = window.matchMedia("(max-width: 1080px)");
@@ -114,29 +139,31 @@ export function SiteHeader({
 
     return (
         <>
-            <TopBar
-                cities={cities}
-                activeCity={city}
-                onCityChange={setCity}
-                workHours={workHours}
-                email={email}
-            />
-            <div ref={stickyRef} className={styles.stickyWrapper}>
-                <MainNav
-                    navItems={navItems}
-                    phones={phones}
+            <header>
+                <TopBar
+                    cities={cities}
                     activeCity={city}
-                    favouritesCount={favouritesCount}
-                    compareCount={compareCount}
-                    mobileMenuOpen={mobileOpen}
-                    onBurgerClick={toggleBurger}
-                    onSearchClick={toggleSearch}
-                    onCallbackClick={openCallback}
-                    searchOpen={searchOpen}
-                    scrolled={scrolled}
+                    onCityChange={changeCity}
+                    workHours={workHours}
+                    email={email}
                 />
-                <SiteSearch open={searchOpen} onClose={closeSearch} />
-            </div>
+                <div ref={stickyRef} className={styles.stickyWrapper}>
+                    <MainNav
+                        navItems={navItems}
+                        phones={phones}
+                        activeCity={city}
+                        favouritesCount={favouritesCount}
+                        compareCount={compareCount}
+                        mobileMenuOpen={mobileOpen}
+                        onBurgerClick={toggleBurger}
+                        onSearchClick={toggleSearch}
+                        onCallbackClick={openCallback}
+                        searchOpen={searchOpen}
+                        scrolled={scrolled}
+                    />
+                    <SiteSearch open={searchOpen} onClose={closeSearch} />
+                </div>
+            </header>
             {isMobileViewport && (
                 <MobileMenu
                     open={mobileOpen}
@@ -144,7 +171,7 @@ export function SiteHeader({
                     navItems={navItems}
                     cities={cities}
                     activeCity={city}
-                    onCityChange={setCity}
+                    onCityChange={changeCity}
                     phones={phones}
                     email={email}
                     workHours={workHours}

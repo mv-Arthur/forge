@@ -3,13 +3,19 @@ import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import type { NestFastifyApplication } from "@nestjs/platform-fastify";
 import { FastifyAdapter } from "@nestjs/platform-fastify";
+import multipart from "@fastify/multipart";
 import { AppModule } from "./app.module.js";
+import { AllExceptionsFilter } from "./common/all-exceptions.filter.js";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
         AppModule,
         new FastifyAdapter()
     );
+
+    await app.register(multipart, {
+        limits: { fileSize: 15 * 1024 * 1024, files: 1 },
+    });
 
     app.useGlobalPipes(
         new ValidationPipe({
@@ -18,6 +24,8 @@ async function bootstrap() {
             forbidNonWhitelisted: true,
         })
     );
+
+    app.useGlobalFilters(new AllExceptionsFilter());
 
     const config = app.get(ConfigService);
     const corsOrigin = config.get<string>("CORS_ORIGIN");

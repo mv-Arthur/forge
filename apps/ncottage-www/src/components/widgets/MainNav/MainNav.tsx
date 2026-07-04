@@ -43,7 +43,8 @@ export function MainNav({
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const pathname = usePathname();
-    const phone = phones[activeCity];
+    // Фолбэк на первый телефон, если activeCity не совпал с ключами phones.
+    const phone = phones[activeCity] ?? Object.values(phones)[0];
 
     useEffect(() => {
         setOpenDropdown(null);
@@ -72,13 +73,13 @@ export function MainNav({
                     <Image
                         src="/images/logo.png"
                         alt="Новый Коттедж"
-                        width={160}
-                        height={36}
+                        width={772}
+                        height={317}
                         priority
                     />
                 </Link>
 
-                <nav className={styles.nav}>
+                <nav className={styles.nav} aria-label="Основная навигация">
                     {navItems.map((item) => {
                         const hasDropdown = Boolean(item.children?.length);
                         const isOpen = openDropdown === item.href;

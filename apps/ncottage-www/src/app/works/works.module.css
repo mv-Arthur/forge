@@ -1,14 +1,14 @@
 .page {
-    padding: 72px 0 96px;
+    padding: var(--space-72) 0 var(--space-96);
     background: var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 420px;
-    gap: 64px;
+    gap: var(--space-64);
     align-items: end;
-    margin-top: 8px;
+    margin-top: var(--space-8);
 }
 
 .heroHeading {
@@ -18,12 +18,12 @@
 .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .statCard {
     min-height: 132px;
-    padding: 22px 20px;
+    padding: 22px var(--space-20);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -52,15 +52,15 @@
 .mapSection,
 .objectsSection,
 .visitSection {
-    margin-top: 88px;
+    margin-top: var(--space-88);
 }
 
 .mapHead {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.65fr);
-    gap: 48px;
+    gap: var(--space-48);
     align-items: end;
-    margin-bottom: 28px;
+    margin-bottom: var(--space-28);
 }
 
 .eyebrow {
@@ -106,15 +106,15 @@
     min-height: 520px;
     overflow: hidden;
     background:
-        linear-gradient(135deg, rgba(156, 74, 45, 0.08), transparent 42%),
+        linear-gradient(135deg, rgb(var(--color-accent-rgb) / 0.08), transparent 42%),
         radial-gradient(
             circle at 24% 22%,
-            rgba(156, 74, 45, 0.12),
+            rgb(var(--color-accent-rgb) / 0.12),
             transparent 22%
         ),
         radial-gradient(
             circle at 72% 66%,
-            rgba(71, 147, 50, 0.1),
+            rgb(var(--color-brand-green-rgb) / 0.1),
             transparent 28%
         ),
         var(--color-surface-alt);
@@ -125,9 +125,9 @@
     position: absolute;
     z-index: 2;
     padding: 7px 11px;
-    border: 1px solid rgba(207, 201, 188, 0.84);
+    border: 1px solid rgb(var(--color-line-strong-rgb) / 0.84);
     border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.78);
+    background: rgb(var(--color-surface-rgb) / 0.78);
     color: var(--color-ink-muted);
     font-size: var(--text-xs);
     font-weight: 600;
@@ -151,14 +151,14 @@
     content: "";
     position: absolute;
     inset: 10% 12%;
-    border: 1px solid rgba(207, 201, 188, 0.72);
+    border: 1px solid rgb(var(--color-line-strong-rgb) / 0.72);
     border-radius: 48% 52% 45% 55%;
     transform: rotate(-12deg);
 }
 
 .mapCanvas::after {
     inset: 24% 18%;
-    border-color: rgba(207, 201, 188, 0.52);
+    border-color: rgb(var(--color-line-strong-rgb) / 0.52);
     transform: rotate(18deg);
 }
 
@@ -174,8 +174,8 @@
     height: 54%;
     left: 16%;
     top: 16%;
-    background: rgba(255, 255, 255, 0.54);
-    border: 1px solid rgba(230, 226, 217, 0.9);
+    background: rgb(var(--color-surface-rgb) / 0.54);
+    border: 1px solid rgb(var(--color-line-rgb) / 0.9);
     border-radius: 44% 56% 48% 52%;
     transform: rotate(18deg);
 }
@@ -185,8 +185,8 @@
     height: 34%;
     right: 14%;
     bottom: 16%;
-    background: rgba(255, 255, 255, 0.48);
-    border: 1px solid rgba(230, 226, 217, 0.9);
+    background: rgb(var(--color-surface-rgb) / 0.48);
+    border: 1px solid rgb(var(--color-line-rgb) / 0.9);
     border-radius: 54% 46% 58% 42%;
     transform: rotate(-8deg);
 }
@@ -199,7 +199,7 @@
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(156, 74, 45, 0.28),
+        rgb(var(--color-accent-rgb) / 0.28),
         transparent
     );
     transform: rotate(-16deg);
@@ -213,7 +213,7 @@
     border: 3px solid var(--color-surface);
     border-radius: 50%;
     background: var(--color-accent);
-    box-shadow: 0 10px 26px rgba(26, 26, 26, 0.22);
+    box-shadow: 0 10px 26px rgb(var(--color-ink-rgb) / 0.22);
     transform: translate(-50%, -50%);
 }
 
@@ -221,7 +221,7 @@
     content: "";
     position: absolute;
     inset: -9px;
-    border: 1px solid rgba(156, 74, 45, 0.28);
+    border: 1px solid rgb(var(--color-accent-rgb) / 0.28);
     border-radius: inherit;
 }
 
@@ -229,7 +229,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 36px;
+    padding: var(--space-36);
     background: var(--color-ink);
     color: var(--color-ink-on-accent);
 }
@@ -240,11 +240,11 @@
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.6);
+    color: rgb(var(--color-bg-rgb) / 0.6);
 }
 
 .mapAsideTitle {
-    margin: 80px 0 14px;
+    margin: var(--space-80) 0 14px;
     font-family: var(--font-display-stack);
     font-size: var(--text-3xl);
     font-style: italic;
@@ -256,21 +256,21 @@
     margin: 0;
     font-size: var(--text-base);
     line-height: 1.55;
-    color: rgba(250, 248, 243, 0.78);
+    color: rgb(var(--color-bg-rgb) / 0.78);
 }
 
 .mapList {
     display: grid;
-    gap: 10px;
-    margin-top: 28px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(250, 248, 243, 0.16);
+    gap: var(--space-10);
+    margin-top: var(--space-28);
+    padding-top: var(--space-24);
+    border-top: 1px solid rgb(var(--color-bg-rgb) / 0.16);
 }
 
 .mapList span {
     position: relative;
     padding-left: 18px;
-    color: rgba(250, 248, 243, 0.72);
+    color: rgb(var(--color-bg-rgb) / 0.72);
     font-size: var(--text-sm);
     line-height: 1.45;
 }
@@ -289,7 +289,7 @@
 .mapAsideCta {
     display: inline-flex;
     align-self: flex-start;
-    margin-top: 28px;
+    margin-top: var(--space-28);
     padding: 14px 22px;
     border-radius: var(--radius-pill);
     background: var(--color-accent);
@@ -307,17 +307,20 @@
 }
 
 .listHeading {
-    margin-bottom: 36px;
+    margin-bottom: var(--space-36);
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .card {
+    display: block;
     overflow: hidden;
+    color: inherit;
+    text-decoration: none;
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
@@ -350,19 +353,19 @@
 }
 
 .cardBody {
-    padding: 20px 22px 24px;
+    padding: var(--space-20) 22px var(--space-24);
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: var(--space-8);
+    margin-bottom: var(--space-16);
 }
 
 .tag {
     display: inline-flex;
-    padding: 6px 10px;
+    padding: var(--space-6) var(--space-10);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-pill);
     font-size: var(--text-xs);
@@ -381,13 +384,13 @@
 
 .cardMeta {
     display: grid;
-    gap: 12px;
-    margin: 20px 0 0;
+    gap: var(--space-12);
+    margin: var(--space-20) 0 0;
 }
 
 .cardMeta div {
     display: grid;
-    gap: 4px;
+    gap: var(--space-4);
 }
 
 .cardMeta dt {
@@ -408,9 +411,9 @@
 .visitSection {
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(360px, 0.65fr);
-    gap: 56px;
+    gap: var(--space-56);
     align-items: start;
-    padding: 48px;
+    padding: var(--space-48);
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
@@ -430,8 +433,8 @@
 .visitSuccess {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 32px;
+    gap: var(--space-12);
+    padding: var(--space-32);
     background: var(--color-bg);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
@@ -440,7 +443,7 @@
 .input,
 .textarea {
     width: 100%;
-    padding: 14px 16px;
+    padding: 14px var(--space-16);
     font-size: var(--text-base);
     color: var(--color-ink);
     background: var(--color-surface);
@@ -486,7 +489,7 @@
 
 .submit {
     height: 52px;
-    margin-top: 6px;
+    margin-top: var(--space-6);
     border-radius: var(--radius-pill);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
@@ -503,7 +506,7 @@
 }
 
 .privacy {
-    margin: 4px 0 0;
+    margin: var(--space-4) 0 0;
     font-size: var(--text-xs);
     line-height: 1.5;
     color: var(--color-ink-subtle);
@@ -543,7 +546,7 @@
     }
 
     .mapAsideTitle {
-        margin-top: 56px;
+        margin-top: var(--space-56);
     }
 
     .visitContent {
@@ -553,13 +556,13 @@
 
 @media (max-width: 720px) {
     .page {
-        padding: 90px 0 64px;
+        padding: 90px 0 var(--space-64);
     }
 
     .mapSection,
     .objectsSection,
     .visitSection {
-        margin-top: 56px;
+        margin-top: var(--space-56);
     }
 
     .stats,
@@ -579,7 +582,7 @@
     .visitSection,
     .visitForm,
     .visitSuccess {
-        padding: 24px;
+        padding: var(--space-24);
     }
 
     .mapAsideTitle {

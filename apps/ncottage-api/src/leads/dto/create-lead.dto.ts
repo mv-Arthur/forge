@@ -1,5 +1,5 @@
 import {
-    IsBoolean,
+    Equals,
     IsIn,
     IsOptional,
     IsString,
@@ -52,7 +52,7 @@ export class CreateLeadDto implements LeadRequest {
     @IsString()
     project?: string;
 
-    @IsOptional()
-    @IsBoolean()
-    consent?: boolean;
+    // Согласие на обработку ПД обязательно и должно быть true.
+    @Equals(true)
+    consent!: boolean;
 }

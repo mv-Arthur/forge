@@ -1,48 +1,38 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { EMAIL, PHONES } from "@/content/contacts";
+import { getPage, section, sectionsOf } from "@/data/pages";
+import { getContacts, getSeo, toContactRecords } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
+import { GuaranteeClaimForm } from "./GuaranteeClaimForm";
 import styles from "./page.module.css";
 
-const conditions = [
-    "Работы выполнялись компанией «Новый Коттедж» и передавались заказчику по договору.",
-    "После сдачи объекта не было несогласованного вмешательства заказчика или сторонних бригад.",
-    "Соблюдались правила эксплуатации дома, инженерных систем и отделочных материалов.",
-    "Обращение подано в пределах гарантийного срока, указанного в договоре.",
-];
+export async function generateMetadata(): Promise<Metadata> {
+    const [page, seo] = await Promise.all([getPage("guarantee"), getSeo()]);
+    return buildPageMetadata({
+        seo,
+        title: page?.seoTitle ?? "",
+        description: page?.seoDescription ?? "",
+        path: "/guarantee",
+    });
+}
 
-const cases = [
-    {
-        title: "Строительные нормы",
-        text: "Разбираем ситуации, связанные с нарушением строительных норм, геометрией конструкций и качеством выполненных работ.",
-    },
-    {
-        title: "Фундамент и коробка",
-        text: "Проверяем трещины, деформации и другие признаки конструктивных дефектов по несущим элементам дома.",
-    },
-    {
-        title: "Материалы",
-        text: "Помогаем зафиксировать заводской брак строительных материалов и определить порядок устранения проблемы.",
-    },
-];
+export default async function GuaranteePage() {
+    const { phones, email } = toContactRecords(await getContacts());
+    const page = await getPage("guarantee");
+    if (!page) notFound();
 
-const exclusions = [
-    "естественный износ и загрязнение материалов",
-    "повреждения из-за насекомых или грызунов",
-    "самовольные переделки, не согласованные с компанией",
-    "нарушение правил эксплуатации объекта",
-];
+    const hero = section(page, "guaranteeHero");
+    const lists = sectionsOf(page, "stringList");
+    const conditions = lists[0];
+    const exclusions = lists[1];
+    const cases = section(page, "cardGrid");
+    const claim = section(page, "leadForm");
+    if (!hero || !conditions || !exclusions || !cases || !claim) notFound();
 
-export const metadata: Metadata = {
-    title: "Гарантия на строительство | Новый Коттедж",
-    description:
-        "Гарантийные обязательства компании Новый Коттедж: условия, сроки, порядок обращения и контакты гарантийного отдела.",
-    alternates: { canonical: "/guarantee" },
-};
-
-export default function GuaranteePage() {
     return (
         <section className={styles.page}>
             <Container>
@@ -56,44 +46,46 @@ export default function GuaranteePage() {
                 <section className={styles.hero}>
                     <div className={styles.heroText}>
                         <SectionHeading
-                            eyebrow="Гарантийные обязательства"
-                            title="Отвечаем за качество"
-                            titleAccent="после сдачи"
-                            lead="Компания «Новый Коттедж» фиксирует гарантийные условия в договоре и рассматривает обращения через клиентский сервис. Для стандартных проектов действует гарантийный период 7 лет."
+                            eyebrow={hero.eyebrow}
+                            title={hero.title}
+                            titleAccent={hero.titleAccent}
+                            lead={hero.lead}
                             align="left"
                             tone="h1"
                         />
                         <div className={styles.heroActions}>
-                            <a className={styles.cta} href="#claim">
-                                Сообщить о проблеме
+                            <a className={styles.cta} href={hero.ctaAnchor}>
+                                {hero.ctaText}
                             </a>
-                            <Link className={styles.secondaryLink} href="/faq">
-                                Частые вопросы
+                            <Link
+                                className={styles.secondaryLink}
+                                href={hero.secondaryLinkHref}
+                            >
+                                {hero.secondaryLinkText}
                             </Link>
                         </div>
                     </div>
                     <aside className={styles.summaryCard}>
-                        <span className={styles.summaryNumber}>7</span>
-                        <span className={styles.summaryLabel}>
-                            лет гарантии для стандартных проектов
+                        <span className={styles.summaryNumber}>
+                            {hero.summaryNumber}
                         </span>
-                        <p>
-                            Точный срок зависит от технологии строительства,
-                            комплектации и сложности проекта.
-                        </p>
+                        <span className={styles.summaryLabel}>
+                            {hero.summaryLabel}
+                        </span>
+                        <p>{hero.summaryText}</p>
                     </aside>
                 </section>
 
                 <section className={styles.section}>
                     <SectionHeading
-                        eyebrow="Условия"
-                        title="Когда действует гарантия"
-                        lead="Конкретные условия обсуждаются перед подписанием договора. Базовые требования одинаковы для всех объектов."
+                        eyebrow={conditions.eyebrow}
+                        title={conditions.title ?? ""}
+                        lead={conditions.lead}
                         align="left"
                         className={styles.sectionHead}
                     />
                     <ul className={styles.conditionGrid}>
-                        {conditions.map((condition, index) => (
+                        {conditions.items.map((condition, index) => (
                             <li
                                 key={condition}
                                 className={styles.conditionCard}
@@ -110,13 +102,13 @@ export default function GuaranteePage() {
                 <section className={styles.splitSection}>
                     <div>
                         <SectionHeading
-                            eyebrow="Гарантийные случаи"
-                            title="Что проверяем"
+                            eyebrow={cases.eyebrow}
+                            title={cases.title ?? ""}
                             align="left"
                             className={styles.sectionHead}
                         />
                         <div className={styles.caseList}>
-                            {cases.map((item) => (
+                            {cases.items.map((item) => (
                                 <article
                                     key={item.title}
                                     className={styles.caseCard}
@@ -129,13 +121,10 @@ export default function GuaranteePage() {
                     </div>
 
                     <aside className={styles.noteCard}>
-                        <h2>Что не входит</h2>
-                        <p>
-                            Есть ситуации, которые не относятся к гарантийным
-                            обязательствам и рассматриваются отдельно.
-                        </p>
+                        <h2>{exclusions.title}</h2>
+                        <p>{exclusions.lead}</p>
                         <ul>
-                            {exclusions.map((item) => (
+                            {exclusions.items.map((item) => (
                                 <li key={item}>{item}</li>
                             ))}
                         </ul>
@@ -145,9 +134,9 @@ export default function GuaranteePage() {
                 <section id="claim" className={styles.claimSection}>
                     <div className={styles.claimInfo}>
                         <SectionHeading
-                            eyebrow="Гарантийный отдел"
-                            title="Опишите проблему — мы свяжемся с вами"
-                            lead="Подготовьте номер договора, фотографии и краткое описание ситуации. Специалист уточнит детали и согласует дальнейшие действия."
+                            eyebrow={claim.eyebrow}
+                            title={claim.title}
+                            lead={claim.lead}
                             align="left"
                             className={styles.sectionHead}
                         />
@@ -155,66 +144,29 @@ export default function GuaranteePage() {
                             <div>
                                 <dt>Санкт-Петербург</dt>
                                 <dd>
-                                    <a href={`tel:${PHONES.spb.number}`}>
-                                        {PHONES.spb.display}
+                                    <a href={`tel:${phones.spb.number}`}>
+                                        {phones.spb.display}
                                     </a>
                                 </dd>
                             </div>
                             <div>
                                 <dt>Москва</dt>
                                 <dd>
-                                    <a href={`tel:${PHONES.msk.number}`}>
-                                        {PHONES.msk.display}
+                                    <a href={`tel:${phones.msk.number}`}>
+                                        {phones.msk.display}
                                     </a>
                                 </dd>
                             </div>
                             <div>
                                 <dt>Email</dt>
                                 <dd>
-                                    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+                                    <a href={`mailto:${email}`}>{email}</a>
                                 </dd>
                             </div>
                         </dl>
                     </div>
 
-                    <form className={styles.form}>
-                        <label>
-                            <span>Номер договора</span>
-                            <input
-                                name="contract"
-                                placeholder="Например, НК-2026-001"
-                            />
-                        </label>
-                        <label>
-                            <span>Ваше имя</span>
-                            <input
-                                name="name"
-                                placeholder="Как к вам обращаться"
-                            />
-                        </label>
-                        <label>
-                            <span>Телефон</span>
-                            <input name="phone" placeholder="+7" required />
-                        </label>
-                        <label>
-                            <span>Описание проблемы</span>
-                            <textarea
-                                name="message"
-                                placeholder="Что произошло и когда заметили проблему"
-                                rows={5}
-                            />
-                        </label>
-                        <button className={styles.cta} type="submit">
-                            Отправить обращение
-                        </button>
-                        <p className={styles.privacy}>
-                            Нажимая кнопку, вы соглашаетесь с{" "}
-                            <Link href="/privacy">
-                                политикой конфиденциальности
-                            </Link>
-                            .
-                        </p>
-                    </form>
+                    <GuaranteeClaimForm buttonLabel={claim.button} />
                 </section>
             </Container>
         </section>

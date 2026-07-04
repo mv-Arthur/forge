@@ -4,32 +4,54 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getProjects } from "@/data/projects";
-import { GROUP_LABELS, PROJECT_SELECTIONS } from "./selections";
+import { getSelections } from "@/data/project-selections";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
+import { matchesSelection } from "@/domain/project-selection";
+import { GROUP_LABELS } from "./selections";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Подборки проектов домов — Новый Коттедж",
-    description:
-        "Подборки проектов домов по этажности, площади, стилю, назначению и особенностям планировки.",
-    alternates: { canonical: "/project-selections" },
-};
+function plural(n: number, forms: [string, string, string]): string {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return forms[0];
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20))
+        return forms[1];
+    return forms[2];
+}
+
+const projectsWord = (n: number) =>
+    plural(n, ["проект", "проекта", "проектов"]);
+const selectionsWord = (n: number) =>
+    plural(n, ["подборка", "подборки", "подборок"]);
+
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["project-selections"].title,
+        description: seo.indexes["project-selections"].description,
+        path: "/project-selections",
+    });
+}
 
 export const revalidate = 60;
 
 export default async function ProjectSelectionsPage() {
-    const projects = await getProjects();
-    const featuredSelections = PROJECT_SELECTIONS.slice(0, 3).map(
-        (selection) => ({
-            ...selection,
-            count: projects.filter(selection.filter).length,
-        })
-    );
+    const [projects, selections] = await Promise.all([
+        getProjects(),
+        getSelections(),
+    ]);
+    const countFor = (selection: (typeof selections)[number]) =>
+        projects.filter((p) => matchesSelection(p, selection.filter)).length;
+    const featuredSelections = selections.slice(0, 3).map((selection) => ({
+        ...selection,
+        count: countFor(selection),
+    }));
     const grouped = Object.entries(GROUP_LABELS).map(([group, label]) => ({
         group,
         label,
-        selections: PROJECT_SELECTIONS.filter(
-            (selection) => selection.group === group
-        ),
+        selections: selections.filter((selection) => selection.group === group),
     }));
 
     return (
@@ -65,12 +87,12 @@ export default async function ProjectSelectionsPage() {
                         </div>
                         <div className={styles.panelStats}>
                             <div>
-                                <strong>{PROJECT_SELECTIONS.length}</strong>
-                                <span>подборок</span>
+                                <strong>{selections.length}</strong>
+                                <span>{selectionsWord(selections.length)}</span>
                             </div>
                             <div>
                                 <strong>{projects.length}</strong>
-                                <span>проектов</span>
+                                <span>{projectsWord(projects.length)}</span>
                             </div>
                         </div>
                     </aside>
@@ -84,7 +106,7 @@ export default async function ProjectSelectionsPage() {
                             className={styles.featuredCard}
                         >
                             <span className={styles.cardMeta}>
-                                {selection.count} проектов
+                                {selection.count} {projectsWord(selection.count)}
                             </span>
                             <h2>{selection.shortTitle}</h2>
                             <p>{selection.description}</p>
@@ -98,14 +120,13 @@ export default async function ProjectSelectionsPage() {
                             <div className={styles.groupHeader}>
                                 <h2 className={styles.groupTitle}>{label}</h2>
                                 <span className={styles.groupCount}>
-                                    {selections.length} подборок
+                                    {selections.length}{" "}
+                                    {selectionsWord(selections.length)}
                                 </span>
                             </div>
                             <div className={styles.grid}>
                                 {selections.map((selection) => {
-                                    const count = projects.filter(
-                                        selection.filter
-                                    ).length;
+                                    const count = countFor(selection);
 
                                     return (
                                         <Link
@@ -114,7 +135,7 @@ export default async function ProjectSelectionsPage() {
                                             href={`/project-selections/${selection.slug}`}
                                         >
                                             <span className={styles.cardMeta}>
-                                                {count} проектов
+                                                {count} {projectsWord(count)}
                                             </span>
                                             <span className={styles.cardTitle}>
                                                 {selection.shortTitle}

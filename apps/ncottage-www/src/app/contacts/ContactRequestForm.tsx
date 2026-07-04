@@ -1,11 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { EMAIL } from "@/content/contacts";
 import { useLeadForm } from "@/lib/useLeadForm";
 import styles from "./page.module.css";
 
-export function ContactRequestForm() {
+export function ContactRequestForm({
+    eyebrow,
+    title,
+    lead,
+    button,
+    email,
+}: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    button: string;
+    email: string;
+}) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
@@ -19,6 +30,7 @@ export function ContactRequestForm() {
             name: name.trim() || undefined,
             phone: phone.trim(),
             comment: message.trim() || undefined,
+            consent: true,
         });
     }
 
@@ -38,12 +50,9 @@ export function ContactRequestForm() {
     return (
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
             <div className={styles.formHeader}>
-                <p className={styles.cardKicker}>Обратная связь</p>
-                <h2 className={styles.formTitle}>Оставить заявку</h2>
-                <p className={styles.formLead}>
-                    Подберём проект, расскажем о материалах и согласуем визит в
-                    офис или на производство.
-                </p>
+                <p className={styles.cardKicker}>{eyebrow}</p>
+                <h2 className={styles.formTitle}>{title}</h2>
+                <p className={styles.formLead}>{lead}</p>
             </div>
 
             <label className={styles.field}>
@@ -96,14 +105,14 @@ export function ContactRequestForm() {
                 type="submit"
                 disabled={isSubmitting}
             >
-                {isSubmitting ? "Отправляем…" : "Связаться со специалистом"}
+                {isSubmitting ? "Отправляем…" : button}
             </button>
 
             <p className={styles.privacy}>
                 Нажимая на кнопку, вы соглашаетесь на обработку персональных
                 данных. Также можно написать напрямую на{" "}
-                <a className={styles.inlineLink} href={`mailto:${EMAIL}`}>
-                    {EMAIL}
+                <a className={styles.inlineLink} href={`mailto:${email}`}>
+                    {email}
                 </a>
                 .
             </p>

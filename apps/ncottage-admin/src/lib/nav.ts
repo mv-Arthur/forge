@@ -1,0 +1,79 @@
+import type { LucideIcon } from "lucide-react";
+import {
+    Award,
+    Briefcase,
+    Building2,
+    FileStack,
+    FileText,
+    Hammer,
+    Handshake,
+    HelpCircle,
+    ImageIcon,
+    Inbox,
+    LayoutGrid,
+    Newspaper,
+    Route,
+    Star,
+    Tag,
+    Users,
+    Wrench,
+} from "lucide-react";
+
+interface NavItem {
+    label: string;
+    href: string;
+    icon: LucideIcon;
+    disabled?: boolean;
+    badge?: string;
+    adminOnly?: boolean;
+}
+
+export interface NavSection {
+    label: string;
+    items: NavItem[];
+}
+
+// Sidebar information architecture. Disabled items are wired up in later epics,
+// shown now so the structure is visible.
+export const NAV_SECTIONS: NavSection[] = [
+    {
+        label: "Управление",
+        items: [
+            { label: "Проекты", href: "/projects", icon: Building2 },
+            {
+                label: "Подборки проектов",
+                href: "/project-selections",
+                icon: LayoutGrid,
+            },
+            { label: "Лиды", href: "/leads", icon: Inbox },
+            {
+                label: "Пользователи",
+                href: "/users",
+                icon: Users,
+                adminOnly: true,
+            },
+        ],
+    },
+    {
+        label: "Контент сайта",
+        items: [
+            { label: "Медиа", href: "/media", icon: ImageIcon },
+            { label: "Блог", href: "/blog", icon: Newspaper },
+            { label: "Услуги", href: "/services", icon: Wrench },
+            {
+                label: "Сценарии услуг",
+                href: "/service-scenarios",
+                icon: Route,
+            },
+            { label: "Построенные объекты", href: "/built-objects", icon: Hammer },
+            { label: "Акции", href: "/promos", icon: Tag },
+            { label: "Вакансии", href: "/vacancies", icon: Briefcase },
+            { label: "Вопрос-ответ", href: "/faq", icon: HelpCircle },
+            { label: "Сертификаты", href: "/certificates", icon: Award },
+            { label: "Отзывы", href: "/reviews", icon: Star },
+            { label: "Партнёры", href: "/partners", icon: Handshake },
+            { label: "Страницы", href: "/pages", icon: FileStack },
+            { label: "Контент", href: "/content", icon: FileText },
+        ],
+    },
+];

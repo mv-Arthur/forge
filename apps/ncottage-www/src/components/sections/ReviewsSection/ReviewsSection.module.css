@@ -5,7 +5,7 @@
 }
 
 .head {
-    margin-bottom: 48px;
+    margin-bottom: var(--space-48);
 }
 
 .card {
@@ -55,12 +55,12 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(26, 26, 26, 0.22);
+    background: rgb(var(--color-ink-rgb) / 0.22);
     transition: background var(--transition);
 }
 
 .videoFacade:hover::after {
-    background: rgba(26, 26, 26, 0.32);
+    background: rgb(var(--color-ink-rgb) / 0.32);
 }
 
 .playIcon {
@@ -74,7 +74,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding-left: 4px;
+    padding-left: var(--space-4);
     box-shadow: var(--shadow-pop);
     transition: transform var(--transition);
 }
@@ -84,17 +84,17 @@
 }
 
 .cardBody {
-    padding: 24px 24px 28px;
+    padding: var(--space-24) var(--space-24) var(--space-28);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .cardHead {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 16px;
+    gap: var(--space-16);
 }
 
 .author {
@@ -135,7 +135,7 @@
     font-weight: 600;
     color: var(--color-accent);
     padding: 0;
-    margin-top: 4px;
+    margin-top: var(--space-4);
     transition: color var(--transition);
 }
 
@@ -145,7 +145,7 @@
 
 @media (max-width: 768px) {
     .head {
-        margin-bottom: 32px;
+        margin-bottom: var(--space-32);
     }
 
     .card {

@@ -5,11 +5,11 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getProjects } from "@/data/projects";
-import {
-    GROUP_LABELS,
-    getSelectionBySlug,
-    PROJECT_SELECTIONS,
-} from "../selections";
+import { getSelectionBySlug, getSelections } from "@/data/project-selections";
+import { getSeo } from "@/data/settings";
+import { matchesSelection } from "@/domain/project-selection";
+import { buildPageMetadata } from "@/lib/seo";
+import { GROUP_LABELS } from "../selections";
 import styles from "./page.module.css";
 
 interface Props {
@@ -18,31 +18,38 @@ interface Props {
 
 export const revalidate = 60;
 
-export function generateStaticParams() {
-    return PROJECT_SELECTIONS.map((selection) => ({ slug: selection.slug }));
+export async function generateStaticParams() {
+    const selections = await getSelections();
+    return selections.map((selection) => ({ slug: selection.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const selection = getSelectionBySlug(slug);
+    const [selection, seo] = await Promise.all([
+        getSelectionBySlug(slug),
+        getSeo(),
+    ]);
 
     if (!selection) return { title: "Подборка не найдена" };
 
-    return {
+    return buildPageMetadata({
+        seo,
         title: `${selection.title} — Новый Коттедж`,
         description: selection.metaDescription,
-        alternates: { canonical: `/project-selections/${selection.slug}` },
-    };
+        path: `/project-selections/${selection.slug}`,
+    });
 }
 
 export default async function ProjectSelectionPage({ params }: Props) {
     const { slug } = await params;
-    const selection = getSelectionBySlug(slug);
+    const selection = await getSelectionBySlug(slug);
 
     if (!selection) notFound();
 
     const allProjects = await getProjects();
-    const projects = allProjects.filter(selection.filter);
+    const projects = allProjects.filter((p) =>
+        matchesSelection(p, selection.filter)
+    );
     const minArea = projects.length
         ? Math.min(...projects.map((project) => project.area))
         : 0;

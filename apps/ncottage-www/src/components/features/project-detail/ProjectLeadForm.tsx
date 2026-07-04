@@ -34,6 +34,7 @@ export function ProjectLeadForm({
             name: name.trim() || undefined,
             phone: phone.trim(),
             comment: comment.trim() || undefined,
+            consent: true,
         });
     }
 

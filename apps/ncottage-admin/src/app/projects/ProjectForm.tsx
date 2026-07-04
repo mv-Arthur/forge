@@ -1,313 +1,379 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import {
     PROJECT_FEATURES,
     PROJECT_LIVING_TYPES,
     PROJECT_STYLES,
-    TECHNOLOGIES,
     type Project,
+    TECHNOLOGIES,
 } from "@forge/shared";
-import type { ProjectFormState } from "./actions";
+import {
+    CheckboxField,
+    CheckboxGroupField,
+    NumberField,
+    SelectField,
+    TextareaField,
+    TextField,
+} from "@/components/form/fields";
+import { RepeaterField } from "@/components/form/repeater-field";
+import { GalleryField } from "@/components/media/gallery-field";
+import { MediaField } from "@/components/media/media-field";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import {
+    type ProjectFormValues,
+    emptyProjectValues,
+    formValuesToProject,
+    projectSchema,
+    projectToFormValues,
+} from "@/lib/project-schema";
+import { saveProjectAction } from "./actions";
+import { RelatedProjectsField } from "./RelatedProjectsField";
 
-type Action = (
-    state: ProjectFormState,
-    formData: FormData
-) => Promise<ProjectFormState>;
+type V = ProjectFormValues;
 
-const initialState: ProjectFormState = {};
+const enumOptions = (values: readonly string[]) =>
+    values.map((v) => ({ label: v, value: v }));
 
-function json(value: unknown): string {
-    return value ? JSON.stringify(value, null, 2) : "";
+function Section({
+    title,
+    children,
+}: {
+    title: string;
+    children: React.ReactNode;
+}) {
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle className="text-base">{title}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">{children}</CardContent>
+        </Card>
+    );
 }
 
 export function ProjectForm({
-    action,
     initial,
     submitLabel,
 }: {
-    action: Action;
     initial?: Project;
     submitLabel: string;
 }) {
-    const [state, formAction, pending] = useActionState(action, initialState);
-    const p = initial;
+    const router = useRouter();
+    const [pending, setPending] = useState(false);
+    const form = useForm<V>({
+        resolver: zodResolver(projectSchema),
+        defaultValues: initial
+            ? projectToFormValues(initial)
+            : emptyProjectValues(),
+    });
+
+    async function onSubmit(values: V) {
+        setPending(true);
+        const result = await saveProjectAction(
+            initial?.slug ?? null,
+            formValuesToProject(values)
+        );
+        setPending(false);
+        if (result.error) {
+            toast.error(result.error);
+            return;
+        }
+        toast.success(initial ? "Проект сохранён" : "Проект создан");
+        router.push("/projects");
+        router.refresh();
+    }
 
     return (
-        <form action={formAction}>
-            <div className="grid2">
-                <div className="field">
-                    <label htmlFor="slug">Slug</label>
-                    <input
-                        id="slug"
-                        name="slug"
-                        defaultValue={p?.slug}
-                        required
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="name">Название</label>
-                    <input
-                        id="name"
-                        name="name"
-                        defaultValue={p?.name}
-                        required
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="technology">Технология</label>
-                    <select
-                        id="technology"
-                        name="technology"
-                        defaultValue={p?.technology ?? TECHNOLOGIES[0]}
-                    >
-                        {TECHNOLOGIES.map((t) => (
-                            <option key={t} value={t}>
-                                {t}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="field">
-                    <label htmlFor="style">Стиль</label>
-                    <select
-                        id="style"
-                        name="style"
-                        defaultValue={p?.style ?? PROJECT_STYLES[0]}
-                    >
-                        {PROJECT_STYLES.map((s) => (
-                            <option key={s} value={s}>
-                                {s}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="field">
-                    <label htmlFor="livingType">Тип проживания</label>
-                    <select
-                        id="livingType"
-                        name="livingType"
-                        defaultValue={p?.livingType ?? PROJECT_LIVING_TYPES[0]}
-                    >
-                        {PROJECT_LIVING_TYPES.map((l) => (
-                            <option key={l} value={l}>
-                                {l}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="field">
-                    <label htmlFor="price">Цена, ₽</label>
-                    <input
-                        id="price"
-                        name="price"
-                        type="number"
-                        defaultValue={p?.price}
-                        required
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="area">Площадь, м²</label>
-                    <input
-                        id="area"
-                        name="area"
-                        type="number"
-                        defaultValue={p?.area}
-                        required
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="floors">Этажей</label>
-                    <input
-                        id="floors"
-                        name="floors"
-                        type="number"
-                        defaultValue={p?.floors}
-                        required
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="bedrooms">Спален</label>
-                    <input
-                        id="bedrooms"
-                        name="bedrooms"
-                        type="number"
-                        defaultValue={p?.bedrooms}
-                        required
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="bathrooms">Санузлов</label>
-                    <input
-                        id="bathrooms"
-                        name="bathrooms"
-                        type="number"
-                        defaultValue={p?.bathrooms}
-                        required
-                    />
-                </div>
-            </div>
-
-            <div className="field">
-                <label htmlFor="image">Главное изображение (путь)</label>
-                <input
-                    id="image"
-                    name="image"
-                    defaultValue={p?.image}
-                    required
-                />
-            </div>
-
-            <div className="field">
-                <label htmlFor="images">
-                    Галерея (по одному пути в строке)
-                </label>
-                <textarea
-                    id="images"
-                    name="images"
-                    defaultValue={p?.images.join("\n")}
-                />
-            </div>
-
-            <div className="field">
-                <label htmlFor="description">Описание</label>
-                <textarea
-                    id="description"
-                    name="description"
-                    defaultValue={p?.description}
-                    style={{ fontFamily: "inherit" }}
-                    required
-                />
-            </div>
-
-            <fieldset className="field">
-                <legend>Особенности</legend>
-                {PROJECT_FEATURES.map((f) => (
-                    <label
-                        key={f}
-                        style={{
-                            display: "inline-flex",
-                            gap: "0.3rem",
-                            marginRight: "1rem",
-                            fontWeight: 400,
-                        }}
-                    >
-                        <input
-                            type="checkbox"
-                            name="features"
-                            value={f}
-                            defaultChecked={p?.features.includes(f)}
-                            style={{ width: "auto" }}
-                        />
-                        {f}
-                    </label>
-                ))}
-            </fieldset>
-
-            <label
-                style={{
-                    display: "inline-flex",
-                    gap: "0.4rem",
-                    margin: "0.5rem 0 1rem",
-                }}
+        <Form {...form} schema={projectSchema}>
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="max-w-3xl space-y-6"
             >
-                <input
-                    type="checkbox"
-                    name="featured"
-                    defaultChecked={p?.featured}
-                    style={{ width: "auto" }}
-                />
-                Показывать на главной (featured)
-            </label>
+                <Section title="Основное">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        <TextField<V>
+                            name="slug"
+                            label="Slug"
+                            placeholder="nord"
+                        />
+                        <TextField<V>
+                            name="name"
+                            label="Название"
+                            placeholder="Норд"
+                        />
+                        <SelectField<V>
+                            name="technology"
+                            label="Технология"
+                            options={enumOptions(TECHNOLOGIES)}
+                        />
+                        <SelectField<V>
+                            name="style"
+                            label="Стиль"
+                            options={enumOptions(PROJECT_STYLES)}
+                        />
+                        <SelectField<V>
+                            name="livingType"
+                            label="Тип проживания"
+                            options={enumOptions(PROJECT_LIVING_TYPES)}
+                        />
+                    </div>
+                    <TextareaField<V>
+                        name="description"
+                        label="Описание"
+                        rows={5}
+                    />
+                    <CheckboxField<V>
+                        name="featured"
+                        label="Показывать на главной (featured)"
+                    />
+                </Section>
 
-            <h3>Характеристики</h3>
-            <div className="grid2">
-                <div className="field">
-                    <label htmlFor="specs.dimensions">Габариты</label>
-                    <input
-                        id="specs.dimensions"
-                        name="specs.dimensions"
-                        defaultValue={p?.specs.dimensions}
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="specs.roofType">Кровля</label>
-                    <input
-                        id="specs.roofType"
-                        name="specs.roofType"
-                        defaultValue={p?.specs.roofType}
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="specs.foundation">Фундамент</label>
-                    <input
-                        id="specs.foundation"
-                        name="specs.foundation"
-                        defaultValue={p?.specs.foundation}
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="specs.wallMaterial">Материал стен</label>
-                    <input
-                        id="specs.wallMaterial"
-                        name="specs.wallMaterial"
-                        defaultValue={p?.specs.wallMaterial}
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="specs.buildTime">Срок строительства</label>
-                    <input
-                        id="specs.buildTime"
-                        name="specs.buildTime"
-                        defaultValue={p?.specs.buildTime}
-                    />
-                </div>
-            </div>
+                <Section title="Параметры">
+                    <div className="grid gap-4 sm:grid-cols-3">
+                        <NumberField<V> name="price" label="Цена, ₽" />
+                        <NumberField<V> name="area" label="Площадь, м²" />
+                        <NumberField<V> name="floors" label="Этажей" />
+                        <NumberField<V> name="bedrooms" label="Спален" />
+                        <NumberField<V> name="bathrooms" label="Санузлов" />
+                    </div>
+                </Section>
 
-            <div className="field">
-                <label htmlFor="floorPlans">Планировки (JSON)</label>
-                <textarea
-                    id="floorPlans"
-                    name="floorPlans"
-                    defaultValue={json(p?.floorPlans)}
-                />
-            </div>
-            <div className="field">
-                <label htmlFor="packages">Комплектации (JSON)</label>
-                <textarea
-                    id="packages"
-                    name="packages"
-                    defaultValue={json(p?.packages)}
-                />
-            </div>
-            <div className="field">
-                <label htmlFor="options">Опции (JSON)</label>
-                <textarea
-                    id="options"
-                    name="options"
-                    defaultValue={json(p?.options)}
-                />
-            </div>
+                <Section title="Характеристики">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        <TextField<V>
+                            name="specs.dimensions"
+                            label="Габариты"
+                        />
+                        <TextField<V> name="specs.roofType" label="Кровля" />
+                        <TextField<V>
+                            name="specs.foundation"
+                            label="Фундамент"
+                        />
+                        <TextField<V>
+                            name="specs.wallMaterial"
+                            label="Материал стен"
+                        />
+                        <TextField<V>
+                            name="specs.buildTime"
+                            label="Срок строительства"
+                        />
+                    </div>
+                </Section>
 
-            <div className="field">
-                <label htmlFor="relatedObjectIds">
-                    Связанные объекты (id по строкам)
-                </label>
-                <textarea
-                    id="relatedObjectIds"
-                    name="relatedObjectIds"
-                    defaultValue={p?.relatedObjectIds?.join("\n")}
-                />
-            </div>
-            <div className="field">
-                <label htmlFor="pdfUrl">PDF (путь)</label>
-                <input id="pdfUrl" name="pdfUrl" defaultValue={p?.pdfUrl} />
-            </div>
+                <Section title="Особенности">
+                    <CheckboxGroupField<V>
+                        name="features"
+                        options={enumOptions(PROJECT_FEATURES)}
+                    />
+                </Section>
 
-            {state.error && <p className="error">{state.error}</p>}
-            <button type="submit" disabled={pending}>
-                {pending ? "Сохранение…" : submitLabel}
-            </button>
-        </form>
+                <Section title="Медиа">
+                    <MediaField<V>
+                        name="image"
+                        label="Главное изображение"
+                        folder="projects"
+                    />
+                    <GalleryField<V>
+                        name="images"
+                        label="Галерея"
+                        folder="projects"
+                    />
+                    <TextField<V> name="pdfUrl" label="PDF (путь, опц.)" />
+                </Section>
+
+                <Section title="Планировки">
+                    <RepeaterField<V>
+                        name="floorPlans"
+                        addLabel="Добавить планировку"
+                        emptyMessage="Планировок нет"
+                        newItem={() => ({
+                            label: "",
+                            image: "",
+                            area: undefined,
+                            rooms: [],
+                        })}
+                        itemLabel={(i) =>
+                            form.watch(`floorPlans.${i}.label`) ||
+                            `Планировка ${i + 1}`
+                        }
+                        renderItem={(i) => (
+                            <div className="space-y-3">
+                                <div className="grid gap-3 sm:grid-cols-2">
+                                    <TextField<V>
+                                        name={`floorPlans.${i}.label`}
+                                        label="Название"
+                                    />
+                                    <NumberField<V>
+                                        name={`floorPlans.${i}.area`}
+                                        label="Площадь, м²"
+                                    />
+                                </div>
+                                <TextField<V>
+                                    name={`floorPlans.${i}.image`}
+                                    label="Изображение (путь)"
+                                />
+                                <RepeaterField<V>
+                                    name={`floorPlans.${i}.rooms`}
+                                    label="Комнаты"
+                                    addLabel="Добавить комнату"
+                                    emptyMessage="Комнат нет"
+                                    newItem={() => ({ name: "", area: 0 })}
+                                    itemLabel={(j) =>
+                                        form.watch(
+                                            `floorPlans.${i}.rooms.${j}.name`
+                                        ) || `Комната ${j + 1}`
+                                    }
+                                    renderItem={(j) => (
+                                        <div className="grid gap-3 sm:grid-cols-2">
+                                            <TextField<V>
+                                                name={`floorPlans.${i}.rooms.${j}.name`}
+                                                label="Название"
+                                            />
+                                            <NumberField<V>
+                                                name={`floorPlans.${i}.rooms.${j}.area`}
+                                                label="Площадь, м²"
+                                            />
+                                        </div>
+                                    )}
+                                />
+                            </div>
+                        )}
+                    />
+                </Section>
+
+                <Section title="Комплектации">
+                    <RepeaterField<V>
+                        name="packages"
+                        addLabel="Добавить комплектацию"
+                        emptyMessage="Комплектаций нет"
+                        newItem={() => ({
+                            name: "",
+                            price: 0,
+                            tagline: "",
+                            highlighted: false,
+                            includes: [],
+                        })}
+                        itemLabel={(i) =>
+                            form.watch(`packages.${i}.name`) ||
+                            `Комплектация ${i + 1}`
+                        }
+                        renderItem={(i) => (
+                            <div className="space-y-3">
+                                <div className="grid gap-3 sm:grid-cols-2">
+                                    <TextField<V>
+                                        name={`packages.${i}.name`}
+                                        label="Название"
+                                    />
+                                    <NumberField<V>
+                                        name={`packages.${i}.price`}
+                                        label="Цена, ₽"
+                                    />
+                                </div>
+                                <TextField<V>
+                                    name={`packages.${i}.tagline`}
+                                    label="Подпись (опц.)"
+                                />
+                                <CheckboxField<V>
+                                    name={`packages.${i}.highlighted`}
+                                    label="Выделить"
+                                />
+                                <RepeaterField<V>
+                                    name={`packages.${i}.includes`}
+                                    label="Что входит"
+                                    addLabel="Добавить пункт"
+                                    emptyMessage="Пунктов нет"
+                                    newItem={() => ({ label: "", value: "" })}
+                                    itemLabel={(j) =>
+                                        form.watch(
+                                            `packages.${i}.includes.${j}.label`
+                                        ) || `Пункт ${j + 1}`
+                                    }
+                                    renderItem={(j) => (
+                                        <div className="grid gap-3 sm:grid-cols-2">
+                                            <TextField<V>
+                                                name={`packages.${i}.includes.${j}.label`}
+                                                label="Название"
+                                            />
+                                            <TextField<V>
+                                                name={`packages.${i}.includes.${j}.value`}
+                                                label="Значение"
+                                            />
+                                        </div>
+                                    )}
+                                />
+                            </div>
+                        )}
+                    />
+                </Section>
+
+                <Section title="Опции">
+                    <RepeaterField<V>
+                        name="options"
+                        addLabel="Добавить опцию"
+                        emptyMessage="Опций нет"
+                        newItem={() => ({ label: "", price: 0, note: "" })}
+                        itemLabel={(i) =>
+                            form.watch(`options.${i}.label`) || `Опция ${i + 1}`
+                        }
+                        renderItem={(i) => (
+                            <div className="space-y-3">
+                                <div className="grid gap-3 sm:grid-cols-2">
+                                    <TextField<V>
+                                        name={`options.${i}.label`}
+                                        label="Название"
+                                    />
+                                    <NumberField<V>
+                                        name={`options.${i}.price`}
+                                        label="Цена, ₽"
+                                    />
+                                </div>
+                                <TextField<V>
+                                    name={`options.${i}.note`}
+                                    label="Примечание (опц.)"
+                                />
+                            </div>
+                        )}
+                    />
+                </Section>
+
+                <Section title="Связанные объекты">
+                    <RelatedProjectsField currentSlug={initial?.slug} />
+                </Section>
+
+                <Section title="SEO">
+                    <TextField<V>
+                        name="seoTitle"
+                        label="SEO-заголовок"
+                        placeholder="Необязательно — по умолчанию из контента"
+                    />
+                    <TextareaField<V>
+                        name="seoDescription"
+                        label="SEO-описание"
+                        rows={2}
+                        placeholder="Необязательно — по умолчанию из описания"
+                    />
+                </Section>
+
+                <div className="sticky bottom-0 flex items-center gap-2 border-t bg-background/95 py-4 backdrop-blur">
+                    <Button type="submit" disabled={pending}>
+                        {pending ? "Сохранение…" : submitLabel}
+                    </Button>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => router.push("/projects")}
+                    >
+                        Отмена
+                    </Button>
+                </div>
+            </form>
+        </Form>
     );
 }

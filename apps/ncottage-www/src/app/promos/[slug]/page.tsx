@@ -4,33 +4,42 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { getPromoBySlug, PROMOS } from "../promos";
+import { getPromoBySlug, getPromos } from "@/data/promos";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
+import { PromoLeadForm } from "../PromoLeadForm";
 import styles from "../page.module.css";
 
 interface Props {
     params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-    return PROMOS.map((promo) => ({ slug: promo.slug }));
+export async function generateStaticParams() {
+    const promos = await getPromos();
+    return promos.map((promo) => ({ slug: promo.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const promo = getPromoBySlug(slug);
+    const [promo, seo] = await Promise.all([getPromoBySlug(slug), getSeo()]);
 
     if (!promo) return { title: "Акция не найдена" };
 
-    return {
-        title: `${promo.shortTitle} по специальным условиям | Новый Коттедж`,
-        description: `${promo.lead} ${promo.price}. Условия и заявка на полный расчёт строительства дома.`,
-        alternates: { canonical: `/promos/${promo.slug}` },
-    };
+    return buildPageMetadata({
+        seo,
+        title:
+            promo.seoTitle ??
+            `${promo.shortTitle} по специальным условиям | Новый Коттедж`,
+        description:
+            promo.seoDescription ??
+            `${promo.lead} ${promo.price}. Условия и заявка на полный расчёт строительства дома.`,
+        path: `/promos/${promo.slug}`,
+    });
 }
 
 export default async function PromoDetailPage({ params }: Props) {
     const { slug } = await params;
-    const promo = getPromoBySlug(slug);
+    const promo = await getPromoBySlug(slug);
 
     if (!promo) notFound();
 
@@ -130,39 +139,11 @@ export default async function PromoDetailPage({ params }: Props) {
                             ваш участок.
                         </p>
                     </div>
-                    <form
-                        className={styles.form}
-                        action={`/promos/${promo.slug}`}
-                    >
-                        <input
-                            name="name"
-                            type="text"
-                            placeholder="Ваше имя"
-                            autoComplete="name"
-                        />
-                        <input
-                            name="phone"
-                            type="tel"
-                            placeholder="Телефон *"
-                            autoComplete="tel"
-                            required
-                        />
-                        <input
-                            name="promo"
-                            type="hidden"
-                            value={promo.shortTitle}
-                        />
-                        <textarea
-                            name="message"
-                            rows={4}
-                            placeholder="Площадь дома, участок, сроки строительства"
-                        />
-                        <button type="submit">Получить полный расчёт</button>
-                        <p>
-                            Нажимая кнопку, вы соглашаетесь с обработкой
-                            персональных данных.
-                        </p>
-                    </form>
+                    <PromoLeadForm
+                        buttonLabel="Получить полный расчёт"
+                        messagePlaceholder="Площадь дома, участок, сроки строительства"
+                        promoTitle={promo.shortTitle}
+                    />
                 </section>
             </Container>
         </section>

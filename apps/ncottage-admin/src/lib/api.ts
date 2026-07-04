@@ -1,6 +1,13 @@
+import { redirect } from "next/navigation";
 import { getToken } from "./session";
 
 const API_URL = process.env.NCOTTAGE_API_URL ?? "http://localhost:3002";
+
+// 401 = протухший/невалидный токен: разлогиниваем и уводим на /login вместо
+// падения в error.tsx с сырым текстом ошибки.
+function redirectIfUnauthorized(status: number): void {
+    if (status === 401) redirect("/logout");
+}
 
 async function authHeaders(): Promise<Record<string, string>> {
     const token = await getToken();
@@ -13,9 +20,47 @@ export async function apiGet<T>(path: string): Promise<T> {
         cache: "no-store",
     });
     if (!res.ok) {
+        redirectIfUnauthorized(res.status);
         throw new Error(`GET ${path} failed: ${res.status}`);
     }
     return res.json() as Promise<T>;
+}
+
+export interface ApiUploadResult<T> {
+    ok: boolean;
+    status: number;
+    data?: T;
+    error?: string;
+}
+
+// Multipart forward (auth header only; fetch sets the multipart boundary).
+export async function apiUpload<T>(
+    path: string,
+    form: FormData
+): Promise<ApiUploadResult<T>> {
+    const res = await fetch(`${API_URL}${path}`, {
+        method: "POST",
+        headers: await authHeaders(),
+        body: form,
+        cache: "no-store",
+    });
+    if (res.ok) {
+        return { ok: true, status: res.status, data: (await res.json()) as T };
+    }
+    redirectIfUnauthorized(res.status);
+    let error = `Загрузка не выполнена (${res.status})`;
+    try {
+        const data: unknown = await res.json();
+        if (data && typeof data === "object" && "message" in data) {
+            const message = (data as { message: unknown }).message;
+            error = Array.isArray(message)
+                ? message.join(", ")
+                : String(message);
+        }
+    } catch {
+        // keep default
+    }
+    return { ok: false, status: res.status, error };
 }
 
 export interface ApiResult {
@@ -25,7 +70,7 @@ export interface ApiResult {
 }
 
 export async function apiSend(
-    method: "POST" | "PATCH" | "DELETE",
+    method: "POST" | "PUT" | "PATCH" | "DELETE",
     path: string,
     body?: unknown
 ): Promise<ApiResult> {
@@ -41,6 +86,7 @@ export async function apiSend(
     if (res.ok) {
         return { ok: true, status: res.status };
     }
+    redirectIfUnauthorized(res.status);
     let error = `Запрос не выполнен (${res.status})`;
     try {
         const data: unknown = await res.json();

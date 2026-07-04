@@ -1,14 +1,14 @@
 .page {
-    padding: 72px 0 96px;
+    padding: var(--space-72) 0 var(--space-96);
     background: var(--color-bg);
 }
 
 .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(340px, 0.52fr);
-    gap: 56px;
+    gap: var(--space-56);
     align-items: stretch;
-    padding: 28px 0 56px;
+    padding: var(--space-28) 0 var(--space-56);
 }
 
 .cta {
@@ -17,7 +17,7 @@
     justify-content: center;
     min-height: 48px;
     border-radius: var(--radius-pill);
-    padding: 0 24px;
+    padding: 0 var(--space-24);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
     font-size: var(--text-sm);
@@ -31,7 +31,7 @@
 }
 
 .hero .cta {
-    margin-top: 32px;
+    margin-top: var(--space-32);
 }
 
 .heroPanel {
@@ -47,7 +47,7 @@
     background:
         radial-gradient(
             circle at 18% 18%,
-            rgba(156, 74, 45, 0.18),
+            rgb(var(--color-accent-rgb) / 0.18),
             transparent 32%
         ),
         linear-gradient(135deg, var(--color-surface), var(--color-surface-alt));
@@ -93,9 +93,9 @@
 .layout {
     display: grid;
     grid-template-columns: 280px minmax(0, 1fr);
-    gap: 56px;
+    gap: var(--space-56);
     align-items: start;
-    margin-top: 40px;
+    margin-top: var(--space-40);
 }
 
 .navCard {
@@ -103,11 +103,11 @@
     top: calc(var(--site-header-height) + 32px);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--space-20);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
-    padding: 28px;
+    padding: var(--space-28);
     box-shadow: var(--shadow-soft);
 }
 
@@ -121,7 +121,7 @@
 .navCard nav {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-12);
 }
 
 .navCard a {
@@ -136,7 +136,7 @@
 .groups {
     display: flex;
     flex-direction: column;
-    gap: 64px;
+    gap: var(--space-64);
 }
 
 .group {
@@ -144,7 +144,7 @@
 }
 
 .group h2 {
-    margin: 0 0 24px;
+    margin: 0 0 var(--space-24);
     font-family: var(--font-display-stack);
     font-size: var(--text-3xl);
     font-style: italic;
@@ -165,8 +165,8 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 24px;
-    padding: 24px 44px 24px 0;
+    gap: var(--space-24);
+    padding: var(--space-24) var(--space-44) var(--space-24) 0;
     color: var(--color-ink);
     font-size: var(--text-lg);
     font-weight: 600;
@@ -208,7 +208,7 @@
 .item p {
     max-width: 760px;
     margin: 0;
-    padding: 0 44px 28px 0;
+    padding: 0 var(--space-44) var(--space-28) 0;
     color: var(--color-ink-muted);
     line-height: 1.7;
 }
@@ -220,7 +220,7 @@
 
     .layout {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: var(--space-40);
     }
 
     .navCard {
@@ -235,15 +235,15 @@
 
 @media (max-width: 640px) {
     .page {
-        padding: 90px 0 64px;
+        padding: 90px 0 var(--space-64);
     }
 
     .layout {
-        margin-top: 48px;
+        margin-top: var(--space-48);
     }
 
     .groups {
-        gap: 48px;
+        gap: var(--space-48);
     }
 
     .heroPanel {

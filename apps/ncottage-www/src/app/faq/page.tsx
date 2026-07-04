@@ -3,86 +3,38 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getFaqItems, groupFaqItems } from "@/data/faq";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
+import { slugify } from "@/lib/slugify";
+import { faqPageJsonLd } from "@/lib/structured-data";
 import styles from "./page.module.css";
 
-const groups = [
-    {
-        title: "Строительство",
-        items: [
-            {
-                question:
-                    "Пригодны ли каркасные дома для проживания круглый год?",
-                answer: "Да. Каркасные проекты рассчитаны на постоянное проживание: многослойные стены держат температурные перепады, утепление сохраняет тепло зимой, а отопление подбирается под площадь дома.",
-            },
-            {
-                question: "Долговечны ли каркасные дома?",
-                answer: "Срок службы зависит от материалов и соблюдения технологии. Компания использует обработанные материалы, защищенные от плесени, вредителей и гниения, и контролирует качество на ключевых этапах.",
-            },
-            {
-                question: "В какое время года лучше строить коттедж?",
-                answer: "Строить можно в любой сезон. Весной и летом быстрее идут бетонные и отделочные работы, осенью и зимой сроки могут увеличиваться из-за погодных условий.",
-            },
-            {
-                question: "Как быстро можно установить каркасный дом?",
-                answer: "Срок зависит от участка, документации, сезона, очередности бригад, этажности и сложности проекта. На подготовленном участке с фундаментом монтаж каркасного дома может занять около двух недель.",
-            },
-        ],
-    },
-    {
-        title: "Проектирование",
-        items: [
-            {
-                question: "Строите ли вы по индивидуальным проектам?",
-                answer: "Да. Архитекторы и проектировщики разрабатывают индивидуальные проекты для домов из СИП-панелей, кирпича, газобетона и по технологии фахверк с учетом участка и пожеланий заказчика.",
-            },
-            {
-                question: "Что входит в услугу проектирования дома?",
-                answer: "В работу входит техническое задание, комплект чертежей, архитектурный проект и решения по инженерным коммуникациям. Проект проверяется на архитектурное, монтажное и конструктивное соответствие.",
-            },
-            {
-                question: "Можно ли сделать проект по картинке из интернета?",
-                answer: "Можно. Изображение берется как референс, а команда адаптирует идею под участок, коммуникации, бюджет и требования к будущему дому.",
-            },
-            {
-                question: "Нужно ли платить за изменение типового проекта?",
-                answer: "Небольшие правки типового проекта чаще всего не требуют отдельной оплаты. Существенные изменения рассчитываются по прайсу и включаются в смету.",
-            },
-        ],
-    },
-    {
-        title: "Контроль и гарантия",
-        items: [
-            {
-                question: "Как контролируется строительство?",
-                answer: "Технический надзор проверяет геометрию фундамента, бетонные работы, монтаж каркаса и стропил, вентиляцию, утепление и отделку. Перед сдачей проводится дополнительная проверка.",
-            },
-            {
-                question: "В каком случае предоставляется гарантия?",
-                answer: "Гарантийные обращения рассматриваются при конструктивных дефектах, заводском браке материалов или нарушениях строительных норм. Самовольные изменения, не согласованные в проекте, могут прекратить действие гарантии.",
-            },
-            {
-                question:
-                    "Предусмотрено ли подключение инженерных коммуникаций?",
-                answer: "Дом под ключ может быть готов к проживанию, но подключение к внешним инженерным сетям обсуждается и фиксируется на этапе заключения договора.",
-            },
-            {
-                question: "Предоставляете ли демонтаж старых зданий?",
-                answer: "Да, демонтаж возможен по согласованию. Специалисты очищают участок от ненужных построек, а стоимость этой опции включается в смету.",
-            },
-        ],
-    },
-];
+function pluralSections(n: number) {
+    if (n === 1) return "раздел";
+    if (n >= 2 && n <= 4) return "раздела";
+    return "разделов";
+}
 
-export const metadata: Metadata = {
-    title: "Вопрос-ответ | Новый Коттедж",
-    description:
-        "Частые вопросы о строительстве домов, проектировании, сроках, контроле качества, инженерных коммуникациях и гарантии.",
-    alternates: { canonical: "/faq" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["faq"].title,
+        description: seo.indexes["faq"].description,
+        path: "/faq",
+    });
+}
 
-export default function FaqPage() {
+export default async function FaqPage() {
+    const items = await getFaqItems();
+    const groups = groupFaqItems(items);
+
     return (
         <section className={styles.page}>
+            <JsonLd data={faqPageJsonLd(items)} />
             <Container>
                 <Breadcrumbs
                     items={[
@@ -109,8 +61,11 @@ export default function FaqPage() {
                         <span>Темы</span>
                         <strong>{groups.length}</strong>
                         <p>
-                            раздела: строительство, проектирование, контроль
-                            качества и гарантийные обязательства.
+                            {pluralSections(groups.length)}:{" "}
+                            {groups
+                                .map((group) => group.title.toLowerCase())
+                                .join(", ")}
+                            .
                         </p>
                     </aside>
                 </section>
@@ -120,25 +75,34 @@ export default function FaqPage() {
                         <span>Разделы</span>
                         <nav>
                             {groups.map((group) => (
-                                <a key={group.title} href={`#${group.title}`}>
+                                <a
+                                    key={group.title}
+                                    href={`#${slugify(group.title)}`}
+                                >
                                     {group.title}
                                 </a>
                             ))}
                         </nav>
                     </aside>
 
+                    {groups.length === 0 && (
+                        <EmptyState
+                            title="Вопросов пока нет"
+                            description="Мы наполняем раздел ответами — задайте свой вопрос, и мы ответим лично."
+                        />
+                    )}
                     <div className={styles.groups}>
                         {groups.map((group) => (
                             <section
                                 key={group.title}
-                                id={group.title}
+                                id={slugify(group.title)}
                                 className={styles.group}
                             >
                                 <h2>{group.title}</h2>
                                 <div className={styles.list}>
                                     {group.items.map((item, index) => (
                                         <details
-                                            key={item.question}
+                                            key={item.slug}
                                             className={styles.item}
                                             open={index === 0}
                                         >

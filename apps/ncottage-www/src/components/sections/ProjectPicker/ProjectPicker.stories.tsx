@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PROJECT_PICKER } from "@/content/home";
+import { PROJECT_PICKER } from "@/data/pages/home";
 import { ProjectPicker } from "./ProjectPicker";
 
 const meta: Meta<typeof ProjectPicker> = {

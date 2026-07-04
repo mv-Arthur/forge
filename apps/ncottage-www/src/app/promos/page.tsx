@@ -3,17 +3,26 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { PROMOS } from "./promos";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
+import { getPromos } from "@/data/promos";
+import { getSeo } from "@/data/settings";
+import { buildPageMetadata } from "@/lib/seo";
+import { PromoLeadForm } from "./PromoLeadForm";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-    title: "Специальные предложения на строительство домов | Новый Коттедж",
-    description:
-        "Акции компании Новый Коттедж: специальные цены на каркасные и газобетонные дома, условия, комплектации и заявка на полный расчёт.",
-    alternates: { canonical: "/promos" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeo();
+    return buildPageMetadata({
+        seo,
+        title: seo.indexes["promos"].title,
+        description: seo.indexes["promos"].description,
+        path: "/promos",
+    });
+}
 
-export default function PromosPage() {
+export default async function PromosPage() {
+    const promos = await getPromos();
+
     return (
         <section className={styles.page}>
             <Container>
@@ -76,8 +85,14 @@ export default function PromosPage() {
                         className={styles.sectionHead}
                     />
 
+                    {promos.length === 0 && (
+                        <EmptyState
+                            title="Акций пока нет"
+                            description="Сейчас активных предложений нет — свяжитесь с нами, и мы подберём условия под ваш проект."
+                        />
+                    )}
                     <div className={styles.cardsGrid}>
-                        {PROMOS.map((promo) => (
+                        {promos.map((promo) => (
                             <article
                                 key={promo.slug}
                                 className={styles.promoCard}
@@ -103,9 +118,11 @@ export default function PromosPage() {
                                 </div>
 
                                 <ul className={styles.checkList}>
-                                    {promo.includes.slice(0, 4).map((item) => (
-                                        <li key={item}>{item}</li>
-                                    ))}
+                                    {promo.includes
+                                        .slice(0, 4)
+                                        .map((item, index) => (
+                                            <li key={index}>{item}</li>
+                                        ))}
                                 </ul>
 
                                 <div className={styles.cardFooter}>
@@ -171,44 +188,11 @@ export default function PromosPage() {
                             следующий шаг.
                         </p>
                     </div>
-                    <form className={styles.form} action="/promos">
-                        <input
-                            name="name"
-                            type="text"
-                            placeholder="Ваше имя"
-                            autoComplete="name"
-                        />
-                        <input
-                            name="phone"
-                            type="tel"
-                            placeholder="Телефон *"
-                            autoComplete="tel"
-                            required
-                        />
-                        <select name="technology" defaultValue="">
-                            <option value="" disabled>
-                                Интересующая технология
-                            </option>
-                            {PROMOS.map((promo) => (
-                                <option
-                                    key={promo.slug}
-                                    value={promo.shortTitle}
-                                >
-                                    {promo.shortTitle}
-                                </option>
-                            ))}
-                        </select>
-                        <textarea
-                            name="message"
-                            rows={4}
-                            placeholder="Площадь, участок, пожелания по комплектации"
-                        />
-                        <button type="submit">Получить расчёт</button>
-                        <p>
-                            Нажимая кнопку, вы соглашаетесь с обработкой
-                            персональных данных.
-                        </p>
-                    </form>
+                    <PromoLeadForm
+                        buttonLabel="Получить расчёт"
+                        messagePlaceholder="Площадь, участок, пожелания по комплектации"
+                        options={promos.map((promo) => promo.shortTitle)}
+                    />
                 </section>
             </Container>
         </section>

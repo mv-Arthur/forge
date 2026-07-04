@@ -39,7 +39,7 @@
 
 .trackInner {
     display: flex;
-    gap: 20px;
+    gap: var(--space-20);
     padding: 0
         max(
             var(--container-padding),

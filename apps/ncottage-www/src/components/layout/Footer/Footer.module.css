@@ -1,25 +1,25 @@
 .footer {
     background: var(--color-ink);
     color: var(--color-ink-on-accent);
-    padding: 80px 0 32px;
+    padding: var(--space-80) 0 var(--space-32);
 }
 
 .inner {
     display: flex;
     flex-direction: column;
-    gap: 64px;
+    gap: var(--space-64);
 }
 
 .top {
     display: grid;
     grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr;
-    gap: 48px;
+    gap: var(--space-48);
 }
 
 .brand {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: var(--space-20);
 }
 
 .logo {
@@ -37,7 +37,7 @@
 .tagline {
     font-size: var(--text-base);
     line-height: 1.55;
-    color: rgba(250, 248, 243, 0.7);
+    color: rgb(var(--color-bg-rgb) / 0.7);
     max-width: 320px;
     margin: 0;
 }
@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-top: 4px;
+    margin-top: var(--space-4);
 }
 
 .socialLabel {
@@ -54,7 +54,7 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.5);
+    color: rgb(var(--color-bg-rgb) / 0.5);
 }
 
 .socialBtn {
@@ -64,8 +64,8 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-pill);
-    background: rgba(250, 248, 243, 0.06);
-    border: 1px solid rgba(250, 248, 243, 0.16);
+    background: rgb(var(--color-bg-rgb) / 0.06);
+    border: 1px solid rgb(var(--color-bg-rgb) / 0.16);
     color: var(--color-ink-on-accent);
     transition:
         background-color var(--transition),
@@ -84,7 +84,7 @@
 .col {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-16);
     min-width: 0;
 }
 
@@ -94,7 +94,7 @@
     font-weight: 400;
     font-size: var(--text-xl);
     color: var(--color-ink-on-accent);
-    margin: 0 0 4px;
+    margin: 0 0 var(--space-4);
 }
 
 .colList,
@@ -105,12 +105,12 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-10);
 }
 
 .colLink {
     font-size: var(--text-sm);
-    color: rgba(250, 248, 243, 0.65);
+    color: rgb(var(--color-bg-rgb) / 0.65);
     transition: color var(--transition);
 }
 
@@ -121,9 +121,9 @@
 .contactItem {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(250, 248, 243, 0.12);
+    gap: var(--space-2);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid rgb(var(--color-bg-rgb) / 0.12);
 }
 
 .contactItem:last-child {
@@ -136,7 +136,7 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.45);
+    color: rgb(var(--color-bg-rgb) / 0.62);
 }
 
 .contactPhone {
@@ -153,7 +153,7 @@
 .contactLink {
     font-size: var(--text-sm);
     color: var(--color-ink-on-accent);
-    border-bottom: 1px solid rgba(250, 248, 243, 0.3);
+    border-bottom: 1px solid rgb(var(--color-bg-rgb) / 0.3);
     align-self: flex-start;
     transition:
         color var(--transition),
@@ -167,14 +167,14 @@
 
 .contactMute {
     font-size: var(--text-xs);
-    color: rgba(250, 248, 243, 0.45);
-    margin-top: 2px;
+    color: rgb(var(--color-bg-rgb) / 0.62);
+    margin-top: var(--space-2);
 }
 
 .officeItem {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-4);
 }
 
 .officeLabel {
@@ -182,33 +182,33 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(250, 248, 243, 0.45);
+    color: rgb(var(--color-bg-rgb) / 0.62);
 }
 
 .officeAddress {
     font-size: var(--text-sm);
     line-height: 1.5;
-    color: rgba(250, 248, 243, 0.85);
+    color: rgb(var(--color-bg-rgb) / 0.85);
 }
 
 .middle {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-top: 32px;
-    border-top: 1px solid rgba(250, 248, 243, 0.16);
+    gap: var(--space-8);
+    padding-top: var(--space-32);
+    border-top: 1px solid rgb(var(--color-bg-rgb) / 0.16);
 }
 
 .legal {
     font-size: var(--text-sm);
-    color: rgba(250, 248, 243, 0.65);
+    color: rgb(var(--color-bg-rgb) / 0.65);
     margin: 0;
 }
 
 .disclaimer {
     font-size: var(--text-xs);
     line-height: 1.55;
-    color: rgba(250, 248, 243, 0.45);
+    color: rgb(var(--color-bg-rgb) / 0.62);
     margin: 0;
     max-width: 920px;
 }
@@ -217,15 +217,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: var(--space-24);
     flex-wrap: wrap;
-    padding-top: 24px;
-    border-top: 1px solid rgba(250, 248, 243, 0.16);
+    padding-top: var(--space-24);
+    border-top: 1px solid rgb(var(--color-bg-rgb) / 0.16);
 }
 
 .copyright {
     font-size: var(--text-xs);
-    color: rgba(250, 248, 243, 0.45);
+    color: rgb(var(--color-bg-rgb) / 0.62);
 }
 
 .bottomLinks {
@@ -234,12 +234,12 @@
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: var(--space-24);
 }
 
 .bottomLink {
     font-size: var(--text-xs);
-    color: rgba(250, 248, 243, 0.45);
+    color: rgb(var(--color-bg-rgb) / 0.62);
     transition: color var(--transition);
 }
 
@@ -285,7 +285,7 @@
 @media (max-width: 1080px) {
     .top {
         grid-template-columns: 1fr 1fr;
-        gap: 40px;
+        gap: var(--space-40);
     }
 
     .brand {
@@ -295,22 +295,22 @@
 
 @media (max-width: 600px) {
     .footer {
-        padding: 56px 0 24px;
+        padding: var(--space-56) 0 var(--space-24);
     }
 
     .inner {
-        gap: 48px;
+        gap: var(--space-48);
     }
 
     .top {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: var(--space-36);
     }
 
     .bottom {
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: var(--space-12);
     }
 
     .toTop {

@@ -94,6 +94,8 @@ export interface Project {
     options?: ProjectOption[];
     relatedObjectIds?: string[];
     pdfUrl?: string;
+    seoTitle?: string;
+    seoDescription?: string;
 }
 
 export interface BuiltObject {
@@ -103,5 +105,9 @@ export interface BuiltObject {
     href: string;
     area?: number;
     location?: string;
+    // Тип («Дом»/«Баня») и технология опциональны; если не заданы, www выводит
+    // их эвристикой по заголовку.
+    type?: string;
+    technology?: string;
     coords?: { lat: number; lng: number };
 }

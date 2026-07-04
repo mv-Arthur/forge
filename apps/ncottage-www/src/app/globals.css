@@ -6,12 +6,15 @@
 
     --color-ink: #1a1a1a;
     --color-ink-muted: #6b6b68;
-    --color-ink-subtle: #9a9a96;
+    /* Достаточно тёмный для WCAG AA (>=4.5:1) на светлых фонах bg/surface. */
+    --color-ink-subtle: #6a6a66;
     --color-ink-on-accent: #faf8f3;
 
     --color-accent: #9c4a2d;
     --color-accent-hover: #b25734;
     --color-accent-soft: #f4e7dd;
+    /* Светлый терракотовый для текста на тёмном фоне (WCAG AA). */
+    --color-accent-on-dark: #d98a6e;
 
     --color-sand: #e9e2d2;
     --color-line: #e6e2d9;
@@ -25,19 +28,18 @@
     --color-brand-green: #479332;
     --color-brand-green-hover: #52a73a;
 
-    /* Legacy aliases — kept for components not yet migrated */
-    --color-green: var(--color-brand-green);
-    --color-green-hover: var(--color-brand-green-hover);
-    --color-green-dark: #3d7e2a;
-    --color-red: var(--color-danger);
-    --color-bg-light: var(--color-surface-alt);
-    --color-bg-green: var(--color-accent);
-    --color-text: var(--color-ink-muted);
-    --color-text-dark: var(--color-ink);
-    --color-text-light: var(--color-ink-subtle);
-    --color-text-white: var(--color-ink-on-accent);
-    --color-border: var(--color-line);
-    --color-border-light: var(--color-line-strong);
+    /* RGB channel triplets — mirror the hex palette above, for translucent
+       fills via rgb(var(--…-rgb) / <alpha>). Keep in sync with the hex tokens. */
+    --color-bg-rgb: 250 248 243;
+    --color-surface-rgb: 255 255 255;
+    --color-surface-alt-rgb: 243 239 230;
+    --color-ink-rgb: 26 26 26;
+    --color-accent-rgb: 156 74 45;
+    --color-accent-soft-rgb: 244 231 221;
+    --color-line-rgb: 230 226 217;
+    --color-line-strong-rgb: 207 201 188;
+    --color-danger-rgb: 179 64 47;
+    --color-brand-green-rgb: 71 147 50;
 
     /* Typography */
     --font-sans-stack:
@@ -70,9 +72,33 @@
     --radius-lg: 16px;
     --radius-pill: 999px;
 
+    /* Spacing scale — 4px grid with 2/6/10 half-steps. Use for gap/padding/margin
+       so the rhythm stays consistent; off-scale one-offs stay raw on purpose. */
+    --space-2: 2px;
+    --space-4: 4px;
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-10: 10px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-20: 20px;
+    --space-24: 24px;
+    --space-28: 28px;
+    --space-32: 32px;
+    --space-36: 36px;
+    --space-40: 40px;
+    --space-44: 44px;
+    --space-48: 48px;
+    --space-56: 56px;
+    --space-64: 64px;
+    --space-72: 72px;
+    --space-80: 80px;
+    --space-88: 88px;
+    --space-96: 96px;
+
     /* Elevation — almost imperceptible, lines do the work */
-    --shadow-soft: 0 1px 2px rgba(26, 26, 26, 0.04);
-    --shadow-pop: 0 12px 32px -16px rgba(26, 26, 26, 0.18);
+    --shadow-soft: 0 1px 2px rgb(var(--color-ink-rgb) / 0.04);
+    --shadow-pop: 0 12px 32px -16px rgb(var(--color-ink-rgb) / 0.18);
 
     /* Motion */
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -205,7 +231,7 @@ select {
     border-radius: 2px;
 }
 
-/* Display headings — Fraunces, only for hero/section h1–h2 use cases */
+/* Display headings — Playfair Display, only for hero/section h1–h2 use cases */
 .display {
     font-family: var(--font-display-stack);
     font-weight: 400;

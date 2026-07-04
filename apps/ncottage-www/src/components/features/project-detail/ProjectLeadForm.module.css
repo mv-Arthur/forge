@@ -1,8 +1,8 @@
 .wrap {
     display: grid;
     grid-template-columns: 1fr 1.05fr;
-    gap: 48px;
-    padding: 56px;
+    gap: var(--space-48);
+    padding: var(--space-56);
     background-color: var(--color-surface-alt);
     border-radius: var(--radius-lg);
     align-items: start;
@@ -11,7 +11,7 @@
 .left {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-16);
 }
 
 .eyebrow {
@@ -45,8 +45,8 @@
 .bullets {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: 8px;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
 }
 
 .bullets li {
@@ -70,8 +70,8 @@
 .form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 32px;
+    gap: var(--space-16);
+    padding: var(--space-32);
     background-color: var(--color-surface);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-soft);
@@ -80,7 +80,7 @@
 .field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--space-6);
 }
 
 .label {
@@ -101,7 +101,7 @@
 .input,
 .textarea {
     width: 100%;
-    padding: 14px 16px;
+    padding: 14px var(--space-16);
     font-size: var(--text-base);
     color: var(--color-ink);
     background-color: var(--color-surface);
@@ -127,7 +127,7 @@
 }
 
 .contextLine {
-    margin: 4px 0 0;
+    margin: var(--space-4) 0 0;
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
 }
@@ -149,7 +149,7 @@
 }
 
 .submit {
-    margin-top: 8px;
+    margin-top: var(--space-8);
     height: 52px;
     border-radius: var(--radius-pill);
     background: var(--color-accent);
@@ -177,9 +177,9 @@
 .success {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-8);
     justify-content: center;
-    padding: 48px 32px;
+    padding: var(--space-48) var(--space-32);
     background-color: var(--color-surface);
     border-radius: var(--radius-lg);
     text-align: center;
@@ -203,17 +203,17 @@
 @media (max-width: 1024px) {
     .wrap {
         grid-template-columns: 1fr;
-        padding: 32px;
-        gap: 32px;
+        padding: var(--space-32);
+        gap: var(--space-32);
     }
 }
 
 @media (max-width: 540px) {
     .wrap {
-        padding: 24px;
+        padding: var(--space-24);
     }
 
     .form {
-        padding: 24px;
+        padding: var(--space-24);
     }
 }
