@@ -35,6 +35,17 @@ Run from repo root:
 - ESLint: no explicit `any`; use type-only imports for types.
 - Do not introduce new dependencies without explicit approval.
 
+## Scratch & build artifacts
+
+- Any ephemeral output — one-off dumps, audit reports, screenshots, scratch
+  scripts — MUST be written under `/.scratch/` at the repo root. It is the only
+  gitignored catch-all; a single `.gitignore` line covers everything future.
+  Never scatter temp files elsewhere in the tree.
+- Build outputs are already ignored (`dist`, `.next`, `storybook-static`,
+  `coverage`, `playwright-report`, `test-results`, `*.tsbuildinfo`). Do not
+  commit them and do not hand-edit generated `dist/`.
+- `.env.example` is tracked as a template; real `.env*` stay local.
+
 ## Frontend conventions
 
 - Keep changes scoped to the issue and acceptance criteria.

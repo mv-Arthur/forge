@@ -59,5 +59,20 @@ tsconfig.tsbuildinfo
 .codex/
 .iron-solver/
 
+# Ephemeral scratch — единственная gitignored-папка под всё разовое
+# (дампы, аудиты, скриншоты, черновые скрипты). Одна строка ловит будущее.
+/.scratch/
+
+# Ad-hoc audit/QA скриншоты и дампы вне e2e/playwright
+audit-shots/
+screenshots/
+.qa-*/
+
+# Локальное состояние агента (не зависеть от глобального gitignore)
+.claude/settings.local.json
+
 # Debug
 .pnpm-debug.log
+
+# Competitor research tooling + scraped corpus (local only, not for PR)
+research/
