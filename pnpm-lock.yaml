@@ -44,9 +44,6 @@ importers:
 
   apps/citadel:
     dependencies:
-      '@forge/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
       '@nestjs/common':
         specifier: ^11.1.14
         version: 11.1.14(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -56,9 +53,6 @@ importers:
       '@nestjs/platform-fastify':
         specifier: ^11.1.14
         version: 11.1.14(@nestjs/common@11.1.14(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.14(@nestjs/common@11.1.14(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))
-      fastify:
-        specifier: ^5.7.4
-        version: 5.7.4
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
