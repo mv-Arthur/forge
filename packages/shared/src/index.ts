@@ -77,9 +77,8 @@ export type {
     SelectionFilter,
     ProjectSelection,
 } from "./project-selection.js";
-export { PAGE_KEYS, PAGE_SECTION_TYPES } from "./page.js";
+export { PAGE_SECTION_TYPES } from "./page.js";
 export type {
-    PageKey,
     PageSectionType,
     PageSectionDataMap,
     PageSection,

@@ -1,13 +1,7 @@
+import type { FooterLink, NavItem } from "@forge/shared";
 import { ADDRESSES, EMAIL, LEGAL, PHONES, type Phone } from "./contacts";
 
-type NavSubItem = { label: string; href: string };
-
-export type NavItem = {
-    label: string;
-    href: string;
-    children?: NavSubItem[];
-    badge?: "sale";
-};
+export type { NavItem };
 
 export const NAV_ITEMS: NavItem[] = [
     {
@@ -59,12 +53,6 @@ export const NAV_ITEMS: NavItem[] = [
     { label: "Акции", href: "/promos", badge: "sale" },
     { label: "Контакты", href: "/contacts" },
 ];
-
-type FooterLink = {
-    label: string;
-    href: string;
-    external?: boolean;
-};
 
 type FooterMenu = {
     title: string;

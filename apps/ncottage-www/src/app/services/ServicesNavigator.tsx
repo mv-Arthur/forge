@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { CSSProperties, FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { cn } from "@/lib/utils";
 import type {
     Service,
     ServiceScenario,
@@ -47,10 +48,6 @@ const INITIAL_QUIZ_FORM = {
 };
 const QUIZ_FOCUSABLE_SELECTOR =
     'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-function cn(...classes: Array<string | false | undefined>) {
-    return classes.filter(Boolean).join(" ");
-}
 
 function getRouteNodeStyle(
     point: RouteGraphPoint | undefined,

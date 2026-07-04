@@ -7,10 +7,7 @@ export { ProjectAbout } from "./ProjectAbout";
 export { ProjectFloorPlans } from "./ProjectFloorPlans";
 export { ProjectSpecsGrid } from "./ProjectSpecsGrid";
 export { ProjectCalculator } from "./ProjectCalculator";
-export {
-    ProjectConfigProvider,
-    useProjectConfig,
-} from "./ProjectConfigContext";
+export { ProjectConfigProvider } from "./ProjectConfigContext";
 export { ProjectMortgage } from "./ProjectMortgage";
 export { ProjectShowroom } from "./ProjectShowroom";
 export { ProjectFaq } from "./ProjectFaq";

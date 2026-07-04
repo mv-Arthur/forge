@@ -3,7 +3,7 @@ import { z } from "zod";
 // Поля-ссылки принимают как относительные пути на внутренние страницы (/works),
 // так и абсолютные http(s)-URL на внешние ресурсы (видео-хостинг, сайты
 // партнёров). Пустая строка допустима для опциональных полей.
-export function isUrlOrPath(value: string): boolean {
+function isUrlOrPath(value: string): boolean {
     if (value === "" || value.startsWith("/")) return true;
     try {
         const url = new URL(value);

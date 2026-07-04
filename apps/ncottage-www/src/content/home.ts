@@ -1,6 +1,8 @@
 // Типы пропсов секций главной страницы. Данные приходят из ncottage-api (Page
 // key="home"); статический источник/фолбэк — src/data/pages/home.ts.
 
+import type { SelectOption } from "@/components/ui/Select";
+
 type HeroTrustItem = { value: string; label: string };
 
 export type HeroContent = {
@@ -15,8 +17,6 @@ export type HeroContent = {
 };
 
 type RangeBounds = { min: number; max: number };
-
-type SelectOption = { value: string; label: string };
 
 export type ProjectPickerContent = {
     title: string;

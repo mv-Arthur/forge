@@ -6,25 +6,6 @@
 // секции выбирает её схему данных (zod на входе API) и форму в админке. Это НЕ
 // универсальный block-builder: набор типов закрыт, каждая секция — своя форма.
 
-export const PAGE_KEYS = [
-    "home",
-    "about",
-    "production",
-    "mortgage",
-    "credit",
-    "maternity-capital",
-    "payment",
-    "contacts",
-    "works",
-    "guarantee",
-    "privacy",
-    "offer",
-    "requisites",
-    "personal-data",
-] as const;
-
-export type PageKey = (typeof PAGE_KEYS)[number];
-
 export const PAGE_SECTION_TYPES = [
     // Типизированные hero (у каждой страницы свой набор полей).
     "aboutHero",

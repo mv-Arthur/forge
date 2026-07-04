@@ -15,7 +15,7 @@ const STORAGE_KEYS = {
     compare: "nc:compare",
 } as const;
 
-export const COMPARE_LIMIT = 4;
+const COMPARE_LIMIT = 4;
 
 interface SelectionContextValue {
     favorites: string[];

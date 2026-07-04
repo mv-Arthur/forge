@@ -9,7 +9,7 @@ export type ServiceSlug =
     | "engineering"
     | "demolition";
 
-export type ServiceScenarioSlug =
+type ServiceScenarioSlug =
     | "land-plot"
     | "house-from-scratch"
     | "existing-project"
