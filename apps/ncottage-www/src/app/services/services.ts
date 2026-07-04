@@ -1272,10 +1272,6 @@ export const BUILD_ROUTE_STEPS: BuildRouteStep[] = [
     },
 ];
 
-export const SERVICE_MAP = new Map(
-    SERVICES.map((service) => [service.slug, service])
-);
-
 export const ADDITIONAL_SERVICE_LINKS = [
     { title: "Строительство каркасных домов", parentSlug: "construction" },
     { title: "Строительство домов из СИП", parentSlug: "construction" },

@@ -17,10 +17,6 @@ export function AdminProvider({
     );
 }
 
-export function useAdmin(): CurrentAdmin | null {
-    return useContext(AdminContext);
-}
-
 export function useIsAdmin(): boolean {
     return useContext(AdminContext)?.role === "admin";
 }

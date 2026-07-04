@@ -75,10 +75,6 @@ export function formValuesToNav(values: NavFormValues): Navigation {
     };
 }
 
-export function emptyNavValues(): NavFormValues {
-    return { items: [] };
-}
-
 // --- Footer ---
 
 const footerLinkSchema = z.object({

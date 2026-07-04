@@ -7,4 +7,4 @@ export {
     countPhoneDigits,
     isValidLead,
 } from "@forge/shared";
-export type { LeadSource, LeadRequest } from "@forge/shared";
+export type { LeadRequest } from "@forge/shared";

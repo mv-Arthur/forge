@@ -6,8 +6,6 @@ export { ProjectAnchorNav } from "./ProjectAnchorNav";
 export { ProjectAbout } from "./ProjectAbout";
 export { ProjectFloorPlans } from "./ProjectFloorPlans";
 export { ProjectSpecsGrid } from "./ProjectSpecsGrid";
-export { ProjectPackages } from "./ProjectPackages";
-export { ProjectOptions } from "./ProjectOptions";
 export { ProjectCalculator } from "./ProjectCalculator";
 export {
     ProjectConfigProvider,
