@@ -49,7 +49,7 @@
 ## 6. Технически
 - **Next.js (App Router)** как в `apps/ncottage-www` (Next 15) + **Tailwind** для быстрой аккуратной стилизации.
   Это витрина для заказчика — **выглядеть должно как дизайн, не как сырьё** (типографика, отступы, hover, адаптив).
-- Скопировать `projects.normalized.json` + `built-objects.normalized.json` в `apps/apps/preview/fixtures/`, читать из них.
+- Скопировать `projects.normalized.json` + `built-objects.normalized.json` в `apps/preview/fixtures/`, читать из них.
 - Зависимости ставить свободно (полный аппрув). Деплой — превью-ссылка (`next build` → static export или `next start`).
 
 ## 7. Готово (DoD)
