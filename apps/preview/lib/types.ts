@@ -23,6 +23,24 @@ export interface ProjectPackage {
     price: number;
 }
 
+/** Состав «Дом по узлам» с legacy (product-page__set-*). */
+export interface PackageSetNode {
+    tab: string;
+    title: string;
+    price: number | null;
+    items: string[];
+    image: string | null;
+}
+
+export interface PackageSetPackage {
+    name: string;
+    nodes: PackageSetNode[];
+}
+
+export interface PackageSet {
+    packages: PackageSetPackage[];
+}
+
 export interface ProjectMaterialVariant {
     technology: Technology;
     slug: string;

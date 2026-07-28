@@ -1,11 +1,13 @@
 import projectsJson from "@/fixtures/projects.normalized.json";
 import objectsJson from "@/fixtures/built-objects.normalized.json";
 import extrasJson from "@/fixtures/built-objects.extras.json";
+import packageSetsJson from "@/fixtures/package-sets.json";
 import type {
     BuiltMilestone,
     BuiltObject,
     EnrichedBuiltObject,
     MergedProject,
+    PackageSet,
     PurposeType,
     RawProject,
     RoomSpec,
@@ -29,6 +31,7 @@ type ObjectExtra = {
 };
 
 const objectExtras = extrasJson as Record<string, ObjectExtra>;
+const packageSets = packageSetsJson as Record<string, PackageSet>;
 
 const TECH_ORDER: Technology[] = [
     "gas_concrete",
@@ -742,6 +745,12 @@ export function getAllProjects(): MergedProject[] {
 
 export function getProject(slug: string): MergedProject | undefined {
     return projectBySlug.get(slug);
+}
+
+/** Состав «Дом по узлам» с legacy по URL варианта. */
+export function getPackageSet(url: string | null | undefined): PackageSet | null {
+    if (!url) return null;
+    return packageSets[url] ?? null;
 }
 
 export function getAllObjects(): EnrichedBuiltObject[] {

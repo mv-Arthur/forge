@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import {
     getAllProjects,
     getObjectsForProject,
+    getPackageSet,
     getProject,
     getSimilarProjects,
 } from "@/lib/data";
@@ -137,16 +138,17 @@ export default async function ProjectPage({ params }: Props) {
                             Дом по узлам
                         </h2>
                         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-500">
-                            Состав работ одинаков для всех домов из этого
-                            материала — это регламент компании, а не описание
-                            конкретного проекта.
+                            Реальный состав комплектации с legacy: узлы,
+                            позиции работ и стоимость каждого блока по
+                            выбранному пакету (Базовая / Стандарт / Комфорт).
                         </p>
                     </div>
                     <HouseNodes
-                        wallMaterial={formatTechnology(
-                            project.variants[0]?.technology,
-                        )}
-                        buildTime={project.buildTime}
+                        options={project.variants.map((v) => ({
+                            technology: v.technology,
+                            packageSet: getPackageSet(v.url),
+                            defaultPackageName: v.packages[0]?.name,
+                        }))}
                     />
                 </section>
 
