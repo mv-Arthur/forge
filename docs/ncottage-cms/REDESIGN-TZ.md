@@ -1,24 +1,33 @@
 # ТЗ: редизайн сценария «Готовые проекты» и «Построенные объекты»
 
 Область: `apps/ncottage-www` (витрина), `apps/ncottage-admin` (CMS), `apps/ncottage-api` +
-`packages/shared` (модель). Ветка `feat/ncottage-cms`.
+`packages/shared` (модель). Ветка `main`.
 
-> **v2:** разделы 1–5 дополнены заземлёнными данными из харвеста 594 реальных страниц
+> **v2:** разделы 1–5 дополнены заземлёнными данными из харвеста ~1137 реальных страниц
 > конкурентов/legacy — см. **«Приложение v2»** в конце (реальные числа, структура комплектаций,
 > таксономия фильтров, и **коррекции v1** — §Д). При расхождении приоритетна v2.
 
 ## 0. Цели и метрика
 
-1. **Конверсия — приоритет №1.** Текущий legacy не приносит лидов; новый сайт по этому
-   сценарию слабее и конкурентов (gwd.ru, aps-dsk.ru), и собственного legacy. Цель —
-   максимум лидов и возможность их **замерить** (аналитики сейчас нет вовсе).
-2. **Сущности на уровне конкурентов.** «Готовый проект» и «Построенный объект» —
-   полноценные, богатые карточки с галереями, ценой под ключ, планировками, связями.
-3. **CMS для обычного человека** без навыков программирования и знания английского:
-   картинка грузится перетаскиванием, а не «положи в public»; нет англо-кодов и жаргона.
+Цели — принципами; конкретика каждой живёт в своём разделе (частичные перечни здесь не приводим,
+чтобы отсутствие пункта не читалось как «вне скоупа»).
 
-Метрика успеха: `lead_success` (цель в Метрике), микроконверсии воронки, доля
-мессенджер-обращений. Базлайн — 0 (нечем мерить), первый шаг — включить аналитику.
+1. **Конверсия — приоритет №1.** Текущий сайт не приносит обращений; по сценарию он слабее и
+   конкурентов (gwd.ru, aps-dsk.ru), и собственного legacy. Цель — максимум обращений и возможность их
+   **замерить** (аналитики сейчас нет вовсе). Механики — §4.
+2. **Сущности на уровне конкурентов.** «Готовый проект» и «Построенный объект» — полноценные, богатые
+   сущности не хуже gwd/aps. Полный состав полей — §1 (модель), вид на экранах — §2 / `WIREFRAMES.md`.
+3. **CMS для обычного человека** (без навыков программирования и знания английского): редактор ведёт
+   **весь** контент и настройки сам, без разработчика и без релизов; интерфейс без англо-кодов и жаргона,
+   с онбордингом. Принципы, фиксы и онбординг — §3 / `BUILD-BACKLOG` (WP9-WP10).
+4. **Помимо сценария** редизайн включает набор новых возможностей и фаз (для ориентира: честное
+   соц-доказательство, интерактивная карта, админимый подбор-квиз, черновики/публикация проектов и
+   объектов + онбординг CMS; поздним этапом — личный кабинет клиента с трекингом стройки и
+   чат-сопровождением). **Единый и полный перечень с приоритетами (P0/P1/P2) — Раздел 6 и
+   `BUILD-BACKLOG`; §0 его НЕ дублирует поштучно, чтобы сводка не расходилась с планом.**
+
+Метрика успеха: `lead_success` (цель в Метрике), микроконверсии воронки, доля мессенджер-обращений.
+Базлайн — 0 (нечем мерить), первый шаг — включить аналитику.
 
 ---
 
@@ -28,35 +37,43 @@
 `multiselect` `toggle` `image` `gallery` `map-coords` `repeater`. Статус: **✓** — есть в
 модели, **+** — добавить.
 
+> **Каноническое для реализации:** §1 — человеческий ОБЗОР модели (поля ↔ контролы, связи). Точная
+> prisma-схема (типы, `@default`, миграции, byte-identity, материал-варианты) — в **PRISMA-DRAFT.md** §1.1–1.11.
+> §1 её не заменяет: при кодинге модели сверяться с PRISMA-DRAFT.
+
 ### 1.1 Готовый проект (`Project`)
 
-| Поле | Подпись | Контрол | Обяз | Ст | Примечание |
-|---|---|---|---|:--:|:--:|---|
-| slug | Адрес страницы (латиницей) | text | ● | ✓ | автотранслит из name, неизменяем после публикации |
+*Обозначения колонок:* **Поле** — имя поля в модели данных · **Подпись в CMS** — как поле называется в
+админке для редактора · **Тип ввода** — контрол в форме (`text`/`number`/`select`/`gallery`/`toggle`/`rich`
+и т.п.) · **Обязательное** — `●` = поле обязательно к заполнению, пусто = опционально · **Статус** — `✓` =
+поле уже есть в текущей модели, `+` = новое (добавляем в редизайне) · **Примечание** — комментарий. Та же
+легенда действует и для таблицы §1.3.
+
+| Поле | Подпись в CMS | Тип ввода | Обязательное | Статус | Примечание |
+|---|---|---|:--:|:--:|---|
+| slug | Адрес страницы (латиницей) | text | ● | ✓ | автотранслит из name при создании; после публикации URL заморожен (правка name его НЕ меняет) — см. «Правило slug» ниже |
 | code | Код/артикул серии | text | | + | СП-2/КД-2; бейдж на карточке |
 | name | Название проекта | text | ● | ✓ | |
 | subtitle | Подзаголовок/тизер | text | | + | «Одноэтажный дом из клееного бруса…» |
-| technology | Технология стен | select | ● | ✓ | enum, управляет фильтром и комплектацией |
-| style | Стиль/серия | select | ● | ✓ | +barn, wright, scandi, panoramic |
-| livingType | Назначение | select | ● | ✓ | permanent/seasonal |
+| style | Стиль/серия | select | ● | ✓ | slug→`Taxonomy(kind=style)`, не enum/const; управляет фильтром |
+| livingType | Назначение | select | ● | ✓ | permanent/seasonal (поведенческий const) |
 | area | Общая площадь, м² | number | ● | ✓ | |
 | livingArea | Жилая площадь, м² | number | | + | опц |
 | builtUpArea | Площадь застройки, м² | number | | + | опц |
-| floors | Этажность | select | ● | ✓ | 1/2/мансарда (мансарда — флаг feature) |
+| floors | Этажность | select | ● | ✓ | String-набор {1, 1.5, 2, mansard} (не Prisma-enum — цифра/точка) |
 | ceilingHeight | Высота потолков, м | number | | + | опц |
 | bedrooms | Спальни | number | ● | ✓ | |
 | bathrooms | Санузлы | number | ● | ✓ | |
-| roomCounts | Помещения (гардероб/терраса/балкон/постирочная) | repeater | | + | {тип select, кол-во} |
-| features | Особенности (теги) | multiselect | | ✓ | +mansard-windows, panoramic-glazing |
+| roomCounts | Помещения (гардероб/терраса/балкон/постирочная) | repeater | | + | nested `ProjectRoomCount{type, count}` |
+| features | Особенности (теги) | multiselect | | ✓ | slug[]→`Taxonomy(kind=feature)`, не const |
 | dimensions | Габариты Д×Ш | text | | ✓ | в spec-панель |
 | beamSection | Сечение бруса/блока | text | | + | только для деревянных/комбо |
-| price | Цена стандартной комплектации, ₽ | money | ● | ✓ | базовая; ценник берётся из пакета |
+| price | Цена «от» (денорм min по вариантам), ₽ | money | | ✓ | НЕ вводится вручную — вычисляется из `ProjectMaterialVariant.priceFrom` для карточки/сортировки |
 | oldPrice | Старая цена (до акции), ₽ | money | | + | зачёркнутая |
 | priceValidAt | Цена актуальна на дату | date | | + | мягкая срочность |
 | discountLabel | Метка акции | text | | + | лучше из связи с Promo |
-| mortgageAvailable | Ипотека доступна | toggle | | + | бейдж; ставка — в Setting |
+| mortgageAvailable | Ипотека доступна | toggle | | + | бейдж; ставка ипотеки — в `Setting` |
 | buildTime | Срок строительства | text | | ✓ | детальный таймлайн — в ProjectStage |
-| warranty | Гарантия | text | | + | сейчас хардкод «7 лет» в JSX |
 | image | Обложка | image | ● | ✓ | denorm первого фото |
 | images | Галерея фото | gallery | | ✓ | **сейчас у всех 8 длина 1 — заполнить 10-20** |
 | description | Описание | rich | ● | ✓ | апгрейд plain→rich |
@@ -66,39 +83,65 @@
 | videoTimelapseUrl | Видео: таймлапс | text(url) | | + | опц |
 | tour3dUrl | 3D-тур / план 1:1 | text(url) | | + | embed |
 | planEditable | Планировку можно менять бесплатно | toggle | | + | сильный крючок |
-| floorPlanMirror | Возможно зеркальное отражение | toggle | | + | опц |
+| floorPlanMirror | Возможно зеркальное отражение | toggle | | + | опц; «дом можно построить зеркально отражённым» — тот же проект под участок с другой ориентацией (въезд/окна с другой стороны) |
 | featured | Показывать в подборке на главной | toggle | | ✓ | |
-| seoTitle / seoDescription | SEO | text/textarea | | ✓ | |
+| seoTitle / seoDescription | SEO | text/textarea | | ✓ | мета-теги: заголовок (`<title>`) и описание страницы в выдаче Яндекс/Google; пусто → из name/описания |
+
+**Правило `slug` (Project и BuiltObject).** `slug` авто-транслитерируется из `name`/`title` **при
+создании** как дефолт; в черновике следует за названием, пока редактор не правил его вручную. **После
+публикации `slug` заморожен** — правка названия меняет только заголовок, URL остаётся (иначе 404 на
+проиндексированных страницах + битые ссылки = потеря лидов, конверсия №1). Имплементация: НЕ пересчитывать
+`slug` из названия на сохранении опубликованной записи (авто-set только для пустого slug/черновика).
+**Смена URL опубликованного:** на MVP заморожен — менять нельзя (кнопки нет, ноль новых сущностей).
+**[P2]** — явное действие «Изменить адрес» + 301-редирект old→new через модель `SlugRedirect`
+(PRISMA-DRAFT §1.11, BUILD-BACKLOG WP11-T4). Резолв запроса `/projects|works/{slug}`: живой slug → 200;
+иначе `SlugRedirect.oldSlug` → 301 на текущий slug; иначе 404. **Живой slug приоритетнее редиректа** (если
+новая запись переиспользует старый slug — отдаём её, а не редирект). URL записи опаковым `id` не заменяем:
+чистый keyword-slug выбран ради SEO и паритета с конкурентами (голый slug у gwd/aps), стабильность держит
+заморозка + редиректы (разобрано: id-в-URL-гибрид отклонён в пользу чистого slug).
+
+**Материал-варианты.** `technology` уходит из `Project` на уровень
+`ProjectMaterialVariant`: один дом = один `Project` + N вариантов материала (газобетон/кирпич/СИП),
+у каждого своя `priceFrom` и свои комплектации. `Project.price` — денормализованный min по вариантам
+(для карточки/сортировки), редактор его не вводит. Каноническая prisma-модель — `PRISMA-DRAFT.md`
+§1.10. Гарантия (бывший хардкод «7 лет») — редактируемое поле в `Setting`, не поле проекта.
 
 ### 1.2 Вложенные сущности проекта
 
+- **ProjectMaterialVariant** + (`technology(slug→Taxonomy), priceFrom, mortgageFrom?, order, packages[]`) —
+  материал-вариант: материал стен + своя цена «под ключ от» + свои комплектации. Даже
+  одноматериальный дом имеет один вариант. `Project.price` = денорм min(`priceFrom`). См. PRISMA-DRAFT §1.10.
 - **ProjectFloorPlan** ✓ (`label, image, area, +dimensions, rooms[], order`) — планировки этажей.
 - **ProjectFloorPlanRoom** ✓ (`name, area, order`) — помещения на плане.
 - **ProjectPlanningVariant** + (`name, image, note, order`) — варианты (типовой/со вторым светом/с гаражом).
-- **ProjectPackage** ✓ (`name, price, tagline, highlighted, includes[], order`) — комплектации.
-- **ProjectPackageInclude** ✓ (`label, value(rich, до брендов), order`) — строки состава.
+- **ProjectRoomCount** + (`type(select), count, order`) — счётчики помещений (гардероб/терраса/балкон/постирочная).
+- **ProjectPackage** ✓ (`name, price, tagline, highlighted, includes[], order`) — комплектации; **переезжают ПОД `ProjectMaterialVariant`** (у каждого материала свой состав/цены).
+- **ProjectPackageInclude** ✓ (`label, value(rich, до брендов), order`) — строки состава (под пакетом варианта).
 - **ProjectOption** ✓ (`label, price, note, order`) — опции-апгрейды.
 - **ProjectEngineering** + (`system(select), points, note, order`) — инженерка с числом точек.
 - **ProjectStage** + (`name, weeksFrom, weeksTo, order`) — таймлайн стройки по неделям.
-- **ProjectRelation** ✓ (`relatedSlug, +kind(similar|other-material), order`) — связанные проекты.
+- **ProjectRelation** ✓ (`relatedSlug, kind='similar', order`) — похожие проекты (только similar).
 
 ### 1.3 Построенный объект (`BuiltObject`)
 
-| Поле | Подпись | Контрол | Обяз | Ст | Примечание |
-|---|---|---|---|:--:|:--:|---|
+*Обозначения колонок — как в §1.1:* **Обязательное** `●` = обязательно к заполнению; **Статус** `✓` = поле
+уже есть в модели, `+` = новое (добавляем).
+
+| Поле | Подпись в CMS | Тип ввода | Обязательное | Статус | Примечание |
+|---|---|---|:--:|:--:|---|
 | slug | Адрес объекта (латиницей) | text | ● | ✓ | **под него нужен реальный маршрут /works/[slug]** |
 | title | Название объекта | text | ● | ✓ | этажность/технологию хранить полями, не парсить из title |
 | heroImage | Обложка | image | ● | ✓ | **уйти от хотлинка ncottage.ru → mediaId** |
 | gallery | Фотогалерея объекта | gallery | | + | **сейчас 1 фото; хроника стройки** (BuiltObjectPhoto) |
-| baseProjectSlug | Построен по проекту | select(relation) | | + | **FK→Project; CTA «Хочу такой дом»** |
+| baseProjectId | Построен по проекту | select(relation) | | + | **FK→Project.id (наружу `baseProjectSlug`); CTA «Хочу такой дом»** |
 | area | Площадь, м² | number | | ✓ | |
-| floors | Этажность | select | | + | сейчас парсится из title |
+| floors | Этажность | select | | + | String-набор {1, 1.5, 2, mansard}; сейчас парсится из title |
 | bedrooms / bathrooms | Спальни / санузлы | number | | + | опц |
-| technology | Технология | select | | ✓ | перевести на общий enum (убрать эвристику www) |
-| style | Стиль | select | | + | enum ProjectStyle |
-| objectType | Тип объекта | select | | ✓ | enum house/bath/foundation/reconstruction/guesthouse |
-| status | Статус | select | | + | built/in-progress — фильтр «Все/Строящиеся/Построенные» |
-| workType | Тип работ (категория) | select | | + | табы-фильтр /works |
+| technology | Технология | select | | ✓ | slug→`Taxonomy(kind=technology)`, не enum (убрать эвристику www) |
+| style | Стиль | select | | + | slug→`Taxonomy(kind=style)` |
+| objectType | Тип объекта | select | | ✓ | slug→`Taxonomy(kind=objectType)` |
+| status | Статус | select | | + | built/in-progress (поведенческий const) — фильтр «Все/Строящиеся/Построенные» |
+| workType | Тип работ (категория) | select | | + | slug→`Taxonomy(kind=workType)`; табы-фильтр /works |
 | location | Локация/посёлок | text | | ✓ | |
 | coordsLat/Lng | Точка на карте | map-coords | | ✓ | **реальная карта вместо CSS-макета** |
 | residenceMode | Режим проживания | select | | + | опц |
@@ -110,43 +153,61 @@
 | videoUrl / tour3dUrl / onlineCameraUrl | Видео / 3D / камера | text(url) | | + | камера — только для in-progress |
 | reviewId | Связанный отзыв | select(relation) | | + | FK→Review |
 | featured | Показывать на главной | toggle | | + | карусель OurWorks |
-| seoTitle / seoDescription | SEO | text/textarea | | + | появляется детальная страница |
+| seoTitle / seoDescription | SEO | text/textarea | | + | мета-теги (заголовок+описание) для выдачи; появляется детальная страница; пусто → из title/контента |
 
 ### 1.4 Поддерживающие сущности
 
+- **Taxonomy** + — CMS-справочник тегов `{kind(technology|style|feature|objectType|workType), slug, label, order}`.
+  Заменяет enum/const в коде для technology/style/features/objectType/workType: `label` живёт на сервере,
+  редактор администрирует набор без деплоя. Сид из legacy-таксономии §Г. См. PRISMA-DRAFT §1.10.
+- **Setting** ✓/+ — глобальные настройки, редактируемые из CMS: телефоны/8-800/мессенджеры (TG/WA),
+  ставка ипотеки, счётчики компании (лет на рынке/м²/% рекомендуют), `metrikaId`, гарантия
+  (`warranty` — бывший хардкод «7 лет»), `MAP_PROVIDER` + ключ карты.
 - **Media** ✓ — все image/gallery/pdf/plan ссылаются по `mediaId` (уйти от строк-url и хотлинка).
-- **Review** ✓ — +`projectSlug`, +`builtObjectId` (врезка-отзыв по FK, а не текстом).
+- **Review** ✓ — +`projectSlug`; связь с объектом — через FK `BuiltObject.reviewId` (НЕ поле в Review).
 - **BuiltObjectPhoto** + — nested под галерею: `{mediaId, caption, stage(foundation|walls|roof|facade|engineering|interior|exterior|production), order}`.
 - **BuiltObjectMilestone** + (опц.) — вехи `{label, date, note, order}` для блока «договор→начало→заселение».
 - **Promo** ✓ — +`deadline`, +`badge`, +countdown; связать с Project, чтобы `discountLabel/oldPrice` подтягивались из активной акции.
-- **Settlement** + (опц.) — коттеджный посёлок `{slug, name, coords, distanceFromMKAD, href}`, если появятся продажи с участком.
 
-### 1.5 Связи
+### 1.5 Связи (карта сущностей)
 
-```
-Project 1─N ProjectImage | ProjectFloorPlan 1─N Room | ProjectPlanningVariant(+)
-        1─N ProjectPackage 1─N ProjectPackageInclude | ProjectOption
-        1─N ProjectEngineering(+) | ProjectStage(+) | ProjectRelation(+kind)
-BuiltObject N─1 Project (+FK baseProjectSlug — заменяет relatedObjectIds из JSON-сида,
-                          даёт двунаправленную связь и секцию «Посмотреть вживую»)
-BuiltObject 1─N BuiltObjectPhoto(+) | 1─N BuiltObjectMilestone(+)
-BuiltObject N─1 Review(+FK) | N─1 Settlement(+, опц.)
-Project/BuiltObject N─1 Media (обложки/галереи/планы — вместо строк-url)
-```
+*Как читать:* `A 1─N B` — у одного A много B (родитель → дети, удаление каскадом); `A N─1 B` — много A
+ссылаются на один B (внешний ключ). `(+)` — новая сущность, вводится редизайном.
+
+**`Project` (готовый проект) → дети (один Project → много…):**
+- `ProjectMaterialVariant (+)` → каждый вариант → много `ProjectPackage` → много `ProjectPackageInclude`
+- `ProjectImage` (галерея); `ProjectFloorPlan` → много `Room` (помещения на плане)
+- `ProjectPlanningVariant (+)`, `ProjectRoomCount (+)`, `ProjectOption`
+- `ProjectEngineering (+)`, `ProjectStage (+)`, `ProjectRelation` (`kind='similar'` — похожие проекты)
+- `Project.price` = денормализованный min по `ProjectMaterialVariant.priceFrom` (не вводится вручную)
+
+**`BuiltObject` (построенный объект):**
+- N─1 `Project` — FK `baseProjectId` (id внутри, наружу `baseProjectSlug`); заменяет `relatedObjectIds`,
+  даёт двунаправленную связь + секцию «Посмотреть вживую»
+- 1─N `BuiltObjectPhoto (+)` (фотохроника), 1─N `BuiltObjectMilestone (+)` (вехи стройки)
+- N─1 `Review` — FK `reviewId` (id внутри, наружу `reviewSlug`)
+
+**Общее для `Project` и `BuiltObject`:**
+- N─1 `Media` — обложки/галереи/планы ссылаются по `mediaId` (вместо строк-URL)
+- поля `technology / style / features / objectType / workType` → `Taxonomy (+)` по slug (CMS-справочник)
+
+*Каноническая prisma-схема связей (точные типы FK, `onDelete`, обратные relation) — **PRISMA-DRAFT.md** §1.1–1.11.*
 
 ### 1.6 Prisma-дельта (миграции)
 
-**Project:** `+code, subtitle, oldPrice Int?, priceValidAt DateTime?, discountLabel, mortgageAvailable Bool@false, warranty, livingArea Int?, builtUpArea Int?, ceilingHeight Float?, beamSection, facadeFinish, videoReviewUrl, videoTimelapseUrl, tour3dUrl, planEditable Bool@false, floorPlanMirror Bool@false`. Расширить `PROJECT_STYLES/PROJECT_FEATURES` в shared (константы). `ProjectRelation +kind String@"similar"`. `ProjectFloorPlan +dimensions String?`.
+**Project:** `+code, subtitle, oldPrice Int?, priceValidAt DateTime?, discountLabel, mortgageAvailable Bool@false, livingArea Int?, builtUpArea Int?, ceilingHeight Float?, beamSection, facadeFinish, videoReviewUrl, videoTimelapseUrl, tour3dUrl, planEditable Bool@false, floorPlanMirror Bool@false`. `technology` уходит из Project на `ProjectMaterialVariant`; `Project.price` → денорм min по вариантам. `style`/`features` → slug на `Taxonomy` (не const). `floors` Int→String — закрытый набор `{"1","1.5","2","mansard"}` (String+const, НЕ Prisma-enum; contract-миграция существующей Int-колонки, PRISMA-DRAFT §3.v). Гарантия (`warranty`) → поле в `Setting`, не на Project. `ProjectRelation +kind String@"similar"` (только similar; other-material убран). `ProjectFloorPlan +dimensions String?`.
 
-**Новые модели проекта:** `ProjectPlanningVariant{projectId FK, name, mediaId?, note?, order}`, `ProjectEngineering{projectId FK, system, points Int?, note?, order}`, `ProjectStage{projectId FK, name, weeksFrom Int?, weeksTo Int?, order}`.
+**Новые модели проекта:** `ProjectMaterialVariant{projectId FK, technology(slug), priceFrom Int, mortgageFrom Int?, order, packages[]}` (`ProjectPackage`/`Include` переезжают ПОД вариант; см. PRISMA-DRAFT §1.10), `ProjectPlanningVariant{projectId FK, name, mediaId?, note?, order}`, `ProjectRoomCount{projectId FK, type, count Int, order}`, `ProjectEngineering{projectId FK, system, points Int?, note?, order}`, `ProjectStage{projectId FK, name, weeksFrom Int?, weeksTo Int?, order}`.
 
-**BuiltObject:** `+baseProjectId String?` + relation `baseProject Project?` и обратная `Project.builtObjects` (закрывает разрыв relatedObjectIds). `+status@"built", workType, style, bedrooms Int?, bathrooms Int?, floors, residenceMode, contractDate/buildStartDate/moveInDate DateTime?, price Int?, showPrice Bool@false, utilityCost, ownerName, familyComposition, story, videoUrl, tour3dUrl, onlineCameraUrl, heroMediaId, reviewId + relation, settlementId + relation, featured Bool@false, seoTitle, seoDescription`. Перевести `technology/objectType` на enum. **Починить `href`**: строить из slug (`/works/[slug]`) или nullable для внешних. `image` → mediaId (миграция 12 объектов).
+**Таксономия:** `Taxonomy{kind, slug, label, order, @@unique([kind,slug])}` — CMS-справочник для technology/style/feature/objectType/workType вместо enum/const в коде. **Setting:** телефоны/8-800/мессенджеры/ставка ипотеки/счётчики компании/`metrikaId`/`warranty`/`MAP_PROVIDER`+ключ.
 
-**Новые модели объекта:** `BuiltObjectPhoto{builtObjectId FK, mediaId, caption?, stage?, order}`, `BuiltObjectMilestone{builtObjectId FK, label, date?, note?, order}` (опц.), `Settlement{slug@unique, name, coordsLat/Lng Float?, distanceFromMKAD Int?, href?}` (опц.).
+**BuiltObject:** `+baseProjectId String?` + relation `baseProject Project?` и обратная `Project.builtObjects` (закрывает разрыв relatedObjectIds; id внутри, slug наружу как `baseProjectSlug`). `+status@"built", workType, style, bedrooms Int?, bathrooms Int?, floors, residenceMode, contractDate/buildStartDate/moveInDate DateTime?, price Int?, showPrice Bool@false, utilityCost, ownerName, familyComposition, story, videoUrl, tour3dUrl, onlineCameraUrl, heroMediaId, reviewId + relation, featured Bool@false, seoTitle, seoDescription`. `technology/objectType/style/workType` → slug на `Taxonomy` (не enum). `floors` → String-набор `{"1","1.5","2","mansard"}` (не Prisma-enum; новая колонка = TEXT). **Починить `href`**: строить из slug (`/works/[slug]`) или nullable для внешних. `image` → mediaId (миграция 12 объектов).
 
-**Review:** `+projectSlug, builtObjectId` (FK вместо текста).
-**SelectionFilter (shared):** расширить — `areaMin` (диапазон), `floorsIn Int[]`, `technologyIn[]`, `priceMax`, `bedroomsMin`, `bathroomsMin`; обновить `matchesSelection`.
-**Lead:** `+source 'built-object'` и `'quiz'`, `'promo'`, `'subscribe'`; заменить hardcoded `consent:true` на явный чекбокс.
+**Новые модели объекта:** `BuiltObjectPhoto{builtObjectId FK, mediaId, caption?, stage?, order}`, `BuiltObjectMilestone{builtObjectId FK, label, date?, note?, order}` (опц.).
+
+**Review:** `+projectSlug`; связь с объектом — только через FK `BuiltObject.reviewId` (обратный массив `Review.builtObjects[]`). Поле `Review.builtObjectId` **НЕ заводить** (см. PRISMA-DRAFT «Замечания», §1.6).
+**SelectionFilter (shared):** расширить — `areaMin` (диапазон), `floorsIn String[]`, `technologyIn[]`, `priceMax`, `bedroomsMin`, `bathroomsMin`; обновить `matchesSelection`.
+**Lead:** `+source 'built-object'` и `'quiz'`, `'promo'`, `'subscribe'`, `'individual'` (последний — под лендинг индивидуального проектирования WP11); заменить hardcoded `consent:true` на явный чекбокс.
 **Certificate:** заполнить `imageUrl/fileUrl` (0/7 — блокер доверия, миграция медиа).
 
 ---
@@ -167,19 +228,22 @@ Project/BuiltObject N─1 Media (обложки/галереи/планы — в
 
 ### 2.3 Детальная проекта `/project/[slug]`
 Галерея **карусель+лайтбокс** (сейчас 4 миниатюры-обрубок). Быстрые характеристики + spec-панель.
-Планировки: табы этажей + состав комнат ✓ + **варианты планировки** (planningVariants) +
-пометка «меняется бесплатно» (`planEditable`). **Комплектации** до брендов
-(ProjectPackageInclude.value rich), калькулятор пакет+опции ✓ с префиллом заявки ✓.
-**Инженерка** (ProjectEngineering, число точек). **Таймлайн стройки по неделям** (ProjectStage).
-Ипотека **слайдерами** (сумма/ставка/срок) вместо фикс. 14%. Блок **«Посмотреть вживую»** —
-построенные по проекту объекты (обратная связь `builtObjects`). Видео/3D-тур (embed). Похожие
-проекты + «тот же в другом материале» (`ProjectRelation.kind`). Sticky-aside с ценой/CTA/трастами
-(из Setting, не JSX) ✓. FAQ ✓.
+**Переключатель материала «построить из»** — inline-таб/селектор по `ProjectMaterialVariant`
+(газобетон/кирпич/СИП), меняет цену «под ключ от» и состав комплектаций на месте
+(заменяет блок «тот же дом в другом материале»). Планировки: табы этажей + состав комнат ✓ +
+**варианты планировки** (planningVariants) + пометка «меняется бесплатно» (`planEditable`).
+**Комплектации** до брендов (ProjectPackageInclude.value rich, под выбранным материалом),
+калькулятор пакет+опции ✓ с префиллом заявки ✓. **Инженерка** (ProjectEngineering, число точек).
+**Таймлайн стройки по неделям** (ProjectStage). Ипотека **слайдерами** (сумма/ставка/срок) вместо
+фикс. 14%. Блок **«Посмотреть вживую»** — построенные по проекту объекты (обратная связь
+`builtObjects`). Видео/3D-тур (embed). Похожие проекты (`ProjectRelation.kind='similar'`).
+Sticky-aside с ценой/CTA/трастами (из Setting, не JSX) ✓. FAQ ✓.
 
 ### 2.4 Построенные объекты `/works`
-**Реальная интерактивная карта** (Leaflet+OSM по умолчанию; абстрагировать слой — свап на
-Яндекс.Карты тривиален) с кликабельными пинами, попапом (фото/площадь/технология/тип/ссылка),
-кластерами, фильтром `status` (Все/Строящиеся/Построенные). Убрать фейковую CSS-схему.
+**Реальная интерактивная карта через `MapProvider`** (старт `LeafletProvider`+OSM; `YandexProvider` —
+позже, провайдер через `MAP_PROVIDER` + ключ из Setting/env, см. 6.4) с кликабельными пинами, попапом
+(фото/площадь/технология/тип/ссылка), кластерами, фильтром `status` (Все/Строящиеся/Построенные).
+Убрать фейковую CSS-схему.
 Сетка с **фильтрами** (workType/technology/objectType/площадь) и сортировкой + KPI ✓.
 Карточка ведёт на **свою** детальную (не WordPress).
 
@@ -268,12 +332,17 @@ sticky-CTA только на карточке проекта; нет 8-800; `con
    где событие сейчас уходит в никуда). Без этого конверсию не замерить.
 2. **Событийная разметка воронки** в `useLeadForm`: `lead_form_view / _start / lead_submit /
    lead_success / _error` с `source, project, placement` — одна точка покрывает все 6 форм.
-3. **Многошаговый квиз-калькулятор сметы** (5-6 шагов: этажи/площадь/фундамент/крыша/бюджет/сроки)
-   как **главный лид-магнит**, не привязан к проекту (ProjectCalculator требует packages, а они
-   у 1/8). Прогресс-бар, вилка сметы, захват лида на финале (`source=quiz`) с префиллом.
-   Вопросы/веса/цены — из CMS. CTA «Рассчитать стоимость» на главной, в шапке, в каталоге.
+3. **Квиз «Подбор» (подбор-гибрид)** как **главный лид-магнит**, не привязан к проекту. Шаги —
+   критерии подбора из общего словаря (назначение/площадь/бюджет/этажность/спальни/материал-стиль,
+   5-6 шагов; конструктив фундамент/крыша НЕ спрашиваем — при готовом каталоге не нужен). Итог: 3-5
+   подходящих проектов + **вилка цены** из `ProjectMaterialVariant.priceFrom` подобранных → захват лида
+   на финале (`source=quiz`) с префиллом. Прогресс-бар. Структура (шаги/варианты/маппинг на фильтр) —
+   админима из CMS (сущность `Quiz`, PRISMA-DRAFT §1.11); движок матчинга = тот же `SelectionFilter`,
+   что у фильтров каталога. CTA «Подобрать/Рассчитать» на главной, в шапке, в каталоге. Тип квиза
+   РЕШЁН — подбор-гибрид (смета-квиз по конструктиву отвергнут); методология и словарь — `PODBOR-DESIGN.md`.
 4. **Крупная цена под ключ + пакеты + ипотека ₽/мес,** редактируемые из CMS. Заполнить packages
-   всем 8 проектам (сейчас 1/8 → на 7 карточках калькулятор не рендерится).
+   демо-проектам (сейчас 1/8 → на 7 карточках калькулятор не рендерится); при импорте 163 домов
+   пакеты приходят под материал-вариантом из legacy-харвеста.
 5. **Мессенджер-first:** 8-800 + Telegram/WhatsApp/callback во всех ключевых CTA. Кнопки TG/WA
    в TopBar наравне с телефоном; deep-link с префиллом («Интересует проект X»). Контакты — из Setting.
 6. **Триггер «построено N домов»** + счётчики компании (лет на рынке, м² производства, % рекомендуют)
@@ -303,9 +372,9 @@ N»; чекбокс consent в project/works формах; освежить Prom
 
 ---
 
-## 5. Бэклог задач (нарезка под 2-дневную сборку)
+## 5. Бэклог задач (нарезка на задачи + фазы)
 
-Код — за 1-2 дня фокус-работы; **контент** (фото, цены под ключ, фотохроники объектов) —
+Код — фокус-работа по приоритету/зависимостям; **контент** (фото, цены под ключ, фотохроники объектов) —
 отдельный трек, частично на заказчике / миграция из legacy. Ветка держится зелёной
 (`pnpm -r typecheck`, `pnpm lint`, `pnpm -r build`), коммиты по WP.
 
@@ -318,8 +387,15 @@ N»; чекбокс consent в project/works формах; освежить Prom
 | **WP4** | Каталог: карточка (слайдер/цена под ключ/бейджи) + деталь (галерея-лайтбокс, таймлайн, инженерка, варианты планировки, ипотека-слайдеры) | WP0 | витрина |
 | **WP5** | Построенные объекты: реальная карта, фильтры, `/works/[slug]`, связка объект↔проект↔отзыв, снос WordPress-ссылок | WP0,WP1 | витрина |
 | **WP6** | Конверсия P0/P1: квиз-калькулятор, 8-800+мессенджеры, trust-счётчики из Setting, глобальный sticky-CTA, Promo-дедлайн | WP0,WP3 | конверсия |
-| **WP7** | Контент: packages 8/8, галереи проектов, объекты с фотохроникой, сертификаты (частично заказчик / миграция legacy) | WP1 | контент |
+| **WP7** | Контент: импорт 163 домов из legacy **черновиками** (draft) → публикация по проверке цен/фото; packages/варианты, галереи проектов, объекты с фотохроникой, сертификаты (частично заказчик / миграция legacy) | WP1 | контент |
 | **WP8** | Сквозные аудиты (typecheck/lint/build + визуал) + финальный PR (мержит владелец) | все | QA |
+| **WP9** | Draft & Preview: черновик/публикация (`published`) + предпросмотр витрины (Next Draft Mode) | WP0 | CMS/UX |
+| **WP10** | Онбординг админки: тур, контекстные подсказки, чек-лист старта, умные пустые состояния | WP2 | CMS/UX |
+
+**Admin-UX трек (P1, отдельно от основного конверсионного P0):** WP9 (черновик/публикация +
+предпросмотр) и WP10 (онбординг) + визуальный рескин админки — цель «взрослая» CMS для непрофи, не
+конверсионный P0, поздним треком. Детали: `docs/ncottage-cms/BUILD-BACKLOG.md` (WP9/WP10),
+`PRISMA-DRAFT.md` §1.9 (`published`).
 
 **Зависит от заказчика:** цены под ключ по проектам; фото проектов (10-20 на проект);
 фотохроники и данные построенных объектов; сканы сертификатов; ID счётчика Метрики; 8-800;
@@ -329,7 +405,7 @@ N»; чекбокс consent в project/works формах; освежить Prom
 
 # Приложение v2: заземлённые данные из харвеста корпуса
 
-Источник — `research/.corpus/`: **~1137 отрендеренных страниц**, каждая с `fullText`
+Источник — `research/.corpus/`: **~1137 отрендеренных страниц** (было заявлено «594»), каждая с `fullText`
 (видимое + СКРЫТОЕ в DOM: раскрытые вкладки/аккордеоны), JSON-LD, картинками. Заменяет догадки WebFetch.
 
 **Полнота покрытия (проверена кроулом листингов, а не только sitemap):**
@@ -343,21 +419,31 @@ N»; чекбокс consent в project/works формах; освежить Prom
   154 sitemap-проекта + 8 найденных кроулом мимо sitemap = 159** + 21 портфолио. Каталог — Bitrix-SPA
   **без ajax-API данных** (проверено: XHR = только аналитика) → чистого полного перечисления не
   существует; строго-провабельный 100% недостижим без парсинга инлайн-JS-бандла (хрупко, ~0 ценности).
+  ВЕРИФИЦИРОВАНО (2026-07-05): полный рендер каталога в браузере + regex по HTML отдаёт **0 проект-URL
+  сверх корпуса** (ссылки карточек не сериализуются в HTML — JS-роутер) → sitemap-набор (154+8=159)
+  подтверждён как максимум; каталог рендерится визуально (не пустой), но для перечисления непригоден.
+  На полноту ДАННЫХ первичного анализа SPA-каталог не повлиял; была недоописана лишь ВИЗУАЛЬНАЯ подача
+  карточки/сайдбара — закрыто скриншот-проходом (см. WIREFRAMES.md «Визуальный референс»).
 Числа детерминированы (`research/.corpus/_summary.json`), структура — из чтения выборки.
 
 ## А. Количественная основа
 
 | Метрика | legacy (ncottage) | aps-dsk | gwd | у нас |
 |---|---|---|---|---|
-| Проектов в каталоге | ~568 | ~150 | ~151 | 8 |
-| Реальных фото/проект | 4–8 (imageCount 82 завышен UI/webp) | ~33 | ~18 | 1 |
+| Проектов в каталоге | ~568 URL / 333 карточки / 163 дома | ~150 | ~151 | 8 демо → 163 (импорт) |
+| Реальных фото/проект | 4–8 (imageCount 82 завышен UI/webp) | ~24 медиана | ~18 | 1 |
 | Построенных объектов | 40 | галерея-агрегат | «Дом в …» | 12 |
 | Фото/объект | десятки–~130 | — | — | 1 |
-| Цена под ключ (медиана low/high) | 8.0 / 14.5 млн ₽ | скрыта (редко) | ~12 млн (единая) | «от X» |
-| Комплектаций | **3** (192/250) БАЗ/СТД/КОМФ | вкладки-этапы | **1** (единый Offer) | 1 у nord |
-| Мессенджеры на карточке | нет | **Telegram/MAX смета (100%)** | нет | нет |
-| 8-800 | нет | да (футер) | **да (100%)** | нет |
+| Цена под ключ (медиана low/high) | ≈8.2 / 15.4 млн ₽ (JSON-LD, n=333) | не в JSON-LD (0/157, только текст) | ~12 млн (JSON-LD, n=27/159 серийных) | «от X» |
+| Комплектаций | **3** (333/333) БАЗ/СТД/КОМФ | вкладки-этапы | **1** (единый Offer) | 1 у nord |
+| Мессенджеры на карточке | нет | **Telegram/MAX смета (100%)** | есть в глоб. формах (100%), не per-card | нет |
+| 8-800 | нет | **да (100%, «8 (800)»)** | **да (100%)** | нет |
 | Отзыв на объекте | нет (0%) | — | раздел «истории» | нет |
+
+**Масштаб каталога:** legacy = **~568 URL / 333 карточки / 163 дома** (URL-дубли и материал-варианты
+схлопываются в 163 уникальных дома). Наш путь: 8 демо-проектов **сейчас** → импорт **163 домов** из
+legacy **черновиками** (`published=false`) → публикация по проверке цен/фото; витрина = только
+опубликованные. Каждый дом = один `Project` + N `ProjectMaterialVariant`.
 
 ## Б. Готовый проект — заземлённая структура
 
@@ -408,6 +494,15 @@ N»; чекбокс consent в project/works формах; освежить Prom
   Площадь/Строит.площадь/Этажность/Спальни/Санузлы/Кухня-гостиная/Сауна/Срок (диапазон дат)/
   Местоположение. → моделировать **гибким массивом «лейбл→значение»**, не жёсткой схемой.
 - **Статус «строится»** — префикс в H1 → поле `status`. CTA объекта: «Записаться на просмотр».
+- **Оговорка покрытия (аудит):** §В заземлена ТОЛЬКО на legacy (40 объектов). Сопоставимых объектных
+  карточек конкурентов в корпусе НЕТ: aps «built» (19) = коттеджные посёлки/участки + VR-тур; gwd `/built/`
+  (26) = 404/PHP-ошибки/галереи/профили архитекторов (их реальные дома — под `/projects/unikalnye-proekty/`);
+  у aps ещё висит несобранный `/all_foto.html` (вероятно, фото-портфолио построенных). Паритет с конкурентами
+  по объектам НЕ заземлён двусторонне — модель объекта грунтована на legacy (что мы и импортируем).
+- **`location`/этажность объектов (реэкстракт из slug):** артефакт-заголовок убран; гео извлечено из slug
+  (`v-p-yukki`→«Yukki», `v-poselke-X`, `v-gorode-X`) — **20/40** объектов (у остальных гео в slug нет → null,
+  честно); этажность объектов из slug (odno/dvuh/mansard) — **31/40**. Точные координаты под пины карты — при
+  контенте заказчика.
 
 ## Г. Реальная таксономия фильтров (из DOM сайдбара, не из URL — верифицировано)
 
@@ -448,11 +543,12 @@ N»; чекбокс consent в project/works формах; освежить Prom
    (single Offer), aps = вкладки-этапы. `ProjectPackage` остаётся гибким (1..N), не хардкодить 3.
 2. **Выбор материала стен — это legacy-фича «построить из»** (3-4 материала/проект), НЕ gwd (у gwd —
    через похожие проекты/фильтр «Технология»). Приоритет фичи ↑: сильный дифференциатор, есть у заказчика.
-3. **8-800 присутствует** у aps и gwd (коррекция v1 «=0»); у legacy нет → добавить.
+3. **8-800: у gwd И aps (100%)** — у aps номер в формате «8 (800)» (пробел+скобки), первый regex его пропустил
+   → ложная коррекция «0/157» СНЯТА (аудит: verbatim во всех 157); у legacy нет → добавить (из Setting).
 4. **3D/VR-тур — НЕ отраслевой стандарт:** gwd `/built/3d-tury/` = 404; aps «VR» = офлайн в очках в
    офисе по записи (не браузерный тур). → `tour3dUrl` понизить до опции «если есть контент», не P0.
-5. **Связь объект→проект на legacy отсутствует** (общая карусель, не ссылка) → наш FK `baseProjectSlug`
-   = улучшение сверх legacy.
+5. **Связь объект→проект на legacy отсутствует** (общая карусель, не ссылка) → наш FK `baseProjectId`
+   (id внутри, наружу сериализуется `baseProjectSlug`) = улучшение сверх legacy.
 6. **Отзыв/видео/цена объекта на legacy = 0%** → поля `ownerName/story/videoUrl/reviewId/price` —
    сверх-legacy (по мотивам gwd «истории клиентов»), оставить опциональными как дифференциатор.
 7. **Фото/объект** — десятки–~130 реальных (не «медиана 153»: та завышена дублями/каруселью).
@@ -460,8 +556,81 @@ N»; чекбокс consent в project/works формах; освежить Prom
    (Veka/TOREX/GrandLine), aps (ISTKULT-YTONG/POROTHERM/Grand Line/Paroc/Tyvek/REHAU + инженерка «от N
    точек»). Оговорка v2 «aps не подтверждена» — **снята**.
 9. **Калькулятор отопления (gwd)** — новый приём, не был в v1 (опция для нашего проекта).
-10. **Два шаблона карточки gwd** (серийный лендинг с ценой vs индивидуальное портфолио без цены) —
-    учесть, если появятся «индивидуальные» проекты; сейчас наш каталог = «серийный» тип.
+10. **Индивидуальные проекты — отдельный лендинг, не карточка.** ~~Два шаблона карточки gwd.~~
+    **Переопределено Разделом 6.1**: `projectType` НЕ заводим, второй шаблон карточки не делаем;
+    индивидуальное проектирование — отдельный лендинг на `Page`/`PageSection` (см. 6.1). Наш каталог =
+    только серийный тип.
 
 *Инструменты ресёрча (переиспользуемы): `research/harvest.cjs` (headless-харвест), `research/analyze.cjs`
 (агрегатор). Корпус в `research/.corpus/` (gitignore).*
+
+---
+
+# Раздел 6. Решения по фичам (закреплено 2026-07-05) — редизайн + новые фичи
+
+Принятые продуктовые решения. Приоритеты: **[P0]** — ядро сценария (основной трек); **[P2]** — расширенная
+фича (после основного трека, но данные под неё закладываем уже в P0). При расхождении с §1/§2 — приоритет за этим разделом.
+
+**6.1 Индивидуальные проекты — лендинг, не карточки [P2].** `projectType` на `Project` НЕ заводим,
+каталог = только серийные. Индивидуальное проектирование — отдельный лендинг на `Page`/`PageSection`
+(gwd-модель): hero → воронка 7 этапов (заявка→бриф с архитектором→договор→выезд→планировки→проект+смета)
+→ примеры из `/works` (tag=individual) → форма «рассчитать/презентация» (лид `source=individual`, цену не
+показываем). Мостик на серийных: CTA «доработаем под вас» + `planEditable`. Из вайрфреймов убрать
+бейдж/лейаут «Индивидуальный» (закрывает §Д#10).
+
+**6.2 Соц-доказательство карточки [P0].** **Лайки НЕ делаем** — сигнал нечестный (верификации нет,
+накручивается в клик) и слабее реального. Используем честное: **«построен N раз»** (из `builtObjects`) —
+основной бейдж И честный ключ сортировки «по популярности» (популярность = сколько раз реально построен);
+**«Хит»/featured** (редакторская подборка); **отзывы** (реальные, модерируемые, см. 6.3); **счётчики
+компании** («построено N домов», «N лет»). Комментариев нет. *(Снимает находку отчёта про источник `likesCount`.)*
+
+**6.3 UGC = форма отзыва [P0].** «Оставить отзыв» (имя+телефон+текст, без аккаунта) → одновременно
+**лид И отзыв** → модерация редактором в CMS → публикация. На существующей модели `Review`.
+
+**6.4 Карта — абстракция провайдера [P0].** Интерфейс `MapProvider`
+(init/addPins/onPinClick/fitBounds/cluster/setCenter) + адаптеры `LeafletProvider` (старт) и
+`YandexProvider` [P2]. Переключение — `MAP_PROVIDER` + ключ Яндекса из `Setting`/env; UI
+(`WorksMap`/`MapPin`/`MapPopup`) знает только интерфейс. Вопрос «Leaflet vs Яндекс + ключ» — заказчику.
+
+**6.5 Аккаунт + Личный кабинет клиента [позже, эпик; один слайс — рано и дёшево].**
+- Формы **НЕ гейтим авторизацией** (цель №1 — конверсия): телефон-first, frictionless. Аккаунт создаётся
+  **из лида**, вход **passwordless** (SMS-код/magic-link по телефону лида). В лид-формах — мягкий оффер на
+  **success-state** «Войти в кабинет по коду из SMS»; слот под оффер закладываем **[P0]**.
+- **Избранное/сравнение — анонимно (localStorage), для всех, без аккаунта** (не режем лояльность тех, кто
+  не хочет оставлять номер); ЛК лишь **синхронизирует** для залогиненных (кросс-девайс). Никогда не за авторизацией.
+- **Чат-сопровождение «от чертежа до заселения»** — на **Telegram-боте (primary)**, не bespoke; абстракция
+  канала (позже апгрейд на SDK — Stream/Chatwoot, как с картой). Пуши — **в Telegram** (браузерный web-push
+  мёртв по opt-in). Слои по стоимости:
+  - **[рано, ~½ дня, без ops]** односторонние **уведомления по этапам**: бот + связка `chat_id ↔ BuiltObject`
+    (deep-link из success-оффера) + `sendMessage` при обновлении стадии/фото в админке. Даёт «следите за
+    стройкой» почти даром + сеет аккаунт (телефон↔chat_id↔объект).
+  - **[инкремент + ops]** двусторонний чат с тематическими ветками по этапам (webhook, роутинг на прораба/
+    менеджера, история в ЛК). Отвечающий есть (подтверждено владельцем); режим/SLA — бизнес-решение, не код.
+- **ЛК-эпик:** избранное/сравнение (синк) + «мой строящийся объект» (статус/этапы/фото/камера из
+  `BuiltObject`/`BuiltObjectPhoto.stage`/`onlineCameraUrl`) + чат. Админка: связка «телефон клиента → его
+  `BuiltObject`» + пуш этапов. **Нарратив «сопровождаем от проекта до заселения» → в trust-блок и
+  CUSTOMER-BRIEF [P0]** (как обещание, до постройки чата).
+
+**6.6 «Подбор»: квиз + фильтры из общего словаря критериев [сейчас; состав РЕШЁН — `PODBOR-DESIGN.md`].**
+Квиз и фильтры каталога — две проекции одного словаря критериев «Подбор».
+- **Квиз «Подбор» — подбор-гибрид, АДМИНИМЫЙ из CMS:** шаги = критерии подбора → 3-5 подходящих проектов
+  + вилка цены → лид (`source=quiz`); структура (шаги/варианты/маппинг на фильтр) редактируется в
+  кабинете **без хардкода и релизов** (сущность `Quiz`, PRISMA-DRAFT §1.11). Смета-квиз по конструктиву — отвергнут.
+- **Фильтры каталога — Primary/Secondary** (не тащить все 29 размеров/21 чип legacy): Primary видимые =
+  технология/площадь/цена/этажность/спальни/стиль; Secondary под «ещё» = санузлы/назначение/особенности.
+- **Состав критериев РЕШЁН** (`PODBOR-DESIGN.md`: методология 5 проверок + Primary/Secondary/Drop §3 +
+  словарь §4 + квиз §5). Оба — фильтры и квиз — берут из общего словаря критериев (на `Taxonomy` +
+  поведенческие const), движок матчинга — единый `SelectionFilter`.
+
+*(Соц-доказательство: **лайков нет** — ни `likesCount`, ни сортировки по лайкам; см. 6.2. Сортировка
+«по популярности» = по числу реально построенных, из `builtObjects`.)*
+
+**Влияние на WP-план:** [P0] (честное соц-доказательство «построен N раз»/featured — без лайков,
+отзыв-форма, карта-абстракция, success-хук ЛК-оффера, ведение стадий/фото объектов, квиз из CMS +
+минимальные фильтры) — в WP редизайна; [P2] (индивидуальный лендинг, ЛК-эпик, `YandexProvider`) —
+отдельные поздние WP, данные под них закладываются в модель сейчас.
+
+> **Консистентность — выполнено (2026-07-05):** §1 приведён к «варианту A» (`ProjectMaterialVariant` +
+> Taxonomy + масштаб 163), шапка исправлена, 9 коррекций верификации внесены в §А,
+> `CUSTOMER-BRIEF`/`CONTENT-CHECKLIST` синхронизированы под 163. Аудит-первоисточники заморожены в
+> `archive/` (`CONSISTENCY-REPORT.md`, `TZ-VERIFICATION.md`).
