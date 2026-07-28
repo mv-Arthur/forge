@@ -26,7 +26,6 @@ Run from repo root:
 - Storybook: `pnpm storybook:ncottage-www`
 - Check: `pnpm typecheck`, `pnpm lint`, `pnpm format:check`
 - Fix: `pnpm lint:fix`, `pnpm format`
-- Browser check: `scripts/chrome-check.zsh`
 
 ## Code style
 
