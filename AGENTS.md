@@ -12,17 +12,16 @@
 
 pnpm workspace, TypeScript strict, path alias `@forge/*` -> `./packages/*/src`.
 
-- `apps/citadel` — NestJS + Fastify backend.
-- `apps/nc_presentation` — React 18 + Vite presentation site.
-- `apps/ncottage-www` — Next.js 15 + React 19 site.
-- `packages/shared` — `@forge/shared`, shared utilities package with build output.
-- `packages/iron-solver` — reusable Iron Solver application core with use-cases and ports.
+- `apps/ncottage-www` — Next.js 15 + React 19 public site.
+- `apps/ncottage-api` — NestJS + Fastify + Prisma content API.
+- `apps/ncottage-admin` — Next.js admin CMS UI.
+- `packages/shared` — `@forge/shared`, shared domain types and contracts.
 
 ## Commands
 
 Run from repo root:
 
-- Dev: `pnpm dev:citadel`, `pnpm dev:nc_presentation`, `pnpm dev:ncottage-www`
+- Dev: `pnpm dev:ncottage-www`, `pnpm dev:ncottage-api`, `pnpm dev:ncottage-admin`
 - Build: `pnpm build` or `pnpm build:<app>`
 - Storybook: `pnpm storybook:ncottage-www`
 - Check: `pnpm typecheck`, `pnpm lint`, `pnpm format:check`
@@ -56,21 +55,3 @@ Run from repo root:
 - UI icons are inline JSX components unless there is a strong reason to use an image asset.
 - Static images go to `public/images/...` and are rendered via `next/image`.
 - Do not add SVGR or sprite tooling yet.
-
-## AI pipeline rules
-
-- Iron Solver infrastructure adapters live in `infrastructure/run_iron_solver`.
-- Reusable Iron Solver core lives in `packages/iron-solver`.
-- Generic Iron Solver prompt templates live in `packages/iron-solver/prompt-templates`.
-- Local/CI job entrypoint lives in `infrastructure/run_iron_solver`.
-- GitHub Actions entrypoint is `.github/workflows/iron-solver.yml`; it calls `pnpm --dir infrastructure/run_iron_solver route`.
-- The AI workflow is label-driven.
-- Status labels are mutually exclusive and use the `status:*` prefix.
-- Project labels use the `project:*` prefix.
-- The current AI MVP is scoped to `project:ncottage-www`.
-- Orchestration is deterministic TypeScript CLI logic, not an LLM agent.
-- `frontend-developer:ncottage-www` may edit files and create/update PRs.
-- `frontend-reviewer:ncottage-www` reviews PRs read-only and writes comments.
-- `frontend-qa:ncottage-www` verifies behavior, captures artifacts, and writes comments.
-- Human review and merge are always manual.
-- If an agent hits the iteration limit or cannot proceed safely, move the issue to `status:needs-human-attention`.
