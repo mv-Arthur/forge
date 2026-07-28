@@ -57,6 +57,7 @@ lerna-debug.log*
 .eslintcache
 tsconfig.tsbuildinfo
 .codex/
+.claude/
 
 # Ephemeral scratch — единственная gitignored-папка под всё разовое
 # (дампы, аудиты, скриншоты, черновые скрипты). Одна строка ловит будущее.
@@ -66,9 +67,6 @@ tsconfig.tsbuildinfo
 audit-shots/
 screenshots/
 .qa-*/
-
-# Локальное состояние агента (не зависеть от глобального gitignore)
-.claude/settings.local.json
 
 # Debug
 .pnpm-debug.log
