@@ -11,8 +11,8 @@
 дёшевы (только вёрстка), пока не вложились в бэкенд.
 
 ## 2. Куда класть
-Новая директория **`preview/` в корне монорепы** (`~/Documents/forge/preview/`). Standalone-приложение, вне
-pnpm-workspace (или добавить в workspace — на усмотрение). Это «директория превью» из постановки.
+Новая директория **`apps/preview/`** (`~/Documents/forge/apps/preview/`). Standalone Next-приложение
+(вне pnpm-workspace: `!apps/preview` в `pnpm-workspace.yaml`, свой `package-lock.json`).
 
 ## 3. Источники (читать первыми — это источник истины)
 - **`docs/ncottage-cms/README.md`** — карта «тема → канонический док».
@@ -22,7 +22,7 @@ pnpm-workspace (или добавить в workspace — на усмотрени
 - **`docs/ncottage-cms/PODBOR-DESIGN.md`** — фильтры (Primary-6) + спека квиза-гибрида.
 - **Данные (реальные, из legacy):** `research/.corpus/projects.normalized.json` (163 дома),
   `research/.corpus/built-objects.normalized.json` (40 объектов). Картинки — прямые URL на `ncottage.ru`
-  (хотлинк для превью ОК, MinIO не нужен). **research/ в gitignore → скопировать данные в `preview/fixtures/`.**
+  (хотлинк для превью ОК, MinIO не нужен). **research/ в gitignore → скопировать данные в `apps/preview/fixtures/`.**
 
 ## 4. Экраны (из WIREFRAMES — распараллеливается по экранам)
 1. **TopBar / шапка** — лого, город, 8-800 + телефон, кнопки **Telegram/WhatsApp**, CTA «Подобрать/Рассчитать».
@@ -49,7 +49,7 @@ pnpm-workspace (или добавить в workspace — на усмотрени
 ## 6. Технически
 - **Next.js (App Router)** как в `apps/ncottage-www` (Next 15) + **Tailwind** для быстрой аккуратной стилизации.
   Это витрина для заказчика — **выглядеть должно как дизайн, не как сырьё** (типографика, отступы, hover, адаптив).
-- Скопировать `projects.normalized.json` + `built-objects.normalized.json` в `preview/fixtures/`, читать из них.
+- Скопировать `projects.normalized.json` + `built-objects.normalized.json` в `apps/preview/fixtures/`, читать из них.
 - Зависимости ставить свободно (полный аппрув). Деплой — превью-ссылка (`next build` → static export или `next start`).
 
 ## 7. Готово (DoD)
@@ -73,5 +73,5 @@ built-objects.normalized.json[]: { title, slug, technology, location, status("bu
 Примеры технологий→подписи и стилей — по §Г ТЗ; цена «от» дома = min по `variants[].priceFrom`.
 
 ## 9. Границы (что НЕ делать)
-Не трогать `apps/*`, `packages/*`, `schema.prisma`, сиды — всё превью изолировано в `preview/`. Не реализовывать
+Не трогать `apps/*`, `packages/*`, `schema.prisma`, сиды — всё превью изолировано в `apps/preview/`. Не реализовывать
 WP0+ (модель/CMS/API) — это после утверждения превью. Планы этажей есть не у всех домов (63%) — где нет, секцию скрывать.

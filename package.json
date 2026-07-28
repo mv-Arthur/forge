@@ -18,7 +18,9 @@
         "lint:fix": "eslint . --fix",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "clean": "pnpm -r clean && rm -rf node_modules"
+        "clean": "pnpm -r clean && rm -rf node_modules",
+        "dev:preview": "npm --prefix apps/preview run dev",
+        "build:preview": "npm --prefix apps/preview run build"
     },
     "devDependencies": {
         "@types/node": "^25.3.0",

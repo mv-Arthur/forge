@@ -16,12 +16,13 @@ pnpm workspace, TypeScript strict, path alias `@forge/*` -> `./packages/*/src`.
 - `apps/ncottage-api` — NestJS + Fastify + Prisma content API.
 - `apps/ncottage-admin` — Next.js admin CMS UI.
 - `packages/shared` — `@forge/shared`, shared domain types and contracts.
+- `apps/preview` — Phase S static redesign preview (standalone Next app, port 4000).
 
 ## Commands
 
 Run from repo root:
 
-- Dev: `pnpm dev:ncottage-www`, `pnpm dev:ncottage-api`, `pnpm dev:ncottage-admin`
+- Dev: `pnpm dev:ncottage-www`, `pnpm dev:ncottage-api`, `pnpm dev:ncottage-admin`, `pnpm dev:preview`
 - Build: `pnpm build` or `pnpm build:<app>`
 - Storybook: `pnpm storybook:ncottage-www`
 - Check: `pnpm typecheck`, `pnpm lint`, `pnpm format:check`
