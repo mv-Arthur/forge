@@ -1,4 +1,4 @@
-# preview — статик-превью Фазы S (фокус на готовых проектах + построенных объектах)
+# apps/preview — статик-превью Фазы S (фокус на готовых проектах + построенных объектах)
 
 Кликабельный превью редизайна сценария «Готовые проекты + Построенные объекты».
 
@@ -23,7 +23,8 @@
 ## Запуск
 
 ```
-npm install         # ставится в preview/node_modules
+cd apps/preview
+npm install         # ставится в apps/preview/node_modules
 npm run dev         # http://localhost:4000
 npm run build       # SSG-сборка (147 страниц)
 npm start           # прод-сервер на 4000
