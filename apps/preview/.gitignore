@@ -5,3 +5,6 @@ next-env.d.ts
 !.env.example
 *.log
 .DS_Store
+.beget-db.env
+scripts/.cache/
+data/fixtures/.export-raw/

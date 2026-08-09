@@ -36,8 +36,8 @@ export default function ProjectsPage() {
         <main>
 
             <section className="border-b border-ink-150 bg-white">
-                <div className="container-page py-8 md:py-10">
-                    <div className="text-[12px] text-ink-500">
+                <div className="container-page py-10 md:py-14">
+                    <div className="text-xs text-ink-500">
                         <Link href="/" className="hover:text-ink-950">
                             Главная
                         </Link>{" "}
@@ -74,7 +74,7 @@ export default function ProjectsPage() {
                                     <span className="font-semibold text-ink-950">
                                         {formatTechnologyBrand(t)}
                                     </span>
-                                    <span className="text-[12px] text-ink-500">
+                                    <span className="text-xs text-ink-500">
                                         {TECH_DESCRIPTIONS[t]}
                                     </span>
                                 </Link>

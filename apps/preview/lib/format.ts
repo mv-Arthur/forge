@@ -5,13 +5,23 @@ const priceFormatter = new Intl.NumberFormat("ru-RU", {
 });
 
 export function formatPrice(value: number | null | undefined): string {
-    if (value === null || value === undefined || !Number.isFinite(value))
+    if (
+        value === null ||
+        value === undefined ||
+        !Number.isFinite(value) ||
+        value <= 0
+    )
         return "—";
     return `${priceFormatter.format(Math.round(value))} ₽`;
 }
 
 export function formatMillions(value: number | null | undefined): string {
-    if (value === null || value === undefined || !Number.isFinite(value))
+    if (
+        value === null ||
+        value === undefined ||
+        !Number.isFinite(value) ||
+        value <= 0
+    )
         return "—";
     const millions = value / 1_000_000;
     if (millions >= 10) return `${millions.toFixed(1)} млн ₽`;

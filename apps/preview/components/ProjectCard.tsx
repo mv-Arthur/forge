@@ -8,10 +8,8 @@ import {
     formatArea,
     formatPrice,
     formatTechnologyBrand,
-    projectObjectsBadge,
 } from "@/lib/format";
 import {
-    displayLikeCount,
     isCompared,
     isLiked,
     toggleCompare,
@@ -74,18 +72,17 @@ export function ProjectCard({
         setCompared(toggleCompare(project.slug));
     };
 
-    const millions = (project.priceFrom / 1_000_000).toLocaleString("ru-RU", {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 0,
-    });
+    const millions =
+        project.priceFrom != null && project.priceFrom > 0
+            ? (project.priceFrom / 1_000_000).toLocaleString("ru-RU", {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 0,
+              })
+            : null;
 
     const techLabel = project.technologies[0]
         ? formatTechnologyBrand(project.technologies[0])
         : null;
-    const objectsBadge = projectObjectsBadge(
-        project.builtCount,
-        project.buildingCount,
-    );
 
     return (
         <article className="group relative overflow-hidden rounded-2xl bg-ink-900 shadow-card transition hover:shadow-lift">
@@ -145,23 +142,13 @@ export function ProjectCard({
                 {/* Top chips + like — как у GWD */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-2 p-3">
                     <div className="flex flex-wrap gap-1.5">
-                        {project.isFeatured ? (
-                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
-                                Хит
-                            </span>
-                        ) : null}
-                        {project.isDiscounted ? (
-                            <span className="rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-ink shadow-sm">
-                                Акция
-                            </span>
-                        ) : null}
                         {project.floors === "1" ? (
-                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
+                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
                                 1 этаж
                             </span>
                         ) : null}
                         {techLabel ? (
-                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
+                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
                                 {techLabel}
                             </span>
                         ) : null}
@@ -171,7 +158,7 @@ export function ProjectCard({
                         <button
                             type="button"
                             onClick={onCompare}
-                            className={`grid h-9 w-9 place-items-center rounded-full shadow-sm backdrop-blur-sm transition ${
+                            className={`grid h-10 w-10 place-items-center rounded-full shadow-sm backdrop-blur-sm transition ${
                                 compared
                                     ? "bg-ink-900 text-white"
                                     : "bg-white/90 text-ink-700 hover:bg-white hover:text-ink-950"
@@ -193,7 +180,7 @@ export function ProjectCard({
                         <button
                             type="button"
                             onClick={onLike}
-                            className={`inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 shadow-sm backdrop-blur-sm transition ${
+                            className={`inline-flex h-10 items-center gap-1.5 rounded-full px-2.5 shadow-sm backdrop-blur-sm transition ${
                                 liked
                                     ? "bg-white text-accent"
                                     : "bg-white/90 text-ink-700 hover:text-accent"
@@ -206,12 +193,6 @@ export function ProjectCard({
                             aria-pressed={liked}
                         >
                             <HeartIcon className="h-4 w-4" filled={liked} />
-                            <span className="text-[12px] font-semibold tabular-nums">
-                                {displayLikeCount(
-                                    project.slug,
-                                    liked,
-                                ).toLocaleString("ru-RU")}
-                            </span>
                         </button>
                     </div>
                 </div>
@@ -224,19 +205,11 @@ export function ProjectCard({
                 >
                     <div
                         className={`font-display font-extrabold tracking-tight text-white ${
-                            wide
-                                ? "text-[26px] sm:text-[32px]"
-                                : "text-[22px] sm:text-[24px]"
+                            wide ? "text-price" : "text-price-sm"
                         }`}
                     >
                         {project.displayName}
                     </div>
-                    {objectsBadge ? (
-                        <div className="mt-1 text-[12px] font-medium text-white/70">
-                            {objectsBadge}
-                        </div>
-                    ) : null}
-
                     <div className="mt-3 flex items-end justify-between gap-3">
                         <div className="flex flex-wrap items-center gap-3 text-white/90">
                             <Meta
@@ -260,23 +233,23 @@ export function ProjectCard({
                                 }
                             />
                         </div>
-                        <div className="flex-shrink-0 text-right">
-                            <div
-                                className={`font-display font-extrabold tracking-tight text-white ${
-                                    wide
-                                        ? "text-[22px] sm:text-[26px]"
-                                        : "text-[18px] sm:text-[20px]"
-                                }`}
-                            >
-                                {millions}{" "}
-                                <span className="text-[13px] font-bold tracking-wide">
-                                    МЛН ₽
-                                </span>
+                        {millions ? (
+                            <div className="flex-shrink-0 text-right">
+                                <div
+                                    className={`font-display font-extrabold tracking-tight text-white ${
+                                        wide ? "text-price" : "text-price-sm"
+                                    }`}
+                                >
+                                    {millions}{" "}
+                                    <span className="text-sm font-bold tracking-wide">
+                                        МЛН ₽
+                                    </span>
+                                </div>
+                                <div className="text-xs font-medium uppercase tracking-wider text-white/55">
+                                    под ключ от
+                                </div>
                             </div>
-                            <div className="text-[10px] font-medium uppercase tracking-wider text-white/55">
-                                под ключ от
-                            </div>
-                        </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
@@ -292,7 +265,7 @@ function Meta({
     value: string;
 }) {
     return (
-        <div className="flex items-center gap-1 text-[12px] font-semibold tabular-nums">
+        <div className="flex items-center gap-1 text-xs font-semibold tabular-nums">
             <span className="text-white/65">{icon}</span>
             <span>{value}</span>
         </div>

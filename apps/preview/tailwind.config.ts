@@ -75,8 +75,9 @@ const config: Config = {
                 mono: ["ui-monospace", "SFMono-Regular", "monospace"],
             },
             fontSize: {
+                /* Floor ≥2.25rem (36px) so hero titles never shrink below prior mobile size */
                 "display-1": [
-                    "clamp(1.875rem, 4.5vw, 3.5rem)",
+                    "clamp(2.25rem, 4.5vw, 3.5rem)",
                     {
                         lineHeight: "1.12",
                         letterSpacing: "-0.025em",
@@ -123,6 +124,24 @@ const config: Config = {
                         lineHeight: "1.2",
                         letterSpacing: "0.08em",
                         fontWeight: "600",
+                    },
+                ],
+                /* GWD-like catalog price digits → utility text-price; min 1.625rem (26px) */
+                price: [
+                    "clamp(1.625rem, 2.5vw, 2rem)",
+                    {
+                        lineHeight: "1",
+                        letterSpacing: "-0.02em",
+                        fontWeight: "800",
+                    },
+                ],
+                /* GWD-like secondary price digits → utility text-price-sm; min 1.375rem (22px) */
+                "price-sm": [
+                    "clamp(1.375rem, 2vw, 1.625rem)",
+                    {
+                        lineHeight: "1",
+                        letterSpacing: "-0.015em",
+                        fontWeight: "800",
                     },
                 ],
             },

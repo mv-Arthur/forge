@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import type { MergedProject, Style, Technology } from "@/lib/types";
+import type { MergedProject, Technology } from "@/lib/types";
 import { ProjectCard } from "./ProjectCard";
 import { formatTechnologyBrand, projectsWord } from "@/lib/format";
 import {
@@ -27,16 +27,6 @@ const FLOOR_OPTIONS: Array<{ value: string; label: string }> = [
     { value: "2", label: "2 этажа" },
     { value: "mansard", label: "мансарда" },
 ];
-const STYLE_OPTIONS: Array<{ value: Style; label: string }> = [
-    { value: "scandinavian", label: "Скандинавский" },
-    { value: "modern", label: "Модерн" },
-    { value: "classic", label: "Классический" },
-    { value: "loft", label: "Лофт" },
-    { value: "barn", label: "Барн" },
-    { value: "european", label: "Европейский" },
-    { value: "provance", label: "Прованс" },
-];
-
 const PRESETS: Array<{
     key: string;
     label: string;
@@ -49,13 +39,9 @@ const PRESETS: Array<{
     { key: "1story", label: "Одноэтажные", apply: { floors: ["1"] } },
     { key: "gas", label: "Газобетон", apply: { tech: ["gas_concrete"] } },
     { key: "frame", label: "Каркас", apply: { tech: ["frame"] } },
-    { key: "hit", label: "Только хиты", apply: { onlyHit: true } },
-    { key: "sale", label: "С акцией", apply: { onlyDiscounted: true } },
-    { key: "built", label: "Уже строили", apply: { onlyBuilt: true } },
 ];
 
 type SortMode =
-    | "popular"
     | "priceAsc"
     | "priceDesc"
     | "areaAsc"
@@ -71,12 +57,7 @@ interface FiltersState {
     floors: string[];
     bedroomsMin: number;
     bathroomsMin: number;
-    styles: Style[];
-    livingType: string;
     hasTerrace: boolean;
-    onlyHit: boolean;
-    onlyDiscounted: boolean;
-    onlyBuilt: boolean;
 }
 
 const DEFAULT_STATE: FiltersState = {
@@ -88,12 +69,7 @@ const DEFAULT_STATE: FiltersState = {
     floors: [],
     bedroomsMin: 0,
     bathroomsMin: 0,
-    styles: [],
-    livingType: "any",
     hasTerrace: false,
-    onlyHit: false,
-    onlyDiscounted: false,
-    onlyBuilt: false,
 };
 
 interface Props {
@@ -132,8 +108,6 @@ export function ProjectFilters({ projects }: Props) {
         }
         if (areaMin) next.areaMin = Number(areaMin) || DEFAULT_STATE.areaMin;
         if (areaMax) next.areaMax = Number(areaMax) || DEFAULT_STATE.areaMax;
-        const hit = searchParams.get("hit");
-        if (hit === "1" || hit === "true") next.onlyHit = true;
         if (Object.keys(next).length) {
             setState((s) => ({ ...s, ...next }));
             setOpen(true);
@@ -146,7 +120,6 @@ export function ProjectFilters({ projects }: Props) {
             if (query) {
                 const hay = [
                     p.displayName,
-                    p.code,
                     p.subtitle,
                     p.technologies.map(formatTechnologyBrand).join(" "),
                 ]
@@ -164,9 +137,14 @@ export function ProjectFilters({ projects }: Props) {
                 if (p.area < state.areaMin || p.area > state.areaMax)
                     return false;
             }
-            const priceM = p.priceFrom / 1_000_000;
-            if (priceM < state.priceMin) return false;
-            if (state.priceMax < 25 && priceM > state.priceMax) return false;
+            const priceM =
+                p.priceFrom != null && p.priceFrom > 0
+                    ? p.priceFrom / 1_000_000
+                    : null;
+            if (priceM != null) {
+                if (priceM < state.priceMin) return false;
+                if (state.priceMax < 25 && priceM > state.priceMax) return false;
+            }
             if (state.floors.length > 0 && p.floors) {
                 if (!state.floors.includes(p.floors)) return false;
             }
@@ -177,36 +155,23 @@ export function ProjectFilters({ projects }: Props) {
                 (p.bathrooms ?? 0) < state.bathroomsMin
             )
                 return false;
-            if (state.styles.length > 0 && !state.styles.includes(p.style))
-                return false;
-            if (state.livingType !== "any" && p.livingType !== state.livingType)
-                return false;
             if (state.hasTerrace && !p.hasTerrace) return false;
-            if (state.onlyHit && !p.isFeatured) return false;
-            if (state.onlyDiscounted && !p.isDiscounted) return false;
-            if (state.onlyBuilt && p.builtCount === 0) return false;
             return true;
         });
     }, [projects, state, q]);
 
     const sorted = useMemo(() => {
         const arr = [...filtered];
+        const priceOf = (p: MergedProject) => p.priceFrom ?? 0;
         switch (sort) {
             case "recommended":
-                arr.sort((a, b) => {
-                    const sa = (a.isFeatured ? 100 : 0) + a.builtCount * 5;
-                    const sb = (b.isFeatured ? 100 : 0) + b.builtCount * 5;
-                    return sb - sa;
-                });
-                break;
-            case "popular":
-                arr.sort((a, b) => b.builtCount - a.builtCount);
+                arr.sort((a, b) => (b.area ?? 0) - (a.area ?? 0));
                 break;
             case "priceAsc":
-                arr.sort((a, b) => a.priceFrom - b.priceFrom);
+                arr.sort((a, b) => priceOf(a) - priceOf(b));
                 break;
             case "priceDesc":
-                arr.sort((a, b) => b.priceFrom - a.priceFrom);
+                arr.sort((a, b) => priceOf(b) - priceOf(a));
                 break;
             case "areaAsc":
                 arr.sort((a, b) => (a.area ?? 0) - (b.area ?? 0));
@@ -241,14 +206,6 @@ export function ProjectFilters({ projects }: Props) {
                 ? s.floors.filter((x) => x !== f)
                 : [...s.floors, f],
         }));
-    const toggleStyle = (v: Style) =>
-        setState((s) => ({
-            ...s,
-            styles: s.styles.includes(v)
-                ? s.styles.filter((x) => x !== v)
-                : [...s.styles, v],
-        }));
-
     const FilterBody = (
         <div className="space-y-6">
             <FilterGroup label="Материал стен">
@@ -370,52 +327,6 @@ export function ProjectFilters({ projects }: Props) {
                 </div>
             </FilterGroup>
 
-            <FilterGroup label="Стиль">
-                <div className="flex flex-wrap gap-1.5">
-                    {STYLE_OPTIONS.map((opt) => (
-                        <button
-                            key={opt.value}
-                            type="button"
-                            onClick={() => toggleStyle(opt.value)}
-                            className={`chip chip-btn ${
-                                state.styles.includes(opt.value)
-                                    ? "chip-active"
-                                    : ""
-                            }`}
-                        >
-                            {opt.label}
-                        </button>
-                    ))}
-                </div>
-            </FilterGroup>
-
-            <FilterGroup label="Назначение">
-                <div className="flex flex-wrap gap-1.5">
-                    {[
-                        { v: "any", label: "Любое" },
-                        { v: "permanent", label: "ПМЖ" },
-                        { v: "seasonal", label: "Сезонный" },
-                        { v: "guest", label: "Гостевой" },
-                    ].map((opt) => (
-                        <button
-                            key={opt.v}
-                            type="button"
-                            onClick={() =>
-                                setState((s) => ({
-                                    ...s,
-                                    livingType: opt.v,
-                                }))
-                            }
-                            className={`chip chip-btn ${
-                                state.livingType === opt.v ? "chip-active" : ""
-                            }`}
-                        >
-                            {opt.label}
-                        </button>
-                    ))}
-                </div>
-            </FilterGroup>
-
             <FilterGroup label="Особенности">
                 <div className="flex flex-col gap-2">
                     <FilterCheckbox
@@ -423,27 +334,6 @@ export function ProjectFilters({ projects }: Props) {
                         checked={state.hasTerrace}
                         onChange={(v) =>
                             setState((s) => ({ ...s, hasTerrace: v }))
-                        }
-                    />
-                    <FilterCheckbox
-                        label="Только хиты"
-                        checked={state.onlyHit}
-                        onChange={(v) =>
-                            setState((s) => ({ ...s, onlyHit: v }))
-                        }
-                    />
-                    <FilterCheckbox
-                        label="Только со скидкой"
-                        checked={state.onlyDiscounted}
-                        onChange={(v) =>
-                            setState((s) => ({ ...s, onlyDiscounted: v }))
-                        }
-                    />
-                    <FilterCheckbox
-                        label="Уже построен"
-                        checked={state.onlyBuilt}
-                        onChange={(v) =>
-                            setState((s) => ({ ...s, onlyBuilt: v }))
                         }
                     />
                 </div>
@@ -484,7 +374,7 @@ export function ProjectFilters({ projects }: Props) {
                         {open ? "Скрыть" : "Фильтры"}
                         {activeChips > 0 ? (
                             <span
-                                className={`rounded-full px-1.5 py-0.5 text-[11px] font-bold tabular-nums ${
+                                className={`rounded-full px-1.5 py-0.5 text-xs font-bold tabular-nums ${
                                     open
                                         ? "bg-white/15 text-white"
                                         : "bg-accent text-accent-ink"
@@ -529,8 +419,7 @@ export function ProjectFilters({ projects }: Props) {
                                 setSort(e.target.value as SortMode)
                             }
                         >
-                            <option value="recommended">рекомендуемые</option>
-                            <option value="popular">по популярности</option>
+                            <option value="recommended">по площади</option>
                             <option value="priceAsc">цена ↑</option>
                             <option value="priceDesc">цена ↓</option>
                             <option value="areaAsc">площадь ↑</option>
@@ -713,12 +602,7 @@ function countActive(s: FiltersState): number {
     if (s.floors.length) n++;
     if (s.bedroomsMin) n++;
     if (s.bathroomsMin) n++;
-    if (s.styles.length) n++;
-    if (s.livingType !== "any") n++;
     if (s.hasTerrace) n++;
-    if (s.onlyHit) n++;
-    if (s.onlyDiscounted) n++;
-    if (s.onlyBuilt) n++;
     return n;
 }
 

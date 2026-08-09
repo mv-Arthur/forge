@@ -27,8 +27,8 @@ export default function WorksPage() {
     return (
         <main>
             <section className="border-b border-ink-150 bg-white">
-                <div className="container-page py-8 md:py-10">
-                    <div className="text-[12px] text-ink-500">
+                <div className="container-page py-10 md:py-14">
+                    <div className="text-xs text-ink-500">
                         <Link href="/" className="hover:text-ink-950">
                             Главная
                         </Link>{" "}
@@ -42,7 +42,7 @@ export default function WorksPage() {
                             <h1 className="mt-2 font-display text-display-2">
                                 Дома, которые уже стоят
                             </h1>
-                            <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
+                            <p className="mt-3 text-sm leading-relaxed text-ink-500 md:text-base">
                                 Не рендеры из каталога — реальные объекты в
                                 Ленобласти. Можно приехать, посмотреть узлы и
                                 понять, как будет выглядеть ваш дом.

@@ -106,7 +106,7 @@ export function WorksMapAndGrid({ objects }: Props) {
         const map = new Map<string, string>();
         for (const o of objects) {
             if (o.location)
-                map.set(o.location, o.locationLabel || o.location);
+                map.set(o.location, o.locationLabel ?? o.location);
         }
         return Array.from(map.entries())
             .map(([value, label]) => ({ value, label }))
@@ -129,22 +129,23 @@ export function WorksMapAndGrid({ objects }: Props) {
                 if (!o.location || !f.locations.includes(o.location))
                     return false;
             }
-            if (o.area < f.areaMin || o.area > f.areaMax) return false;
-            if (f.bedroomsMin > 0 && o.bedrooms < f.bedroomsMin) return false;
-            if (f.bathroomsMin > 0 && o.bathrooms < f.bathroomsMin)
+            if (o.area != null) {
+                if (o.area < f.areaMin || o.area > f.areaMax) return false;
+            }
+            if (f.bedroomsMin > 0 && (o.bedrooms ?? 0) < f.bedroomsMin)
+                return false;
+            if (f.bathroomsMin > 0 && (o.bathrooms ?? 0) < f.bathroomsMin)
                 return false;
             if (o.gallery.length < f.photosMin) return false;
             if (f.hasTerrace && !o.hasTerrace) return false;
             if (f.hasSauna && !o.hasSauna) return false;
             if (f.hasGarage && !o.hasGarage) return false;
-            if (f.withProject && !o.baseProjectSlug) return false;
             if (query) {
                 const hay = [
                     o.displayTitle,
-                    o.locationLabel,
+                    o.locationLabel ?? "",
                     o.location ?? "",
                     formatTechnologyBrand(o.technology),
-                    o.foreman,
                 ]
                     .join(" ")
                     .toLowerCase();
@@ -155,28 +156,29 @@ export function WorksMapAndGrid({ objects }: Props) {
 
         switch (sort) {
             case "area":
-                arr.sort((a, b) => b.area - a.area);
+                arr.sort((a, b) => (b.area ?? 0) - (a.area ?? 0));
                 break;
             case "photos":
                 arr.sort((a, b) => b.gallery.length - a.gallery.length);
                 break;
             default:
                 arr.sort((a, b) =>
-                    (b.buildStartDate || "").localeCompare(
-                        a.buildStartDate || "",
+                    b.displayTitle.localeCompare(
+                        a.displayTitle,
                     ),
                 );
         }
         return arr;
     }, [objects, f, sort, q]);
 
+    /** Only real fixture locations — never invent «default»/Ленобласть cluster. */
     const clusters = useMemo(() => {
         const map = new Map<string, EnrichedBuiltObject[]>();
         for (const o of filtered) {
-            const key = o.location ?? "default";
-            const arr = map.get(key) ?? [];
+            if (!o.location) continue;
+            const arr = map.get(o.location) ?? [];
             arr.push(o);
-            map.set(key, arr);
+            map.set(o.location, arr);
         }
         return map;
     }, [filtered]);
@@ -346,7 +348,7 @@ export function WorksMapAndGrid({ objects }: Props) {
                         {open ? "Скрыть" : "Фильтры"}
                         {activeCount > 0 ? (
                             <span
-                                className={`rounded-full px-1.5 py-0.5 text-[11px] font-bold tabular-nums ${
+                                className={`rounded-full px-1.5 py-0.5 text-xs font-bold tabular-nums ${
                                     open
                                         ? "bg-white/15 text-white"
                                         : "bg-accent text-accent-ink"
@@ -649,40 +651,19 @@ const GEO_SEED: Record<string, { x: number; y: number; label: string }> = {
     // вне региона
     "Moscow Region": { x: 72, y: 82, label: "Московская обл." },
     Romashkovo: { x: 78, y: 88, label: "Ромашково" },
-    // fallback-куча «Ленобласть»
-    default: { x: 46, y: 46, label: "Ленобласть" },
 };
 
 const MIN_PIN_DIST = 13; // % — минимум между центрами пинов
 /** Поля: пины не вылезают за край карты (и не наезжают на список). */
 const PAD = 14;
 
+/** Fixed allowlist seed only — no hash/spiral invent for unknown keys. */
 function seedPoint(
     loc: string,
-    label: string,
-    index: number,
-): { x: number; y: number; label: string } {
-    const known = GEO_SEED[loc] ?? GEO_SEED.default;
-    // лёгкий детерминированный сдвиг, чтобы «Ленобласть»/unknown не сидели в одной точке
-    let h = 0;
-    for (let i = 0; i < loc.length; i++) h = (h + loc.charCodeAt(i) * (i + 3)) % 997;
-    const jx = ((h % 17) - 8) * 0.35;
-    const jy = (((h * 7) % 17) - 8) * 0.35;
-    // unknown keys: spiral from default
-    if (!GEO_SEED[loc] && loc !== "default") {
-        const a = index * 2.4;
-        const r = 8 + (index % 5) * 4;
-        return {
-            x: 50 + Math.cos(a) * r + jx,
-            y: 48 + Math.sin(a) * r * 0.85 + jy,
-            label,
-        };
-    }
-    return {
-        x: known.x + jx,
-        y: known.y + jy,
-        label: known.label || label,
-    };
+): { x: number; y: number; label: string } | null {
+    const known = GEO_SEED[loc];
+    if (!known) return null;
+    return { x: known.x, y: known.y, label: known.label };
 }
 
 /** Раздвигает пины, пока не перестанут наезжать. */
@@ -735,11 +716,24 @@ function MapView({
     onOpen: (o: EnrichedBuiltObject) => void;
 }) {
     const pins = useMemo(() => {
-        const raw = Array.from(clusters.entries()).map(([loc, arr], i) => {
-            const label = arr[0]?.locationLabel || loc || "Ленобласть";
-            const seed = seedPoint(loc, label, i);
-            return { loc, arr, label: seed.label, x: seed.x, y: seed.y };
-        });
+        const raw: Array<{
+            loc: string;
+            arr: EnrichedBuiltObject[];
+            label: string;
+            x: number;
+            y: number;
+        }> = [];
+        for (const [loc, arr] of clusters.entries()) {
+            const seed = seedPoint(loc);
+            if (!seed) continue;
+            raw.push({
+                loc,
+                arr,
+                label: arr[0]?.locationLabel ?? seed.label,
+                x: seed.x,
+                y: seed.y,
+            });
+        }
         return spreadPins(raw);
     }, [clusters]);
 
@@ -750,7 +744,7 @@ function MapView({
                 <MapPattern />
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(156,74,45,0.08),transparent_45%),radial-gradient(circle_at_70%_55%,rgba(71,147,50,0.08),transparent_40%)]" />
 
-                <div className="pointer-events-none absolute bottom-3 left-3 z-20 rounded-md bg-white/95 px-3 py-1 text-[11px] font-semibold text-ink-700 shadow">
+                <div className="pointer-events-none absolute bottom-3 left-3 z-20 rounded-md bg-white/95 px-3 py-1 text-xs font-semibold text-ink-700 shadow">
                     Где смотреть
                 </div>
                 <div className="pointer-events-none absolute right-3 top-3 z-20 rounded-md bg-white/95 px-3 py-1.5 text-[12px] font-semibold text-ink-700 shadow">
@@ -783,7 +777,7 @@ function MapView({
                                         <MapPinIcon className="h-4 w-4" />
                                     )}
                                 </div>
-                                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-1 max-w-[6.5rem] -translate-x-1/2 truncate rounded-md bg-ink-950 px-2 py-0.5 text-center text-[11px] font-semibold text-white opacity-0 shadow transition group-hover:opacity-100 group-focus-visible:opacity-100">
+                                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-1 max-w-[6.5rem] -translate-x-1/2 truncate rounded-md bg-ink-950 px-2 py-0.5 text-center text-xs font-semibold text-white opacity-0 shadow transition group-hover:opacity-100 group-focus-visible:opacity-100">
                                     {pin.label}
                                     {pin.arr.length > 1
                                         ? ` · ${pin.arr.length}`
@@ -819,7 +813,7 @@ function MapView({
                             <div className="line-clamp-2 text-[13px] font-semibold text-ink-900">
                                 {o.displayTitle}
                             </div>
-                            <div className="mt-1 text-[11px] text-ink-500">
+                            <div className="mt-1 text-xs text-ink-500">
                                 {o.locationLabel} · {formatArea(o.area)} ·{" "}
                                 {formatFloorsShort(o.floors)}
                             </div>

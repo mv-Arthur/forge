@@ -103,7 +103,7 @@ export function MaterialSwitcher({ project }: Props) {
                                     {formatTechnologyBrand(v.technology)}
                                 </div>
                                 <div
-                                    className={`mt-2 text-[11px] uppercase tracking-wider ${
+                                    className={`mt-2 text-xs uppercase tracking-wider ${
                                         isActive
                                             ? "text-white/70"
                                             : "text-ink-500"

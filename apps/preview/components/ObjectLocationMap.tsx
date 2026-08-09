@@ -1,7 +1,7 @@
 import type { EnrichedBuiltObject } from "@/lib/types";
 import { MapPinIcon } from "./Icons";
 
-/** Иллюстративные якоря для превью (без Leaflet). */
+/** Known fixture location keys → SVG pin anchors (no invent for unknown). */
 const CITY_ANCHORS: Record<
     string,
     { top: string; left: string; label: string }
@@ -35,39 +35,22 @@ const CITY_ANCHORS: Record<
         left: "54%",
         label: "Мистолово",
     },
-    default: { top: "50%", left: "50%", label: "Ленобласть" },
 };
 
-function hashPos(slug: string, mul: number, base: number, span: number) {
-    let h = 0;
-    for (let i = 0; i < slug.length; i++) h = (h + slug.charCodeAt(i) * mul) % span;
-    return base + h;
-}
-
-function resolveAnchor(object: EnrichedBuiltObject) {
-    if (object.location && CITY_ANCHORS[object.location]) {
-        return CITY_ANCHORS[object.location];
-    }
-    return {
-        top: `${hashPos(object.slug, 7, 22, 45)}%`,
-        left: `${hashPos(object.slug, 11, 20, 50)}%`,
-        label: object.locationLabel || "Ленобласть",
-    };
-}
-
 /**
- * Где объект: статичное превью-карта (без Leaflet).
+ * Где объект: статичное превью-карта. Пин только при известном fixture location.
  */
 export function ObjectLocationMap({
     object,
 }: {
     object: EnrichedBuiltObject;
 }) {
-    const anchor = resolveAnchor(object);
-    const region =
-        object.locationLabel === "Ленобласть"
-            ? "Ленинградская область"
-            : `${object.locationLabel}, Ленинградская область`;
+    if (!object.location || !object.locationLabel) {
+        return null;
+    }
+
+    const anchor = object.location ? CITY_ANCHORS[object.location] : undefined;
+    const label = object.locationLabel;
 
     return (
         <section className="rounded-2xl border border-ink-150 bg-white p-5 md:p-6">
@@ -77,39 +60,47 @@ export function ObjectLocationMap({
                     <h2 className="mt-1 font-display text-h2">
                         Где этот объект
                     </h2>
-                    <p className="mt-1 text-[13px] text-ink-500">{region}</p>
+                    <p className="mt-1 text-[13px] text-ink-500">
+                        {label}, Ленинградская область
+                    </p>
                 </div>
                 <div className="inline-flex items-center gap-1.5 rounded-full border border-ink-150 bg-ink-50 px-3 py-1.5 text-[13px] font-semibold text-ink-900">
                     <MapPinIcon className="h-4 w-4 text-accent" />
-                    {object.locationLabel}
+                    {label}
                 </div>
             </div>
 
-            <div className="relative min-h-[280px] overflow-hidden rounded-xl border border-ink-150 bg-[#e8efe6] sm:min-h-[340px] sm:aspect-[16/9]">
-                <MapPattern />
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(156,74,45,0.08),transparent_45%),radial-gradient(circle_at_70%_60%,rgba(71,147,50,0.1),transparent_40%)]" />
+            {anchor ? (
+                <div className="relative min-h-[280px] overflow-hidden rounded-xl border border-ink-150 bg-[#e8efe6] sm:min-h-[340px] sm:aspect-[16/9]">
+                    <MapPattern />
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(156,74,45,0.08),transparent_45%),radial-gradient(circle_at_70%_60%,rgba(71,147,50,0.1),transparent_40%)]" />
 
-                <div className="absolute bottom-3 left-3 z-10 rounded-md bg-white/95 px-3 py-1 text-[11px] font-semibold text-ink-700 shadow">
-                    Превью карты
-                </div>
+                    <div className="absolute bottom-3 left-3 z-10 rounded-md bg-white/95 px-3 py-1 text-xs font-semibold text-ink-700 shadow">
+                        Превью карты
+                    </div>
 
-                <div
-                    className="absolute z-[1] -translate-x-1/2 -translate-y-full"
-                    style={{ top: anchor.top, left: anchor.left }}
-                >
-                    <div className="flex flex-col items-center">
-                        <div className="relative">
-                            <span className="absolute inset-0 animate-ping rounded-full bg-accent/40" />
-                            <div className="relative grid h-12 w-12 place-items-center rounded-full bg-accent text-accent-ink shadow-lift ring-4 ring-white">
-                                <MapPinIcon className="h-5 w-5" />
+                    <div
+                        className="absolute z-[1] -translate-x-1/2 -translate-y-full"
+                        style={{ top: anchor.top, left: anchor.left }}
+                    >
+                        <div className="flex flex-col items-center">
+                            <div className="relative">
+                                <span className="absolute inset-0 animate-ping rounded-full bg-accent/40" />
+                                <div className="relative grid h-12 w-12 place-items-center rounded-full bg-accent text-accent-ink shadow-lift ring-4 ring-white">
+                                    <MapPinIcon className="h-5 w-5" />
+                                </div>
                             </div>
-                        </div>
-                        <div className="mt-1.5 max-w-[160px] rounded-md bg-ink-950 px-2.5 py-1 text-center text-[12px] font-semibold text-white shadow">
-                            {anchor.label}
+                            <div className="mt-1.5 max-w-[160px] rounded-md bg-ink-950 px-2.5 py-1 text-center text-[12px] font-semibold text-white shadow">
+                                {anchor.label}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <p className="rounded-xl border border-ink-150 bg-ink-50/50 px-4 py-3 text-[13px] text-ink-600">
+                    Район: {label}. Точный адрес — после записи на просмотр.
+                </p>
+            )}
 
             <p className="mt-3 text-[13px] leading-relaxed text-ink-500">
                 Точный адрес и схема проезда — после записи на просмотр.

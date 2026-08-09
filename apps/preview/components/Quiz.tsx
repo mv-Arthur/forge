@@ -218,7 +218,10 @@ export function Quiz({ projects }: Props) {
 
     const priceRange = useMemo(() => {
         if (matches.length === 0) return null;
-        const prices = matches.map((p) => p.priceFrom).filter(Boolean);
+        const prices = matches
+            .map((p) => p.priceFrom)
+            .filter((n): n is number => n != null && n > 0);
+        if (prices.length === 0) return { min: 0, max: 0 };
         return {
             min: Math.min(...prices),
             max: Math.max(...prices),
@@ -483,10 +486,15 @@ function filterByAnswers(
                 return false;
             if (bedrooms > 0 && (p.bedrooms ?? 0) < bedrooms) return false;
             if (area && p.area && !matchAreaBucket(area, p.area)) return false;
-            if (budget && !matchBudgetBucket(budget, p.priceFrom)) return false;
+            if (
+                budget &&
+                (p.priceFrom == null ||
+                    !matchBudgetBucket(budget, p.priceFrom))
+            )
+                return false;
             return true;
         })
-        .sort((a, b) => b.builtCount - a.builtCount);
+        .sort((a, b) => (b.area ?? 0) - (a.area ?? 0));
 }
 
 function ResultsView({
@@ -613,11 +621,6 @@ function QuizResultCard({ project }: { project: MergedProject }) {
                         className="object-cover"
                     />
                 ) : null}
-                {project.isFeatured ? (
-                    <span className="badge badge-hit absolute left-2 top-2">
-                        Хит
-                    </span>
-                ) : null}
             </div>
             <div className="flex flex-1 flex-col py-3 pr-4">
                 <div className="font-display text-lg font-extrabold text-ink-950">
@@ -627,19 +630,23 @@ function QuizResultCard({ project }: { project: MergedProject }) {
                     {project.subtitle}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1">
-                    <span className="chip !text-[11px]">
-                        {formatArea(project.area || 150)}
-                    </span>
-                    <span className="chip !text-[11px]">
-                        {formatFloorsShort(project.floors || "1")}
-                    </span>
+                    {project.area != null ? (
+                        <span className="chip !text-xs">
+                            {formatArea(project.area)}
+                        </span>
+                    ) : null}
+                    {project.floors ? (
+                        <span className="chip !text-xs">
+                            {formatFloorsShort(project.floors)}
+                        </span>
+                    ) : null}
                     {project.bedrooms ? (
-                        <span className="chip !text-[11px]">
+                        <span className="chip !text-xs">
                             {project.bedrooms} сп
                         </span>
                     ) : null}
                     {project.technologies.length > 0 ? (
-                        <span className="chip !text-[11px]">
+                        <span className="chip !text-xs">
                             {project.technologies
                                 .map(formatTechnologyBrand)
                                 .join(" / ")}
@@ -648,7 +655,7 @@ function QuizResultCard({ project }: { project: MergedProject }) {
                 </div>
                 <div className="mt-auto flex items-baseline justify-between gap-3 pt-3">
                     <div>
-                        <div className="text-[11px] uppercase tracking-wider text-ink-500">
+                        <div className="text-xs uppercase tracking-wider text-ink-500">
                             Под ключ от
                         </div>
                         <div className="font-display text-xl font-extrabold text-ink-950">

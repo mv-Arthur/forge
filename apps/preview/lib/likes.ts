@@ -37,20 +37,6 @@ export function isLiked(slug: string): boolean {
     return readLikes().includes(slug);
 }
 
-/** Стабильный «социальный» счётчик для превью (без бэка). */
-export function baseLikeCount(slug: string): number {
-    let h = 0;
-    for (let i = 0; i < slug.length; i++) {
-        h = (h * 31 + slug.charCodeAt(i)) >>> 0;
-    }
-    return 800 + (h % 9200);
-}
-
-/** base + 1, если текущий пользователь лайкнул. */
-export function displayLikeCount(slug: string, liked: boolean): number {
-    return baseLikeCount(slug) + (liked ? 1 : 0);
-}
-
 export function readCompare(): string[] {
     return readList(COMPARE_KEY);
 }

@@ -6,7 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import type { MergedProject } from "@/lib/types";
 import { formatArea } from "@/lib/format";
 import {
-    displayLikeCount,
     isCompared,
     isLiked,
     toggleCompare,
@@ -117,7 +116,7 @@ export function ProjectHero({ project }: Props) {
                         <div className="flex items-start justify-between gap-4">
                             <Link
                                 href="/projects"
-                                className="inline-flex items-center gap-1.5 text-[14px] font-medium text-white/90 transition hover:text-white"
+                                className="inline-flex items-center gap-1.5 text-sm font-medium text-white/90 transition hover:text-white"
                                 style={{
                                     textShadow: "0 1px 8px rgba(0,0,0,0.55)",
                                 }}
@@ -132,7 +131,7 @@ export function ProjectHero({ project }: Props) {
                                     onClick={() =>
                                         setCompared(toggleCompare(project.slug))
                                     }
-                                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-semibold shadow-sm backdrop-blur-sm transition ${
+                                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold shadow-sm backdrop-blur-sm transition ${
                                         compared
                                             ? "bg-ink-950 text-white"
                                             : "bg-white/90 text-ink-800 hover:bg-white"
@@ -149,7 +148,7 @@ export function ProjectHero({ project }: Props) {
                                     onClick={() =>
                                         setLiked(toggleLike(project.slug))
                                     }
-                                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-semibold shadow-sm backdrop-blur-sm transition ${
+                                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold shadow-sm backdrop-blur-sm transition ${
                                         liked
                                             ? "bg-white text-accent"
                                             : "bg-white/90 text-ink-800 hover:bg-white"
@@ -165,12 +164,6 @@ export function ProjectHero({ project }: Props) {
                                         className="h-4 w-4"
                                         filled={liked}
                                     />
-                                    <span className="tabular-nums">
-                                        {displayLikeCount(
-                                            project.slug,
-                                            liked,
-                                        ).toLocaleString("ru-RU")}
-                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -178,7 +171,7 @@ export function ProjectHero({ project }: Props) {
                         {/* Ближе к «Каталог» — не висит посредине кадра */}
                         <div className="mt-4 max-w-lg md:mt-5 md:max-w-xl">
                             <h1
-                                className="font-display text-[36px] font-extrabold tracking-tight text-white md:text-[44px]"
+                                className="font-display text-display-1 font-extrabold tracking-tight text-white"
                                 style={{
                                     textShadow:
                                         "0 2px 24px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)",
@@ -187,7 +180,7 @@ export function ProjectHero({ project }: Props) {
                                 {project.displayName}
                             </h1>
                             <p
-                                className="mt-2 max-w-md text-[14px] leading-relaxed text-white md:text-[15px]"
+                                className="mt-2 max-w-md text-sm leading-relaxed text-white md:text-base"
                                 style={{
                                     textShadow:
                                         "0 1px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5)",

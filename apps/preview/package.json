@@ -6,7 +6,9 @@
         "dev": "next dev -p 4000",
         "build": "next build",
         "start": "next start -p 4000",
-        "lint": "next lint"
+        "lint": "next lint",
+        "export:fixtures": "node scripts/export-fixtures-from-db.mjs",
+        "assert:fixtures": "node scripts/assert-fixtures.mjs"
     },
     "dependencies": {
         "next": "^15.5.22",

@@ -204,7 +204,7 @@ const STAGES = [
 
 export function HouseNodes({
     wallMaterial,
-    buildTime = "6–8 мес",
+    buildTime,
 }: {
     wallMaterial: string;
     buildTime?: string;
@@ -266,7 +266,16 @@ export function HouseNodes({
                         totalPoints={totalPoints}
                     />
                 ) : active === "process" ? (
-                    <TimelinePanel buildTime={buildTime} maxWeek={maxWeek} />
+                    buildTime ? (
+                        <TimelinePanel
+                            buildTime={buildTime}
+                            maxWeek={maxWeek}
+                        />
+                    ) : (
+                        <p className="text-sm text-ink-500">
+                            Срок стройки по этому проекту уточняется в смете.
+                        </p>
+                    )
                 ) : (
                     <>
                         <h3 className="font-display text-h2 text-ink-950">
@@ -371,7 +380,7 @@ function EngineeringPanel({
                             <div className="font-display text-lg font-extrabold tabular-nums text-ink-950">
                                 {row.points}
                             </div>
-                            <div className="text-[10px] uppercase tracking-wider text-ink-500">
+                            <div className="text-xs uppercase tracking-wider text-ink-500">
                                 точек
                             </div>
                         </div>
@@ -422,7 +431,7 @@ function TimelinePanel({
                                 <div className="font-semibold text-ink-950">
                                     {s.name}
                                 </div>
-                                <div className="text-[11px] text-ink-500">
+                                <div className="text-xs text-ink-500">
                                     нед. {s.from}–{s.to}
                                 </div>
                             </div>

@@ -2,18 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
     getAllProjects,
-    getObjectsForProject,
     getProject,
     getSimilarProjects,
 } from "@/lib/data";
 import {
     formatArea,
-    formatPurpose,
-    formatStyle,
     formatTechnology,
     formatTechnologyBrand,
-    projectObjectsHeadline,
-    timesWord,
 } from "@/lib/format";
 import { MaterialSwitcher } from "@/components/MaterialSwitcher";
 import { FloorPlansTabs } from "@/components/FloorPlansTabs";
@@ -22,7 +17,6 @@ import { MediaShowcase } from "@/components/MediaShowcase";
 import { MortgageCalc } from "@/components/MortgageCalc";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { ProjectHero } from "@/components/ProjectHero";
-import { BuiltObjectCard } from "@/components/BuiltObjectCard";
 import { AnchorTabs } from "@/components/AnchorTabs";
 import { ProjectMobileCta } from "@/components/ProjectStickyCta";
 import { ProjectSummaryBar } from "@/components/ProjectSummaryBar";
@@ -66,13 +60,7 @@ export default async function ProjectPage({ params }: Props) {
     const project = getProject(slug);
     if (!project) notFound();
 
-    const objects = getObjectsForProject(slug);
     const similar = getSimilarProjects(slug);
-    const objectsBuilt = objects.filter((o) => o.status === "built").length;
-    const objectsBuilding = objects.filter(
-        (o) => o.status === "in-progress",
-    ).length;
-    const objectsHead = projectObjectsHeadline(objectsBuilt, objectsBuilding);
 
     return (
         <main className="pb-24">
@@ -86,7 +74,7 @@ export default async function ProjectPage({ params }: Props) {
                     <AnchorTabs
                         tabs={buildTabs({
                             hasPlans: project.floorPlans.length > 0,
-                            hasObjects: objects.length > 0,
+                            hasObjects: false,
                         })}
                     />
                 </div>
@@ -98,7 +86,7 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
             </div>
 
-            <div className="container-page pt-6 space-y-10">
+            <div className="container-page pt-6 space-y-12 md:space-y-16">
                 {project.floorPlans.length > 0 ? (
                     <section id="planirovka">
                         <FloorPlansTabs
@@ -114,7 +102,7 @@ export default async function ProjectPage({ params }: Props) {
                         <h2 className="mt-2 font-display text-h1 text-ink-950">
                             Съёмка по разделам
                         </h2>
-                        <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
+                        <p className="mt-3 text-sm leading-relaxed text-ink-500">
                             Фасады, интерьеры и узлы. Кадры ещё не отсняты —
                             здесь размечены места под них.
                         </p>
@@ -136,7 +124,7 @@ export default async function ProjectPage({ params }: Props) {
                         <h2 className="mt-2 font-display text-h1 text-ink-950">
                             Дом по узлам
                         </h2>
-                        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-500">
+                        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-500">
                             Состав работ одинаков для всех домов из этого
                             материала — это регламент компании, а не описание
                             конкретного проекта.
@@ -146,7 +134,6 @@ export default async function ProjectPage({ params }: Props) {
                         wallMaterial={formatTechnology(
                             project.variants[0]?.technology,
                         )}
-                        buildTime={project.buildTime}
                     />
                 </section>
 
@@ -155,42 +142,13 @@ export default async function ProjectPage({ params }: Props) {
                 </section>
 
                 <section id="ipoteka">
-                    <MortgageCalc initialPrice={project.priceFrom} />
-                </section>
-
-                {objects.length > 0 ? (
-                    <section id="vzhivuyu">
-                        <div className="mb-6 flex items-end justify-between gap-4">
-                            <div>
-                                <div className="eyebrow">Посмотреть вживую</div>
-                                <h2 className="mt-1 font-display text-h1">
-                                    {objectsHead.title}
-                                </h2>
-                                <p className="mt-1 text-ink-500">
-                                    {objectsHead.lead}
-                                </p>
-                            </div>
-                            <Link
-                                href="/works"
-                                className="hidden text-sm font-semibold text-ink-950 hover:text-accent md:inline-flex"
-                            >
-                                Все объекты →
-                            </Link>
-                        </div>
-                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                            {objects.slice(0, 4).map((o) => (
-                                <BuiltObjectCard
-                                    key={o.slug}
-                                    object={o}
-                                    compact
-                                />
-                            ))}
-                        </div>
-                    </section>
-                ) : null}
-
-                <section id="otzyvy">
-                    <TestimonialSlice projectName={project.displayName} />
+                    <MortgageCalc
+                        initialPrice={
+                            project.priceFrom != null && project.priceFrom > 0
+                                ? project.priceFrom
+                                : 0
+                        }
+                    />
                 </section>
 
                 <section id="faq">
@@ -264,21 +222,16 @@ function aboutParagraphs(
         ? project.dimensions.replace(/x/gi, "×") + " м"
         : null;
     const area = project.area ? formatArea(project.area) : null;
-    const living = project.livingArea ? formatArea(project.livingArea) : null;
     const techList = project.technologies.map(formatTechnologyBrand);
-    const style = formatStyle(project.style).toLowerCase();
     const hasTerrace =
         project.hasTerrace || project.features.includes("terrace");
-    const built = project.builtCount;
 
     const family = familyPhrase(project.bedrooms);
     const p1 = [
-        `${name} — ${floorsPhrase(project.floors)} в стиле «${style}»${
+        `${name} — ${floorsPhrase(project.floors)}${
             size ? `, пятно застройки ${size}` : ""
         }.`,
-        area
-            ? `Общая площадь ${area}${living ? `, жилая — ${living}` : ""}.`
-            : null,
+        area ? `Общая площадь ${area}.` : null,
         `${family.charAt(0).toUpperCase()}${family.slice(1)}.`,
     ]
         .filter(Boolean)
@@ -286,38 +239,24 @@ function aboutParagraphs(
 
     const materialLead =
         techList.length === 1
-            ? `Строим из ${techMaterialPrep(techList[0])}: в договоре — фиксированная смета и срок${
-                  project.buildTime ? ` ${project.buildTime} под ключ` : ""
-              }`
-            : `Материал стен выбираете вы — ${techList
-                  .map((t) => t.toLowerCase())
-                  .join(", ")}. Цена и срок пересчитываются сразу, без «уточним на объекте»`;
+            ? `Строим из ${techMaterialPrep(techList[0])}: в договоре — фиксированная смета`
+            : techList.length > 1
+              ? `Материал стен выбираете вы — ${techList
+                    .map((t) => t.toLowerCase())
+                    .join(", ")}`
+              : "Комплектация и смета фиксируются в договоре";
 
     const extras: string[] = [];
     if (hasTerrace) extras.push("терраса уже в проекте");
-    if (project.ceilingHeight >= 3)
-        extras.push(`потолки ${project.ceilingHeight.toFixed(1)} м`);
-    if (project.planEditable) extras.push("планировку меняем бесплатно");
-    if (built > 0)
-        extras.push(
-            built === 1
-                ? "есть сданный дом по этому проекту — можно посмотреть вживую"
-                : `по проекту уже построено ${built} ${timesWord(built)} — есть что показать на объекте`,
-        );
-    else if (project.buildingCount > 0)
-        extras.push(
-            "по этому проекту сейчас идёт стройка — можно приехать на площадку",
-        );
-    if (extras.length === 0)
-        extras.push(
-            `гарантия ${project.warranty} лет прописана в договоре, не «на словах»`,
-        );
+    extras.push(
+        `гарантия ${project.warranty} лет прописана в договоре, не «на словах»`,
+    );
 
     const p2 = `${materialLead}. ${extras[0].charAt(0).toUpperCase()}${extras[0].slice(1)}${
         extras.length > 1 ? "; " + extras.slice(1).join("; ") : ""
     }.`;
 
-    const p3 = `Если ${name} откликается — приезжайте на похожий объект, разберём узлы и посчитаем смету под ваш участок. Менеджер ответит в течение дня и поможет сравнить комплектации.`;
+    const p3 = `Если ${name} откликается — пришлите участок или бюджет: менеджер ответит в течение дня и поможет сравнить комплектации.`;
 
     return [p1, p2, p3];
 }
@@ -339,9 +278,6 @@ function techMaterialPrep(brand: string): string {
     }
 }
 
-/**
- * Заглушка под контент — как блок 3D-тура: dashed, «Здесь будет…», без рендеров.
- */
 function ContentSlot({
     title,
     hint,
@@ -368,9 +304,6 @@ function ContentSlot({
     );
 }
 
-/**
- * «О проекте» — сетка карточек; фото — заглушки (рендеры не подставляем).
- */
 function AboutProject({
     project,
 }: {
@@ -378,12 +311,30 @@ function AboutProject({
 }) {
     const paragraphs = aboutParagraphs(project);
     const aboutText = paragraphs[0] ?? "";
-    const spaceText =
-        paragraphs[1] ??
-        "Светлые помещения, удобные связи комнат и продуманные зоны для семьи.";
-    const planText =
-        paragraphs[2] ??
-        "Планировку можно адаптировать под ваш сценарий — бесплатно на этапе проекта.";
+    const spaceText = paragraphs[1] ?? "";
+    const planText = paragraphs[2] ?? "";
+
+    const factRows: Array<{ label: string; value: string }> = [];
+    if (project.area != null)
+        factRows.push({ label: "Площадь", value: formatArea(project.area) });
+    if (project.bedrooms != null)
+        factRows.push({ label: "Спальни", value: String(project.bedrooms) });
+    if (project.bathrooms != null)
+        factRows.push({ label: "Санузлы", value: String(project.bathrooms) });
+    if (project.floors)
+        factRows.push({
+            label: "Этажность",
+            value: floorsPhrase(project.floors),
+        });
+    if (project.dimensions)
+        factRows.push({
+            label: "Габариты",
+            value: project.dimensions.replace(/x/gi, "×") + " м",
+        });
+    factRows.push({
+        label: "Гарантия",
+        value: `${project.warranty} лет`,
+    });
 
     return (
         <div>
@@ -403,133 +354,39 @@ function AboutProject({
                         <p className="mt-3 text-[14px] leading-relaxed text-ink-600">
                             {aboutText}
                         </p>
+                        {spaceText ? (
+                            <p className="mt-3 text-[14px] leading-relaxed text-ink-600">
+                                {spaceText}
+                            </p>
+                        ) : null}
+                        {planText ? (
+                            <p className="mt-3 text-[14px] leading-relaxed text-ink-600">
+                                {planText}
+                            </p>
+                        ) : null}
                     </div>
                     <ContentSlot
                         className="mt-auto aspect-[4/3] w-full rounded-none border-x-0 border-b-0"
                         title="Здесь будет фото фасада"
-                        hint="Главный ракурс дома для блока «О проекте». Нужна съёмка — в превью показано место под кадр."
+                        hint="Главный ракурс дома для блока «О проекте»."
                     />
                 </article>
 
-                <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7 lg:grid-cols-1 lg:gap-5">
-                    <article className="grid overflow-hidden rounded-2xl border border-ink-150 bg-white sm:grid-cols-2 lg:grid-cols-[1fr_1.1fr]">
-                        <ContentSlot
-                            className="aspect-[4/3] rounded-none border-0 border-b sm:aspect-auto sm:min-h-[200px] sm:border-b-0 sm:border-r"
-                            title="Здесь будет интерьер"
-                            hint="Гостиная или второй свет — живой кадр после съёмки, не рендер фасада."
-                        />
-                        <div className="flex flex-col justify-center p-5 md:p-6">
-                            <h3 className="font-display text-h3 text-ink-950">
-                                Пространство и свет
-                            </h3>
-                            <p className="mt-2 text-[14px] leading-relaxed text-ink-600">
-                                {spaceText}
-                            </p>
-                            <dl className="mt-4 grid grid-cols-2 gap-3 text-[13px]">
-                                <div>
-                                    <dt className="text-ink-500">Потолки</dt>
-                                    <dd className="font-semibold text-ink-950">
-                                        {project.ceilingHeight.toFixed(1)} м
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt className="text-ink-500">Жилая</dt>
-                                    <dd className="font-semibold text-ink-950">
-                                        {formatArea(project.livingArea)}
-                                    </dd>
-                                </div>
-                                <div className="col-span-2">
-                                    <dt className="text-ink-500">Фасад</dt>
-                                    <dd className="font-semibold leading-snug text-ink-950">
-                                        {project.facadeFinish}
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </article>
-
-                    <article className="grid overflow-hidden rounded-2xl border border-ink-150 bg-white sm:grid-cols-2 lg:grid-cols-[1.1fr_1fr]">
-                        <div className="flex flex-col justify-center order-2 p-5 md:p-6 sm:order-1">
-                            <h3 className="font-display text-h3 text-ink-950">
-                                Планировка
-                            </h3>
-                            <p className="mt-2 text-[14px] leading-relaxed text-ink-600">
-                                {planText}
-                            </p>
-                            <dl className="mt-4 grid grid-cols-2 gap-3 text-[13px]">
-                                <div>
-                                    <dt className="text-ink-500">Срок</dt>
-                                    <dd className="font-semibold text-ink-950">
-                                        {project.buildTime}
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt className="text-ink-500">Гарантия</dt>
-                                    <dd className="font-semibold text-ink-950">
-                                        {project.warranty} лет
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt className="text-ink-500">Проживание</dt>
-                                    <dd className="font-semibold text-ink-950">
-                                        {formatPurpose(project.livingType)}
-                                    </dd>
-                                </div>
-                                <div>
-                                    <dt className="text-ink-500">Стиль</dt>
-                                    <dd className="font-semibold text-ink-950">
-                                        {formatStyle(project.style)}
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-                        <ContentSlot
-                            className="order-1 aspect-[4/3] rounded-none border-0 border-b sm:order-2 sm:aspect-auto sm:min-h-[200px] sm:border-b-0 sm:border-l"
-                            title="Здесь будет план этажа"
-                            hint="Чистый план для блока «О проекте» — отдельно от секции планировок."
-                        />
-                    </article>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function TestimonialSlice({ projectName }: { projectName: string }) {
-    return (
-        <div className="grid gap-6 rounded-2xl border border-ink-150 bg-white p-6 md:p-8 lg:grid-cols-[1fr_1.4fr]">
-            <div>
-                <div className="eyebrow">Отзыв владельца</div>
-                <h3 className="mt-1 font-display text-h2">
-                    «В доме уже полтора года — рекомендую»
-                </h3>
-                <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
-                    «{projectName} строили под ПМЖ. Была важна тёплая зима и
-                    прозрачная смета — обе задачи выполнены. Прораб на связи
-                    даже сейчас, спустя год после сдачи.»
-                </p>
-                <div className="mt-4 border-t border-ink-150 pt-3 text-[13px]">
-                    <div className="font-semibold text-ink-950">
-                        Александр П.
-                    </div>
-                    <div className="text-ink-500">Сдан в 2024, Ленобласть</div>
-                </div>
-            </div>
-            <div className="rounded-2xl bg-ink-950 p-6 text-white md:p-8">
-                <div className="eyebrow text-accent-onDark">Ещё пример</div>
-                <h4 className="mt-1 font-display text-h3 text-white">
-                    Видео-обзор дома от владельца
-                </h4>
-                <p className="mt-2 text-[13px] text-white/70">
-                    Прошли по дому с камерой через год после заселения:
-                    какие узлы держатся, что бы сделали иначе.
-                </p>
-                <div className="mt-4 grid aspect-[16/9] place-items-center rounded-xl bg-white/5 text-white/40">
-                    <div className="text-center">
-                        <CameraIcon className="mx-auto h-8 w-8" />
-                        <div className="mt-2 text-[12px]">Видео-обзор · 4:32</div>
-                    </div>
-                </div>
+                <article className="rounded-2xl border border-ink-150 bg-white p-5 md:p-6 lg:col-span-7">
+                    <h3 className="font-display text-h3 text-ink-950">
+                        Параметры из каталога
+                    </h3>
+                    <dl className="mt-4 grid grid-cols-2 gap-3 text-[13px] sm:grid-cols-3">
+                        {factRows.map((row) => (
+                            <div key={row.label}>
+                                <dt className="text-ink-500">{row.label}</dt>
+                                <dd className="font-semibold text-ink-950">
+                                    {row.value}
+                                </dd>
+                            </div>
+                        ))}
+                    </dl>
+                </article>
             </div>
         </div>
     );
@@ -540,10 +397,11 @@ function ProjectFaq({
 }: {
     project: NonNullable<ReturnType<typeof getProject>>;
 }) {
+    const tech = formatTechnologyBrand(project.variants[0]?.technology);
     const items = [
         {
             q: `Что если я хочу изменить планировку ${project.displayName}?`,
-            a: "В пределах несущих стен — бесплатно. Кухню объединить с гостиной, добавить второй свет, поменять расположение санузлов — всё на этапе проекта, до старта работ.",
+            a: "В пределах несущих стен — обсудим на этапе проекта. Кухню объединить с гостиной, добавить второй свет, поменять расположение санузлов — до старта работ.",
         },
         {
             q: "Можно ли построить этот дом «зеркально»?",
@@ -551,11 +409,9 @@ function ProjectFaq({
         },
         {
             q: "Что входит в цену «под ключ от»?",
-            a: `Указана цена по «Базовой» комплектации в самом бюджетном материале (${formatTechnologyBrand(project.variants[0]?.technology)}). Переключите материал и пакет — увидите точную сумму со всей отделкой.`,
-        },
-        {
-            q: "Как долго строится?",
-            a: `Полный цикл — ${project.buildTime}. От подписания договора до передачи ключей. По каждому этапу — фотоотчёт и акт сдачи-приёмки.`,
+            a: tech
+                ? `Указана цена по «Базовой» комплектации в материале ${tech}. Переключите материал и пакет — увидите сумму по пакетам из прайса.`
+                : "Цена «от» берётся из минимального пакета комплектации в прайсе. Переключите материал и пакет на странице.",
         },
         {
             q: "Работаете ли по семейной ипотеке?",
@@ -586,37 +442,16 @@ function ProjectFaq({
                                 className="relative grid h-7 w-7 flex-shrink-0 place-items-center rounded-full border border-ink-200 text-ink-500 transition-colors group-open:border-ink-900 group-open:bg-ink-950 group-open:text-white"
                                 aria-hidden
                             >
-                                {/* SVG, не glyph: rotate «+» съезжает из-за метрик шрифта */}
-                                <svg
-                                    viewBox="0 0 16 16"
-                                    className="absolute h-3.5 w-3.5 transition-opacity group-open:opacity-0"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.6"
-                                    strokeLinecap="round"
-                                >
-                                    <path d="M8 3v10M3 8h10" />
-                                </svg>
-                                <svg
-                                    viewBox="0 0 16 16"
-                                    className="absolute h-3.5 w-3.5 opacity-0 transition-opacity group-open:opacity-100"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.6"
-                                    strokeLinecap="round"
-                                >
-                                    <path d="M4 4l8 8M12 4l-8 8" />
-                                </svg>
+                                <span className="absolute h-0.5 w-3 bg-current" />
+                                <span className="absolute h-3 w-0.5 bg-current transition-transform group-open:scale-y-0" />
                             </span>
                         </summary>
-                        <p className="border-t border-ink-150 px-5 py-4 text-[14px] leading-relaxed text-ink-500">
+                        <div className="border-t border-ink-150 px-5 py-4 text-[14px] leading-relaxed text-ink-600">
                             {item.a}
-                        </p>
+                        </div>
                     </details>
                 ))}
             </div>
         </div>
     );
 }
-
-

@@ -60,7 +60,7 @@ export function MortgageCalc({ initialPrice }: Props) {
 
             <div className="mt-6 grid gap-3 rounded-xl border border-ink-150 bg-ink-950 p-6 text-white md:grid-cols-3">
                 <div>
-                    <div className="text-[11px] uppercase tracking-wider text-white/60">
+                    <div className="text-xs uppercase tracking-wider text-white/60">
                         Ежемесячный платёж
                     </div>
                     <div className="mt-1 font-display text-3xl font-extrabold text-accent">
@@ -68,7 +68,7 @@ export function MortgageCalc({ initialPrice }: Props) {
                     </div>
                 </div>
                 <div>
-                    <div className="text-[11px] uppercase tracking-wider text-white/60">
+                    <div className="text-xs uppercase tracking-wider text-white/60">
                         Итого выплатите
                     </div>
                     <div className="mt-1 font-display text-2xl font-extrabold">
@@ -76,7 +76,7 @@ export function MortgageCalc({ initialPrice }: Props) {
                     </div>
                 </div>
                 <div>
-                    <div className="text-[11px] uppercase tracking-wider text-white/60">
+                    <div className="text-xs uppercase tracking-wider text-white/60">
                         Переплата
                     </div>
                     <div className="mt-1 font-display text-2xl font-extrabold">
@@ -126,7 +126,7 @@ function SliderField({
                 onChange={(e) => onChange(parseFloat(e.target.value))}
                 className="w-full accent-ink-950"
             />
-            <div className="mt-1 flex justify-between text-[10px] text-ink-500">
+            <div className="mt-1 flex justify-between text-xs text-ink-500">
                 <span>{formatRange(min)}</span>
                 <span>{formatRange(max)}</span>
             </div>
