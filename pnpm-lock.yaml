@@ -286,6 +286,8 @@ importers:
         specifier: ^25.3.0
         version: 25.3.0
 
+  packages/research_toolkit: {}
+
   packages/shared: {}
 
 packages:
