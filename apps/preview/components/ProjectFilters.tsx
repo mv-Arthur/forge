@@ -6,6 +6,12 @@ import type { MergedProject, Technology } from "@/lib/types";
 import { ProjectCard } from "./ProjectCard";
 import { formatTechnologyBrand, projectsWord } from "@/lib/format";
 import {
+    countActiveFilters,
+    openCatalogFilter,
+    projectPassesCatalogFilter,
+    type CatalogFilterState,
+} from "@/lib/catalogFilter";
+import {
     CloseIcon,
     FilterIcon,
     GridViewIcon,
@@ -13,6 +19,8 @@ import {
     SearchIcon,
     SortIcon,
 } from "./Icons";
+
+type FiltersState = CatalogFilterState;
 
 const TECH_OPTIONS: Technology[] = [
     "gas_concrete",
@@ -48,45 +56,22 @@ type SortMode =
     | "areaDesc"
     | "recommended";
 
-interface FiltersState {
-    tech: Technology[];
-    areaMin: number;
-    areaMax: number;
-    priceMin: number;
-    priceMax: number;
-    floors: string[];
-    bedroomsMin: number;
-    bathroomsMin: number;
-    hasTerrace: boolean;
-}
-
-const DEFAULT_STATE: FiltersState = {
-    tech: [],
-    areaMin: 70,
-    areaMax: 500,
-    priceMin: 3,
-    priceMax: 25,
-    floors: [],
-    bedroomsMin: 0,
-    bathroomsMin: 0,
-    hasTerrace: false,
-};
-
 interface Props {
     projects: MergedProject[];
+    bounds: { maxArea: number; maxPrice: number };
 }
 
 const TECH_SET = new Set<string>(TECH_OPTIONS);
 
-export function ProjectFilters({ projects }: Props) {
+export function ProjectFilters({ projects, bounds }: Props) {
     const searchParams = useSearchParams();
-    const [state, setState] = useState<FiltersState>(DEFAULT_STATE);
+    const catalogOpen = openCatalogFilter(bounds);
+    const [state, setState] = useState<FiltersState>(catalogOpen);
     const [sort, setSort] = useState<SortMode>("recommended");
-    /** Full filter panel open (desktop sidebar + mobile sheet). */
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [q, setQ] = useState("");
-    /** wide = GWD-список (по умолчанию), grid = плитка */
-    const [view, setView] = useState<"wide" | "grid">("wide");
+    /** grid = photo-first плитка (демо/маркетинг), wide = список */
+    const [view, setView] = useState<"wide" | "grid">("grid");
 
     useEffect(() => {
         const next: Partial<FiltersState> = {};
@@ -106,8 +91,8 @@ export function ProjectFilters({ projects }: Props) {
             const n = Number(priceMax);
             next.priceMax = n > 1000 ? Math.ceil(n / 1_000_000) : n;
         }
-        if (areaMin) next.areaMin = Number(areaMin) || DEFAULT_STATE.areaMin;
-        if (areaMax) next.areaMax = Number(areaMax) || DEFAULT_STATE.areaMax;
+        if (areaMin) next.areaMin = Number(areaMin) || catalogOpen.areaMin;
+        if (areaMax) next.areaMax = Number(areaMax) || catalogOpen.areaMax;
         if (Object.keys(next).length) {
             setState((s) => ({ ...s, ...next }));
             setOpen(true);
@@ -115,49 +100,9 @@ export function ProjectFilters({ projects }: Props) {
     }, [searchParams]);
 
     const filtered = useMemo(() => {
-        const query = q.trim().toLowerCase();
-        return projects.filter((p) => {
-            if (query) {
-                const hay = [
-                    p.displayName,
-                    p.subtitle,
-                    p.technologies.map(formatTechnologyBrand).join(" "),
-                ]
-                    .join(" ")
-                    .toLowerCase();
-                if (!hay.includes(query)) return false;
-            }
-            if (state.tech.length > 0) {
-                const overlap = p.technologies.some((t) =>
-                    state.tech.includes(t),
-                );
-                if (!overlap) return false;
-            }
-            if (p.area !== null) {
-                if (p.area < state.areaMin || p.area > state.areaMax)
-                    return false;
-            }
-            const priceM =
-                p.priceFrom != null && p.priceFrom > 0
-                    ? p.priceFrom / 1_000_000
-                    : null;
-            if (priceM != null) {
-                if (priceM < state.priceMin) return false;
-                if (state.priceMax < 25 && priceM > state.priceMax) return false;
-            }
-            if (state.floors.length > 0 && p.floors) {
-                if (!state.floors.includes(p.floors)) return false;
-            }
-            if (state.bedroomsMin > 0 && (p.bedrooms ?? 0) < state.bedroomsMin)
-                return false;
-            if (
-                state.bathroomsMin > 0 &&
-                (p.bathrooms ?? 0) < state.bathroomsMin
-            )
-                return false;
-            if (state.hasTerrace && !p.hasTerrace) return false;
-            return true;
-        });
+        return projects.filter((p) =>
+            projectPassesCatalogFilter(p, state, q),
+        );
     }, [projects, state, q]);
 
     const sorted = useMemo(() => {
@@ -183,9 +128,9 @@ export function ProjectFilters({ projects }: Props) {
         return arr;
     }, [filtered, sort]);
 
-    const activeChips = countActive(state) + (q.trim() ? 1 : 0);
+    const activeChips = countActiveFilters(state, catalogOpen) + (q.trim() ? 1 : 0);
     const reset = () => {
-        setState(DEFAULT_STATE);
+        setState(catalogOpen);
         setQ("");
     };
 
@@ -226,13 +171,11 @@ export function ProjectFilters({ projects }: Props) {
             </FilterGroup>
 
             <FilterGroup
-                label={`Площадь: ${state.areaMin}–${
-                    state.areaMax === 500 ? "500+" : state.areaMax
-                } м²`}
+                label={`Площадь: ${state.areaMin}–${state.areaMax} м²`}
             >
                 <RangeSlider
-                    min={60}
-                    max={500}
+                    min={0}
+                    max={catalogOpen.areaMax}
                     step={10}
                     from={state.areaMin}
                     to={state.areaMax}
@@ -243,13 +186,11 @@ export function ProjectFilters({ projects }: Props) {
             </FilterGroup>
 
             <FilterGroup
-                label={`Цена: ${state.priceMin}–${
-                    state.priceMax === 25 ? "25+" : state.priceMax
-                } млн ₽`}
+                label={`Цена: ${state.priceMin}–${state.priceMax} млн ₽`}
             >
                 <RangeSlider
-                    min={3}
-                    max={25}
+                    min={0}
+                    max={catalogOpen.priceMax}
                     step={1}
                     from={state.priceMin}
                     to={state.priceMax}
@@ -356,7 +297,10 @@ export function ProjectFilters({ projects }: Props) {
             {/* Toolbar: count + filters toggle | sort */}
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-ink-150 pb-3">
                 <div className="flex flex-wrap items-center gap-3">
-                    <div className="text-[15px] text-ink-700">
+                    <div
+                        className="text-[15px] text-ink-700"
+                        data-found-count={sorted.length}
+                    >
                         Найдено{" "}
                         <strong className="text-ink-950">
                             {sorted.length}
@@ -401,7 +345,7 @@ export function ProjectFilters({ projects }: Props) {
                         <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" />
                         <input
                             className="field !py-2 !pl-9 text-sm"
-                            placeholder="название, код серии…"
+                            placeholder="название, площадь…"
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
                             suppressHydrationWarning
@@ -431,7 +375,7 @@ export function ProjectFilters({ projects }: Props) {
                     <div
                         className="inline-flex rounded-xl border border-ink-150 bg-white p-0.5"
                         role="group"
-                        aria-label="Вид каталога"
+                        aria-label="Вид списка"
                     >
                         <button
                             type="button"
@@ -501,7 +445,7 @@ export function ProjectFilters({ projects }: Props) {
                                 </div>
                                 <div className="mt-0.5 text-[12px] text-ink-500">
                                     {sorted.length}{" "}
-                                    {projectsWord(sorted.length)} подходит
+                                    {projectsWord(sorted.length)}
                                 </div>
                             </div>
                             {FilterBody}
@@ -562,7 +506,7 @@ export function ProjectFilters({ projects }: Props) {
                                 </div>
                                 <div className="text-[12px] text-ink-500">
                                     {sorted.length}{" "}
-                                    {projectsWord(sorted.length)} подходит
+                                    {projectsWord(sorted.length)}
                                 </div>
                             </div>
                             <button
@@ -592,18 +536,6 @@ export function ProjectFilters({ projects }: Props) {
             ) : null}
         </div>
     );
-}
-
-function countActive(s: FiltersState): number {
-    let n = 0;
-    if (s.tech.length) n++;
-    if (s.areaMin !== 70 || s.areaMax !== 500) n++;
-    if (s.priceMin !== 3 || s.priceMax !== 25) n++;
-    if (s.floors.length) n++;
-    if (s.bedroomsMin) n++;
-    if (s.bathroomsMin) n++;
-    if (s.hasTerrace) n++;
-    return n;
 }
 
 function EmptyState({ onReset }: { onReset: () => void }) {

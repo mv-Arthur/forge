@@ -17,8 +17,7 @@
         --stroke: rgb(var(--color-ink-rgb) / 0.08);
         --stroke-strong: rgb(var(--color-ink-rgb) / 0.14);
         --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-        /* Single font for preview (consistent, no mixing) */
-        --font-display: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --font-display: "Cormorant Garamond", "Times New Roman", serif;
     }
 
     * {
@@ -55,11 +54,11 @@
     h2,
     h3,
     h4 {
-        font-family: var(--font-sans);
+        font-family: var(--font-display);
         color: var(--color-ink);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        line-height: 1.2;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.12;
         text-wrap: balance;
     }
 
@@ -144,7 +143,7 @@
     }
 
     .btn-wa {
-        @apply bg-wa text-white hover:brightness-105;
+        @apply bg-wa font-semibold text-ink-950 hover:brightness-105;
     }
 
     .btn-icon {
@@ -228,12 +227,22 @@
     }
 
     .card-hover {
-        @apply hover:-translate-y-0.5 hover:shadow-lift;
+        @apply hover:-translate-y-1 hover:shadow-lift;
+    }
+
+    .card-hover:hover {
+        border-color: rgb(var(--color-accent-rgb) / 0.35);
+        box-shadow:
+            var(--shadow-pop),
+            0 0 0 1px rgb(var(--color-accent-rgb) / 0.12);
     }
 
     .section {
-        padding-top: theme("spacing.section");
-        padding-bottom: theme("spacing.section");
+        padding: var(--section-padding);
+    }
+
+    .font-display {
+        font-family: var(--font-display);
     }
 
     .divider {
@@ -257,7 +266,7 @@
     }
 
     .kpi-value {
-        @apply font-sans text-3xl font-bold leading-none tracking-tight text-ink-900;
+        @apply font-display text-4xl font-semibold leading-none tracking-tight text-ink-900;
     }
 
     .kpi-label {
@@ -273,7 +282,7 @@
     }
 
     .price-big {
-        @apply font-sans text-price font-bold leading-none tracking-tight text-ink-900;
+        @apply font-display text-price font-semibold leading-none tracking-tight text-ink-900;
     }
 
     .price-strike {

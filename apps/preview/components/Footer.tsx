@@ -15,18 +15,21 @@ const linkCols = [
         ],
     },
     {
-        title: "Построенные объекты",
+        title: "Построенные дома",
         links: [
-            { href: "/works", label: "Все объекты" },
-            { href: "/works", label: "Построенные" },
-            { href: "/works", label: "В процессе" },
+            { href: "/works", label: "Все дома" },
+            { href: "/works?status=built", label: "Построенные" },
+            { href: "/works?status=in-progress", label: "Строятся" },
         ],
     },
 ];
 
 export function Footer() {
     return (
-        <footer className="mt-section border-t border-ink-150 bg-ink-900 text-ink-300">
+        <footer
+            data-section="site-footer"
+            className="mt-section border-t border-ink-150 bg-ink-900 text-ink-300"
+        >
             <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
                 <div>
                     <Link href="/" className="inline-flex items-center">
@@ -40,9 +43,9 @@ export function Footer() {
                     </Link>
                     <p className="mt-4 max-w-sm text-sm text-ink-300">
                         Строим дома под ключ в Санкт-Петербурге и Ленинградской
-                        области с 2014 года. Договор с фиксированной сметой,
-                        гарантия {settings.warrantyYears} лет, фотоотчёты
-                        каждую неделю.
+                        области с {settings.foundedYear} года. Договор с
+                        фиксированной сметой, гарантия {settings.warrantyYears}{" "}
+                        лет.
                     </p>
                     <div className="mt-6 space-y-2">
                         <a
@@ -97,7 +100,7 @@ export function Footer() {
             <div className="border-t border-white/5">
                 <div className="container-page flex flex-col items-start justify-between gap-2 py-5 text-xs text-ink-400 md:flex-row md:items-center">
                     <div>
-                        © 2026 «Новый Коттедж» · ИНН 7801234567 · Санкт-Петербург
+                        © 2026 «Новый Коттедж» · ИНН {settings.inn} · Санкт-Петербург
                     </div>
                     <div className="flex flex-wrap gap-4 text-[12px] text-ink-400">
                         <Link

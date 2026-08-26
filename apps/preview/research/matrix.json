@@ -1,0 +1,23 @@
+[
+  {
+    "id": "desktop",
+    "width": 1440,
+    "height": 900,
+    "deviceScaleFactor": 1,
+    "isMobile": false
+  },
+  {
+    "id": "tablet",
+    "width": 768,
+    "height": 1024,
+    "deviceScaleFactor": 2,
+    "isMobile": true
+  },
+  {
+    "id": "mobile",
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3,
+    "isMobile": true
+  }
+]

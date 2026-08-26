@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NAV_WORKS } from "@/lib/copy";
 
 interface Props {
     title: string;
@@ -35,7 +36,7 @@ export function OutOfScopePage({ title, topic }: Props) {
                             Готовые проекты
                         </Link>
                         <Link href="/works" className="btn btn-light btn-lg">
-                            Наши работы
+                            {NAV_WORKS}
                         </Link>
                     </div>
                 </div>

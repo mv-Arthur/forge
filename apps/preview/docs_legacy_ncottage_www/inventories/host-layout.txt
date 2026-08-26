@@ -1,0 +1,107 @@
+/home/n/ncottaxz
+=== LS NCOTTAGE.RU ===
+total 18392
+drwx------+ 10 root     root            4096 Aug 20 00:01 .
+drwx------+ 20 root     root            4096 Apr 15 20:15 ..
+-rwx------+  1 ncottaxz newcustomers       0 Apr  3  2024 3d24e9f54fceaa4f6cb7e7153b9bbc99458077ca.txt
+-rwx------+  1 ncottaxz newcustomers     609 Mar 11  2022 .bash_history
+drwx------+  3 ncottaxz newcustomers    4096 Mar 11  2022 .cache
+-rwx------+  1 ncottaxz newcustomers    1823 Mar 11  2022 composer.json
+-rwx------+  1 ncottaxz newcustomers   33994 Mar 11  2022 composer.lock
+drwx------+  3 ncottaxz newcustomers    4096 Mar 11  2022 config
+drwx------+  3 ncottaxz newcustomers    4096 Mar 11  2022 .config
+-rwx------+  1 ncottaxz newcustomers    1149 May 20  2023 .env
+drwx------+  7 ncottaxz newcustomers    4096 Apr 15 20:16 .git
+-rwx------+  1 ncottaxz newcustomers     505 Mar 11  2022 .gitignore
+drwx------+  3 ncottaxz newcustomers    4096 Mar 11  2022 .local
+-r--r-----+  2 root     root         4060838 Aug 20 18:31 ncottage.ru.access.log
+-r--r-----+  2 root     root         4611949 Aug 17 23:57 ncottage.ru.access.log.20260817
+-r--r-----+  2 root     root         4807731 Aug 18 23:59 ncottage.ru.access.log.20260818
+-r--r-----+  2 root     root         5156360 Aug 19 23:56 ncottage.ru.access.log.20260819
+drwx------+  8 ncottaxz newcustomers    4096 Apr 23  2025 public_html
+drwx------+  6 ncottaxz newcustomers    4096 Oct 15  2022 public_html_old
+drwx------+ 10 ncottaxz newcustomers    4096 Mar 11  2022 vendor
+-rwx------+  1 ncottaxz newcustomers      52 Mar 11  2022 wp-cli.yml
+-rwx------+  1 ncottaxz newcustomers     166 Jul 17  2024 yandex_d376cdc3478d20ad.html
+=== LS PUBLIC_HTML ===
+total 80132
+drwx------+  8 ncottaxz newcustomers     4096 Apr 23  2025 .
+drwx------+ 10 root     root             4096 Aug 20 00:01 ..
+drwx------+  2 ncottaxz newcustomers   929792 Oct  4  2023 1
+drwx------+  2 ncottaxz newcustomers     4096 Aug 12  2024 a443bb50
+drwx------+  7 ncottaxz newcustomers     4096 May 27  2022 antibot
+-rwx------+  1 ncottaxz newcustomers 21229036 May 27  2022 antibot8.zip
+drwx------+ 12 ncottaxz newcustomers     4096 Aug 20 18:27 app
+drwx------+  2 ncottaxz newcustomers     4096 Oct  3  2024 cgi-bin
+-rwx------+  1 ncottaxz newcustomers 59588293 Mar 11  2022 db.sql
+-rwx------+  1 ncottaxz newcustomers     5906 Feb 21  2025 .htaccess
+-rwx------+  1 ncottaxz newcustomers     7648 Oct  3  2024 .htaccess_3_10_2024
+-rwx------+  1 ncottaxz newcustomers     7645 Oct  3  2024 .htaccess_old
+-rwx------+  1 ncottaxz newcustomers      117 Sep  5  2024 index.php
+-rwx------+  1 ncottaxz newcustomers       31 Apr 11  2023 mailru-domainu83YTIyqjlfRAUV0.html
+-rwx------+  1 ncottaxz newcustomers      569 Apr 23  2025 robots.txt
+-rwx------+  1 ncottaxz newcustomers    98108 Sep  2  2024 sitemap.xml
+-rwx------+  1 ncottaxz newcustomers    32298 Aug 22  2023 varvara.php
+drwx------+  5 ncottaxz newcustomers     4096 Aug 19 16:52 wp
+-rwx------+  1 ncottaxz newcustomers      873 Dec 26  2024 wp-config.php
+-rwx------+  1 ncottaxz newcustomers       17 Oct  3  2024 x.php
+-rwx------+  1 ncottaxz newcustomers      166 Jul 17  2024 yandex_d376cdc3478d20ad.html
+=== THEMES ===
+sage
+=== PLUGINS ===
+acf-content-analysis-for-yoast-seo
+acf-options-page
+acf-repeater
+advanced-custom-fields
+advanced-woo-search
+contact-form-7
+contact-form-7-dynamic-text-extension
+cyr2lat
+drag-and-drop-multiple-file-upload-contact-form-7
+duplicate-post
+duplicator-pro
+elementor
+elementor-pro
+insert-headers-and-footers
+insert-headers-and-footers.2.2.5.zip
+jetpack
+__MACOSX
+product-csv-import-export-for-woocommerce
+product-import-export-plugin-for-woocommerce-v3.8.3.zip
+redirection
+regenerate-thumbnails
+robin-image-optimizer
+soil
+woocatbase
+woocommerce
+woocommerce-ajax-filters
+wordpress-seo
+wordpress-seo-premium
+wpae-acf-add-on
+wpae-woocommerce-add-on
+wpai-acf-add-on
+wpai-woocommerce-add-on
+wp-all-export-acf-pro-addon-v1.0.5.zip
+wp-all-export-pro
+wp-all-export-pro-v1.8.3.zip
+wp-all-export-woocommerce-pro-addon-v1.0.6.zip
+wp-all-import-pro
+wp-all-import-pro_4.8.0.zip
+wp-all-import-pro-v4.7.6.zip
+wpforms
+wpforms-pro-v1.7.7.zip
+wp-rocket
+wpseo-woocommerce
+wp-sheet-editor-premium
+wp-sheet-editor-pro-v2.25.1.zip
+=== MU-PLUGINS ===
+bedrock-autoloader.php
+disallow-indexing.php
+register-theme-directory.php
+=== COMPOSER HEAD ===
+{
+  "name": "roots/bedrock",
+  "type": "project",
+  "license": "MIT",
+  "description": "WordPress boilerplate with modern development tools, easier configuration, and an improved folder structure",
+SSH_OK

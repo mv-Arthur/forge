@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId } from "react";
-import { LeadForm } from "./LeadForm";
+import { GwdLeadForm } from "./GwdLeadForm";
 
 export type LeadIntent = "presentation" | "consultation" | "visit";
 
@@ -24,27 +24,27 @@ const COPY: Record<
     }
 > = {
     presentation: {
-        title: "Пришлём PDF-презентацию",
+        title: "Пришлём смету",
         description: (name) =>
             name
-                ? `Полная смета, планировки, состав пакетов по «${name}».`
-                : "Полная смета, планировки, состав пакетов.",
-        cta: "Получить PDF",
+                ? `Планировки, комплектации и смета по «${name}».`
+                : "Планировки, комплектации и смета в договоре.",
+        cta: "Получить смету",
     },
     consultation: {
         title: "Консультация по проекту",
         description: (name) =>
             name
-                ? `Перезвоним за 15 минут и разберём «${name}»: цена, комплектация, участок.`
-                : "Перезвоним за 15 минут — цена, комплектация, участок.",
-        cta: "Жду звонка",
+                ? `Перезвоним и разберём «${name}»: цена, комплектация, участок.`
+                : "Перезвоним — цена, комплектация, участок.",
+        cta: "Перезвоните мне",
     },
     visit: {
         title: "Запись на просмотр",
         description: (name) =>
             name
-                ? `Слот ~1 час. Покажем «${name}» и ответим по срокам и смете.`
-                : "Слот ~1 час. Покажем объект и ответим по срокам и смете.",
+                ? `Около часа. Покажем «${name}» и ответим по срокам и смете.`
+                : "Около часа. Покажем дом и ответим по срокам и смете.",
         cta: "Записаться",
         withDate: true,
     },
@@ -119,11 +119,10 @@ export function LeadModal({
                         ×
                     </button>
                 </div>
-                <LeadForm
+                <GwdLeadForm
                     source={formSource}
                     prefill={prefill}
                     ctaLabel={copy.cta}
-                    withDate={copy.withDate}
                 />
             </div>
         </div>

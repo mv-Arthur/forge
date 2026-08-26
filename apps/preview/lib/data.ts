@@ -9,6 +9,15 @@ import type {
     Technology,
 } from "./types";
 import { settings } from "./settings";
+import {
+    buildSubtitle,
+    hasUsablePhoto,
+    humanizeDisplayName,
+    humanObjectTitle,
+    inferLocationFromTitle,
+    pickBetterName,
+    stripTechFromName,
+} from "./names";
 
 const rawProjects: RawProject[] = projectsJson as RawProject[];
 const rawObjects: BuiltObject[] = objectsJson as BuiltObject[];
@@ -56,23 +65,6 @@ const LOCATION_LABELS: Record<string, string> = {
     Ladoga: "Ладога",
     Romashkovo: "Ромашково",
 };
-
-function pickBetterName(a: string, b: string): string {
-    const stripped = (name: string) =>
-        name
-            .replace(/^каркасный\s+/i, "")
-            .replace(/^газобетонный\s+/i, "")
-            .replace(/^кирпичный\s+/i, "")
-            .replace(/^сип-?/i, "")
-            .replace(/^фахверковый\s+/i, "")
-            .replace(/^дом\s+/i, "")
-            .trim();
-    const sa = stripped(a);
-    const sb = stripped(b);
-    if (sa.length < a.length && sa.length > 0) return sa;
-    if (sb.length < b.length && sb.length > 0) return sb;
-    return a.length <= b.length ? a : b;
-}
 
 function mergeProjects(list: RawProject[]): RawProject[] {
     const bySlug = new Map<string, RawProject>();
@@ -148,24 +140,6 @@ function mergeProjects(list: RawProject[]): RawProject[] {
     });
 }
 
-function buildSubtitle(project: RawProject): string {
-    const bits: string[] = [];
-    if (project.floors === "1") bits.push("Одноэтажный");
-    else if (project.floors === "2") bits.push("Двухэтажный");
-    else if (project.floors === "1.5") bits.push("Полутораэтажный");
-    else if (project.floors === "mansard") bits.push("С мансардой");
-
-    const tech = project.technologies[0];
-    if (tech === "gas_concrete") bits.push("дом из газобетона");
-    else if (tech === "brick") bits.push("дом из кирпича");
-    else if (tech === "frame") bits.push("каркасный дом");
-    else if (tech === "sip") bits.push("дом из СИП-панелей");
-    else if (tech === "fachwerk") bits.push("фахверковый дом");
-    else bits.push("дом");
-
-    return bits.join(" ").toLowerCase().replace(/^./, (c) => c.toUpperCase());
-}
-
 /**
  * «От» в фикстурах часто занижен (~×0.77 от базового пакета).
  * Цена «под ключ от» = минимум по пакетам (обычно «Базовая»).
@@ -203,32 +177,27 @@ function enrichProjects(list: RawProject[]): MergedProject[] {
         const mortgageFrom =
             mortgages.length > 0 ? Math.min(...mortgages) : null;
 
+        const multiTech = variants.length > 1;
+        const baseName = multiTech
+            ? stripTechFromName(p.name) || p.name
+            : p.name;
         return {
             ...p,
             variants,
-            displayName: p.name,
+            displayName: humanizeDisplayName(baseName, p.dimensions, p.area),
             subtitle: buildSubtitle(p),
             priceFrom,
             mortgageFrom,
             heroImage: p.renders[0] ?? "",
             hasTerrace: p.features.includes("terrace"),
             warranty: settings.warrantyYears,
+            technologies: variants.map((v) => v.technology),
         };
     });
 }
 
 const projects: MergedProject[] = enrichProjects(mergeProjects(rawProjects));
 const projectBySlug = new Map(projects.map((p) => [p.slug, p]));
-
-function beautifyTitle(
-    title: string,
-    status: "built" | "in-progress",
-): string {
-    let t = title.replace(/^СТРОИТСЯ\s*-\s*/i, "").trim();
-    if (!t) return status === "in-progress" ? "Строящийся дом" : "Построенный дом";
-    const lower = t.toLowerCase();
-    return lower.charAt(0).toUpperCase() + lower.slice(1);
-}
 
 function locationLabelFor(location: string | null): string | null {
     if (!location) return null;
@@ -238,9 +207,14 @@ function locationLabelFor(location: string | null): string | null {
 function enrichObjects(list: BuiltObject[]): EnrichedBuiltObject[] {
     return list.map((o) => {
         const extra = objectExtras[o.slug] ?? {};
-        const displayTitle = beautifyTitle(o.title, o.status);
         const location = o.location;
-        const locationLabel = locationLabelFor(location);
+        const locationLabel =
+            locationLabelFor(location) ?? inferLocationFromTitle(o.title);
+        const displayTitle = humanObjectTitle(
+            o.title,
+            locationLabel,
+            o.status,
+        );
 
         const area =
             typeof extra.area === "number" && extra.area > 0
@@ -288,6 +262,16 @@ export function getAllProjects(): MergedProject[] {
     return projects;
 }
 
+export function getCatalogProjects(): MergedProject[] {
+    return projects.filter((p) => hasUsablePhoto(p.heroImage || p.renders[0]));
+}
+
+export function getListedObjects(): EnrichedBuiltObject[] {
+    return objects.filter((o) =>
+        hasUsablePhoto(o.heroImage || o.gallery[0]),
+    );
+}
+
 export function getProject(slug: string): MergedProject | undefined {
     return projectBySlug.get(slug);
 }
@@ -303,7 +287,40 @@ export function getObject(slug: string): EnrichedBuiltObject | undefined {
 export function getObjectsForProject(
     _projectSlug: string,
 ): EnrichedBuiltObject[] {
+    // No real project→object FK in fixtures — keep empty for honest "by design" links.
     return [];
+}
+
+/**
+ * Built objects related for UI on project detail (GWD «Построенные дома» on page).
+ * Fixtures have no design FK: match by shared technology, prefer rich galleries.
+ * Callers must not claim “built from this project” without FK — label as material match.
+ */
+export function getRelatedBuiltObjects(
+    projectSlug: string,
+    limit = 6,
+): EnrichedBuiltObject[] {
+    const base = getProject(projectSlug);
+    if (!base) return [];
+    const techs = new Set(base.technologies);
+    return objects
+        .filter((o) => o.gallery.length > 0)
+        .map((o) => {
+            let score = o.gallery.length;
+            if (o.technology && techs.has(o.technology)) score += 100;
+            if (o.status === "built") score += 10;
+            if (
+                base.area != null &&
+                o.area != null &&
+                Math.abs(o.area - base.area) < 40
+            )
+                score += 15;
+            return { o, score };
+        })
+        .filter((x) => x.score >= 100)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit)
+        .map((x) => x.o);
 }
 
 export function getSimilarProjects(
@@ -373,12 +390,13 @@ export function getTechnologiesInCatalog(): Technology[] {
 }
 
 export function getCatalogStats() {
-    const prices = projects
+    const list = getCatalogProjects();
+    const prices = list
         .map((p) => p.priceFrom)
         .filter((n): n is number => n != null && n > 0);
-    const areas = projects.map((p) => p.area ?? 0).filter((n) => n > 0);
+    const areas = list.map((p) => p.area ?? 0).filter((n) => n > 0);
     return {
-        total: projects.length,
+        total: list.length,
         minPrice: prices.length ? Math.min(...prices) : 0,
         maxPrice: prices.length ? Math.max(...prices) : 0,
         maxArea: areas.length ? Math.max(...areas) : 0,

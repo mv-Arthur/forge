@@ -6272,7 +6272,7 @@
         ]
     },
     {
-        "slug": "eliot",
+        "slug": "eliot-brick-6848",
         "name": "Элиот",
         "dimensions": "11х14",
         "area": 255,
@@ -6313,7 +6313,7 @@
             "doma-shale"
         ],
         "technologies": [
-            "frame"
+            "brick"
         ],
         "features": [
             "terrace"
@@ -6328,8 +6328,8 @@
         "floorPlans": [],
         "variants": [
             {
-                "technology": "frame",
-                "slug": "eliot",
+                "technology": "brick",
+                "slug": "eliot-brick-6848",
                 "priceFrom": 7364910,
                 "priceLow": 7364910,
                 "priceHigh": 7364910,
@@ -6337,20 +6337,20 @@
                 "packages": [
                     {
                         "name": "Базовая",
-                        "price": 9574383
+                        "price": 11072360
                     },
                     {
                         "name": "Стандарт",
-                        "price": 10635856
+                        "price": 12054285
                     },
                     {
                         "name": "Комфорт",
-                        "price": 15030727
+                        "price": 16483763
                     }
                 ],
                 "mortgageFrom": 24550,
-                "category": "karkasnye-doma",
-                "url": "https://ncottage.ru/proekty/karkasnye-doma/dom-iz-kirpicha-14x11m-eliot/",
+                "category": "doma-iz-kirpicha",
+                "url": "https://ncottage.ru/proekty/doma-iz-kirpicha/dom-iz-kirpicha-14x11m-eliot/",
                 "sourceProductId": 6848
             }
         ]
@@ -10151,7 +10151,7 @@
         ]
     },
     {
-        "slug": "don-gas_concrete",
+        "slug": "don",
         "name": "Проект Дон",
         "dimensions": "15х15",
         "area": 230,
@@ -10199,7 +10199,7 @@
         "variants": [
             {
                 "technology": "gas_concrete",
-                "slug": "don-gas_concrete",
+                "slug": "don",
                 "priceFrom": 13777380,
                 "priceLow": 13777380,
                 "priceHigh": 13777380,
@@ -26414,7 +26414,7 @@
         ]
     },
     {
-        "slug": "bergen-mini-gas_concrete",
+        "slug": "bergen-mini",
         "name": "Проект Берген мини 8х11",
         "dimensions": "7х11",
         "area": 86,
@@ -26474,7 +26474,7 @@
         "variants": [
             {
                 "technology": "gas_concrete",
-                "slug": "bergen-mini-gas_concrete",
+                "slug": "bergen-mini",
                 "priceFrom": 5218080,
                 "priceLow": 5218080,
                 "priceHigh": 5218080,
@@ -26501,7 +26501,7 @@
         ]
     },
     {
-        "slug": "bergen-mini-gas_concrete-gas_concrete-10627",
+        "slug": "bergen-mini",
         "name": "Дом из кирпича 8х12",
         "dimensions": "7х11",
         "area": 86,
@@ -26553,7 +26553,7 @@
         "variants": [
             {
                 "technology": "brick",
-                "slug": "bergen-mini-gas_concrete-gas_concrete-10627",
+                "slug": "bergen-mini",
                 "priceFrom": 5335680,
                 "priceLow": 5335680,
                 "priceHigh": 5335680,
@@ -26561,26 +26561,26 @@
                 "packages": [
                     {
                         "name": "Базовая",
-                        "price": 5751590
+                        "price": 6936384
                     },
                     {
                         "name": "Стандарт",
-                        "price": 6369021
+                        "price": 7754188
                     },
                     {
                         "name": "Комфорт",
-                        "price": 8208503
+                        "price": 9153976
                     }
                 ],
                 "mortgageFrom": 17786,
                 "category": "doma-iz-kirpicha",
-                "url": "https://ncottage.ru/proekty/doma-iz-gazobetona/dom-iz-kirpicha-8h11-bergen-mini/",
+                "url": "https://ncottage.ru/proekty/doma-iz-kirpicha/dom-iz-kirpicha-8h11-bergen-mini/",
                 "sourceProductId": 10627
             }
         ]
     },
     {
-        "slug": "bergen-mini-gas_concrete-gas_concrete-10628",
+        "slug": "bergen-mini",
         "name": "Каркасный дом 8х12",
         "dimensions": "7х11",
         "area": 86,
@@ -26634,7 +26634,7 @@
         "variants": [
             {
                 "technology": "frame",
-                "slug": "bergen-mini-gas_concrete-gas_concrete-10628",
+                "slug": "bergen-mini",
                 "priceFrom": 4100880,
                 "priceLow": 4100880,
                 "priceHigh": 4100880,
@@ -26642,20 +26642,20 @@
                 "packages": [
                     {
                         "name": "Базовая",
-                        "price": 5751590
+                        "price": 5331144
                     },
                     {
                         "name": "Стандарт",
-                        "price": 6369021
+                        "price": 5755828
                     },
                     {
                         "name": "Комфорт",
-                        "price": 8208503
+                        "price": 7614256
                     }
                 ],
                 "mortgageFrom": 13670,
                 "category": "karkasnye-doma",
-                "url": "https://ncottage.ru/proekty/doma-iz-gazobetona/karkasnij-dom-8h11-bergen-mini/",
+                "url": "https://ncottage.ru/proekty/karkasnye-doma/karkasnij-dom-8h11-bergen-mini/",
                 "sourceProductId": 10628
             }
         ]
@@ -27766,7 +27766,7 @@
         ]
     },
     {
-        "slug": "don-gas_concrete-gas_concrete-12652",
+        "slug": "don-gas_concrete-12652",
         "name": "Проект Экос",
         "dimensions": "15х15",
         "area": 230,
@@ -27815,7 +27815,7 @@
         "variants": [
             {
                 "technology": "gas_concrete",
-                "slug": "don-gas_concrete-gas_concrete-12652",
+                "slug": "don-gas_concrete-12652",
                 "priceFrom": 13777380,
                 "priceLow": 13777380,
                 "priceHigh": 13777380,

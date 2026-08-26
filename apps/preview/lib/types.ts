@@ -91,10 +91,8 @@ export interface Settings {
     mortgageRate: number;
     mortgageTermYears: number;
     warrantyYears: number;
-    yearsOnMarket: number;
-    builtHouses: number;
-    metersProduced: number;
-    recommendRate: number;
+    foundedYear: number;
+    inn: string;
     officeHoursLabel: string;
     cityLabel: string;
 }

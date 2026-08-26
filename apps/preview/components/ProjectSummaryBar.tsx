@@ -129,7 +129,7 @@ export function ProjectSummaryBar({ project }: Props) {
                                 onClick={() => openLead("presentation")}
                                 className="btn btn-primary btn-sm flex-1"
                             >
-                                Получить презентацию
+                                Получить смету
                             </button>
                             <button
                                 type="button"

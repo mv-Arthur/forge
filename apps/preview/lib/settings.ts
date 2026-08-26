@@ -8,10 +8,8 @@ export const settings: Settings = {
     mortgageRate: 6,
     mortgageTermYears: 20,
     warrantyYears: 7,
-    yearsOnMarket: 12,
-    builtHouses: 640,
-    metersProduced: 82000,
-    recommendRate: 97,
+    foundedYear: 2007,
+    inn: "7802663069",
     officeHoursLabel: "Пн–Пт: 10:00–19:00",
     cityLabel: "Санкт-Петербург",
 };

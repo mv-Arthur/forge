@@ -1,15 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { EnrichedBuiltObject } from "@/lib/types";
-import {
-    formatArea,
-    formatTechnologyBrand,
-} from "@/lib/format";
+import { formatArea, formatTechnologyBrand } from "@/lib/format";
 import { MapPinIcon } from "./Icons";
 
-/**
- * Карточка объекта: фото, место (если есть), статус — без выдуманного FK к проекту.
- */
 export function BuiltObjectCard({
     object,
     compact = false,
@@ -17,6 +14,10 @@ export function BuiltObjectCard({
     object: EnrichedBuiltObject;
     compact?: boolean;
 }) {
+    const [failed, setFailed] = useState(false);
+    const src = object.heroImage || object.gallery[0];
+    if (!src || failed) return null;
+
     const inProgress = object.status === "in-progress";
     const place = object.locationLabel;
 
@@ -28,19 +29,14 @@ export function BuiltObjectCard({
             <div
                 className={`relative ${compact ? "aspect-[4/3]" : "aspect-[16/11]"} overflow-hidden bg-ink-100`}
             >
-                {object.heroImage ? (
-                    <Image
-                        src={object.heroImage}
-                        alt={object.displayTitle}
-                        fill
-                        sizes="(min-width:1024px) 25vw, 100vw"
-                        className="object-cover transition-transform duration-500 ease-expo group-hover:scale-105"
-                    />
-                ) : (
-                    <div className="grid h-full place-items-center text-ink-500">
-                        нет фото
-                    </div>
-                )}
+                <Image
+                    src={src}
+                    alt={object.displayTitle}
+                    fill
+                    sizes="(min-width:1024px) 25vw, 100vw"
+                    className="object-cover transition-transform duration-500 ease-expo group-hover:scale-105"
+                    onError={() => setFailed(true)}
+                />
 
                 <div className="absolute left-3 top-3">
                     <span
@@ -48,7 +44,7 @@ export function BuiltObjectCard({
                             inProgress ? "badge-progress" : "badge-built"
                         }`}
                     >
-                        {inProgress ? "Можно на площадку" : "Можно приехать"}
+                        {inProgress ? "Строится" : "Построен"}
                     </span>
                 </div>
 
@@ -81,9 +77,7 @@ export function BuiltObjectCard({
             {!compact ? (
                 <div className="flex flex-1 items-center justify-between gap-2 p-4">
                     <div className="min-w-0 text-[13px] font-semibold text-ink-900">
-                        {inProgress
-                            ? "Идёт стройка — покажем этап"
-                            : "Сданный дом — покажем изнутри"}
+                        {object.displayTitle}
                     </div>
                     <span className="flex-shrink-0 text-[13px] font-semibold text-ink-950 group-hover:text-accent">
                         Смотреть →

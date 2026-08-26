@@ -1,0 +1,129 @@
+{
+  "user": "ncottaxz_db1@localhost",
+  "database": "ncottaxz_db1",
+  "types": {
+    "acf-field": {
+      "publish": 1127
+    },
+    "acf-field-group": {
+      "publish": 43
+    },
+    "attachment": {
+      "inherit": 6566
+    },
+    "br_filters_group": {
+      "publish": 2
+    },
+    "br_product_filter": {
+      "publish": 18
+    },
+    "elementor_library": {
+      "publish": 1
+    },
+    "nav_menu_item": {
+      "publish": 543
+    },
+    "oembed_cache": {
+      "publish": 2
+    },
+    "page": {
+      "dp-rewrite-republish": 1,
+      "draft": 13,
+      "private": 1,
+      "publish": 136
+    },
+    "post": {
+      "draft": 1,
+      "publish": 56,
+      "trash": 1
+    },
+    "product": {
+      "draft": 1,
+      "publish": 329
+    },
+    "revision": {
+      "inherit": 168
+    },
+    "schema": {
+      "publish": 2
+    },
+    "wp_global_styles": {
+      "publish": 1
+    },
+    "wpcf7_contact_form": {
+      "publish": 50
+    },
+    "wpcode": {
+      "draft": 2
+    },
+    "wpforms": {
+      "publish": 2
+    }
+  },
+  "taxonomies": {
+    "product_cat": 432,
+    "pa_obshaya-ploshhad-doma": 105,
+    "pa_stroitelnaya-ploshhad-doma": 93,
+    "pa_ploshhad-kuhni-gostinoj": 65,
+    "nav_menu": 64,
+    "pa_razmer-doma": 62,
+    "post_tag": 57,
+    "pa_terrasa-m2": 49,
+    "pa_visota-sten-1": 21,
+    "product_tag": 12,
+    "pa_kolichestvo-spalen": 9,
+    "product_visibility": 9,
+    "pa_kolichestvo-vannyh-komnat": 7,
+    "category": 6,
+    "pa_tehnologii-stroitelstva": 5,
+    "wpcode_tags": 4,
+    "product_type": 4,
+    "action-group": 3,
+    "pa_kolichestvo-etazhej": 3,
+    "pa_kladovaya": 2,
+    "pa_kotelnaya": 2,
+    "wpcode_location": 2,
+    "pa_garazh": 2,
+    "pa_vtoroj-svet": 2,
+    "pa_price-default": 2,
+    "wpcode_type": 2,
+    "pa_terrasa": 2,
+    "pa_mansardnyj-etazh": 2,
+    "berocket_taxonomy_data": 1,
+    "wp_theme": 1
+  },
+  "active_plugin_count": 31,
+  "active_plugins": [
+    "acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php",
+    "acf-options-page/acf-options-page.php",
+    "acf-repeater/acf-repeater.php",
+    "advanced-custom-fields/acf.php",
+    "advanced-woo-search/advanced-woo-search.php",
+    "contact-form-7-dynamic-text-extension/contact-form-7-dynamic-text-extension.php",
+    "contact-form-7/wp-contact-form-7.php",
+    "cyr2lat/cyr-to-lat.php",
+    "drag-and-drop-multiple-file-upload-contact-form-7/drag-n-drop-upload-cf7.php",
+    "duplicate-post/duplicate-post.php",
+    "duplicator-pro/duplicator-pro.php",
+    "elementor-pro/elementor-pro.php",
+    "elementor/elementor.php",
+    "insert-headers-and-footers/ihaf.php",
+    "redirection/redirection.php",
+    "regenerate-thumbnails/regenerate-thumbnails.php",
+    "soil/soil.php",
+    "woocatbase/woocatbase.php",
+    "woocommerce-ajax-filters/woocommerce-filters.php",
+    "woocommerce/woocommerce.php",
+    "wordpress-seo-premium/wp-seo-premium.php",
+    "wordpress-seo/wp-seo.php",
+    "wp-all-export-pro/wp-all-export-pro.php",
+    "wp-all-import-pro/wp-all-import-pro.php",
+    "wp-rocket/wp-rocket.php",
+    "wpae-acf-add-on/wpae-acf-add-on-pro.php",
+    "wpae-woocommerce-add-on/wpae-woocommerce-add-on.php",
+    "wpai-acf-add-on/wpai-acf-add-on.php",
+    "wpai-woocommerce-add-on/wpai-woocommerce-add-on.php",
+    "wpforms/wpforms.php",
+    "wpseo-woocommerce/wpseo-woocommerce.php"
+  ]
+}

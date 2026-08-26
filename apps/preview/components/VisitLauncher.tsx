@@ -25,8 +25,8 @@ export function VisitLauncher({
                 open={open}
                 onClose={() => setOpen(false)}
                 intent="visit"
-                projectName="портфолио"
-                prefill="Запись на просмотр объекта"
+                projectName="построенные дома"
+                prefill="Запись на просмотр дома"
                 source="works-catalog-visit"
             />
         </>
