@@ -5,3 +5,16 @@ next-env.d.ts
 !.env.example
 *.log
 .DS_Store
+.beget-db.env
+scripts/.cache/
+data/fixtures/.export-raw/
+
+# GWD visual reference screenshots (local only)
+.gwd-refs/
+
+# research CLI capture output
+research/.out/
+research/node_modules/
+
+# local jez artifacts
+.jez/

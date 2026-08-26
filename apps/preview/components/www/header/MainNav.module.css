@@ -21,23 +21,42 @@
     display: flex;
     align-items: center;
     gap: var(--space-32);
-    height: 72px;
+    height: 76px;
     min-width: 0;
 }
 
 .logo {
     display: inline-flex;
     align-items: center;
+    gap: 10px;
     flex-shrink: 0;
     min-width: 0;
     color: var(--color-ink);
 }
 
-.logo img {
-    width: auto;
-    height: 36px;
-    max-width: 100%;
-    object-fit: contain;
+.logoMark {
+    flex-shrink: 0;
+    display: block;
+}
+
+.wordmark {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-ink);
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .wordmark {
+        font-size: 1.1rem;
+    }
+    .logoMark {
+        width: 30px;
+        height: 30px;
+    }
 }
 
 .nav {
@@ -55,9 +74,9 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-6);
-    padding: var(--space-10) 14px;
+    padding: var(--space-10) 16px;
     white-space: nowrap;
-    font-size: var(--text-sm);
+    font-size: 15px;
     font-weight: 500;
     letter-spacing: 0.01em;
     color: var(--color-ink);
@@ -138,9 +157,10 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-8);
-    padding: 0 var(--space-8);
-    font-size: var(--text-sm);
-    font-weight: 600;
+    padding: 0 var(--space-10);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     color: var(--color-ink);
     transition: color var(--transition);
     white-space: nowrap;
@@ -157,25 +177,29 @@
 .cta {
     display: inline-flex;
     align-items: center;
-    height: 40px;
-    padding: 0 18px;
+    height: 44px;
+    padding: 0 22px;
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-md);
     background: var(--color-accent);
     color: var(--color-ink-on-accent);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     cursor: pointer;
+    box-shadow: 0 8px 20px rgb(var(--color-accent-rgb) / 0.28);
     transition:
         background-color var(--transition),
-        transform var(--transition);
+        transform var(--transition),
+        box-shadow var(--transition);
     white-space: nowrap;
 }
 
 .cta:hover {
     background: var(--color-accent-hover);
     transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgb(var(--color-accent-rgb) / 0.34);
 }
 
 .dropdown {

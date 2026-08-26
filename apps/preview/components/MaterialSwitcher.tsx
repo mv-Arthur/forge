@@ -12,48 +12,12 @@ import {
     formatMonthlyShort,
     formatMillions,
 } from "@/lib/format";
-import { CheckIcon, ShieldIcon } from "./Icons";
+import { ShieldIcon } from "./Icons";
 import { LeadForm } from "./LeadForm";
 
 interface Props {
     project: MergedProject;
 }
-
-const WALLS_BY_TECH: Record<string, string> = {
-    gas_concrete: "Газобетон YTONG D400 375 мм · клей + армирование",
-    brick: "Керамический блок Porotherm 44 · облицовка кирпич",
-    frame: "Каркас 150–200 мм · утеплитель Paroc · ветрозащита Tyvek",
-    sip: "СИП-панели 174–224 мм · OSB-3 · пенополистирол",
-    fachwerk: "Фасад fachwerk · каркас + заполнение газобетон/СИП",
-    timber: "Клеёный брус 200×200 · межвенцовый уплотнитель",
-};
-
-const PACKAGE_INCLUDES: Record<string, Array<{ label: string; value: string }>> = {
-    Базовая: [
-        { label: "Фундамент", value: "Монолитная плита 300 мм, бетон B22.5, арматура А500С d12" },
-        { label: "Стены", value: "__WALLS__" },
-        { label: "Кровля", value: "Металлочерепица Grand Line Kredo · утеплитель Paroc" },
-        { label: "Окна", value: "Veka Softline 70 · 2-камерный стеклопакет · энергосбережение" },
-        { label: "Двери", value: "Входная TOREX Snegir 20 · межкомнатные под чистовую" },
-        { label: "Черновая инженерка", value: "Электрика · водоснабжение · отопление котёл газовый Buderus" },
-    ],
-    Стандарт: [
-        { label: "Всё из «Базовой» +", value: "" },
-        { label: "Утепление до нормы", value: "6.3 м²·К/Вт по стенам, 7.2 по кровле · Paroc + ветрозащита Tyvek" },
-        { label: "Окна улучшенные", value: "Veka Softline 82 · 3-камерный · шумоизоляция 34 дБ" },
-        { label: "Фасад", value: "Штукатурка Caparol с камнем цокольным · Cedral Click под кедр" },
-        { label: "Подшивка свесов", value: "Софиты Grand Line · водосток пластиковый Технониколь" },
-        { label: "Инженерка в развёрнутом виде", value: "Электрика 55+ точек · тёплые полы в с/у · разводка ХВС/ГВС" },
-    ],
-    Комфорт: [
-        { label: "Всё из «Стандарта» +", value: "" },
-        { label: "Финишная отделка внутри", value: "Стены под покраску Caparol · полы паркетная доска Kährs" },
-        { label: "Терраса под ключ", value: "Настил термоясень с антискольжением, козырьки" },
-        { label: "Санузлы «под ключ»", value: "Плитка Kerama Marazzi · сантехника Roca · душ-кабина Ravak" },
-        { label: "Умный дом Стартовый", value: "Датчики протечки, дыма, дистанционное управление отоплением" },
-        { label: "Ландшафт минимум", value: "Отмостка · крыльцо · площадка перед въездом · газон 100 м²" },
-    ],
-};
 
 export function MaterialSwitcher({ project }: Props) {
     const [activeTech, setActiveTech] = useState<Technology>(
@@ -81,7 +45,7 @@ export function MaterialSwitcher({ project }: Props) {
                     </div>
                     {project.variants.length > 1 ? (
                         <div className="text-[12px] text-ink-500">
-                            Клик — цена и комплектации пересчитываются
+                            Цена зависит от материала
                         </div>
                     ) : null}
                 </div>
@@ -103,7 +67,7 @@ export function MaterialSwitcher({ project }: Props) {
                                     {formatTechnologyBrand(v.technology)}
                                 </div>
                                 <div
-                                    className={`mt-2 text-[11px] uppercase tracking-wider ${
+                                    className={`mt-2 text-xs uppercase tracking-wider ${
                                         isActive
                                             ? "text-white/70"
                                             : "text-ink-500"
@@ -135,7 +99,7 @@ export function MaterialSwitcher({ project }: Props) {
                         <div>
                             <div className="eyebrow">Комплектации</div>
                             <h3 className="mt-1 font-display text-h2">
-                                Что входит — до брендов
+                                Комплектации и цена
                             </h3>
                         </div>
                         <div className="hidden text-[12px] text-ink-500 md:block">
@@ -147,7 +111,6 @@ export function MaterialSwitcher({ project }: Props) {
                 <div className="grid gap-0 lg:grid-cols-3">
                     {activeVariant.packages.map((pkg, i) => {
                         const isSelected = i === activePkg;
-                        const isMid = i === 1;
                         return (
                             <button
                                 key={pkg.name}
@@ -159,21 +122,8 @@ export function MaterialSwitcher({ project }: Props) {
                                         : "bg-white hover:bg-ink-50/60"
                                 } lg:last:border-r-0`}
                             >
-                                <div className="flex items-center justify-between">
-                                    <div className="font-display text-xl font-extrabold">
-                                        {pkg.name}
-                                    </div>
-                                    {isMid ? (
-                                        <span
-                                            className={`badge ${
-                                                isSelected
-                                                    ? "bg-accent text-white"
-                                                    : "badge-hit"
-                                            }`}
-                                        >
-                                            Хит
-                                        </span>
-                                    ) : null}
+                                <div className="font-display text-xl font-extrabold">
+                                    {pkg.name}
                                 </div>
                                 <div className="mt-3 flex items-baseline gap-2">
                                     <span className="font-display text-2xl font-extrabold">
@@ -196,7 +146,7 @@ export function MaterialSwitcher({ project }: Props) {
                                             : "text-ink-950"
                                     }`}
                                 >
-                                    {isSelected ? "Показан ниже" : "Показать состав"}
+                                    {isSelected ? "Выбрано" : "Выбрать"}
                                 </div>
                             </button>
                         );
@@ -206,7 +156,7 @@ export function MaterialSwitcher({ project }: Props) {
                 <div className="border-t border-ink-150 p-6">
                     <div className="mb-4 flex items-baseline justify-between">
                         <div>
-                            <div className="eyebrow">Состав пакета</div>
+                            <div className="eyebrow">Смета</div>
                             <div className="mt-1 font-display text-lg font-extrabold">
                                 {activePackage.name} ·{" "}
                                 {formatTechnologyBrand(activeVariant.technology)}
@@ -220,37 +170,6 @@ export function MaterialSwitcher({ project }: Props) {
                                 {formatPrice(activePackage.price)}
                             </div>
                         </div>
-                    </div>
-                    <div className="divide-y divide-ink-150 rounded-xl border border-ink-150 bg-ink-50/40">
-                        {(PACKAGE_INCLUDES[activePackage.name] ?? []).map(
-                            (row, i) => {
-                                const value =
-                                    row.value === "__WALLS__"
-                                        ? WALLS_BY_TECH[activeVariant.technology] ??
-                                          WALLS_BY_TECH.gas_concrete
-                                        : row.value;
-                                return (
-                                <div
-                                    key={row.label + i}
-                                    className={`grid grid-cols-[auto_1fr] gap-4 p-4 ${
-                                        value ? "" : "bg-accent/5"
-                                    }`}
-                                >
-                                    <div className="flex items-start gap-2 text-[13px] font-bold uppercase tracking-wider text-ink-500">
-                                        <CheckIcon className="mt-0.5 h-3.5 w-3.5 text-success" />
-                                        {row.label}
-                                    </div>
-                                    <div className="text-[14px] text-ink-800">
-                                        {value || (
-                                            <em className="font-semibold not-italic text-accent">
-                                                (дополнительно)
-                                            </em>
-                                        )}
-                                    </div>
-                                </div>
-                                );
-                            },
-                        )}
                     </div>
                     <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]">
                         <div className="rounded-xl border border-ink-150 bg-white p-4">
@@ -281,7 +200,7 @@ export function MaterialSwitcher({ project }: Props) {
                             {activePackage.name}
                         </div>
                         <p className="mt-1 text-[12px] text-ink-500">
-                            Скинем PDF с полной сметой в мессенджер за 15 минут.
+                            Пришлём смету в мессенджер.
                         </p>
                         <div className="mt-3">
                             <LeadForm

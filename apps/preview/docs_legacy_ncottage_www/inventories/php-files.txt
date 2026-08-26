@@ -1,0 +1,7 @@
+/home/n/ncottaxz/ncottage.ru/public_html/app/themes/sage/app/admin.php
+/home/n/ncottaxz/ncottage.ru/public_html/app/themes/sage/app/Controllers/App.php
+/home/n/ncottaxz/ncottage.ru/public_html/app/themes/sage/app/Controllers/FrontPage.php
+/home/n/ncottaxz/ncottage.ru/public_html/app/themes/sage/app/filters.php
+/home/n/ncottaxz/ncottage.ru/public_html/app/themes/sage/app/helpers.php
+/home/n/ncottaxz/ncottage.ru/public_html/app/themes/sage/app/setup.php
+~/ncottage.ru/public_html/app/themes/sage/resources/functions.php

@@ -5,17 +5,23 @@ const priceFormatter = new Intl.NumberFormat("ru-RU", {
 });
 
 export function formatPrice(value: number | null | undefined): string {
-    if (value === null || value === undefined || !Number.isFinite(value))
+    if (
+        value === null ||
+        value === undefined ||
+        !Number.isFinite(value) ||
+        value <= 0
+    )
         return "—";
+    if (value >= 1_000_000) {
+        const millions = value / 1_000_000;
+        const label = millions.toFixed(1).replace(".", ",");
+        return `${label} млн ₽`;
+    }
     return `${priceFormatter.format(Math.round(value))} ₽`;
 }
 
 export function formatMillions(value: number | null | undefined): string {
-    if (value === null || value === undefined || !Number.isFinite(value))
-        return "—";
-    const millions = value / 1_000_000;
-    if (millions >= 10) return `${millions.toFixed(1)} млн ₽`;
-    return `${millions.toFixed(2)} млн ₽`;
+    return formatPrice(value);
 }
 
 export function formatArea(value: number | null | undefined): string {
@@ -153,8 +159,9 @@ export function pluralize(n: number, forms: [string, string, string]): string {
 
 export const projectsWord = (n: number) =>
     pluralize(n, ["проект", "проекта", "проектов"]);
-export const objectsWord = (n: number) =>
-    pluralize(n, ["объект", "объекта", "объектов"]);
+export const housesWord = (n: number) =>
+    pluralize(n, ["дом", "дома", "домов"]);
+export const objectsWord = (n: number) => housesWord(n);
 export const bedroomsWord = (n: number) =>
     pluralize(n, ["спальня", "спальни", "спален"]);
 export const bathroomsWord = (n: number) =>
@@ -164,7 +171,7 @@ export const photosWord = (n: number) =>
 export const timesWord = (n: number) =>
     pluralize(n, ["раз", "раза", "раз"]);
 
-/** Заголовок блока «вживую» на карточке проекта — только по факту статусов. */
+/** Заголовок блока построенных домов на карточке проекта — только по факту статусов. */
 export function projectObjectsHeadline(
     built: number,
     building: number,
@@ -176,18 +183,18 @@ export function projectObjectsHeadline(
         return {
             title:
                 built === 1
-                    ? "1 объект построен по этому проекту"
-                    : `${built} ${objectsWord(built)} построено по этому проекту`,
-            lead: "Приезжайте — покажем изнутри и снаружи.",
+                    ? "1 дом построен по этому проекту"
+                    : `${built} ${housesWord(built)} построено по этому проекту`,
+            lead: "Покажем дом изнутри и снаружи.",
         };
     }
     if (built <= 0) {
         return {
             title:
                 building === 1
-                    ? "1 объект строится по этому проекту"
-                    : `${building} ${objectsWord(building)} строятся по этому проекту`,
-            lead: "Можно приехать на площадку и увидеть текущий этап.",
+                    ? "1 дом строится по этому проекту"
+                    : `${building} ${housesWord(building)} строятся по этому проекту`,
+            lead: "Покажем текущий этап стройки.",
         };
     }
     const total = built + building;
@@ -196,8 +203,8 @@ export function projectObjectsHeadline(
     const buildingPart =
         building === 1 ? "1 строится" : `${building} строятся`;
     return {
-        title: `${total} ${objectsWord(total)} по этому проекту`,
-        lead: `${builtPart} · ${buildingPart}. Приезжайте — покажем живой объект.`,
+        title: `${total} ${housesWord(total)} по этому проекту`,
+        lead: `${builtPart} · ${buildingPart}. Приезжайте — покажем дом.`,
     };
 }
 
@@ -212,7 +219,7 @@ export function projectObjectsBadge(
     if (building > 0) {
         return building === 1
             ? "сейчас строится"
-            : `строится ${building} ${objectsWord(building)}`;
+            : `строится ${building} ${housesWord(building)}`;
     }
     return null;
 }

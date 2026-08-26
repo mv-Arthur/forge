@@ -1,0 +1,21 @@
+{
+    "name": "preview-research-cli",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "capture": "tsx src/cli.ts",
+        "start": "tsx src/cli.ts",
+        "atlas": "tsx src/cli.ts atlas",
+        "copy": "tsx src/cli.ts copy",
+        "test": "tsx --test src/*.test.ts"
+    },
+    "dependencies": {
+        "playwright": "^1.49.0",
+        "website_screenshot_maker": "file:../../../packages/research_toolkit/website_screenshot_maker"
+    },
+    "devDependencies": {
+        "@types/node": "^22.15.0",
+        "tsx": "^4.19.0",
+        "typescript": "^5.7.3"
+    }
+}

@@ -7,17 +7,6 @@ export type Technology =
 
 export type Floors = "1" | "1.5" | "2" | "mansard";
 
-export type Style =
-    | "scandinavian"
-    | "modern"
-    | "classic"
-    | "loft"
-    | "barn"
-    | "provance"
-    | "european";
-
-export type PurposeType = "permanent" | "seasonal" | "guest";
-
 export interface ProjectPackage {
     name: string;
     price: number;
@@ -58,39 +47,15 @@ export interface RawProject {
     variants: ProjectMaterialVariant[];
 }
 
+/** Fixture-backed project + closed allowlist derived fields only. */
 export interface MergedProject extends RawProject {
     displayName: string;
-    code: string;
     subtitle: string;
-    style: Style;
-    livingType: PurposeType;
-    livingArea: number | null;
-    builtUpArea: number | null;
-    ceilingHeight: number;
-    buildTime: string;
-    warranty: number;
-    priceFrom: number;
-    mortgageFrom: number;
+    priceFrom: number | null;
+    mortgageFrom: number | null;
     heroImage: string;
-    /** Только сданные (status === built). */
-    builtCount: number;
-    /** Сейчас в работе (status === in-progress). */
-    buildingCount: number;
-    isFeatured: boolean;
-    isDiscounted: boolean;
-    oldPrice: number | null;
-    discountLabel: string | null;
-    priceValidAt: string | null;
-    planEditable: boolean;
-    facadeFinish: string;
     hasTerrace: boolean;
-    rooms: RoomSpec[];
-}
-
-export interface RoomSpec {
-    name: string;
-    area: number;
-    floor: number;
+    warranty: number;
 }
 
 export interface BuiltObject {
@@ -103,57 +68,19 @@ export interface BuiltObject {
     gallery: string[];
 }
 
-export interface BuiltMilestone {
-    label: string;
-    date: string;
-    done: boolean;
-    note?: string;
-}
-
 export interface EnrichedBuiltObject extends BuiltObject {
     displayTitle: string;
     heroImage: string | null;
-    baseProjectSlug: string | null;
-    area: number;
-    livingArea: number;
-    bedrooms: number;
-    bathrooms: number;
+    locationLabel: string | null;
+    area: number | null;
+    bedrooms: number | null;
+    bathrooms: number | null;
     kitchenArea: number | null;
-    objectType: string;
-    locationLabel: string;
     hasTerrace: boolean;
     hasSauna: boolean;
     hasGarage: boolean;
-    photosByStage: {
-        foundation: string[];
-        walls: string[];
-        roof: string[];
-        facade: string[];
-        interior: string[];
-    };
-    contractDate: string;
-    buildStartDate: string;
-    moveInDate: string | null;
-    buildTermLabel: string;
-    durationMonths: number;
-    progress: number;
-    price: number | null;
-    showPrice: boolean;
-    ownerName: string;
-    familyComposition: string;
-    story: string;
-    hasReview: boolean;
-    reviewQuote: string;
-    reviewAuthor: string;
-    utilityCost: string;
-    foreman: string;
-    crewSize: number;
-    features: string[];
-    materials: string[];
-    worksDone: string[];
-    milestones: BuiltMilestone[];
-    highlights: string[];
-    stageCaptions: Record<string, string>;
+    buildTermLabel: string | null;
+    metaDescription: string | null;
 }
 
 export interface Settings {
@@ -164,10 +91,8 @@ export interface Settings {
     mortgageRate: number;
     mortgageTermYears: number;
     warrantyYears: number;
-    yearsOnMarket: number;
-    builtHouses: number;
-    metersProduced: number;
-    recommendRate: number;
+    foundedYear: number;
+    inn: string;
     officeHoursLabel: string;
     cityLabel: string;
 }

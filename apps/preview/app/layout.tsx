@@ -9,7 +9,7 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
     title: "Новый Коттедж — дома под ключ в СПб и Ленобласти",
     description:
-        "Готовые проекты, гарантия 7 лет, фиксированная смета. Строим дома под ключ с 2014 года.",
+        "Готовые проекты, гарантия 7 лет, фиксированная смета. Строим дома под ключ с 2007 года.",
 };
 
 export const viewport = {
@@ -36,7 +36,7 @@ export default function RootLayout({
                     crossOrigin="anonymous"
                 />
                 <link
-                    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
                     rel="stylesheet"
                 />
                 <style
@@ -44,7 +44,7 @@ export default function RootLayout({
                         __html: `
                           :root {
                             --font-sans: "Inter", system-ui, sans-serif;
-                            --font-display: "Inter", system-ui, sans-serif;
+                            --font-display: "Cormorant Garamond", "Times New Roman", serif;
                           }
                         `,
                     }}

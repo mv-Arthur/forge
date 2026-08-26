@@ -81,8 +81,9 @@
     --text-5xl: 4rem; /* 64 */
     --text-6xl: 5.25rem; /* 84 */
 
-    /* Layout */
+    /* Layout — --container-max aliases --container-width for GWD rhythm gate */
     --container-width: 1280px;
+    --container-max: var(--container-width);
     --container-padding: 24px;
     --section-padding-y: 96px;
     --section-padding-y-mobile: 56px;

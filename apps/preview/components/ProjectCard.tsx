@@ -2,109 +2,70 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { MergedProject } from "@/lib/types";
 import {
     formatArea,
     formatPrice,
     formatTechnologyBrand,
-    projectObjectsBadge,
 } from "@/lib/format";
-import {
-    displayLikeCount,
-    isCompared,
-    isLiked,
-    toggleCompare,
-    toggleLike,
-} from "@/lib/likes";
 import {
     BathIcon,
     BedIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
-    CompareIcon,
-    HeartIcon,
     RulerIcon,
 } from "./Icons";
 
 interface Props {
     project: MergedProject;
     priority?: boolean;
-    /** wide = полная ширина (по умолчанию в каталоге), grid = плитка */
     layout?: "wide" | "grid";
 }
 
-/**
- * Карточка каталога: фото, минимум текста, цена как у GWD (просто цифры),
- * лайк в localStorage.
- */
+/** Photo-first catalog card (GWD pattern): image, name, area, price from. */
 export function ProjectCard({
     project,
     priority = false,
-    layout = "wide",
+    layout = "grid",
 }: Props) {
     const wide = layout === "wide";
     const [slide, setSlide] = useState(0);
-    const [liked, setLiked] = useState(false);
-    const [compared, setCompared] = useState(false);
     const images = project.renders.slice(0, 8);
     const total = images.length;
     const href = `/projects/${project.slug}`;
-
-    useEffect(() => {
-        setLiked(isLiked(project.slug));
-        setCompared(isCompared(project.slug));
-    }, [project.slug]);
+    const hero = project.heroImage || images[0] || "";
 
     const advance = (dir: 1 | -1) => (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
+        if (total < 2) return;
         setSlide((n) => (n + dir + total) % total);
     };
 
-    const onLike = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setLiked(toggleLike(project.slug));
-    };
-
-    const onCompare = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setCompared(toggleCompare(project.slug));
-    };
-
-    const millions = (project.priceFrom / 1_000_000).toLocaleString("ru-RU", {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 0,
-    });
-
-    const techLabel = project.technologies[0]
-        ? formatTechnologyBrand(project.technologies[0])
+    const primaryTech =
+        project.variants[0]?.technology ?? project.technologies[0] ?? null;
+    const techLabel = primaryTech
+        ? formatTechnologyBrand(primaryTech)
         : null;
-    const objectsBadge = projectObjectsBadge(
-        project.builtCount,
-        project.buildingCount,
-    );
 
     return (
-        <article className="group relative overflow-hidden rounded-2xl bg-ink-900 shadow-card transition hover:shadow-lift">
-            <Link
-                href={href}
-                className="absolute inset-0 z-[1]"
-                aria-label={`${project.displayName}, от ${formatPrice(project.priceFrom)}`}
-            />
-
+        <article className="card card-hover group flex h-full flex-col overflow-hidden">
             <div
-                className={`relative overflow-hidden ${
+                className={`relative overflow-hidden bg-ink-100 ${
                     wide
-                        ? "aspect-[16/10] sm:aspect-[21/9] min-h-[220px] sm:min-h-[280px]"
-                        : "aspect-[16/11] sm:aspect-[16/10]"
+                        ? "aspect-[16/10] min-h-[240px]"
+                        : "aspect-[4/3]"
                 }`}
             >
-                {total > 0 ? (
+                <Link
+                    href={href}
+                    className="absolute inset-0 z-[1]"
+                    aria-label={project.displayName}
+                />
+                {total > 0 || hero ? (
                     <Image
-                        src={images[slide]}
+                        src={images[slide] || hero}
                         alt={project.displayName}
                         fill
                         sizes={
@@ -116,185 +77,78 @@ export function ProjectCard({
                         priority={priority && slide === 0}
                     />
                 ) : (
-                    <div className="grid h-full place-items-center bg-ink-100 text-ink-500">
+                    <div className="grid h-full place-items-center text-ink-500">
                         нет фото
                     </div>
                 )}
-
                 {total > 1 ? (
                     <>
                         <button
                             type="button"
                             onClick={advance(-1)}
+                            className="absolute left-2 top-1/2 z-[2] grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink-900 opacity-0 shadow transition group-hover:opacity-100"
                             aria-label="Предыдущее фото"
-                            className="absolute left-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-ink-900 opacity-0 shadow transition group-hover:opacity-100"
                         >
-                            <ChevronLeftIcon className="h-5 w-5" />
+                            <ChevronLeftIcon className="h-4 w-4" />
                         </button>
                         <button
                             type="button"
                             onClick={advance(1)}
+                            className="absolute right-2 top-1/2 z-[2] grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-ink-900 opacity-0 shadow transition group-hover:opacity-100"
                             aria-label="Следующее фото"
-                            className="absolute right-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-ink-900 opacity-0 shadow transition group-hover:opacity-100"
                         >
-                            <ChevronRightIcon className="h-5 w-5" />
+                            <ChevronRightIcon className="h-4 w-4" />
                         </button>
                     </>
                 ) : null}
+            </div>
 
-                {/* Top chips + like — как у GWD */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-2 p-3">
-                    <div className="flex flex-wrap gap-1.5">
-                        {project.isFeatured ? (
-                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
-                                Хит
-                            </span>
-                        ) : null}
-                        {project.isDiscounted ? (
-                            <span className="rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-ink shadow-sm">
-                                Акция
-                            </span>
-                        ) : null}
-                        {project.floors === "1" ? (
-                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
-                                1 этаж
-                            </span>
-                        ) : null}
-                        {techLabel ? (
-                            <span className="rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-ink-900 shadow-sm backdrop-blur-sm">
-                                {techLabel}
-                            </span>
-                        ) : null}
-                    </div>
-
-                    <div className="pointer-events-auto relative z-20 flex items-center gap-1.5">
-                        <button
-                            type="button"
-                            onClick={onCompare}
-                            className={`grid h-9 w-9 place-items-center rounded-full shadow-sm backdrop-blur-sm transition ${
-                                compared
-                                    ? "bg-ink-900 text-white"
-                                    : "bg-white/90 text-ink-700 hover:bg-white hover:text-ink-950"
-                            }`}
-                            aria-label={
-                                compared
-                                    ? "Убрать из сравнения"
-                                    : "Добавить к сравнению"
-                            }
-                            aria-pressed={compared}
-                            title={
-                                compared
-                                    ? "В сравнении (заглушка)"
-                                    : "К сравнению (заглушка)"
-                            }
-                        >
-                            <CompareIcon className="h-4 w-4" />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onLike}
-                            className={`inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 shadow-sm backdrop-blur-sm transition ${
-                                liked
-                                    ? "bg-white text-accent"
-                                    : "bg-white/90 text-ink-700 hover:text-accent"
-                            }`}
-                            aria-label={
-                                liked
-                                    ? "Убрать из избранного"
-                                    : "Добавить в избранное"
-                            }
-                            aria-pressed={liked}
-                        >
-                            <HeartIcon className="h-4 w-4" filled={liked} />
-                            <span className="text-[12px] font-semibold tabular-nums">
-                                {displayLikeCount(
-                                    project.slug,
-                                    liked,
-                                ).toLocaleString("ru-RU")}
-                            </span>
-                        </button>
-                    </div>
-                </div>
-
-                {/* Bottom: title + specs + price as plain text (GWD) */}
-                <div
-                    className={`pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/85 via-black/40 to-transparent px-4 pb-4 ${
-                        wide ? "pt-24 sm:px-6 sm:pb-5 sm:pt-28" : "pt-20"
-                    }`}
+            <div className="flex flex-1 flex-col gap-2.5 p-5 md:p-6">
+                <Link
+                    href={href}
+                    className="font-display text-[1.35rem] font-semibold leading-[1.15] tracking-[-0.01em] text-ink-950 hover:text-accent"
                 >
-                    <div
-                        className={`font-display font-extrabold tracking-tight text-white ${
-                            wide
-                                ? "text-[26px] sm:text-[32px]"
-                                : "text-[22px] sm:text-[24px]"
-                        }`}
-                    >
-                        {project.displayName}
-                    </div>
-                    {objectsBadge ? (
-                        <div className="mt-1 text-[12px] font-medium text-white/70">
-                            {objectsBadge}
-                        </div>
+                    {project.displayName}
+                </Link>
+                {project.subtitle ? (
+                    <p className="line-clamp-2 text-sm leading-relaxed text-ink-500">
+                        {project.subtitle}
+                    </p>
+                ) : null}
+                <div className="mt-0.5 flex flex-wrap items-center gap-3 text-sm text-ink-600">
+                    {project.area != null ? (
+                        <span className="inline-flex items-center gap-1">
+                            <RulerIcon className="h-3.5 w-3.5" />
+                            {formatArea(project.area)}
+                        </span>
                     ) : null}
-
-                    <div className="mt-3 flex items-end justify-between gap-3">
-                        <div className="flex flex-wrap items-center gap-3 text-white/90">
-                            <Meta
-                                icon={<RulerIcon className="h-3.5 w-3.5" />}
-                                value={formatArea(project.area)}
-                            />
-                            <Meta
-                                icon={<BedIcon className="h-3.5 w-3.5" />}
-                                value={
-                                    project.bedrooms != null
-                                        ? String(project.bedrooms)
-                                        : "—"
-                                }
-                            />
-                            <Meta
-                                icon={<BathIcon className="h-3.5 w-3.5" />}
-                                value={
-                                    project.bathrooms != null
-                                        ? String(project.bathrooms)
-                                        : "—"
-                                }
-                            />
-                        </div>
-                        <div className="flex-shrink-0 text-right">
-                            <div
-                                className={`font-display font-extrabold tracking-tight text-white ${
-                                    wide
-                                        ? "text-[22px] sm:text-[26px]"
-                                        : "text-[18px] sm:text-[20px]"
-                                }`}
-                            >
-                                {millions}{" "}
-                                <span className="text-[13px] font-bold tracking-wide">
-                                    МЛН ₽
-                                </span>
-                            </div>
-                            <div className="text-[10px] font-medium uppercase tracking-wider text-white/55">
-                                под ключ от
-                            </div>
-                        </div>
+                    {project.bedrooms != null ? (
+                        <span className="inline-flex items-center gap-1">
+                            <BedIcon className="h-3.5 w-3.5" />
+                            {project.bedrooms}
+                        </span>
+                    ) : null}
+                    {project.bathrooms != null ? (
+                        <span className="inline-flex items-center gap-1">
+                            <BathIcon className="h-3.5 w-3.5" />
+                            {project.bathrooms}
+                        </span>
+                    ) : null}
+                    {techLabel ? (
+                        <span className="rounded-full bg-accent-soft px-2.5 py-0.5 text-xs font-semibold text-accent">
+                            {techLabel}
+                        </span>
+                    ) : null}
+                </div>
+                <div className="mt-auto border-t border-ink-100 pt-4">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-500">
+                        под ключ от
+                    </div>
+                    <div className="mt-1 font-display text-price font-semibold text-ink-950">
+                        {formatPrice(project.priceFrom)}
                     </div>
                 </div>
             </div>
         </article>
-    );
-}
-
-function Meta({
-    icon,
-    value,
-}: {
-    icon: React.ReactNode;
-    value: string;
-}) {
-    return (
-        <div className="flex items-center gap-1 text-[12px] font-semibold tabular-nums">
-            <span className="text-white/65">{icon}</span>
-            <span>{value}</span>
-        </div>
     );
 }

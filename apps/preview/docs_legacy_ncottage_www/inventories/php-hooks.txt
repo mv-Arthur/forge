@@ -1,0 +1,68 @@
+public_html/app/themes/sage/resources/functions.php:81:    'add_filter',
+public_html/app/themes/sage/resources/functions.php:99:add_action( 'wpcf7_mail_sent', 'your_wpcf7_mail_sent_function' );
+public_html/app/themes/sage/resources/functions.php:100:function your_wpcf7_mail_sent_function( $contact_form ) {
+public_html/app/themes/sage/resources/functions.php:2860:add_filter('woocommerce_enqueue_styles', '__return_empty_array');
+public_html/app/themes/sage/resources/functions.php:2862:add_action('init', 'save_utm_to_cookie');
+public_html/app/themes/sage/resources/functions.php:2890:/** add_action( 'wp_head', 'ps_comagic' );
+public_html/app/themes/sage/resources/functions.php:2909:    add_filter( 'wpseo_title', 'set_new_custom_title', 100, 1 );
+public_html/app/themes/sage/resources/functions.php:2925:    add_filter( 'wpseo_metadesc', 'set_new_custom_descr', 100, 1 );
+public_html/app/themes/sage/resources/functions.php:2941:    add_filter( 'wpseo_canonical', 'set_new_custom_canonical', 100, 1 );
+public_html/app/themes/sage/resources/functions.php:2949:add_filter( 'walker_nav_menu_start_el', 'modify_menu_items', 10, 4 );
+public_html/app/themes/sage/resources/functions.php:3013:add_filter('nav_menu_css_class', 'add_active_class_to_primary_menu', 10, 2);
+public_html/app/themes/sage/resources/functions.php:3015:add_filter( 'wp_nav_menu', 'trbd_add_search_box_to_header_menu', 10, 2 );
+public_html/app/themes/sage/resources/functions.php:3059:add_action( 'wp_footer', 'trbd_scripts' );
+public_html/app/themes/sage/resources/functions.php:3085:add_filter('woocommerce_currency_symbol', 'ncottage_change_existing_currency_symbol', 10, 2);
+public_html/app/themes/sage/resources/functions.php:3094:add_filter( 'option_woocommerce_price_thousand_sep', 'ncottage_woo_ce_wc_price_thousands_sep', 100 );
+public_html/app/themes/sage/resources/functions.php:3101:add_filter('wpseo_breadcrumb_single_link' ,'rename_breadcrumb_shop', 10, 2);
+public_html/app/themes/sage/resources/functions.php:3113:add_filter('wpseo_breadcrumb_single_link' ,'rename_breadcrumb_main', 10, 3);
+public_html/app/themes/sage/resources/functions.php:3133:add_action('wpseo_register_extra_replacements', 'register_custom_yoast_variables1');
+public_html/app/themes/sage/resources/functions.php:3147:add_action('wpseo_register_extra_replacements', 'register_custom_yoast_variables2');
+public_html/app/themes/sage/resources/functions.php:3156:    wpseo_register_var_replacement( '%%acf_project%%', 'get_custom_var3', 'advanced', '' );
+public_html/app/themes/sage/resources/functions.php:3158:add_action('wpseo_register_extra_replacements', 'register_custom_yoast_variables3');
+public_html/app/themes/sage/resources/functions.php:3161:add_filter( 'woocommerce_product_post_type_link_parent_category_only', '__return_true' );
+public_html/app/themes/sage/resources/functions.php:3165:add_action( 'pre_get_posts', 'custom_pre_get_posts_query' );
+public_html/app/themes/sage/resources/functions.php:3196:add_filter( 'woocommerce_catalog_orderby', 'sip_update_sorting_name' );
+public_html/app/themes/sage/resources/functions.php:3197:add_filter( 'woocommerce_default_catalog_orderby_options', 'sip_update_sorting_name' );
+public_html/app/themes/sage/resources/functions.php:3200:add_filter( 'loop_shop_per_page', 'ncottage_products_per_page', 20 );
+public_html/app/themes/sage/resources/functions.php:3219:add_action('wp_ajax_forms_filter', 'ajax_forms_filter');
+public_html/app/themes/sage/resources/functions.php:3220:add_action('wp_ajax_nopriv_forms_filter', 'ajax_forms_filter');
+public_html/app/themes/sage/resources/functions.php:3224:	add_filter( 'wpcf7_form_action_url', function( $url ) {
+public_html/app/themes/sage/resources/functions.php:3226:		$url = str_replace( wpcf7_get_request_uri(), '/', $url );
+public_html/app/themes/sage/resources/functions.php:3260:// add_action('wp_ajax_count_of_questions', 'cf7_count_of_questions');
+public_html/app/themes/sage/resources/functions.php:3261:// add_action('wp_ajax_nopriv_count_of_questions', 'cf7_count_of_questions');
+public_html/app/themes/sage/resources/functions.php:3280:add_action('wp_ajax_count_of_questions', 'cf7_count_of_questions');
+public_html/app/themes/sage/resources/functions.php:3281:add_action('wp_ajax_nopriv_count_of_questions', 'cf7_count_of_questions');
+public_html/app/themes/sage/resources/functions.php:3368:add_action( 'wp_head', 'add_custom_metadata', 1 );
+public_html/app/themes/sage/resources/functions.php:3371:add_filter( 'wpseo_opengraph_type', 'custom_og_type', 10, 2 );
+public_html/app/themes/sage/resources/functions.php:3376:    if ( function_exists( 'wpcf7_enqueue_scripts' ) ) {
+public_html/app/themes/sage/resources/functions.php:3377:        wpcf7_enqueue_scripts();
+public_html/app/themes/sage/resources/functions.php:3380:add_action( 'wp_enqueue_scripts', 'enqueue_cf7_js_first', 1 );
+public_html/app/themes/sage/resources/functions.php:3466:add_filter( 'wpseo_schema_graph_pieces', 'remove_organization_from_schema', 11, 2 );
+public_html/app/themes/sage/resources/functions.php:3483:add_filter('wp_nav_menu_objects', 'limit_menu_items', 10, 2);
+public_html/app/themes/sage/app/admin.php:8:add_action('customize_register', function (\WP_Customize_Manager $wp_customize) {
+public_html/app/themes/sage/app/admin.php:22:add_action('customize_preview_init', function () {
+public_html/app/themes/sage/app/filters.php:8:add_filter('sage/display_sidebar', function ($display) {
+public_html/app/themes/sage/app/filters.php:22:add_filter('body_class', function (array $classes) {
+public_html/app/themes/sage/app/filters.php:46:add_filter('excerpt_more', function () {
+public_html/app/themes/sage/app/filters.php:57:    add_filter("{$type}_template_hierarchy", __NAMESPACE__.'\\filter_templates');
+public_html/app/themes/sage/app/filters.php:63:add_filter('template_include', function ($template) {
+public_html/app/themes/sage/app/filters.php:69:        add_action($tag, function () use ($output) {
+public_html/app/themes/sage/app/filters.php:86:add_filter('comments_template', function ($comments_template) {
+public_html/app/themes/sage/app/filters.php:108:add_filter( 'woocommerce_display_product_attributes', function ( $product_attributes, $product ){
+public_html/app/themes/sage/app/setup.php:13:add_action('wp_enqueue_scripts', function () {
+public_html/app/themes/sage/app/setup.php:46:add_action('after_setup_theme', function () {
+public_html/app/themes/sage/app/setup.php:184:add_action('widgets_init', function () {
+public_html/app/themes/sage/app/setup.php:209:add_action('the_post', function ($post) {
+public_html/app/themes/sage/app/setup.php:216:add_action('after_setup_theme', function () {
+public_html/app/plugins/woocatbase/woocatbase.php:31:add_action('created_product_cat', 'woocatbase_flush_activation', 10, 2);
+public_html/app/plugins/woocatbase/woocatbase.php:32:add_action( 'edited_product_cat', 'woocatbase_flush_activation', 10, 2 );
+public_html/app/plugins/woocatbase/woocatbase.php:33:add_action( 'delete_product_cat', 'woocatbase_flush_activation', 10, 2 );
+public_html/app/plugins/woocatbase/woocatbase.php:91:add_action( 'admin_init', 'woocatbase_init' );
+public_html/app/plugins/woocatbase/woocatbase.php:102:add_action( 'admin_menu', 'woocatbase_add_page' );
+public_html/app/plugins/woocatbase/woocatbase.php:110:add_action( 'admin_enqueue_scripts', 'woocatbase_enqueue' );
+public_html/app/plugins/woocatbase/woocatbase.php:131:add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'woocatbase_action_links' );
+public_html/app/plugins/woocatbase/woocatbase.php:138:	add_filter( 'rewrite_rules_array', 'woocatbase_rules', 20);
+public_html/app/plugins/woocatbase/woocatbase.php:142:		$permalinks = get_option( 'woocommerce_permalinks' );
+public_html/app/plugins/woocatbase/woocatbase.php:146:		$shop_id = get_option( 'woocommerce_shop_page_id' ); 		
+public_html/app/plugins/woocatbase/woocatbase_status.php:31:					$permalinks = get_option( 'woocommerce_permalinks' );
+public_html/app/plugins/woocatbase/woocatbase_status.php:37:					$shop_id = get_option( 'woocommerce_shop_page_id' );

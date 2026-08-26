@@ -41,11 +41,10 @@ export function LeadForm({
                 </span>
                 <div className="flex-1 text-sm">
                     <div className="font-semibold text-success">
-                        Заявка принята
+                        Спасибо за заявку!
                     </div>
                     <p className="mt-1 text-ink-700">
-                        Менеджер свяжется в течение 15 минут. В превью заявки
-                        не отправляются — на проде уходят в CRM.
+                        В ближайшее время с вами свяжется менеджер.
                     </p>
                 </div>
             </div>
@@ -98,18 +97,13 @@ export function LeadForm({
                             Удобная дата
                         </label>
                     ) : null}
-                    <div className="relative">
-                        <input
-                            className={dark ? "field !bg-white/5 !border-white/10 !text-white pr-10" : "field pr-10"}
-                            type="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            placeholder="ДД.ММ.ГГГГ"
-                        />
-                        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none">
-                            📅
-                        </span>
-                    </div>
+                    <input
+                        className={dark ? "field !bg-white/5 !border-white/10 !text-white" : "field"}
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        placeholder="ДД.ММ.ГГГГ"
+                    />
                 </div>
             ) : null}
             <button

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
-import { LeadForm } from "./LeadForm";
+import { createPortal } from "react-dom";
+import { GwdLeadForm } from "./GwdLeadForm";
 
 interface Props {
     open: boolean;
@@ -25,11 +26,16 @@ export function CallbackModal({ open, onClose }: Props) {
         };
     }, [open, onClose]);
 
-    if (!open) return null;
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-    return (
+    if (!open || !mounted) return null;
+
+    return createPortal(
         <div
-            className="fixed inset-0 z-[80] flex items-end justify-center p-0 sm:items-center sm:p-6"
+            className="fixed inset-0 z-[80]"
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
@@ -40,7 +46,8 @@ export function CallbackModal({ open, onClose }: Props) {
                 aria-label="Закрыть"
                 onClick={onClose}
             />
-            <div className="relative z-10 w-full max-w-md rounded-t-2xl border border-ink-150 bg-white p-6 shadow-lift sm:rounded-2xl">
+            <div className="pointer-events-none relative flex h-full items-center justify-center p-4">
+            <div className="pointer-events-auto relative z-10 w-full max-w-md rounded-2xl border border-ink-150 bg-white p-6 shadow-lift">
                 <div className="mb-4 flex items-start justify-between gap-3">
                     <div>
                         <h2
@@ -50,8 +57,7 @@ export function CallbackModal({ open, onClose }: Props) {
                             Заказать звонок
                         </h2>
                         <p className="mt-1 text-sm text-ink-500">
-                            Оставьте телефон — перезвоним в течение 15 минут.
-                            В превью заявка никуда не уходит.
+                            Оставьте телефон — перезвоним в рабочие часы.
                         </p>
                     </div>
                     <button
@@ -63,9 +69,11 @@ export function CallbackModal({ open, onClose }: Props) {
                         ×
                     </button>
                 </div>
-                <LeadForm source="callback" ctaLabel="Жду звонка" />
+                <GwdLeadForm source="callback" />
             </div>
-        </div>
+            </div>
+        </div>,
+        document.body,
     );
 }
 

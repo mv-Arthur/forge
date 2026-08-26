@@ -1,0 +1,1506 @@
+{
+  "elementor_edit_mode_count": 6,
+  "page_count": 150,
+  "rows": [
+    {
+      "post_id": 9015,
+      "post_name": "akciya-2022",
+      "post_type": "page",
+      "post_title": "Акция-2022",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-econom.blade.php",
+      "elementor_edit_mode": "builder"
+    },
+    {
+      "post_id": 11781,
+      "post_name": "akcziya-novyj-kottedzh",
+      "post_type": "page",
+      "post_title": "АКЦИЯ! \"НОВЫЙ КОТТЕДЖ\"",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "elementor_canvas",
+      "elementor_edit_mode": "builder"
+    },
+    {
+      "post_id": 991,
+      "post_name": "blagoustrojstvo",
+      "post_type": "page",
+      "post_title": "Благоустройство территории",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-building-beautification.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6039,
+      "post_name": "blagoustrojstvo-3",
+      "post_type": "page",
+      "post_title": "Благоустройство домов",
+      "post_status": "draft",
+      "post_parent": 0,
+      "wp_page_template": "default",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 10081,
+      "post_name": "calc",
+      "post_type": "page",
+      "post_title": "Кредитный калькулятор",
+      "post_status": "private",
+      "post_parent": 0,
+      "wp_page_template": "views/template-information-calc.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 250,
+      "post_name": "cart",
+      "post_type": "page",
+      "post_title": "Корзина",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3250,
+      "post_name": "certificate",
+      "post_type": "page",
+      "post_title": "Лицензии и сертификаты",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-information-certificate.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 251,
+      "post_name": "checkout",
+      "post_type": "page",
+      "post_title": "Оформление заказа",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 13681,
+      "post_name": "compare",
+      "post_type": "page",
+      "post_title": "Сравнение",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 426,
+      "post_name": "contact",
+      "post_type": "page",
+      "post_title": "Наши контакты",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-contacts.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 660,
+      "post_name": "credit",
+      "post_type": "page",
+      "post_title": "Строительство дома в кредит",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-information-credit.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1175,
+      "post_name": "demontazh",
+      "post_type": "page",
+      "post_title": "Демонтаж",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-building-dismantling.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 13669,
+      "post_name": "favourites",
+      "post_type": "page",
+      "post_title": "Избранное",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11895,
+      "post_name": "gotovyj-dom",
+      "post_type": "page",
+      "post_title": "Готовый дом",
+      "post_status": "draft",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "builder"
+    },
+    {
+      "post_id": 6164,
+      "post_name": "karkasnyj-doma-v-p-severnaya-zhemchuzhina",
+      "post_type": "page",
+      "post_title": "Каркасный дома в п. Северная жемчужина",
+      "post_status": "draft",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 10342,
+      "post_name": "map",
+      "post_type": "page",
+      "post_title": "Карта объектов строительства компании «Новый коттедж»",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-map-page.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 617,
+      "post_name": "materinskiy-kapital",
+      "post_type": "page",
+      "post_title": "Материнский капитал",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-information-matcapital.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1061,
+      "post_name": "montazh",
+      "post_type": "page",
+      "post_title": "Монтаж инженерных сетей",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-building-mantling.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 252,
+      "post_name": "my-account",
+      "post_type": "page",
+      "post_title": "Мой аккаунт",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 494,
+      "post_name": "o-nas",
+      "post_type": "page",
+      "post_title": "О нас",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-information-about.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 459,
+      "post_name": "objects",
+      "post_type": "page",
+      "post_title": "Построенные и Строящиеся дома",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-built-houses.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 933,
+      "post_name": "otdelochnye-raboty",
+      "post_type": "page",
+      "post_title": "Отделочные работы",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-building-finish.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6134,
+      "post_name": "partners",
+      "post_type": "page",
+      "post_title": "Партнеры",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-partners-page.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 235,
+      "post_name": "privacy",
+      "post_type": "page",
+      "post_title": "Политика конфиденциальности",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 702,
+      "post_name": "proektirovanie",
+      "post_type": "page",
+      "post_title": "Проектирование",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-design.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 249,
+      "post_name": "proekty",
+      "post_type": "page",
+      "post_title": "Проекты домов",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "default",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7370,
+      "post_name": "refund_returns",
+      "post_type": "page",
+      "post_title": "Refund and Returns Policy",
+      "post_status": "draft",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2,
+      "post_name": "sample-page",
+      "post_type": "page",
+      "post_title": "Главная",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "default",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 863,
+      "post_name": "services",
+      "post_type": "page",
+      "post_title": "Наши услуги",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-services.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 13601,
+      "post_name": "sitemap",
+      "post_type": "page",
+      "post_title": "Карта сайта",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1423,
+      "post_name": "stroitelstvo",
+      "post_type": "page",
+      "post_title": "Строительство домов",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-stroitelstvo-page-main.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1388,
+      "post_name": "stroitelstvo-ban",
+      "post_type": "page",
+      "post_title": "Строительство бань",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-building-baths.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1518,
+      "post_name": "stroitelstvo-fundamentov",
+      "post_type": "page",
+      "post_title": "Строительство фундаментов",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-building-foundation.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 872,
+      "post_name": "stroitelstvo-kommercheskoj-nedvizhimosti",
+      "post_type": "page",
+      "post_title": "Строительство коммерческой недвижимости",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-building-commercial-real-estate.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11859,
+      "post_name": "test",
+      "post_type": "page",
+      "post_title": "Тест",
+      "post_status": "draft",
+      "post_parent": 0,
+      "wp_page_template": "default",
+      "elementor_edit_mode": "builder"
+    },
+    {
+      "post_id": 4094,
+      "post_name": "test-technologiy",
+      "post_type": "page",
+      "post_title": "Тестовая страница (технологии)",
+      "post_status": "publish",
+      "post_parent": 0,
+      "wp_page_template": "views/template-testing.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12435,
+      "post_name": "",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона 10x10 в современном стиле в городе Лодейное Поле",
+      "post_status": "draft",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2804,
+      "post_name": "banya-iz-sip-panelej-p-levashovo",
+      "post_type": "page",
+      "post_title": "Баня из СИП панелей п. Левашово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3860,
+      "post_name": "dom-i-gazobetona-s-garazhom-der-oliki",
+      "post_type": "page",
+      "post_title": "Дом из газобетона с гаражом дер. Олики",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3878,
+      "post_name": "dom-iz-gazobetona-obliczovannyj-kirpichyom",
+      "post_type": "page",
+      "post_title": "Дом из газобетона облицованный кирпичём",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 14181,
+      "post_name": "dom-iz-gazobetona-p-lintulovo",
+      "post_type": "page",
+      "post_title": "Строительство двухэтажного дома из газобетона в Линтулово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3873,
+      "post_name": "dom-iz-gazobetona-pod-kryshu",
+      "post_type": "page",
+      "post_title": "Дом из газобетона под крышу",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 802,
+      "post_name": "dom-iz-gazobetona-s-garazhom-der-oliki",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Порзолово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3852,
+      "post_name": "dom-iz-gazobetona-s-obliczovkoj",
+      "post_type": "page",
+      "post_title": "Дом из газобетона с облицовкой",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3623,
+      "post_name": "dom-iz-gazobetona-so-vstroennym-garazhom",
+      "post_type": "page",
+      "post_title": "Дом из газобетона со встроенным гаражом",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3847,
+      "post_name": "dom-iz-gazobetona-v-der-podmoshe",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в дер. Подмошье",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3614,
+      "post_name": "dom-iz-gazobetona-v-kp-morskie-sezony",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в КП Морские Сезоны",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3619,
+      "post_name": "dom-iz-gazobetona-v-p-kopore",
+      "post_type": "page",
+      "post_title": "Дом из газобетона \"ПОД КРЫШУ\"",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3838,
+      "post_name": "dom-iz-gazobetona-v-p-kopore-2",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Копорье",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11373,
+      "post_name": "dom-iz-gazobetona-v-p-lodejnoe-pole",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Лодейное поле",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12670,
+      "post_name": "dom-iz-gazobetona-v-p-solnechnoe",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Солнечное",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3843,
+      "post_name": "dom-iz-gazobetona-v-p-sosnovskie-ozyora-2",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Сосновские Озёра 2",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 14918,
+      "post_name": "dom-iz-gazobetona-v-p-soykino",
+      "post_type": "page",
+      "post_title": "Строительство одноэтажного дома из газобетона в Сойкино",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11209,
+      "post_name": "dom-iz-gazobetona-v-p-toksovo",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Токсово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 15102,
+      "post_name": "dom-iz-gazobetona-v-p-troitskaya-gora",
+      "post_type": "page",
+      "post_title": "Строительство одноэтажного дома из газобетона в Троицкая гора",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3856,
+      "post_name": "dom-iz-gazobetona-v-p-ust-izhora",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Усть Ижора",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11107,
+      "post_name": "dom-iz-gazobetona-v-p-yukki",
+      "post_type": "page",
+      "post_title": "Дом из газобетона в п. Юкки",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 14763,
+      "post_name": "dom-iz-kirpicha-v-p-romanovka",
+      "post_type": "page",
+      "post_title": "Строительство двухэтажного дома из кирпича в Романовке",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2819,
+      "post_name": "dom-iz-sip-panelej-der-korpikyulya",
+      "post_type": "page",
+      "post_title": "Дом из СИП панелей дер. Корпикюля",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2832,
+      "post_name": "dom-iz-sip-panelej-otdelannyj-blok-hausom-i-vinilovym-sajdingom",
+      "post_type": "page",
+      "post_title": "Дом из СИП панелей отделанный блок хаусом и виниловым сайдингом",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2814,
+      "post_name": "dom-iz-sip-panelej-p-agalatovo",
+      "post_type": "page",
+      "post_title": "Дом из СИП панелей п. Агалатово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2826,
+      "post_name": "dom-iz-sip-panelej-pod-kryshu-p-druzhnaya-gorka",
+      "post_type": "page",
+      "post_title": "Дом из СИП панелей \"Под крышу\" п. Дружная Горка",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2798,
+      "post_name": "dom-iz-sip-panelej-v-g-vyborg",
+      "post_type": "page",
+      "post_title": "Дом из сип панелей в г. Выборг",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2763,
+      "post_name": "dom-iz-sip-panelej-v-p-novaya-pustosh",
+      "post_type": "page",
+      "post_title": "Дом из СИП панелей в п. Новая Пустошь",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3882,
+      "post_name": "dom-v-domodedovo",
+      "post_type": "page",
+      "post_title": "Дом в домодедово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2809,
+      "post_name": "domokomplekt-sip-doma-v-p-mednoe-ozero",
+      "post_type": "page",
+      "post_title": "Домокомплект СИП дома в п. Медное озеро",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11961,
+      "post_name": "dvuhetazhnyi-dom-iz-gazobetona-so-sbornymi-zh-b-perekrytiyami-na-sklone-i-slozhnom-grunte",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона со сборными железобетонными перекрытиями на склоне, на сложном грунте",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11925,
+      "post_name": "dvuhetazhnyi-dom-iz-gazobetona-v-derevne-nizino",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона в деревне Низино",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11975,
+      "post_name": "dvuhetazhnyi-dom-iz-gazobetonnyh-blokov-v-derevne-kiskelovo",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетонных блоков в деревне Кискелово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12348,
+      "post_name": "dvuhetazhnyi-dom-iz-gazobetonnyh-blokov-v-kp-petergofskie-dachi",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетонных блоков в КП Петергофские дачи",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12052,
+      "post_name": "dvuhetazhnyi-dom-iz-gazobetonnyh-blokov-v-p-pervomaiskoe",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетонных блоков в п. Первомайское",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12125,
+      "post_name": "dvuhetazhnyi-dom-iz-porizovannogo-keramicheskogo-kirpicha-v-p-romanovka",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из поризованного керамического кирпича в п. Романовка",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11913,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-10x10-v-sovremennom-stile-v-gorode-lodejnoe-pole",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона 10x10 в современном стиле в городе Лодейное Поле",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 8140,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-favor-idet-stroitelstvo",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона по проекту Фавор (идет строительство)",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9426,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-na-ushp",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона на УШП",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9870,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-na-usht-v-poselke-vartemyagi",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона на УШТ в поселке Вартемяги",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11504,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-p-mga",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона п. Мга",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9497,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-s-otdelkoj-iz-kirpicha",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона с отделкой из кирпича",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6750,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-v-gorode-kommunar",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона в городе Коммунар",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 10882,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-v-kp-solnechnoe",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона в КП Солнечное",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "builder"
+    },
+    {
+      "post_id": 9610,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-v-moskovskoj-oblasti",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона в московской области",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11285,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-v-p-pogi",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона в п. Поги",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6542,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-v-pos-severnaya-zhemchuzhina",
+      "post_type": "page",
+      "post_title": "Двухэтажный Дом из Газобетона в пос. Северная Жемчужина",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9916,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-v-poselke-mistolovo-po-proektu-bavariya",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона в поселке Мистолово по проекту Бавария",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11049,
+      "post_name": "dvuhetazhnyj-dom-iz-gazobetona-v-virkino",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из газобетона в Виркино",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12103,
+      "post_name": "dvuhetazhnyj-dom-iz-keramzitobetonnyh-blokov-v-p-starye-nizkoviczy",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из керамзитобетонных блоков в п. Старые Низковицы",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9945,
+      "post_name": "dvuhetazhnyj-dom-iz-sip-panelej-v-derevne-annino",
+      "post_type": "page",
+      "post_title": "Двухэтажный дом из СИП панелей в деревне Аннино",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6558,
+      "post_name": "dvuhetazhnyj-dom-po-karkasnoj-tehnologii-v-pos-sertolovo",
+      "post_type": "page",
+      "post_title": "Кирпичный Двухэтажный Дом в пос. Сертолово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 8093,
+      "post_name": "dvuhetazhnyj-karkasnyj-dom-idet-stroitelstvo",
+      "post_type": "page",
+      "post_title": "Двухэтажный каркасный дом (идет строительство)",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9390,
+      "post_name": "dvuhetazhnyj-karkasnyj-dom-na-zhelezobetonnyh-svayah",
+      "post_type": "page",
+      "post_title": "Двухэтажный каркасный дом на железобетонных сваях",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11443,
+      "post_name": "fundament-i-zabor-v-p-kabaczkoe",
+      "post_type": "page",
+      "post_title": "Фундамент и забор в п. Кабацкое",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 10805,
+      "post_name": "fundament-kobrino",
+      "post_type": "page",
+      "post_title": "Фундамент под дом из газобетона в Кобрино",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3869,
+      "post_name": "karkas-doma-iz-gazobetona",
+      "post_type": "page",
+      "post_title": "Каркас дома из газобетона",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 14059,
+      "post_name": "karkasniy-dom-v-p-pobeda",
+      "post_type": "page",
+      "post_title": "Строительство двухэтажного каркасного дома 180 м.кв. в Победе",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2758,
+      "post_name": "karkasnyj-dom-obshityj-osb-panelyami",
+      "post_type": "page",
+      "post_title": "Каркасный дом обшитый OSB панелями",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2753,
+      "post_name": "karkasnyj-dom-s-otdelkoj-fasada-pod-kamen",
+      "post_type": "page",
+      "post_title": "Каркасный дом с отделкой фасада под камень",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2742,
+      "post_name": "karkasnyj-dom-s-otdelkoj-fasadnym-kamnem-kanon",
+      "post_type": "page",
+      "post_title": "Каркасный дом с отделкой фасадным камнем Каньон",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2746,
+      "post_name": "karkasnyj-dom-s-otdelkoj-izoplatom-p-aleksandrijskij-park",
+      "post_type": "page",
+      "post_title": "Каркасный дом с отделкой изоплатом п. Александрийский парк",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2730,
+      "post_name": "karkasnyj-dom-v-p-fedorovskoe",
+      "post_type": "page",
+      "post_title": "Каркасный дом в п. Федоровское",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2735,
+      "post_name": "karkasnyj-dom-v-p-kirillovskoe",
+      "post_type": "page",
+      "post_title": "Каркасный дом в п. Кирилловское",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2715,
+      "post_name": "karkasnyj-dom-v-p-priyutino",
+      "post_type": "page",
+      "post_title": "Каркасный дом в п. Приютино",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2708,
+      "post_name": "karkasnyj-dom-v-p-severnaya-zhemchuzhina",
+      "post_type": "page",
+      "post_title": "Каркасный дом в п. Северная жемчужина",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2722,
+      "post_name": "karkasnyj-dom-v-p-severnaya-zhemchuzhina-2",
+      "post_type": "page",
+      "post_title": "Каркасный дом в п. Северная жемчужина",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11669,
+      "post_name": "objects-odnoetajniy-dom-iz-karkasa-v-kellozi",
+      "post_type": "page",
+      "post_title": "Каркасный дом в п. Келлози",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 15253,
+      "post_name": "odnoetazhniy-dom-iz-gazobetona-v-p-porzolovo",
+      "post_type": "page",
+      "post_title": "Строительство одноэтажного дома из газобетона в Порзолово",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12145,
+      "post_name": "odnoetazhnyi-dom-iz-gazobetona-v-snt-veteran",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона в СНТ Ветеран",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12203,
+      "post_name": "odnoetazhnyi-dom-iz-gazobetonnyh-blokov-v-g-sertolovo-snt-modul",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетонных блоков в г. Сертолово , СНТ Модуль",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 8053,
+      "post_name": "odnoetazhnyj-dom-iz-gazobetona",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона (идет строительство)",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9515,
+      "post_name": "odnoetazhnyj-dom-iz-gazobetona-na-fundamente-plite-po-individualnomu-proektu",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона на фундаменте плите по индивидуальному проекту",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9335,
+      "post_name": "odnoetazhnyj-dom-iz-gazobetona-po-individualnomu-proektu",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона по индивидуальному проекту",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9697,
+      "post_name": "odnoetazhnyj-dom-iz-gazobetona-po-individualnomu-proektu-v-poselke-istinka",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона по индивидуальному проекту в поселке Истинка",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9265,
+      "post_name": "odnoetazhnyj-dom-iz-gazobetona-po-proektu-bergen",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона по проекту Берген",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9797,
+      "post_name": "odnoetazhnyj-dom-iz-gazobetona-po-proektu-forest",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона по проекту Форест",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 10811,
+      "post_name": "odnoetazhnyj-dom-iz-gazobetona-v-ogonkovo",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из газобетона в Огоньково",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11536,
+      "post_name": "odnoetazhnyj-dom-iz-sip-v-kp-ladoga",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом из СИП в КП Ладога",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 12310,
+      "post_name": "odnoetazhnyj-dom-s-mansardoj-iz-gazobetona-v-kp-solnechnoe",
+      "post_type": "page",
+      "post_title": "Одноэтажный дом с мансардой из газобетона в КП Солнечное",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 9743,
+      "post_name": "odnoetazhnyj-karkasnyj-dom-na-zhelezobetonnoj-plite-v-poselke-romashkovo",
+      "post_type": "page",
+      "post_title": "Одноэтажный каркасный дом на железобетонной плите в поселке Ромашково",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 11009,
+      "post_name": "rekonstrukcziya-doma-iz-gazobetona-knyazevo",
+      "post_type": "page",
+      "post_title": "Реконструкция дома из газобетона Князево",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 10945,
+      "post_name": "rekonstrukcziya-doma-iz-gazobetona-razliv",
+      "post_type": "page",
+      "post_title": "Реконструкция дома из газобетона Разлив",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2838,
+      "post_name": "sip-dom-bez-vneshnej-otdelki",
+      "post_type": "page",
+      "post_title": "СИП дом без внешней отделки",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2794,
+      "post_name": "sip-dom-po-individualnomu-proektu-p-kuttuzi",
+      "post_type": "page",
+      "post_title": "СИП дом по индивидуальному проекту п. Куттузи",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2788,
+      "post_name": "sip-dom-po-tipovomu-proektu-garden-v-p-nizhnie-oselki",
+      "post_type": "page",
+      "post_title": "СИП дом по типовому проекту Гарден в п. Нижние осельки",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 2768,
+      "post_name": "sip-dom-v-p-druzhnaya-gorka",
+      "post_type": "page",
+      "post_title": "СИП дом в п. Дружная горка",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 15355,
+      "post_name": "sip-dom-v-p-losevo",
+      "post_type": "page",
+      "post_title": "Строительство двухэтажного СИП дома в Лосево",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 14686,
+      "post_name": "stroitelstvo-doma-iz-gazobetona-v-p-sosnoviy-bor",
+      "post_type": "page",
+      "post_title": "Строительство дома из газобетона в Сосновом Бору",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 14536,
+      "post_name": "stroitelstvo-karkasnogo-doma-v-p-rozhdestveno",
+      "post_type": "page",
+      "post_title": "Строительство одноэтажного дома по индивидуальному проекту в Рождествено",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 14382,
+      "post_name": "stroyka-doma-iz-gazobetona-v-der-anemnyasevo",
+      "post_type": "page",
+      "post_title": "Строительство одноэтажного дома в Анемнясево",
+      "post_status": "publish",
+      "post_parent": 459,
+      "wp_page_template": "views/template-built-houses-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7477,
+      "post_name": "dostavka",
+      "post_type": "page",
+      "post_title": "Оплата и доставка",
+      "post_status": "publish",
+      "post_parent": 494,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7450,
+      "post_name": "faq",
+      "post_type": "page",
+      "post_title": "Вопрос-ответ",
+      "post_status": "publish",
+      "post_parent": 494,
+      "wp_page_template": "views/template-information-faq.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7471,
+      "post_name": "garantiya",
+      "post_type": "page",
+      "post_title": "Гарантия на строительство",
+      "post_status": "publish",
+      "post_parent": 494,
+      "wp_page_template": "views/template-information-garantiya.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7531,
+      "post_name": "otzyvy",
+      "post_type": "page",
+      "post_title": "Отзывы",
+      "post_status": "publish",
+      "post_parent": 494,
+      "wp_page_template": "views/template-information-reviews.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7482,
+      "post_name": "proizvodstvo",
+      "post_type": "page",
+      "post_title": "Производство",
+      "post_status": "publish",
+      "post_parent": 494,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7505,
+      "post_name": "rekvizity",
+      "post_type": "page",
+      "post_title": "Реквизиты",
+      "post_status": "publish",
+      "post_parent": 494,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 7433,
+      "post_name": "vacancy",
+      "post_type": "page",
+      "post_title": "Вакансии",
+      "post_status": "publish",
+      "post_parent": 494,
+      "wp_page_template": "views/template-information-vacancy.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1329,
+      "post_name": "avtonomnaja-kanalizaciya",
+      "post_type": "page",
+      "post_title": "Канализация",
+      "post_status": "publish",
+      "post_parent": 1061,
+      "wp_page_template": "views/template-building-sewerage.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1223,
+      "post_name": "elektrika",
+      "post_type": "page",
+      "post_title": "Монтаж электроснабжения частного дома",
+      "post_status": "publish",
+      "post_parent": 1061,
+      "wp_page_template": "views/template-building-electrician.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1110,
+      "post_name": "otoplenie",
+      "post_type": "page",
+      "post_title": "Монтаж систем отопления",
+      "post_status": "publish",
+      "post_parent": 1061,
+      "wp_page_template": "views/template-building-heating.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1058,
+      "post_name": "ventilaciya",
+      "post_type": "page",
+      "post_title": "Монтаж вентиляции",
+      "post_status": "publish",
+      "post_parent": 1061,
+      "wp_page_template": "views/template-building-ventilation.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1268,
+      "post_name": "vodosnabjenie-vodootvedenie",
+      "post_type": "page",
+      "post_title": "Водоотведение и водоснабжение",
+      "post_status": "publish",
+      "post_parent": 1061,
+      "wp_page_template": "views/template-building-water.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3169,
+      "post_name": "postroit-dom-iz-gazobetona",
+      "post_type": "page",
+      "post_title": "Строительство домов из газобетона",
+      "post_status": "publish",
+      "post_parent": 1423,
+      "wp_page_template": "views/template-stroitelstvo-page-gazobeton.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 339,
+      "post_name": "postroit-dom-iz-sip",
+      "post_type": "page",
+      "post_title": "Строительство домов из СИП",
+      "post_status": "publish",
+      "post_parent": 1423,
+      "wp_page_template": "views/template-stroitelstvo-page-sip.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 3139,
+      "post_name": "stroitelstvo-domov-iz-kirpicha",
+      "post_type": "page",
+      "post_title": "Строительство домов из кирпича",
+      "post_status": "publish",
+      "post_parent": 1423,
+      "wp_page_template": "views/template-stroitelstvo-page-brick.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 1428,
+      "post_name": "stroitelstvo-karkasnih-domov-v-spb",
+      "post_type": "page",
+      "post_title": "Строительство каркасных домов",
+      "post_status": "publish",
+      "post_parent": 1423,
+      "wp_page_template": "views/template-stroitelstvo-page-frame.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6346,
+      "post_name": "buronabivnoj-fundament",
+      "post_type": "page",
+      "post_title": "Буронабивной фундамент",
+      "post_status": "draft",
+      "post_parent": 1518,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6337,
+      "post_name": "lentochnyj-fundament",
+      "post_type": "page",
+      "post_title": "Ленточный фундамент",
+      "post_status": "draft",
+      "post_parent": 1518,
+      "wp_page_template": "default",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6348,
+      "post_name": "stolbchatyj-fundament",
+      "post_type": "page",
+      "post_title": "Столбчатый фундамент",
+      "post_status": "draft",
+      "post_parent": 1518,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6317,
+      "post_name": "stroitelstvo-monolitnogo-fundamenta",
+      "post_type": "page",
+      "post_title": "Строительство монолитного фундамента",
+      "post_status": "draft",
+      "post_parent": 1518,
+      "wp_page_template": "views/template-building-foundation-item.blade.php",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6339,
+      "post_name": "svajnyj-fundament",
+      "post_type": "page",
+      "post_title": "Свайный фундамент",
+      "post_status": "draft",
+      "post_parent": 1518,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6343,
+      "post_name": "ushp-fundament",
+      "post_type": "page",
+      "post_title": "УШП фундамент",
+      "post_status": "draft",
+      "post_parent": 1518,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    },
+    {
+      "post_id": 6341,
+      "post_name": "vintovoj-fundament",
+      "post_type": "page",
+      "post_title": "Винтовой фундамент",
+      "post_status": "draft",
+      "post_parent": 1518,
+      "wp_page_template": "NULL",
+      "elementor_edit_mode": "NULL"
+    }
+  ]
+}

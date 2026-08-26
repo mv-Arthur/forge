@@ -1,40 +1,59 @@
-# apps/preview — статик-превью Фазы S (фокус на готовых проектах + построенных объектах)
+# apps/preview — статик-превью (GWD-structure + preview palette)
 
-Кликабельный превью редизайна сценария «Готовые проекты + Построенные объекты».
+Кликабельное превью сценария «Готовые проекты + Построенные объекты» с композицией, вдохновлённой [gwd.ru](https://www.gwd.ru/): порядок секций, photo-first карточки, lead-форма. **Цветовая схема preview сохранена** (terracotta `#9c4a2d`, ink-ramp, Inter) — не бренд Good Wood.
 
-## Фокус превью
-Только основные потоки:
-- `/projects` + `/projects/[slug]` — каталог и детальная готовых проектов (фильтры, материал, sticky-CTA, ипотека и т.д.).
-- `/works` + `/works/[slug]` — каталог и детальная построенных объектов (карта/грид, фотохроника, «Хочу такой же»).
+## Фокус
+- `/` — home: hero → side-banner-slider → popular → lead (+ LOCAL_EXTRA trust/tech/built-stats)
+- `/projects` + `/projects/[slug]` — каталог и детальная
+- `/works` + `/works/[slug]` — построенные объекты
 
-Главная (`/`) — упрощённый вход с переходами в эти два раздела.
+Секции помечены `data-section="…"`. Lead: `data-gwd-lead` (`GwdLeadForm`).
 
-Квиз-подбор — модалка по кнопке «Подобрать за 2 минуты» на `/projects` (deep-link: `#quiz` или `?quiz=1`).
+## Три слоя match
+
+| Слой | Источник |
+|------|----------|
+| Структура GWD | [`~/Documents/gwd-oneshot-spec/ONESHOT.md`](file:///Users/malakh-artur/Documents/gwd-oneshot-spec/ONESHOT.md) |
+| Продукт Beget / legacy | [`docs_legacy_ncottage_www/`](./docs_legacy_ncottage_www/), [`data/fixtures/README.md`](./data/fixtures/README.md) |
+| Карта наложения | [`docs/GWD_BEGET_MAP.md`](./docs/GWD_BEGET_MAP.md) |
+
+Accent остаётся terracotta `#9c4a2d` — не Good Wood green.
 
 ## Данные
 
-- **102 проекта** (нормализовано: 163 legacy-карточки схлопнуты по `slug` в
-  1 Project + N ProjectMaterialVariant, как задумывалось редизайном).
-- **40 объектов** — реальные `built-objects.normalized.json`.
-- Картинки — хотлинк на `ncottage.ru` через `next/image` remotePatterns.
-- Связь объект → проект — эвристикой (technology + floors + slug-hash),
-  так как в фикстуре её нет; на проде — `BuiltObject.baseProjectId`.
+**Только fixture-backed truth.** Runtime (`lib/data.ts`) читает JSON из
+[`data/fixtures/`](./data/fixtures/) — без live MySQL в `next dev/build`.
+
+- **329 product-строк** → merge по design `slug`
+- **~90 объектов** built-objects + extras
+- Картинки — хотлинк на `ncottage.ru`
+
+### Политика честности UI
+- Только поля из фикстур + closed allowlist derived
+- Отсутствующее = блок скрыт; GWD-only gaps → `data-stub="true"` / `STUB:`
+- Нет fake pools (reviews/owner/milestones)
+
+### Обновление фикстур
+
+```
+cd apps/preview
+npm run export:fixtures
+npm run assert:fixtures
+```
+
+См. [`data/fixtures/README.md`](./data/fixtures/README.md).
 
 ## Запуск
 
 ```
 cd apps/preview
-npm install         # ставится в apps/preview/node_modules
+npm install
 npm run dev         # http://localhost:4000
-npm run build       # SSG-сборка (147 страниц)
-npm start           # прод-сервер на 4000
+npm run build
+npm start
 ```
 
-## Что НЕ реализовано (по постановке)
-
-- Бэкенд/CMS/БД — статик, без API.
-- Формы не отправляют заявки, показывают success-state.
-- Карта — SVG-заглушка с CSS-пинами (на проде — Leaflet + OSM).
-- Онлайн-камера, 3D-туры, отзывы — только в макете.
-- Реальные фотохроники по этапам — на legacy плоская галерея;
-  на детальной объекта показаны табы этапов как раскладка, единая галерея.
+## Что НЕ в scope
+- Ребренд на GWD green / Manrope
+- Бэкенд/CMS, реальная отправка лидов, Leaflet, 3D-туры
+- Полный sitemap gwd.ru

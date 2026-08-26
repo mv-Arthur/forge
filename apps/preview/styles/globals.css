@@ -17,8 +17,7 @@
         --stroke: rgb(var(--color-ink-rgb) / 0.08);
         --stroke-strong: rgb(var(--color-ink-rgb) / 0.14);
         --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-        /* Single font for preview (consistent, no mixing) */
-        --font-display: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --font-display: "Cormorant Garamond", "Times New Roman", serif;
     }
 
     * {
@@ -55,11 +54,11 @@
     h2,
     h3,
     h4 {
-        font-family: var(--font-sans);
+        font-family: var(--font-display);
         color: var(--color-ink);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        line-height: 1.2;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.12;
         text-wrap: balance;
     }
 
@@ -112,7 +111,7 @@
     }
 
     /* Размер, вес и трекинг берём из fontSize.eyebrow (tailwind.config),
-       который завязан на --text-xs. Раньше здесь стоял свой text-[11px]
+       который завязан на --text-xs. Раньше здесь стоял размер ниже 12px
        мимо шкалы. На тёмном фоне добавлять text-accent-onDark. */
     .eyebrow {
         @apply inline-block text-eyebrow uppercase text-ink-500;
@@ -144,7 +143,7 @@
     }
 
     .btn-wa {
-        @apply bg-wa text-white hover:brightness-105;
+        @apply bg-wa font-semibold text-ink-950 hover:brightness-105;
     }
 
     .btn-icon {
@@ -158,11 +157,11 @@
 
     .btn-sm {
         padding: 0.5rem 0.875rem;
-        @apply text-[13px];
+        @apply text-sm;
     }
 
     .chip {
-        @apply inline-flex select-none items-center gap-1.5 rounded-full border border-ink-150 bg-white px-3 py-1.5 text-[13px] font-medium text-ink-700 transition-colors;
+        @apply inline-flex select-none items-center gap-1.5 rounded-full border border-ink-150 bg-white px-3 py-1.5 text-sm font-medium text-ink-700 transition-colors;
     }
 
     .chip-btn {
@@ -179,7 +178,7 @@
     }
 
     .badge {
-        @apply inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider;
+        @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold uppercase tracking-wider;
     }
 
     .badge-hit {
@@ -199,11 +198,11 @@
     }
 
     .field-label {
-        @apply mb-1 block text-[13px] font-medium text-ink-700;
+        @apply mb-1 block text-sm font-medium text-ink-700;
     }
 
     .field {
-        @apply block w-full rounded-xl border border-ink-150 bg-white px-4 py-3 text-[15px] text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-accent focus:ring-2 focus:ring-accent/15 shadow-sm;
+        @apply block w-full rounded-xl border border-ink-150 bg-white px-4 py-3 text-base text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-accent focus:ring-2 focus:ring-accent/15 shadow-sm;
     }
 
     /*
@@ -228,12 +227,22 @@
     }
 
     .card-hover {
-        @apply hover:-translate-y-0.5 hover:shadow-lift;
+        @apply hover:-translate-y-1 hover:shadow-lift;
+    }
+
+    .card-hover:hover {
+        border-color: rgb(var(--color-accent-rgb) / 0.35);
+        box-shadow:
+            var(--shadow-pop),
+            0 0 0 1px rgb(var(--color-accent-rgb) / 0.12);
     }
 
     .section {
-        padding-top: theme("spacing.section");
-        padding-bottom: theme("spacing.section");
+        padding: var(--section-padding);
+    }
+
+    .font-display {
+        font-family: var(--font-display);
     }
 
     .divider {
@@ -245,7 +254,7 @@
     }
 
     .anchor-tab {
-        @apply flex-shrink-0 rounded-full border border-transparent px-3.5 py-1.5 text-[13px] font-semibold text-ink-500 transition-colors hover:text-ink-900;
+        @apply flex-shrink-0 rounded-full border border-transparent px-3.5 py-1.5 text-sm font-semibold text-ink-500 transition-colors hover:text-ink-900;
     }
 
     .anchor-tab-active {
@@ -257,11 +266,11 @@
     }
 
     .kpi-value {
-        @apply font-sans text-3xl font-bold leading-none tracking-tight text-ink-900;
+        @apply font-display text-4xl font-semibold leading-none tracking-tight text-ink-900;
     }
 
     .kpi-label {
-        @apply text-[12px] uppercase tracking-wider text-ink-500;
+        @apply text-xs uppercase tracking-wider text-ink-500;
     }
 
     .trust-tile {
@@ -273,7 +282,7 @@
     }
 
     .price-big {
-        @apply font-sans text-[30px] font-bold leading-none tracking-tight text-ink-900;
+        @apply font-display text-price font-semibold leading-none tracking-tight text-ink-900;
     }
 
     .price-strike {

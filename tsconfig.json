@@ -18,5 +18,10 @@
             "@forge/*": ["./packages/*/src"]
         }
     },
-    "exclude": ["node_modules", "dist", "build"]
+    "exclude": [
+        "node_modules",
+        "dist",
+        "build",
+        "packages/research_toolkit/website_screenshot_maker"
+    ]
 }

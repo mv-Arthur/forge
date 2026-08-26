@@ -97,6 +97,24 @@ export function CloseIcon(props: IconProps) {
     );
 }
 
+export function MenuIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
+        </svg>
+    );
+}
+
+export function MessageIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z" />
+        </svg>
+    );
+}
+
 export function MapPinIcon(props: IconProps) {
     return (
         <svg {...stroke} {...props}>

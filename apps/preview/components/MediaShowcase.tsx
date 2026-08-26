@@ -71,7 +71,7 @@ const SECTIONS: Section[] = [
     {
         key: "houses",
         title: "Галерея домов",
-        note: "Фасады и ракурсы дома — место под съёмку.",
+        note: "Фасады и ракурсы дома.",
         Icon: HouseIcon,
         shots: shots([
             "Фасад, главный ракурс",
@@ -202,13 +202,10 @@ export function MediaShowcase() {
                         <div>
                             <TargetIcon className="mx-auto h-10 w-10 text-ink-400" />
                             <div className="mt-3 font-display text-h3 text-ink-950">
-                                Здесь будет 3D-тур
+                                3D-тур после съёмки
                             </div>
                             <p className="mx-auto mt-2 max-w-md text-[14px] leading-relaxed text-ink-500">
-                                Панорамная съёмка сданного дома с переходами по
-                                комнатам и точками-подсказками. Нужны съёмка на
-                                панорамную камеру и сборка тура — в превью
-                                показано место под него.
+                                Панорама сданного дома с переходами по комнатам.
                             </p>
                         </div>
                     </div>
