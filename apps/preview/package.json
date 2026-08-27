@@ -9,12 +9,14 @@
         "lint": "next lint",
         "export:fixtures": "node scripts/export-fixtures-from-db.mjs",
         "assert:fixtures": "node scripts/assert-fixtures.mjs",
-        "assert:demo": "node scripts/assert-demo-ready.mjs"
+        "assert:demo": "node scripts/assert-demo-ready.mjs",
+        "arch:check": "node scripts/check-frontend-architecture.mjs"
     },
     "dependencies": {
         "next": "^15.5.22",
         "react": "19.0.0",
-        "react-dom": "19.0.0"
+        "react-dom": "19.0.0",
+        "server-only": "^0.0.1"
     },
     "devDependencies": {
         "@types/node": "20.11.5",

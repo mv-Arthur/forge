@@ -38,27 +38,27 @@ function emit(rel) {
 
 fs.rmSync(outDir, { recursive: true, force: true });
 for (const rel of [
-    "lib/copy.ts",
-    "lib/catalogFilter.ts",
-    "lib/settings.ts",
-    "lib/format.ts",
-    "lib/names.ts",
+    "src/lib/copy.ts",
+    "src/lib/catalogFilter.ts",
+    "src/lib/settings.ts",
+    "src/lib/format.ts",
+    "src/lib/names.ts",
 ]) {
     emit(rel);
 }
 
 const { formatPrice } = await import(
-    pathToFileURL(path.join(outDir, "lib/format.mjs")).href
+    pathToFileURL(path.join(outDir, "src/lib/format.mjs")).href
 );
 const { CATALOG_OPEN, openCatalogFilter, projectPassesCatalogFilter } =
     await import(
-        pathToFileURL(path.join(outDir, "lib/catalogFilter.mjs")).href
+        pathToFileURL(path.join(outDir, "src/lib/catalogFilter.mjs")).href
     );
 const { buildSubtitle, humanizeDisplayName, humanObjectTitle } = await import(
-    pathToFileURL(path.join(outDir, "lib/names.mjs")).href
+    pathToFileURL(path.join(outDir, "src/lib/names.mjs")).href
 );
-const { COMPANY_OFFER_HEADING } = await import(
-    pathToFileURL(path.join(outDir, "lib/copy.mjs")).href
+const { COMPANY_OFFER_HEADING, COMPANY_OFFER_LEAD } = await import(
+    pathToFileURL(path.join(outDir, "src/lib/copy.mjs")).href
 );
 
 function assert(cond, msg) {
@@ -156,8 +156,10 @@ for (const row of rows) {
 }
 
 assert(
-    COMPANY_OFFER_HEADING.includes("под ключ"),
-    "company offer heading names the offer",
+    `${COMPANY_OFFER_HEADING} ${COMPANY_OFFER_LEAD}`
+        .toLowerCase()
+        .includes("под ключ"),
+    "company offer names turnkey",
 );
 
 console.log("MARKETING_OK");

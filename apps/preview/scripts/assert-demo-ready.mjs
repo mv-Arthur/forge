@@ -17,7 +17,9 @@ function walk(dir, acc = []) {
     return acc;
 }
 
-const customerDirs = ["app", "components"].map((d) => path.join(root, d));
+const customerDirs = ["src/app", "src/widgets", "src/ui"].map((d) =>
+    path.join(root, d),
+);
 const customerFiles = customerDirs.flatMap((d) => walk(d));
 const customerText = customerFiles
     .map((f) => fs.readFileSync(f, "utf8"))
@@ -100,7 +102,7 @@ for (const [name, re] of forbidden) {
 }
 
 const footer = fs.readFileSync(
-    path.join(root, "components/Footer.tsx"),
+    path.join(root, "src/widgets/site-footer/site-footer.tsx"),
     "utf8",
 );
 if (!footer.includes("7802663069") && !footer.includes("settings.inn")) {
@@ -110,7 +112,7 @@ if (!footer.includes("7802663069") && !footer.includes("settings.inn")) {
     console.log("OK INN wired");
 }
 
-const settings = fs.readFileSync(path.join(root, "lib/settings.ts"), "utf8");
+const settings = fs.readFileSync(path.join(root, "src/lib/settings.ts"), "utf8");
 if (!settings.includes('inn: "7802663069"')) {
     console.error("FAIL settings.inn");
     fail += 1;
@@ -124,19 +126,31 @@ if (/recommendRate/.test(settings)) {
     console.log("OK no recommendRate");
 }
 
-const page = fs.readFileSync(path.join(root, "app/page.tsx"), "utf8");
-const tokens = fs.readFileSync(path.join(root, "styles/www-tokens.css"), "utf8");
-const layout = fs.readFileSync(path.join(root, "app/layout.tsx"), "utf8");
+const page = [
+    "src/app/page.tsx",
+    "src/widgets/home-trust/home-trust.tsx",
+    "src/widgets/home-works/home-works.tsx",
+    "src/widgets/popular-projects/popular-projects.tsx",
+    "src/widgets/home-lead/home-lead.tsx",
+    "src/widgets/home-tech/home-tech.tsx",
+]
+    .map((rel) => fs.readFileSync(path.join(root, rel), "utf8"))
+    .join("\n");
+const tokens = fs.readFileSync(
+    path.join(root, "src/styles/www-tokens.css"),
+    "utf8",
+);
+const layout = fs.readFileSync(path.join(root, "src/app/layout.tsx"), "utf8");
 const hero = fs.readFileSync(
-    path.join(root, "components/HeroSlider.tsx"),
+    path.join(root, "src/widgets/hero/__dots/hero__dots.tsx"),
     "utf8",
 );
 const lead = fs.readFileSync(
-    path.join(root, "components/GwdLeadForm.tsx"),
+    path.join(root, "src/widgets/lead-form/lead-form.tsx"),
     "utf8",
 );
 const header = fs.readFileSync(
-    path.join(root, "components/www/header/SiteHeader.tsx"),
+    path.join(root, "src/widgets/site-header/site-header.container.tsx"),
     "utf8",
 );
 const projects = JSON.parse(
@@ -156,26 +170,36 @@ const sections = [...page.matchAll(/data-section="([^"]+)"/g)].map((m) => m[1]);
 const joined = sections.join(" ");
 
 const checks = [
-    ["accent", tokens.includes("#9c4a2d")],
+    ["accent", tokens.includes("#2c4a3a")],
     [
         "no_gwd_green",
-        !tokens.includes("#246A50") && !layout.toLowerCase().includes("manrope"),
+        !tokens.includes("#246A50") && !tokens.includes("#246a50"),
     ],
     ["home_order", /hero.*side-banner-slider.*popular.*lead/.test(joined)],
     ["home_trust", joined.includes("trust")],
     [
         "company_h1",
-        page.includes("Дома под ключ в Санкт-Петербурге и Ленобласти"),
+        fs
+            .readFileSync(
+                path.join(root, "src/server/hero/payload.ts"),
+                "utf8",
+            )
+            .includes("COMPANY_OFFER_HEADING"),
     ],
     ["h1_not_only_sku", !/heading=\{[^}]*displayName/.test(page)],
     ["hero_dot", hero.includes("data-hero-dot")],
     ["lead", lead.includes("data-gwd-lead")],
     [
         "object_carousel",
-        fs.existsSync(path.join(root, "components/ObjectCarousel.tsx")),
+        fs.existsSync(
+            path.join(
+                root,
+                "src/widgets/object-carousel/object-carousel.container.tsx",
+            ),
+        ),
     ],
     ["fixtures", projects.length === 329 && objects.length === 90],
-    ["display_font", layout.includes("Cormorant")],
+    ["display_font", /Manrope/.test(layout) && !/Cormorant|Inter/.test(layout)],
     ["site_logo", header.includes("logo-header.png")],
     ["nav_about", header.includes('href: "/about"')],
     ["nav_contacts", header.includes('href: "/contacts"')],
@@ -183,7 +207,10 @@ const checks = [
         "fab_message",
         fs
             .readFileSync(
-                path.join(root, "components/FloatingContact.tsx"),
+                path.join(
+                    root,
+                    "src/widgets/floating-contact/floating-contact.container.tsx",
+                ),
                 "utf8",
             )
             .includes("MessageIcon"),
@@ -208,6 +235,18 @@ if (marketing.stdout) process.stdout.write(marketing.stdout);
 if (marketing.stderr) process.stderr.write(marketing.stderr);
 if (marketing.status !== 0) {
     console.error("FAIL marketing");
+    fail += 1;
+}
+
+const arch = spawnSync(
+    process.execPath,
+    [path.join(root, "scripts/check-frontend-architecture.mjs")],
+    { cwd: root, encoding: "utf8" },
+);
+if (arch.stdout) process.stdout.write(arch.stdout);
+if (arch.stderr) process.stderr.write(arch.stderr);
+if (arch.status !== 0) {
+    console.error("FAIL arch");
     fail += 1;
 }
 

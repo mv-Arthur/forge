@@ -1,0 +1,43 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: max-content;
+    max-width: 107px;
+    margin-top: 8px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background: rgb(0 0 0 / 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.dot {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.3;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.dot::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+}
+
+.dot[aria-current="true"] {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dot {
+        transition: none;
+    }
+}
