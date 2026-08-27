@@ -21,8 +21,6 @@ export const LEAD_HEADING = "Оставьте заявку — перезвон�
 
 export const CTA_CALL = "Заказать звонок";
 
-export const TRUST_HOUSES_LABEL = "построенных домов";
-
 export const WORKS_EYEBROW = "Построенные дома";
 
 export const RELATED_HOUSES_LEAD = "Похожие дома из того же материала";
@@ -67,6 +65,17 @@ export const PROMO_OWN_SUB = "Разберём чертёж и назовём ц
 export const PROMO_SITE_TITLE = "Открытая стройка в Кискелово";
 
 export const PROMO_SITE_SUB = "Приезжайте, пока кладут дом из газобетона";
+
+export const ATTR_TURNKEY_TITLE = "Дом под ключ";
+
+export const ATTR_TURNKEY_SUB = "Фиксированная смета в договоре";
+
+export const ATTR_WARRANTY_SUB = "Закреплена в договоре";
+
+export const ATTR_VISIT_READY_SUB = "Приезжайте в готовый";
+
+export const ATTR_REGIONS_SUB =
+    "Санкт-Петербург, Ленобласть, Подмосковье";
 
 export const CTA_MORE = "Подробнее";
 

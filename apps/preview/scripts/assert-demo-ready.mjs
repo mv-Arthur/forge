@@ -128,7 +128,6 @@ if (/recommendRate/.test(settings)) {
 
 const page = [
     "src/app/page.tsx",
-    "src/widgets/home-trust/home-trust.tsx",
     "src/widgets/home-works/home-works.tsx",
     "src/widgets/popular-projects/popular-projects.tsx",
     "src/widgets/home-lead/home-lead.tsx",
@@ -176,7 +175,6 @@ const checks = [
         !tokens.includes("#246A50") && !tokens.includes("#246a50"),
     ],
     ["home_order", /hero.*side-banner-slider.*popular.*lead/.test(joined)],
-    ["home_trust", joined.includes("trust")],
     [
         "company_h1",
         fs

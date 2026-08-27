@@ -25,5 +25,6 @@ export function toHeroContent(payload: HeroPayload): HeroContent {
             subtitle: card.subtitle,
             cta: card.cta,
         })),
+        attributes: payload.attributes,
     };
 }

@@ -3,7 +3,7 @@
 Кликабельное превью сценария «Готовые проекты + Построенные объекты» с композицией, вдохновлённой [gwd.ru](https://www.gwd.ru/): порядок секций, photo-first карточки, lead-форма. **Цветовая схема preview сохранена** (terracotta `#9c4a2d`, ink-ramp, Inter) — не бренд Good Wood.
 
 ## Фокус
-- `/` — home: hero → side-banner-slider → popular → lead (+ LOCAL_EXTRA trust/tech/built-stats)
+- `/` — home: hero → side-banner-slider → popular → lead (+ LOCAL_EXTRA tech/built-stats)
 - `/projects` + `/projects/[slug]` — каталог и детальная
 - `/works` + `/works/[slug]` — построенные объекты
 

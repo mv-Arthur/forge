@@ -1,4 +1,9 @@
 import {
+    ATTR_REGIONS_SUB,
+    ATTR_TURNKEY_SUB,
+    ATTR_TURNKEY_TITLE,
+    ATTR_VISIT_READY_SUB,
+    ATTR_WARRANTY_SUB,
     COMPANY_OFFER_HEADING,
     COMPANY_OFFER_LEAD,
     CTA_MORE,
@@ -15,6 +20,7 @@ import {
     PROMO_VISIT_SUB,
     PROMO_VISIT_TITLE,
 } from "@/lib/copy";
+import { settings } from "@/lib/settings";
 import type { HeroPayload } from "./types";
 
 const KISKELOVO_SLUG =
@@ -58,6 +64,28 @@ export const heroPayload: HeroPayload = {
             title: PROMO_SITE_TITLE,
             subtitle: PROMO_SITE_SUB,
             cta: CTA_SIGN_UP,
+        },
+    ],
+    attributes: [
+        {
+            icon: "tools",
+            title: ATTR_TURNKEY_TITLE,
+            subtitle: ATTR_TURNKEY_SUB,
+        },
+        {
+            icon: "home",
+            title: `Гарантия ${settings.warrantyYears} лет`,
+            subtitle: ATTR_WARRANTY_SUB,
+        },
+        {
+            icon: "corner",
+            title: PROMO_VISIT_TITLE,
+            subtitle: ATTR_VISIT_READY_SUB,
+        },
+        {
+            icon: "user",
+            title: `С ${settings.foundedYear} года`,
+            subtitle: ATTR_REGIONS_SUB,
         },
     ],
 };
