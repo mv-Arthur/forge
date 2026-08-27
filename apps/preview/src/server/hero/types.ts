@@ -13,8 +13,17 @@ export type HeroCardPayload = {
     cta: string;
 };
 
+export type HeroAttributeIconId = "tools" | "home" | "corner" | "user";
+
+export type HeroAttributePayload = {
+    icon: HeroAttributeIconId;
+    title: string;
+    subtitle: string;
+};
+
 export type HeroPayload = {
     heading: string;
     lead: string;
     cards: HeroCardPayload[];
+    attributes: HeroAttributePayload[];
 };

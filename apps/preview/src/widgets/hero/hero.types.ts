@@ -1,7 +1,17 @@
 import type { StaticImageData } from "next/image";
-import type { HeroCardImageId, HeroPayload } from "@/server/hero/types";
+import type {
+    HeroAttributeIconId,
+    HeroAttributePayload,
+    HeroCardImageId,
+    HeroPayload,
+} from "@/server/hero/types";
 
-export type { HeroCardImageId, HeroPayload };
+export type {
+    HeroAttributeIconId,
+    HeroAttributePayload,
+    HeroCardImageId,
+    HeroPayload,
+};
 
 export type HeroPromoCard = {
     href: string;
@@ -15,6 +25,7 @@ export type HeroContent = {
     heading: string;
     lead: string;
     cards: HeroPromoCard[];
+    attributes: HeroAttributePayload[];
 };
 
 export type HeroPromoBind = {

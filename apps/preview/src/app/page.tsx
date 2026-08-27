@@ -5,7 +5,6 @@ import { unwrapAction } from "@/types/action";
 import { settings } from "@/lib/settings";
 import type { Technology } from "@/types/catalog";
 import { HeroContainer } from "@/widgets/hero/hero.container";
-import { HomeTrust } from "@/widgets/home-trust/home-trust";
 import { HomeWorks } from "@/widgets/home-works/home-works";
 import { HomeLead } from "@/widgets/home-lead/home-lead";
 import { HomeTech } from "@/widgets/home-tech/home-tech";
@@ -44,11 +43,6 @@ export default async function HomePage() {
             <section data-section="hero">
                 <HeroContainer payload={hero.payload} />
             </section>
-            <HomeTrust
-                foundedYear={settings.foundedYear}
-                warrantyYears={settings.warrantyYears}
-                objectCount={objects.length}
-            />
             <HomeWorks
                 builtCount={builtCount}
                 carousel={
