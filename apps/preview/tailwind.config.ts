@@ -12,9 +12,10 @@ const ink = (step: number | string) =>
 
 const config: Config = {
     content: [
-        "./app/**/*.{ts,tsx}",
-        "./components/**/*.{ts,tsx}",
-        "./lib/**/*.{ts,tsx}",
+        "./src/app/**/*.{ts,tsx}",
+        "./src/widgets/**/*.{ts,tsx}",
+        "./src/ui/**/*.{ts,tsx}",
+        "./src/lib/**/*.{ts,tsx}",
     ],
     theme: {
         extend: {
@@ -60,17 +61,15 @@ const config: Config = {
             fontFamily: {
                 sans: [
                     "var(--font-sans)",
-                    "Inter",
+                    "Manrope",
                     "system-ui",
-                    "-apple-system",
-                    "Segoe UI",
                     "sans-serif",
                 ],
                 display: [
                     "var(--font-display)",
-                    "Cormorant Garamond",
-                    "Times New Roman",
-                    "serif",
+                    "Manrope",
+                    "system-ui",
+                    "sans-serif",
                 ],
                 mono: ["ui-monospace", "SFMono-Regular", "monospace"],
             },

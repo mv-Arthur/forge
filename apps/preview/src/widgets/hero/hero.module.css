@@ -1,0 +1,42 @@
+.main {
+    position: relative;
+    height: 700px;
+    overflow: hidden;
+    background: #111;
+    user-select: none;
+}
+
+.info {
+    position: absolute;
+    z-index: 10;
+    left: 60px;
+    bottom: 48px;
+    width: 695px;
+    color: #fff;
+}
+
+@media (min-width: 1601px) {
+    .main {
+        height: calc(100vh - var(--site-header-height, 76px) - 125px);
+        min-height: 700px;
+    }
+
+    .info {
+        left: 110px;
+        bottom: 32px;
+    }
+}
+
+@media (max-width: 767px) {
+    .main {
+        height: calc(100svh - var(--site-header-height, 56px));
+        min-height: 560px;
+    }
+
+    .info {
+        left: 10px;
+        right: 10px;
+        bottom: 12px;
+        width: auto;
+    }
+}

@@ -7,7 +7,7 @@
 - `/projects` + `/projects/[slug]` — каталог и детальная
 - `/works` + `/works/[slug]` — построенные объекты
 
-Секции помечены `data-section="…"`. Lead: `data-gwd-lead` (`GwdLeadForm`).
+Секции помечены `data-section="…"`. Lead: `data-gwd-lead`. Структура кода: [`FRONTEND_ARCHITECTURE.md`](./FRONTEND_ARCHITECTURE.md).
 
 ## Три слоя match
 
@@ -21,7 +21,7 @@ Accent остаётся terracotta `#9c4a2d` — не Good Wood green.
 
 ## Данные
 
-**Только fixture-backed truth.** Runtime (`lib/data.ts`) читает JSON из
+**Только fixture-backed truth.** Runtime (`src/server/catalog`) читает JSON из
 [`data/fixtures/`](./data/fixtures/) — без live MySQL в `next dev/build`.
 
 - **329 product-строк** → merge по design `slug`

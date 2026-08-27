@@ -1,0 +1,26 @@
+.root {
+    position: absolute;
+    inset: 0;
+}
+
+.root img {
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.75) brightness(0.95);
+}
+
+.root::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgb(60 80 90 / 0.28);
+    pointer-events: none;
+}
+
+@media (max-width: 767px) {
+    .root::after {
+        background:
+            linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 0.4) 100%),
+            rgb(60 80 90 / 0.28);
+    }
+}
