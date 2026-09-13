@@ -1,0 +1,181 @@
+{
+    "filledSlugs": ["favor", "brig", "banya-levashovo"],
+    "pages": {
+        "favor": {
+            "class": "serial",
+            "lead": "Двухэтажный дом 10×10 на 190 м². Газобетон, терраса, смета в договоре.",
+            "about": [
+                {
+                    "title": "О проекте",
+                    "text": "Фавор — серийный дом 10×10. Четыре спальни, два санузла, терраса. Строим из газобетона, цена «от» — дом под ключ."
+                },
+                {
+                    "title": "Планировка",
+                    "text": "Первый этаж — общая зона и выход на террасу. Второй — спальни. Габариты 10×10 м, два этажа, 190 м²."
+                }
+            ],
+            "gallery": [
+                "/media/detail/favor/hero-1.jpg",
+                "/media/detail/favor/hero-2.jpg",
+                "/media/detail/favor/hero-3.jpg",
+                "/media/detail/favor/hero-4.jpg"
+            ],
+            "priceHike": {
+                "from": "2026-10-01",
+                "next": 9967066
+            },
+            "plans": [
+                {
+                    "floor": "1 этаж",
+                    "url": "https://ncottage.ru/app/uploads/2021/12/favor-plan-1-et-stroitelstvo-domov-pod-klyuch-v-msk-i-spb-1.jpg"
+                },
+                {
+                    "floor": "2 этаж",
+                    "url": "https://ncottage.ru/app/uploads/2021/12/favor-plan-2-et-stroitelstvo-domov-pod-klyuch-v-msk-i-spb-2.jpg"
+                }
+            ],
+            "facades": [
+                {
+                    "id": "front",
+                    "label": "Передний",
+                    "src": "https://ncottage.ru/app/uploads/2021/12/favor-rakurs-stroitelstvo-domov-pod-klyuch-v-msk-i-spb-2.jpg"
+                },
+                {
+                    "id": "side-a",
+                    "label": "Боковой",
+                    "src": "https://ncottage.ru/app/uploads/2021/12/favor-rakurs-stroitelstvo-domov-pod-klyuch-v-msk-i-spb-1.jpg"
+                },
+                {
+                    "id": "side-b",
+                    "label": "Угол",
+                    "src": "https://ncottage.ru/app/uploads/2021/12/favor-rakurs-stroitelstvo-domov-pod-klyuch-v-msk-i-spb-4.jpg"
+                },
+                {
+                    "id": "back",
+                    "label": "Задний",
+                    "src": "https://ncottage.ru/app/uploads/2021/12/favor-rakurs-stroitelstvo-domov-pod-klyuch-v-msk-i-spb-3.jpg"
+                }
+            ],
+            "decor": [
+                {
+                    "id": "plaster",
+                    "title": "Штукатурка",
+                    "text": "Светлая камешковая по всей коробке.",
+                    "src": "/media/detail/favor/decor-plaster.jpg"
+                },
+                {
+                    "id": "brick",
+                    "title": "Кирпич",
+                    "text": "Облицовка по газобетону. Текстура и цвет - под участок.",
+                    "src": "/media/detail/favor/decor-brick.jpg"
+                },
+                {
+                    "id": "wood",
+                    "title": "Планкен",
+                    "text": "Горизонтальная доска по каменной коробке. Не брус.",
+                    "src": "/media/detail/favor/decor-wood.jpg"
+                }
+            ],
+            "story": null
+        },
+        "brig": {
+            "class": "individual",
+            "lead": "Фахверк 12×14, 460 м². Второй свет, терраса, пять спален.",
+            "about": [
+                {
+                    "title": "О проекте",
+                    "text": "Бриг — индивидуальный фахверк на 460 м². Пять спален, четыре санузла, терраса и второй свет. Планировку и фасад собираем под участок."
+                },
+                {
+                    "title": "Как строим",
+                    "text": "Каркас и остекление в одном объёме. Смета в договоре, гарантия 7 лет."
+                }
+            ],
+            "gallery": [
+                "https://ncottage.ru/app/uploads/2020/12/silas-2.jpg",
+                "https://ncottage.ru/app/uploads/2020/12/silas-1-1.jpg",
+                "https://ncottage.ru/app/uploads/2020/12/silas-4.jpg",
+                "https://ncottage.ru/app/uploads/2020/12/silas-3.jpg",
+                "/media/detail/brig/house.jpg"
+            ],
+            "plans": [
+                {
+                    "floor": "1 этаж",
+                    "url": "/media/detail/brig/plan.jpg"
+                }
+            ],
+            "facades": [
+                {
+                    "id": "front",
+                    "label": "Передний",
+                    "src": "/media/detail/brig/facade-front.jpg"
+                },
+                {
+                    "id": "back",
+                    "label": "Задний",
+                    "src": "/media/detail/brig/facade-back.jpg"
+                },
+                {
+                    "id": "left",
+                    "label": "Левый боковой",
+                    "src": "/media/detail/brig/facade-left.jpg"
+                },
+                {
+                    "id": "right",
+                    "label": "Правый боковой",
+                    "src": "/media/detail/brig/facade-right.jpg"
+                }
+            ],
+            "story": {
+                "project": [
+                    "https://ncottage.ru/app/uploads/2020/12/silas-2.jpg",
+                    "https://ncottage.ru/app/uploads/2020/12/silas-1-1.jpg",
+                    "https://ncottage.ru/app/uploads/2020/12/silas-4.jpg",
+                    "/media/detail/brig/house.jpg"
+                ],
+                "built": [
+                    "/media/detail/brig/built-1.jpg",
+                    "/media/detail/brig/built-2.jpg"
+                ]
+            }
+        },
+        "banya-levashovo": {
+            "class": "bath",
+            "lead": "Баня из СИП в Левашово. Один этаж, парная, комната отдыха, терраса.",
+            "about": [
+                {
+                    "title": "Что внутри",
+                    "text": "Парная, комната отдыха и два санузла. Терраса на выход к участку. Один этаж, 45 м², габариты 6×8 м."
+                },
+                {
+                    "title": "Как строим",
+                    "text": "СИП-контур, короткий цикл. Смету считаем под участок, гарантия 7 лет."
+                }
+            ],
+            "gallery": [
+                "/media/detail/banya-levashovo/hero.jpg",
+                "/media/detail/banya-levashovo/exterior-2.jpg",
+                "https://ncottage.ru/app/uploads/2020/03/kuznecov.jpg",
+                "/media/detail/banya-levashovo/interior.jpg"
+            ],
+            "plans": [
+                {
+                    "floor": "1 этаж",
+                    "url": "/media/detail/banya-levashovo/plan.svg"
+                }
+            ],
+            "facades": [],
+            "story": {
+                "project": [
+                    "/media/detail/banya-levashovo/hero.jpg",
+                    "/media/detail/banya-levashovo/exterior-2.jpg",
+                    "/media/detail/banya-levashovo/interior.jpg"
+                ],
+                "built": [
+                    "https://ncottage.ru/app/uploads/2020/03/kuznecov.jpg",
+                    "/media/detail/banya-levashovo/built-1.jpg"
+                ]
+            }
+        }
+    }
+}

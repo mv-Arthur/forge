@@ -54,6 +54,7 @@ const config: Config = {
                 },
                 tg: "#0088cc",
                 wa: "#25d366",
+                max: "#4c3aff",
                 success: "#2f6b3a",
                 danger: "rgb(var(--color-danger-rgb) / <alpha-value>)",
                 warn: "rgb(var(--color-accent-rgb) / <alpha-value>)",

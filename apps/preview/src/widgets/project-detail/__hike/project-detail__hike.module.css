@@ -1,0 +1,140 @@
+.section {
+    background: #fff;
+}
+
+.banner {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 20px;
+    overflow: hidden;
+    min-height: 108px;
+    padding: 20px 18px 20px 22px;
+    border-radius: 28px;
+    background:
+        radial-gradient(
+            90% 180% at 12% 50%,
+            rgb(92 58 36 / 0.95) 0%,
+            rgb(48 32 28 / 0.35) 42%,
+            transparent 70%
+        ),
+        linear-gradient(90deg, #2b211c 0%, #1a1618 48%, #24151c 100%);
+    color: #fff;
+    isolation: isolate;
+}
+
+.banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        -38deg,
+        transparent 0 13px,
+        rgb(232 186 198 / 0.16) 13px 14px
+    );
+}
+
+.icon,
+.copy,
+.cta {
+    position: relative;
+    z-index: 1;
+}
+
+.icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    color: #3a2a22;
+}
+
+.seal {
+    position: absolute;
+    inset: 0;
+    width: 56px;
+    height: 56px;
+    fill: #e8c4a8;
+}
+
+.icon svg:not(.seal) {
+    position: relative;
+    z-index: 1;
+    width: 22px;
+    height: 22px;
+    stroke-width: 2.1;
+}
+
+.copy {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.18;
+}
+
+.lead {
+    margin: 8px 0 0;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.35;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: 999px;
+    background: #e8c4a8;
+    color: #2c241c;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.cta:hover {
+    background: #f0d2ba;
+}
+
+@media (min-width: 960px) {
+    .banner {
+        flex-wrap: nowrap;
+        min-height: 120px;
+        padding: 22px 22px 22px 26px;
+        gap: 18px 24px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .cta {
+        flex-shrink: 0;
+        min-width: 220px;
+        min-height: 56px;
+        padding: 0 32px;
+    }
+}
+
+@media (max-width: 959px) {
+    .cta {
+        width: 100%;
+    }
+}

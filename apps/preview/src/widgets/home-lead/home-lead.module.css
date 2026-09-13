@@ -1,0 +1,207 @@
+.root {
+    background: rgb(var(--ink-50-rgb));
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 40px 24px;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.title {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.text {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.form {
+    width: 100%;
+}
+
+.form :global(form) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.form :global(.field) {
+    border-radius: 12px;
+}
+
+.form :global(.btn) {
+    border-radius: var(--radius-pill);
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.photo {
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+    border-radius: 12px;
+}
+
+.photoImg {
+    object-fit: cover;
+    object-position: center 22%;
+}
+
+.photoShade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgb(16 20 18 / 0.18) 0%,
+        rgb(16 20 18 / 0.08) 38%,
+        rgb(16 20 18 / 0.58) 72%,
+        rgb(16 20 18 / 0.86) 100%
+    );
+}
+
+.photoCopy {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 24px;
+}
+
+.photoTitle {
+    margin: 0 0 8px;
+    max-width: 16ch;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.35);
+}
+
+.photoLead {
+    margin: 0 0 20px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    text-shadow: 0 1px 10px rgb(0 0 0 / 0.4);
+}
+
+.messengers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.msg {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: var(--color-ink);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+}
+
+.msg:hover {
+    background: rgb(var(--ink-50-rgb));
+}
+
+.msgIcon,
+.msgMax {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.msgIcon {
+    color: #0088cc;
+}
+
+.msgMax {
+    color: #4c3aff;
+}
+
+@media (min-width: 992px) {
+    .grid {
+        flex-direction: row;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .card {
+        width: 40%;
+        padding: 64px 40px;
+        gap: 24px;
+    }
+
+    .title {
+        font-size: 40px;
+        margin-bottom: 0;
+    }
+
+    .text {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .photo {
+        width: 60%;
+        min-height: 0;
+    }
+
+    .photoCopy {
+        padding: 40px;
+    }
+
+    .photoTitle {
+        font-size: 32px;
+        max-width: 14ch;
+    }
+}
+
+@media (min-width: 1760px) {
+    .title {
+        font-size: 44px;
+    }
+
+    .photoTitle {
+        font-size: 36px;
+    }
+}

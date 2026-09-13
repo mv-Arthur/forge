@@ -1,0 +1,10 @@
+{
+    "name": "ncottage-legacy-data",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "export": "node scripts/export-fixtures-from-db.mjs",
+        "export:parity": "node scripts/export-fixtures-from-db.mjs --parity-only",
+        "assert": "node scripts/assert-fixtures.mjs"
+    }
+}

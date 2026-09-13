@@ -13,6 +13,7 @@ export interface CliArgs {
     excludeFile: string | null;
     maxPerSheet: number;
     noDensify: boolean;
+    fromJson: string | null;
     help: boolean;
 }
 
@@ -38,6 +39,7 @@ const HELP_DEFAULTS: CliArgs = {
     excludeFile: null,
     maxPerSheet: 48,
     noDensify: false,
+    fromJson: null,
     help: true,
 };
 
@@ -62,6 +64,7 @@ Options:
       --max-per-sheet <n>   Max orgs on one sheets page (default: 48)
       --no-densify          Do not grid-search extra cells (sheets only)
       --include-outside     Do not clip results to the district polygon
+      --from-json <path>    Reuse a saved JSON dump (skip Maps search)
       --delay-ms <n>        Pause between search pages (default: 250)
   -h, --help                Show this help
 `;
@@ -110,8 +113,11 @@ export function parseCliArgs(argv: string[]): CliArgs {
         return HELP_DEFAULTS;
     }
 
-    const url = positionals[0];
-    if (!url) {
+    const fromJson = flags.has("from-json")
+        ? String(flags.get("from-json"))
+        : null;
+    const url = positionals[0] ?? "";
+    if (!url && !fromJson) {
         throw new CliArgsError("District URL is required");
     }
     if (positionals.length > 1) {
@@ -146,6 +152,7 @@ export function parseCliArgs(argv: string[]): CliArgs {
             "--max-per-sheet"
         ),
         noDensify: flags.get("noDensify") === true,
+        fromJson,
         help: false,
     };
 }
@@ -196,6 +203,8 @@ function normalizeFlag(token: string): string {
             return "exclude-file";
         case "--max-per-sheet":
             return "max-per-sheet";
+        case "--from-json":
+            return "from-json";
         default:
             throw new CliArgsError(`Unknown option ${token}`);
     }

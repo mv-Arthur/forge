@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { settings } from "@/lib/settings";
-import { PhoneIcon, TelegramIcon, WhatsappIcon } from "@/ui/icons";
+import { MaxIcon, PhoneIcon, TelegramIcon } from "@/ui/icons";
 
 const linkCols = [
     {
-        title: "Готовые проекты",
+        title: "Проекты",
         links: [
+            { href: "/catalog", label: "Каталог" },
             { href: "/projects", label: "Все проекты" },
             { href: "/projects?tech=gas_concrete", label: "Газобетон" },
             { href: "/projects?tech=brick", label: "Кирпич" },
@@ -15,12 +16,8 @@ const linkCols = [
         ],
     },
     {
-        title: "Построенные дома",
-        links: [
-            { href: "/works", label: "Все дома" },
-            { href: "/works?status=built", label: "Построенные" },
-            { href: "/works?status=in-progress", label: "Строятся" },
-        ],
+        title: "Портфолио",
+        links: [{ href: "/works", label: "Фотогалерея" }],
     },
 ];
 
@@ -28,16 +25,16 @@ export function SiteFooter() {
     return (
         <footer
             data-section="site-footer"
-            className="mt-section border-t border-ink-150 bg-ink-900 text-ink-300"
+            className="border-t border-ink-150 bg-ink-900 text-ink-300"
         >
             <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
                 <div>
                     <Link href="/" className="inline-flex items-center">
                         <Image
-                            src="/images/logo.png"
+                            src="/images/logo-header.png"
                             alt="Новый Коттедж"
-                            width={772}
-                            height={317}
+                            width={726}
+                            height={300}
                             className="h-9 w-auto brightness-0 invert"
                         />
                     </Link>
@@ -66,13 +63,13 @@ export function SiteFooter() {
                                 Telegram
                             </a>
                             <a
-                                href={settings.whatsapp}
+                                href={settings.max}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btn btn-wa btn-sm"
+                                className="btn btn-max btn-sm"
                             >
-                                <WhatsappIcon className="h-4 w-4" />
-                                WhatsApp
+                                <MaxIcon className="h-4 w-4" />
+                                MAX
                             </a>
                         </div>
                     </div>

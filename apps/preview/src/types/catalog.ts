@@ -47,6 +47,47 @@ export interface RawProject {
     variants: ProjectMaterialVariant[];
 }
 
+export type ProjectClass = "serial" | "individual" | "bath";
+
+export interface ShowcaseAboutBlock {
+    title: string;
+    text: string;
+}
+
+export interface ShowcaseFacade {
+    id: string;
+    label: string;
+    src: string;
+}
+
+export interface ShowcaseDecorItem {
+    id: string;
+    title: string;
+    text: string;
+    src: string;
+}
+
+export interface ShowcaseStory {
+    project: string[];
+    built: string[];
+}
+
+export interface ShowcasePriceHike {
+    from: string;
+    next: number;
+}
+
+export interface ShowcasePayload {
+    lead: string;
+    about: ShowcaseAboutBlock[];
+    plans: ProjectFloorPlan[];
+    facades: ShowcaseFacade[];
+    decor: ShowcaseDecorItem[];
+    story: ShowcaseStory | null;
+    gallery: string[];
+    priceHike: ShowcasePriceHike | null;
+}
+
 export interface MergedProject extends RawProject {
     displayName: string;
     subtitle: string;
@@ -54,7 +95,10 @@ export interface MergedProject extends RawProject {
     mortgageFrom: number | null;
     heroImage: string;
     hasTerrace: boolean;
+    hasWardrobe: boolean;
     warranty: number;
+    projectClass: ProjectClass;
+    detailFilled: boolean;
 }
 
 export interface BuiltObject {
@@ -88,4 +132,53 @@ export interface CatalogStats {
     maxPrice: number;
     maxArea: number;
     minArea: number;
+}
+
+export interface CatalogNavCard {
+    id: string;
+    title: string;
+    href: string;
+    image?: string;
+}
+
+export interface CatalogNavPayload {
+    all: CatalogNavCard;
+    types: CatalogNavCard[];
+    tiles: CatalogNavCard[];
+    ctaLabel: string;
+}
+
+export interface CatalogHubTypeCard {
+    kind: "serial" | "individual";
+    title: string;
+    description: string;
+    href: string;
+    ctaLabel: string;
+    image: string;
+}
+
+export interface CatalogHubTechCard {
+    tech: Technology;
+    title: string;
+    description: string;
+    href: string;
+    image: string;
+    thumbs: string[];
+    count: number;
+}
+
+export interface CatalogHubMore {
+    title: string;
+    items: CatalogHubTechCard[];
+}
+
+export interface CatalogHubPayload {
+    heading: string;
+    lead: string;
+    chooseHref: string;
+    chooseLabel: string;
+    techsHeading: string;
+    types: CatalogHubTypeCard[];
+    techs: CatalogHubTechCard[];
+    more: CatalogHubMore | null;
 }

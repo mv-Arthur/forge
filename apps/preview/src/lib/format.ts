@@ -24,6 +24,19 @@ export function formatMillions(value: number | null | undefined): string {
     return formatPrice(value);
 }
 
+export function formatPriceDetail(value: number | null | undefined): string {
+    if (
+        value === null ||
+        value === undefined ||
+        !Number.isFinite(value) ||
+        value <= 0
+    )
+        return "—";
+    const millions = value / 1_000_000;
+    const label = millions.toFixed(2).replace(".", ",");
+    return `${label} млн ₽`;
+}
+
 export function formatArea(value: number | null | undefined): string {
     if (!value) return "—";
     return `${value} м²`;
@@ -35,7 +48,7 @@ export function formatFloors(floors: string | null | undefined): string {
         case "1":
             return "1 этаж";
         case "1.5":
-            return "1,5 этажа";
+            return "с мансардой";
         case "2":
             return "2 этажа";
         case "mansard":

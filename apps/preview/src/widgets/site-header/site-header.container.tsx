@@ -11,20 +11,43 @@ import { settings } from "@/lib/settings";
 import { CTA_CALL, NAV_WORKS } from "@/lib/copy";
 import { submitLead } from "@/actions/leads/submit-lead";
 import { LeadForm } from "@/widgets/lead-form/lead-form";
+import type { CatalogNavPayload } from "@/types/catalog";
+import { SiteHeaderProjectsMenu } from "./__projects-menu/site-header__projects-menu";
 import navStyles from "./__nav/site-header__nav.module.css";
 
 const NAV = [
-    { href: "/projects", label: "Проекты" },
+    { href: "/catalog", label: "Проекты" },
     { href: "/works", label: NAV_WORKS },
     { href: "/about", label: "О нас" },
     { href: "/contacts", label: "Контакты" },
 ];
 
-export function SiteHeaderContainer() {
+function navActive(href: string, pathname: string | null) {
+    if (!pathname) return false;
+    if (href === "/catalog") {
+        return (
+            pathname === "/catalog" ||
+            pathname.startsWith("/catalog/") ||
+            pathname === "/projects" ||
+            pathname.startsWith("/projects/")
+        );
+    }
+    return (
+        pathname === href || (href !== "/" && pathname.startsWith(`${href}/`))
+    );
+}
+
+export function SiteHeaderContainer({
+    catalogNav,
+}: {
+    catalogNav: CatalogNavPayload;
+}) {
     const pathname = usePathname();
     const stickyRef = useRef<HTMLDivElement>(null);
+    const closeMegaTimer = useRef<number | null>(null);
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [projectsOpen, setProjectsOpen] = useState(false);
     const [callbackOpen, setCallbackOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [name, setName] = useState("");
@@ -42,7 +65,7 @@ export function SiteHeaderContainer() {
         const update = () => {
             document.documentElement.style.setProperty(
                 "--site-header-height",
-                `${node.offsetHeight}px`,
+                `${node.offsetHeight}px`
             );
         };
         update();
@@ -60,7 +83,18 @@ export function SiteHeaderContainer() {
 
     useEffect(() => {
         setMobileOpen(false);
+        setProjectsOpen(false);
     }, [pathname]);
+
+    const openProjectsMenu = () => {
+        if (closeMegaTimer.current) window.clearTimeout(closeMegaTimer.current);
+        setProjectsOpen(true);
+    };
+    const closeProjectsMenu = () => {
+        closeMegaTimer.current = window.setTimeout(() => {
+            setProjectsOpen(false);
+        }, 140);
+    };
 
     useEffect(() => {
         if (!mobileOpen) return;
@@ -131,19 +165,39 @@ export function SiteHeaderContainer() {
                         aria-label="Основная навигация"
                     >
                         {NAV.map((item) => {
-                            const isActive =
-                                pathname === item.href ||
-                                (item.href !== "/" &&
-                                    pathname?.startsWith(`${item.href}/`));
+                            const isActive = navActive(item.href, pathname);
+                            const isProjects = item.href === "/catalog";
                             return (
                                 <div
                                     key={item.href}
                                     className={navStyles.navItem}
+                                    onMouseEnter={
+                                        isProjects
+                                            ? openProjectsMenu
+                                            : undefined
+                                    }
+                                    onMouseLeave={
+                                        isProjects
+                                            ? closeProjectsMenu
+                                            : undefined
+                                    }
                                 >
                                     <Link
                                         href={item.href}
                                         className={navStyles.navLink}
-                                        data-active={isActive || undefined}
+                                        data-active={
+                                            isActive ||
+                                            (isProjects && projectsOpen) ||
+                                            undefined
+                                        }
+                                        aria-expanded={
+                                            isProjects
+                                                ? projectsOpen
+                                                : undefined
+                                        }
+                                        aria-haspopup={
+                                            isProjects ? "true" : undefined
+                                        }
                                     >
                                         {item.label}
                                     </Link>
@@ -193,6 +247,21 @@ export function SiteHeaderContainer() {
                 </Container>
             </div>
 
+            <div
+                className={`${navStyles.mega} ${projectsOpen ? navStyles.megaOpen : ""}`}
+                onMouseEnter={openProjectsMenu}
+                onMouseLeave={closeProjectsMenu}
+                aria-hidden={!projectsOpen}
+                inert={!projectsOpen ? true : undefined}
+            >
+                <Container>
+                    <SiteHeaderProjectsMenu
+                        nav={catalogNav}
+                        open={projectsOpen}
+                    />
+                </Container>
+            </div>
+
             {mounted && mobileOpen
                 ? createPortal(
                       <div
@@ -225,14 +294,39 @@ export function SiteHeaderContainer() {
                               </div>
                               <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4">
                                   {NAV.map((item) => (
-                                      <Link
-                                          key={item.href}
-                                          href={item.href}
-                                          className="rounded-xl px-3 py-3.5 text-base font-semibold text-ink-950 hover:bg-ink-50"
-                                          onClick={() => setMobileOpen(false)}
-                                      >
-                                          {item.label}
-                                      </Link>
+                                      <div key={item.href}>
+                                          <Link
+                                              href={item.href}
+                                              className="rounded-xl px-3 py-3.5 text-base font-semibold text-ink-950 hover:bg-ink-50"
+                                              onClick={() =>
+                                                  setMobileOpen(false)
+                                              }
+                                          >
+                                              {item.label}
+                                          </Link>
+                                          {item.href === "/catalog" ? (
+                                              <div className="mb-2 ml-3 flex flex-col border-l border-ink-150 pl-3">
+                                                  {[
+                                                      catalogNav.all,
+                                                      ...catalogNav.types,
+                                                      ...catalogNav.tiles,
+                                                  ].map((card) => (
+                                                      <Link
+                                                          key={card.id}
+                                                          href={card.href}
+                                                          className="rounded-lg px-2 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50 hover:text-ink-950"
+                                                          onClick={() =>
+                                                              setMobileOpen(
+                                                                  false,
+                                                              )
+                                                          }
+                                                      >
+                                                          {card.title}
+                                                      </Link>
+                                                  ))}
+                                              </div>
+                                          ) : null}
+                                      </div>
                                   ))}
                                   <a
                                       href={`tel:${settings.phoneClean}`}
@@ -253,7 +347,7 @@ export function SiteHeaderContainer() {
                               </nav>
                           </div>
                       </div>,
-                      document.body,
+                      document.body
                   )
                 : null}
 
@@ -309,7 +403,7 @@ export function SiteHeaderContainer() {
                               </div>
                           </div>
                       </div>,
-                      document.body,
+                      document.body
                   )
                 : null}
         </header>

@@ -1,0 +1,119 @@
+.root {
+    background: #fff;
+    border-bottom: 1px solid rgb(var(--ink-150-rgb));
+}
+
+.inner {
+    padding: 1.5rem 0 2rem;
+}
+
+@media (min-width: 960px) {
+    .inner {
+        padding: 2rem 0 2.75rem;
+    }
+}
+
+.top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(var(--ink-600-rgb));
+}
+
+.back:hover {
+    color: rgb(var(--ink-950-rgb));
+}
+
+.title {
+    font-family: var(--font-manrope), sans-serif;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    font-weight: 650;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: rgb(var(--ink-950-rgb));
+}
+
+.meta {
+    margin-top: 0.65rem;
+    font-size: 1rem;
+    color: rgb(var(--ink-600-rgb));
+}
+
+.chip {
+    display: inline-flex;
+    margin-top: 0.75rem;
+    border-radius: 999px;
+    background: rgb(var(--ink-50-rgb));
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 650;
+    color: rgb(var(--ink-900-rgb));
+}
+
+.stage {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background: rgb(var(--ink-100-rgb));
+    aspect-ratio: 16 / 9;
+}
+
+.photo {
+    object-fit: cover;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.28);
+    background: rgb(16 20 18 / 0.4);
+    color: #fff;
+    transform: translateY(-50%);
+}
+
+.prev {
+    left: 0.75rem;
+}
+
+.next {
+    right: 0.75rem;
+}
+
+.thumbs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    margin-top: 0.75rem;
+}
+
+.thumb {
+    position: relative;
+    flex: 0 0 5.5rem;
+    height: 3.75rem;
+    overflow: hidden;
+    border-radius: 0.65rem;
+    border: 2px solid transparent;
+    background: rgb(var(--ink-100-rgb));
+}
+
+.thumb[data-active="true"] {
+    border-color: rgb(var(--ink-950-rgb));
+}

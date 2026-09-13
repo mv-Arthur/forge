@@ -120,10 +120,12 @@ describe("listDistrictOrgs", () => {
             );
         };
 
+        const progress: string[] = [];
         const result = await listDistrictOrgs(DISTRICT_URL, {
             fetch: fetchMock,
             delayMs: 0,
             limit: 50,
+            onProgress: (message) => progress.push(message),
         });
 
         assert.equal(result.district.title, "район Бибирево");
@@ -133,6 +135,14 @@ describe("listDistrictOrgs", () => {
         assert.equal(result.organizations[0]?.title, "InsideCafe");
         assert.equal(
             urls.some((url) => url.includes("/maps/api/search")),
+            true
+        );
+        assert.equal(
+            progress.some((message) => /^search \d+\/2$/.test(message)),
+            true
+        );
+        assert.equal(
+            progress.some((message) => /^house \d+\/\d+$/.test(message)),
             true
         );
     });

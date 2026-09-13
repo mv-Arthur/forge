@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import { Breadcrumb } from "@/ui/breadcrumb";
 import {
     formatArea,
     formatFloors,
@@ -37,6 +37,15 @@ export function BuiltObjectDetail({
 
     return (
         <main className="pb-16">
+            <div className="container-page">
+                <Breadcrumb
+                    items={[
+                        { label: "Главная", href: "/" },
+                        { label: NAV_WORKS, href: "/works" },
+                        { label: obj.displayTitle },
+                    ]}
+                />
+            </div>
             <section
                 data-section="object-hero"
                 className="relative min-h-[40vh] bg-ink-900 text-paper md:min-h-[48vh]"
@@ -47,19 +56,14 @@ export function BuiltObjectDetail({
                         alt={obj.displayTitle}
                         fill
                         priority
+                        unoptimized={hero.startsWith("/media/")}
                         className="object-cover opacity-75"
                         sizes="100vw"
                     />
                 ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-900/35 to-transparent" />
                 <div className="container-page relative flex min-h-[40vh] flex-col justify-end pb-10 pt-24 md:min-h-[48vh]">
-                    <div className="text-xs text-ink-300">
-                        <Link href="/works" className="hover:text-paper">
-                            {NAV_WORKS}
-                        </Link>{" "}
-                        · {obj.displayTitle}
-                    </div>
-                    <div className="mt-3">
+                    <div>
                         <span
                             className={`badge ${
                                 obj.status === "in-progress"
@@ -161,6 +165,7 @@ export function BuiltObjectDetail({
                                         src={src}
                                         alt={`${obj.displayTitle} — ${i + 1}`}
                                         fill
+                                        unoptimized={src.startsWith("/media/")}
                                         className="object-cover"
                                         sizes="(min-width:1024px) 33vw, 100vw"
                                     />

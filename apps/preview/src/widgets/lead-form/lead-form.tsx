@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CheckIcon } from "@/ui/icons";
+import { LEAD_PHONE_LABEL } from "@/lib/copy";
 import type { LeadFormProps } from "./lead-form.types";
 
 export function LeadForm({
@@ -7,6 +8,7 @@ export function LeadForm({
     prefill,
     ctaLabel,
     variant,
+    layout = "full",
     inline = false,
     values,
     sent,
@@ -45,84 +47,132 @@ export function LeadForm({
                 e.preventDefault();
                 onSubmit();
             }}
-            className={inline ? "grid gap-3 md:grid-cols-[1fr_1fr_auto]" : "space-y-3"}
+            className={
+                layout === "home"
+                    ? undefined
+                    : inline
+                      ? "grid gap-3 md:grid-cols-[1fr_1fr_auto]"
+                      : "space-y-3"
+            }
             data-source={source}
         >
             {prefill ? (
                 <input type="hidden" name="prefill" value={prefill} />
             ) : null}
             <input type="hidden" name="source" value={source} />
-            <div className="grid gap-3 sm:grid-cols-2">
-                <div>
+            {layout === "home" ? (
+                <>
+                    <div>
+                        <label className="field-label">{LEAD_PHONE_LABEL}</label>
+                        <input
+                            className="field"
+                            placeholder="+7"
+                            type="tel"
+                            value={values.phone}
+                            onChange={(e) => onPhoneChange(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <label className="flex items-start gap-2 text-sm text-ink-500">
+                        <input
+                            type="checkbox"
+                            checked={values.consent}
+                            onChange={(e) => onConsentChange(e.target.checked)}
+                            className="mt-0.5 h-4 w-4 accent-accent"
+                        />
+                        <span>
+                            Я согласен на{" "}
+                            <Link
+                                href="/personal-data"
+                                className="underline underline-offset-2"
+                            >
+                                обработку персональных данных
+                            </Link>
+                        </span>
+                    </label>
+                    <button type="submit" className="btn btn-primary">
+                        {ctaLabel}
+                    </button>
+                </>
+            ) : (
+                <>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <div>
+                            <label
+                                className={
+                                    dark
+                                        ? "field-label !text-ink-300"
+                                        : "field-label"
+                                }
+                            >
+                                Имя
+                            </label>
+                            <input
+                                className={
+                                    dark
+                                        ? "field !border-white/10 !bg-white/5 !text-white placeholder:!text-ink-400"
+                                        : "field"
+                                }
+                                placeholder="Иван"
+                                value={values.name}
+                                onChange={(e) => onNameChange(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label
+                                className={
+                                    dark
+                                        ? "field-label !text-ink-300"
+                                        : "field-label"
+                                }
+                            >
+                                Телефон
+                            </label>
+                            <input
+                                className={
+                                    dark
+                                        ? "field !border-white/10 !bg-white/5 !text-white placeholder:!text-ink-400"
+                                        : "field"
+                                }
+                                placeholder="+7 (___) ___-__-__"
+                                type="tel"
+                                value={values.phone}
+                                onChange={(e) => onPhoneChange(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-lg w-full uppercase tracking-[0.06em] shadow-cta"
+                    >
+                        {ctaLabel}
+                    </button>
                     <label
                         className={
-                            dark ? "field-label !text-ink-300" : "field-label"
+                            "flex items-start gap-2 text-xs " +
+                            (dark ? "text-ink-400" : "text-ink-500")
                         }
                     >
-                        Имя
+                        <input
+                            type="checkbox"
+                            checked={values.consent}
+                            onChange={(e) => onConsentChange(e.target.checked)}
+                            className="mt-0.5 h-4 w-4 accent-accent"
+                        />
+                        <span>
+                            Согласен на{" "}
+                            <Link
+                                href="/personal-data"
+                                className="underline underline-offset-2"
+                            >
+                                обработку персональных данных
+                            </Link>
+                            .
+                        </span>
                     </label>
-                    <input
-                        className={
-                            dark
-                                ? "field !border-white/10 !bg-white/5 !text-white placeholder:!text-ink-400"
-                                : "field"
-                        }
-                        placeholder="Иван"
-                        value={values.name}
-                        onChange={(e) => onNameChange(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label
-                        className={
-                            dark ? "field-label !text-ink-300" : "field-label"
-                        }
-                    >
-                        Телефон
-                    </label>
-                    <input
-                        className={
-                            dark
-                                ? "field !border-white/10 !bg-white/5 !text-white placeholder:!text-ink-400"
-                                : "field"
-                        }
-                        placeholder="+7 (___) ___-__-__"
-                        type="tel"
-                        value={values.phone}
-                        onChange={(e) => onPhoneChange(e.target.value)}
-                        required
-                    />
-                </div>
-            </div>
-            <button
-                type="submit"
-                className="btn btn-primary btn-lg w-full uppercase tracking-[0.06em] shadow-cta"
-            >
-                {ctaLabel}
-            </button>
-            <label
-                className={
-                    "flex items-start gap-2 text-xs " +
-                    (dark ? "text-ink-400" : "text-ink-500")
-                }
-            >
-                <input
-                    type="checkbox"
-                    checked={values.consent}
-                    onChange={(e) => onConsentChange(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 accent-accent"
-                />
-                <span>
-                    Согласен на{" "}
-                    <Link
-                        href="/personal-data"
-                        className="underline underline-offset-2"
-                    >
-                        обработку персональных данных
-                    </Link>
-                    .
-                </span>
-            </label>
+                </>
+            )}
         </form>
     );
 }

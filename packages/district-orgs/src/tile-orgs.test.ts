@@ -73,7 +73,12 @@ describe("tileOrganizations", () => {
         const orgs = [];
         for (let i = 0; i < 20; i += 1) {
             orgs.push(
-                org(`c${i}`, 37.6 + (i % 4) * 0.0004, 55.9 + (i % 5) * 0.0004)
+                org(
+                    `c${i}`,
+                    37.6 + (i % 4) * 0.0004,
+                    55.9 + (i % 5) * 0.0004,
+                    "Лескова, 16"
+                )
             );
         }
         const sheets = tileOrganizations(orgs, BOUNDS, 48);
@@ -131,6 +136,27 @@ describe("tileOrganizations", () => {
             )
         );
         assert.equal(ids.size, 10);
+    });
+
+    it("orders sheets north to south", () => {
+        const sheets = tileOrganizations(
+            [
+                org("south", 37.6, 55.88, "south"),
+                org("north", 37.61, 55.91, "north"),
+                org("mid", 37.605, 55.895, "mid"),
+            ],
+            BOUNDS,
+            48
+        );
+        assert.ok(sheets.length >= 2);
+        const first = sheets[0]?.organizations.map((item) => item.id) ?? [];
+        const last =
+            sheets[sheets.length - 1]?.organizations.map((item) => item.id) ??
+            [];
+        assert.equal(first.includes("north"), true);
+        assert.equal(first.includes("south"), false);
+        assert.equal(last.includes("south"), true);
+        assert.equal(last.includes("north"), false);
     });
 
     it("does not put two distant houses on one walk sheet", () => {

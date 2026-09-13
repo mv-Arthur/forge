@@ -59,6 +59,9 @@ tsconfig.tsbuildinfo
 .codex/
 .claude/
 
+# Local walk-sheet job history
+/apps/district-orgs-web/data/
+
 # Ephemeral scratch — единственная gitignored-папка под всё разовое
 # (дампы, аудиты, скриншоты, черновые скрипты). Одна строка ловит будущее.
 /.scratch/

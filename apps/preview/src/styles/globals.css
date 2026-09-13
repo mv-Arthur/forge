@@ -27,7 +27,7 @@
     html {
         scroll-behavior: smooth;
         /* Не ставить overflow-x: hidden — ломает position:sticky у шапки и табов */
-        scroll-padding-top: calc(var(--site-header-height, 72px) + 56px);
+        scroll-padding-top: calc(var(--site-header-height, 72px) + 80px);
     }
 
     body {
@@ -144,6 +144,10 @@
 
     .btn-wa {
         @apply bg-wa font-semibold text-ink-950 hover:brightness-105;
+    }
+
+    .btn-max {
+        @apply bg-max text-white hover:brightness-110;
     }
 
     .btn-icon {

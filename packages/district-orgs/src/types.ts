@@ -57,6 +57,7 @@ export interface ListDistrictOrgsOptions {
     fetch?: typeof fetch;
     userAgent?: string;
     signal?: AbortSignal;
+    onProgress?: (message: string) => void;
 }
 
 export interface DistrictOrgsResult {

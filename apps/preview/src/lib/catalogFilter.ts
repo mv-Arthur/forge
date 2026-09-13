@@ -1,29 +1,84 @@
+import {
+    isCollectionId,
+    projectInCollection,
+    type CollectionId,
+} from "./collections";
+import { projectLine, type LineId } from "./lines";
+
+export type CatalogKind = "serial" | "individual" | "bath";
+
+export const CATALOG_KINDS: CatalogKind[] = [
+    "serial",
+    "individual",
+    "bath",
+];
+
+export function isCatalogKind(value: string): value is CatalogKind {
+    return (
+        value === "serial" || value === "individual" || value === "bath"
+    );
+}
+
+export function parseCatalogKinds(raw: string | null): CatalogKind[] {
+    if (!raw) return [];
+    const out: CatalogKind[] = [];
+    for (const part of raw.split(",")) {
+        const value = part.trim();
+        if (isCatalogKind(value) && !out.includes(value)) out.push(value);
+    }
+    return out;
+}
+
+export const INDIVIDUAL_CATEGORY = "doma-originalnie";
+
+export function projectIsIndividual(project: {
+    categories?: string[];
+}): boolean {
+    return Boolean(project.categories?.includes(INDIVIDUAL_CATEGORY));
+}
+
+export function projectClass(project: {
+    slug?: string;
+    categories?: string[];
+    projectClass?: CatalogKind;
+}): CatalogKind {
+    if (project.projectClass) return project.projectClass;
+    if (project.slug === "banya-levashovo") return "bath";
+    if (projectIsIndividual(project)) return "individual";
+    return "serial";
+}
+
 export type CatalogFilterState = {
+    kind: CatalogKind[];
+    lines: LineId[];
     tech: string[];
     areaMin: number;
     areaMax: number;
     priceMin: number;
     priceMax: number;
     floors: string[];
-    bedroomsMin: number;
-    bathroomsMin: number;
-    hasTerrace: boolean;
+    rooms: number[];
+    baths: number[];
+    collection: CollectionId | "";
 };
 
 /** Bounds that do not drop any priced/measured catalog row. */
 export const CATALOG_OPEN: CatalogFilterState = {
+    kind: [],
+    lines: [],
     tech: [],
     areaMin: 0,
     areaMax: 100_000,
     priceMin: 0,
     priceMax: 100_000,
     floors: [],
-    bedroomsMin: 0,
-    bathroomsMin: 0,
-    hasTerrace: false,
+    rooms: [],
+    baths: [],
+    collection: "",
 };
 
 export type CatalogProjectRow = {
+    slug?: string;
     area: number | null;
     priceFrom: number | null;
     technologies: string[];
@@ -33,6 +88,9 @@ export type CatalogProjectRow = {
     hasTerrace: boolean;
     displayName?: string;
     subtitle?: string;
+    features?: string[];
+    categories?: string[];
+    projectClass?: CatalogKind;
 };
 
 export function openCatalogFilter(bounds: {
@@ -50,25 +108,27 @@ export function openCatalogFilter(bounds: {
 
 export function isOpenCatalogFilter(
     state: CatalogFilterState,
-    open: CatalogFilterState,
+    open: CatalogFilterState
 ): boolean {
     return (
+        state.kind.length === 0 &&
+        state.lines.length === 0 &&
         state.tech.length === 0 &&
         state.areaMin === open.areaMin &&
         state.areaMax === open.areaMax &&
         state.priceMin === open.priceMin &&
         state.priceMax === open.priceMax &&
         state.floors.length === 0 &&
-        state.bedroomsMin === 0 &&
-        state.bathroomsMin === 0 &&
-        state.hasTerrace === false
+        state.rooms.length === 0 &&
+        state.baths.length === 0 &&
+        state.collection === ""
     );
 }
 
 export function projectPassesCatalogFilter(
     p: CatalogProjectRow,
     state: CatalogFilterState,
-    query = "",
+    query = ""
 ): boolean {
     const q = query.trim().toLowerCase();
     if (q) {
@@ -76,6 +136,19 @@ export function projectPassesCatalogFilter(
             .join(" ")
             .toLowerCase();
         if (!hay.includes(q)) return false;
+    }
+    if (state.kind.length > 0) {
+        const rowKind = projectClass(p);
+        if (!state.kind.includes(rowKind)) return false;
+    }
+    if (state.lines.length > 0) {
+        const rowKind = projectClass(p);
+        if (rowKind !== "serial") {
+            if (!state.kind.includes(rowKind)) return false;
+        } else {
+            const line = p.slug ? projectLine(p.slug) : "classic";
+            if (!state.lines.includes(line)) return false;
+        }
     }
     if (state.tech.length > 0) {
         const overlap = p.technologies.some((t) => state.tech.includes(t));
@@ -88,24 +161,50 @@ export function projectPassesCatalogFilter(
         const priceM = p.priceFrom / 1_000_000;
         if (priceM < state.priceMin || priceM > state.priceMax) return false;
     }
-    if (state.floors.length > 0 && p.floors) {
-        if (!state.floors.includes(p.floors)) return false;
+    if (state.floors.length > 0) {
+        const hits = state.floors.some((floor) => {
+            if (floor === "mansard") {
+                return (
+                    p.floors === "mansard" ||
+                    p.floors === "1.5" ||
+                    Boolean(p.categories?.includes("doma-s-mansardoj"))
+                );
+            }
+            return p.floors === floor;
+        });
+        if (!hits) return false;
     }
-    if (state.bedroomsMin > 0 && (p.bedrooms ?? 0) < state.bedroomsMin) {
+    if (!countMatchesFilter(state.rooms, p.bedrooms, 7)) {
         return false;
     }
-    if (state.bathroomsMin > 0 && (p.bathrooms ?? 0) < state.bathroomsMin) {
+    if (!countMatchesFilter(state.baths, p.bathrooms, 6)) {
         return false;
     }
-    if (state.hasTerrace && !p.hasTerrace) return false;
+    if (state.collection && isCollectionId(state.collection)) {
+        if (!projectInCollection(p, state.collection)) return false;
+    }
     return true;
+}
+
+export function countMatchesFilter(
+    selected: number[],
+    value: number | null,
+    plusFrom: number
+): boolean {
+    if (selected.length === 0) return true;
+    if (value == null) return false;
+    return selected.some((n) =>
+        n >= plusFrom ? value >= plusFrom : value === n
+    );
 }
 
 export function countActiveFilters(
     state: CatalogFilterState,
-    open: CatalogFilterState,
+    open: CatalogFilterState
 ): number {
     let n = 0;
+    if (state.kind.length) n += 1;
+    if (state.lines.length) n += 1;
     if (state.tech.length) n += 1;
     if (state.areaMin !== open.areaMin || state.areaMax !== open.areaMax) {
         n += 1;
@@ -114,8 +213,8 @@ export function countActiveFilters(
         n += 1;
     }
     if (state.floors.length) n += 1;
-    if (state.bedroomsMin) n += 1;
-    if (state.bathroomsMin) n += 1;
-    if (state.hasTerrace) n += 1;
+    if (state.rooms.length) n += 1;
+    if (state.baths.length) n += 1;
+    if (state.collection) n += 1;
     return n;
 }

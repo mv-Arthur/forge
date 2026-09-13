@@ -1,15 +1,25 @@
 import type { AddressGroup, LonLat, Organization } from "./types.ts";
 
+export function isHouseAddress(address: string): boolean {
+    const text = address.trim();
+    if (!text || !/\d/.test(text)) return false;
+    const withoutDistrict = text.replace(/район\s+\S+/gi, "");
+    return /\d/.test(withoutDistrict);
+}
+
 export function groupByAddress(organizations: Organization[]): AddressGroup[] {
-    const buckets = new Map<string, Organization[]>();
+    const buckets = new Map<
+        string,
+        { address: string; orgs: Organization[] }
+    >();
     for (const org of organizations) {
-        const key = (org.address ?? org.fullAddress ?? "без адреса").trim();
-        const list = buckets.get(key);
-        if (list) list.push(org);
-        else buckets.set(key, [org]);
+        const { key, address } = groupKey(org);
+        const bucket = buckets.get(key);
+        if (bucket) bucket.orgs.push(org);
+        else buckets.set(key, { address, orgs: [org] });
     }
     const groups: AddressGroup[] = [];
-    for (const [address, orgs] of buckets) {
+    for (const { address, orgs } of buckets.values()) {
         groups.push({
             address,
             coordinates: centroid(orgs),
@@ -18,6 +28,17 @@ export function groupByAddress(organizations: Organization[]): AddressGroup[] {
     }
     groups.sort((a, b) => a.address.localeCompare(b.address, "ru"));
     return groups;
+}
+
+function groupKey(org: Organization): { key: string; address: string } {
+    const address =
+        (org.address ?? org.fullAddress ?? "без адреса").trim() ||
+        "без адреса";
+    if (isHouseAddress(address) || !org.coordinates) {
+        return { key: `h:${address}`, address };
+    }
+    const point = `${org.coordinates.lon.toFixed(4)},${org.coordinates.lat.toFixed(4)}`;
+    return { key: `p:${address}:${point}`, address };
 }
 
 function centroid(organizations: Organization[]): LonLat {

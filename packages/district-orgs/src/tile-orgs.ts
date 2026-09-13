@@ -28,13 +28,19 @@ export function tileOrganizations(
     }
     const geoSheets = splitGroups(groupByAddress(withCoords), cap);
     const leftover = fillSheets(geoSheets, withoutCoords, cap);
+    const extraSheets: DistrictSheet[] = [];
     if (leftover.length > 0) {
         const hostBounds = geoSheets[geoSheets.length - 1]?.bounds;
         for (let i = 0; i < leftover.length; i += cap) {
-            geoSheets.push(makeSheet(leftover.slice(i, i + cap), hostBounds));
+            extraSheets.push(makeSheet(leftover.slice(i, i + cap), hostBounds));
         }
     }
-    const sheets = geoSheets.filter((sheet) => sheet.organizations.length > 0);
+    const sheets = [
+        ...sortSheetsNorthToSouth(
+            geoSheets.filter((sheet) => sheet.organizations.length > 0)
+        ),
+        ...extraSheets.filter((sheet) => sheet.organizations.length > 0),
+    ];
     return sheets.map((sheet, index) => ({
         ...sheet,
         index: index + 1,
@@ -218,7 +224,7 @@ function makeSheet(
     );
     const bounds =
         points.length > 0
-            ? padBoundsToAspect(tightBounds(points), MAP_ASPECT)
+            ? padBoundsToAspect(tightBounds(points), MAP_ASPECT, 0.06)
             : (fallbackBounds ??
               padBoundsToAspect(
                   [
@@ -232,6 +238,38 @@ function makeSheet(
         bounds,
         groups: [],
         organizations,
+    };
+}
+
+function sortSheetsNorthToSouth(sheets: DistrictSheet[]): DistrictSheet[] {
+    return [...sheets].sort((a, b) => {
+        const ca = sheetCentroid(a);
+        const cb = sheetCentroid(b);
+        const lat = cb.lat - ca.lat;
+        if (lat !== 0) return lat;
+        return ca.lon - cb.lon;
+    });
+}
+
+function sheetCentroid(sheet: DistrictSheet): LonLat {
+    const points = pinGroups(sheet.organizations)
+        .map((group) => group.coordinates)
+        .filter(
+            (point) =>
+                Number.isFinite(point.lon) &&
+                Number.isFinite(point.lat) &&
+                (point.lon !== 0 || point.lat !== 0)
+        );
+    if (points.length === 0) {
+        const [[minLon, minLat], [maxLon, maxLat]] = sheet.bounds;
+        return {
+            lon: (minLon + maxLon) / 2,
+            lat: (minLat + maxLat) / 2,
+        };
+    }
+    return {
+        lon: points.reduce((sum, point) => sum + point.lon, 0) / points.length,
+        lat: points.reduce((sum, point) => sum + point.lat, 0) / points.length,
     };
 }
 

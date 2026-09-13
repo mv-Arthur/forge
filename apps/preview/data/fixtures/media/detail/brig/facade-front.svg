@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" fill="none">
+  <rect width="900" height="520" fill="#f3eee4"/>
+  <g stroke="#2a2622" stroke-width="1.6">
+    <line x1="40" y1="430" x2="860" y2="430"/>
+    <path d="M160 430 V210 L450 110 L740 210 V430 Z" fill="#9c4a2d" fill-opacity="0.28"/>
+    <path d="M160 210 L450 110 L740 210"/>
+    <line x1="160" y1="320" x2="740" y2="320"/>
+    <line x1="353" y1="144" x2="353" y2="430"/>
+    <line x1="547" y1="144" x2="547" y2="430"/>
+    <rect x="190" y="240" width="130" height="60" fill="#d9e4ea"/>
+    <rect x="385" y="230" width="130" height="70" fill="#d9e4ea"/>
+    <rect x="580" y="240" width="130" height="60" fill="#d9e4ea"/>
+    <rect x="210" y="345" width="90" height="85" fill="#d9e4ea"/>
+    <rect x="405" y="340" width="90" height="90" fill="#d9e4ea"/>
+    <rect x="600" y="345" width="90" height="85" fill="#d9e4ea"/>
+    <line x1="160" y1="210" x2="160" y2="430"/>
+    <line x1="740" y1="210" x2="740" y2="430"/>
+  </g>
+</svg>

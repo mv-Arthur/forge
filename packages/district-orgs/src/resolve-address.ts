@@ -1,3 +1,4 @@
+import { isHouseAddress } from "./group-address.ts";
 import { isBusiness, mapOrganization } from "./map-organization.ts";
 import type { SearchBusiness } from "./map-organization.ts";
 import { MapsRequestError, searchToponyms } from "./session.ts";
@@ -5,8 +6,9 @@ import type { MapsSession, SearchToponym } from "./session.ts";
 import type { LonLat, Organization } from "./types.ts";
 
 const HOUSE_SPN: [number, number] = [0.01, 0.01];
-const MAX_HOUSE_LOOKUPS = 800;
+const MAX_HOUSE_LOOKUPS = 2500;
 const MAX_INDOOR_M = 250;
+const MAX_HOUSE_APPLY_M = 400;
 
 export interface HouseHit {
     id: string | null;
@@ -23,6 +25,8 @@ export async function resolveHouseAddresses(
         fetch: typeof fetch;
         delayMs: number;
         signal?: AbortSignal;
+        acceptPoint?: (point: LonLat) => boolean;
+        onProgress?: (message: string) => void;
     }
 ): Promise<Organization[]> {
     const seen = new Set(organizations.map((org) => org.id));
@@ -30,6 +34,7 @@ export async function resolveHouseAddresses(
     const pending = new Map<string, LonLat | null>();
     const visited = new Set<string>();
     queueAddresses(collected, pending);
+    const total = [...pending.values()].filter(Boolean).length;
 
     let lookups = 0;
     let first = true;
@@ -44,11 +49,20 @@ export async function resolveHouseAddresses(
             }
             first = false;
             lookups += 1;
+            options.onProgress?.(
+                total > 0 ? `house ${lookups}/${total}` : `house ${lookups}`
+            );
             const house = await lookupHouse(session, address, near, options);
             if (!house) continue;
+            if (!houseUsable(house, near, options.acceptPoint)) continue;
             visited.add(house.address);
             applyHouse(collected, address, house);
-            const extra = indoorOrgs(house, session.origin, seen);
+            const extra = indoorOrgs(
+                house,
+                session.origin,
+                seen,
+                options.acceptPoint
+            );
             if (extra.length > 0) collected.push(...extra);
         }
     }
@@ -61,7 +75,7 @@ function queueAddresses(
 ): void {
     for (const org of organizations) {
         const key = (org.address ?? "").trim();
-        if (!key) continue;
+        if (!key || !isHouseAddress(key)) continue;
         const prev = pending.get(key);
         if (prev === undefined) pending.set(key, org.coordinates);
         else if (!prev && org.coordinates) pending.set(key, org.coordinates);
@@ -78,13 +92,25 @@ function applyHouse(
         if (key !== fromAddress) continue;
         org.address = house.address;
         org.fullAddress = house.fullAddress ?? org.fullAddress;
+        if (house.coordinates) org.coordinates = house.coordinates;
     }
+}
+
+function houseUsable(
+    house: HouseHit,
+    near: LonLat,
+    acceptPoint?: (point: LonLat) => boolean
+): boolean {
+    if (!house.coordinates) return true;
+    if (acceptPoint && !acceptPoint(house.coordinates)) return false;
+    return meters(house.coordinates, near) <= MAX_HOUSE_APPLY_M;
 }
 
 function indoorOrgs(
     house: HouseHit,
     origin: string,
-    seen: Set<string>
+    seen: Set<string>,
+    acceptPoint?: (point: LonLat) => boolean
 ): Organization[] {
     const extra: Organization[] = [];
     for (const item of house.indoor) {
@@ -103,11 +129,15 @@ function indoorOrgs(
         ) {
             continue;
         }
+        if (org.coordinates && acceptPoint && !acceptPoint(org.coordinates)) {
+            continue;
+        }
         seen.add(id);
         extra.push({
             ...org,
             address: house.address,
             fullAddress: house.fullAddress ?? org.fullAddress,
+            coordinates: house.coordinates ?? org.coordinates,
         });
     }
     return extra;

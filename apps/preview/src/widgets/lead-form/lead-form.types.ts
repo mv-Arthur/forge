@@ -1,5 +1,7 @@
 export type LeadFormVariant = "light" | "dark";
 
+export type LeadFormLayout = "full" | "home";
+
 export type LeadFormValues = {
     name: string;
     phone: string;
@@ -11,6 +13,7 @@ export type LeadFormProps = {
     prefill?: string;
     ctaLabel: string;
     variant: LeadFormVariant;
+    layout?: LeadFormLayout;
     inline?: boolean;
     values: LeadFormValues;
     sent: boolean;

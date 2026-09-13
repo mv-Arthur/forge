@@ -1,8 +1,0 @@
-{
-  "origin": "https://www.gwd.ru",
-  "devices": ["desktop", "tablet", "mobile"],
-  "concurrency": 6,
-  "tabsPerBrowser": 2,
-  "navTimeout": 45000,
-  "locale": "ru-RU"
-}

@@ -83,7 +83,7 @@ export function ProjectCarouselContainer({
                         data-carousel-item
                         className="w-[min(100%,340px)] flex-shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
                     >
-                        <ProjectCard project={p} />
+                        <ProjectCard project={p} layout="similar" />
                     </div>
                 ))}
             </div>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "@/styles/www-tokens.css";
 import "@/styles/globals.css";
+import { unwrapAction } from "@/types/action";
+import { getCatalogNav } from "@/actions/catalog/get-catalog-nav";
 import { SiteHeaderContainer } from "@/widgets/site-header/site-header.container";
 import { FloatingContactContainer } from "@/widgets/floating-contact/floating-contact.container";
 import { SiteFooter } from "@/widgets/site-footer/site-footer";
@@ -25,15 +27,16 @@ export const viewport = {
     maximumScale: 5,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const { nav } = unwrapAction(await getCatalogNav());
     return (
         <html lang="ru" className={manrope.variable}>
             <body className={manrope.className}>
-                <SiteHeaderContainer />
+                <SiteHeaderContainer catalogNav={nav} />
                 {children}
                 <SiteFooter />
                 <FloatingContactContainer />

@@ -15,7 +15,7 @@ interface Props {
     plans: ProjectFloorPlan[];
 }
 
-/** Real floor plan images only — no synthetic room lists. */
+/** Floor plan images from fixtures, or illustration urls passed by the parent. */
 export function ProjectDetailPlans({ project, plans }: Props) {
     const [active, setActive] = useState(0);
     const grouped = useMemo(() => {
@@ -86,6 +86,7 @@ export function ProjectDetailPlans({ project, plans }: Props) {
                     src={plan.url}
                     alt={`Планировка · ${activeGroup.floor}`}
                     fill
+                    unoptimized={plan.url.startsWith("/media/")}
                     sizes="(min-width:1024px) 55vw, 100vw"
                     className="object-contain p-2"
                 />

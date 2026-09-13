@@ -1,0 +1,3 @@
+.beget-db.env
+.export-raw/
+node_modules/

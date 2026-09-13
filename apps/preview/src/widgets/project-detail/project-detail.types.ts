@@ -7,4 +7,6 @@ export type ProjectDetailProps = {
     relatedBuilt: EnrichedBuiltObject[];
     leadForm: ReactNode;
     similarCarousel: ReactNode;
+    startVisit?: ReactNode;
+    startQuote?: ReactNode;
 };

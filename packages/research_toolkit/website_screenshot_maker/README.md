@@ -2,7 +2,7 @@
 
 SDK: съёмка full-page PNG HTML-страниц сайта (sitemap-индекс ∪ BFS crawl same-origin href от home).
 
-Потребитель — CLI в `apps/preview/research`.
+Потребитель — CLI в `apps/gwd-capture-cli`.
 
 ## API
 
@@ -42,7 +42,7 @@ await atlas(loadConfig("./config.json", loadMatrix("./matrix.json")), {
 
 Labeler — порт `(input) => labels`. По умолчанию `heuristicLabeler`. Без ключа LLM `atlas()` пишет `labelSource: "heuristic"`. CLI: `npx tsx src/cli.ts atlas`; опционально `ATLAS_LABEL_URL` (HTTP POST).
 
-GWD pack живёт в `apps/preview/research/packs/`, не в `src/core`.
+GWD pack живёт в `apps/gwd-capture-cli/packs/`, не в `src/core`.
 
 ## copy()
 

@@ -1,22 +1,31 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-    formatArea,
-    formatFloors,
-    formatPrice,
-    formatTechnologyBrand,
-} from "@/lib/format";
-import {
+    DETAIL_ALL_PROJECTS,
+    DETAIL_FACADES_HEADING,
+    DETAIL_NAV_BUILT,
+    DETAIL_NAV_FACADES,
+    DETAIL_NAV_PACKAGES,
+    DETAIL_NAV_PLANS,
+    DETAIL_NAV_START,
+    DETAIL_PLANS_LEAD,
+    DETAIL_SIMILAR,
+    DETAIL_START_HEADING,
     LEAD_EYEBROW,
     PROJECT_GALLERY_HEADING,
     RELATED_HOUSES_LEAD,
     SEE_HOUSES,
+    WORKS_EYEBROW,
 } from "@/lib/copy";
-import { BathIcon, BedIcon, RulerIcon, StairsIcon } from "@/ui/icons";
 import { BuiltObjectCard } from "@/widgets/built-object-card/built-object-card";
 import { ProjectDetailGallery } from "./__gallery/project-detail__gallery";
 import { ProjectDetailPlans } from "./__plans/project-detail__plans";
 import { ProjectDetailPackages } from "./__packages/project-detail__packages";
+import { ProjectDetailNav, type DetailNavItem } from "./__nav/project-detail__nav";
+import { ProjectDetailFacts } from "./__facts/project-detail__facts";
+import { ProjectDetailFacades } from "./__facades/project-detail__facades";
+import { ProjectDetailStart } from "./__start/project-detail__start";
+import { getDetailIllustrations } from "./lib/illustrations";
 import type { ProjectDetailProps } from "./project-detail.types";
 
 export function ProjectDetail({
@@ -25,53 +34,51 @@ export function ProjectDetail({
     relatedBuilt,
     leadForm,
     similarCarousel,
+    startVisit,
+    startQuote,
 }: ProjectDetailProps) {
     const renders = project.renders.slice(0, 12);
-    const facts: Array<{
-        icon: React.ReactNode;
-        label: string;
-        value: string;
-    }> = [];
-    if (project.area != null) {
-        facts.push({
-            icon: <RulerIcon className="h-4 w-4" />,
-            label: "Площадь",
-            value: formatArea(project.area),
+    const illustrations = getDetailIllustrations(project.slug);
+    const plans = project.floorPlans.length
+        ? project.floorPlans
+        : illustrations
+          ? [{ floor: illustrations.plan.floor, url: illustrations.plan.src }]
+          : [];
+    const facades = illustrations?.facades ?? [];
+    const nav: DetailNavItem[] = [];
+    if (plans.length > 0) {
+        nav.push({
+            href: "#pd-plans",
+            label: DETAIL_NAV_PLANS,
+            icon: "plans",
         });
     }
-    if (project.floors) {
-        facts.push({
-            icon: <StairsIcon className="h-4 w-4" />,
-            label: "Этажность",
-            value: formatFloors(project.floors),
+    if (facades.length > 0) {
+        nav.push({
+            href: "#pd-facades",
+            label: DETAIL_NAV_FACADES,
+            icon: "facades",
         });
     }
-    if (project.bedrooms != null) {
-        facts.push({
-            icon: <BedIcon className="h-4 w-4" />,
-            label: "Спальни",
-            value: String(project.bedrooms),
+    if (relatedBuilt.length > 0) {
+        nav.push({
+            href: "#pd-built",
+            label: DETAIL_NAV_BUILT,
+            icon: "built",
         });
     }
-    if (project.bathrooms != null) {
-        facts.push({
-            icon: <BathIcon className="h-4 w-4" />,
-            label: "Санузлы",
-            value: String(project.bathrooms),
+    if (project.variants.length > 0) {
+        nav.push({
+            href: "#complectation-section",
+            label: DETAIL_NAV_PACKAGES,
+            icon: "packages",
         });
     }
-    if (project.technologies[0]) {
-        facts.push({
-            icon: null,
-            label: "Материал",
-            value: formatTechnologyBrand(project.technologies[0]),
-        });
-    }
-    if (project.dimensions) {
-        facts.push({
-            icon: null,
-            label: "Габариты",
-            value: project.dimensions,
+    if (startVisit && startQuote) {
+        nav.push({
+            href: "#pd-start",
+            label: DETAIL_NAV_START,
+            icon: "start",
         });
     }
 
@@ -80,68 +87,39 @@ export function ProjectDetail({
             <section data-section="detail-hero">
                 <ProjectDetailGallery project={project} />
             </section>
+            <ProjectDetailNav items={nav} />
+            <ProjectDetailFacts project={project} />
 
-            {facts.length > 0 || project.priceFrom ? (
+            {plans.length > 0 ? (
                 <section
-                    data-section="detail-params"
-                    className="border-b border-ink-150 bg-white"
+                    id="pd-plans"
+                    data-section="detail-plans"
+                    className="border-b border-ink-150 bg-ink-50/30"
+                    data-stub={project.floorPlans.length === 0 ? "true" : undefined}
                 >
-                    <div className="container-page py-7 md:py-9">
-                        {facts.length > 0 ? (
-                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6 md:gap-6">
-                                {facts.map((f) => (
-                                    <div
-                                        key={f.label}
-                                        className="rounded-2xl border border-ink-100 bg-ink-50/50 px-4 py-3.5"
-                                    >
-                                        <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-ink-500">
-                                            {f.icon}
-                                            {f.label}
-                                        </div>
-                                        <div className="mt-1.5 font-display text-xl font-semibold leading-none text-ink-950">
-                                            {f.value}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                    <div className="container-page py-10 md:py-14">
+                        {project.floorPlans.length === 0 ? (
+                            <p className="mb-4 text-sm text-ink-500">
+                                {DETAIL_PLANS_LEAD}
+                            </p>
                         ) : null}
-                        {project.priceFrom ? (
-                            <div className="mt-5 flex flex-wrap items-end justify-between gap-3 border-t border-ink-100 pt-5">
-                                <div>
-                                    <div className="text-xs uppercase tracking-wider text-ink-500">
-                                        под ключ от
-                                    </div>
-                                    <div className="font-display text-price font-bold text-ink-950">
-                                        {formatPrice(project.priceFrom)}
-                                    </div>
-                                </div>
-                                <a
-                                    href="#detail-lead"
-                                    className="btn btn-primary"
-                                >
-                                    Уточнить смету
-                                </a>
-                            </div>
-                        ) : null}
+                        <ProjectDetailPlans project={project} plans={plans} />
                     </div>
                 </section>
             ) : null}
 
-            {project.floorPlans.length > 0 ? (
+            {facades.length > 0 ? (
                 <section
-                    data-section="detail-plans"
-                    className="border-b border-ink-150 bg-ink-50/30"
+                    id="pd-facades"
+                    data-section="detail-facades"
+                    className="border-b border-ink-150 bg-white"
                 >
                     <div className="container-page py-10 md:py-14">
-                        <div className="eyebrow text-accent">Планировка</div>
-                        <h2 className="mt-2 font-display text-h1 text-ink-950">
-                            Планы этажей
+                        <h2 className="font-display text-h1 text-ink-950">
+                            {DETAIL_FACADES_HEADING}
                         </h2>
                         <div className="mt-6">
-                            <ProjectDetailPlans
-                                project={project}
-                                plans={project.floorPlans}
-                            />
+                            <ProjectDetailFacades facades={facades} stub />
                         </div>
                     </div>
                 </section>
@@ -167,6 +145,7 @@ export function ProjectDetail({
                                         src={src}
                                         alt={`${project.displayName} — ${i + 1}`}
                                         fill
+                                        unoptimized={src.startsWith("/media/")}
                                         className="object-cover"
                                         sizes="(min-width:1024px) 33vw, 100vw"
                                     />
@@ -177,25 +156,15 @@ export function ProjectDetail({
                 </section>
             ) : null}
 
-            {project.variants.length > 0 ? (
-                <section
-                    data-section="detail-packages"
-                    className="border-b border-ink-150 bg-ink-50/40"
-                >
-                    <div className="container-page py-12 md:py-16">
-                        <ProjectDetailPackages project={project} />
-                    </div>
-                </section>
-            ) : null}
-
             {relatedBuilt.length > 0 ? (
                 <section
+                    id="pd-built"
                     data-section="detail-built"
                     className="border-b border-ink-150 bg-white"
                 >
                     <div className="container-page py-10 md:py-14">
                         <div className="eyebrow text-accent">
-                            Построенные дома
+                            {WORKS_EYEBROW}
                         </div>
                         <h2 className="mt-2 font-display text-h1 text-ink-950">
                             Похожие дома
@@ -212,6 +181,38 @@ export function ProjectDetail({
                             <Link href="/works" className="btn btn-light">
                                 {SEE_HOUSES}
                             </Link>
+                        </div>
+                    </div>
+                </section>
+            ) : null}
+
+            {project.variants.length > 0 ? (
+                <section
+                    id="complectation-section"
+                    data-section="detail-packages"
+                    className="border-b border-ink-150 bg-ink-50/40"
+                >
+                    <div className="container-page py-12 md:py-16">
+                        <ProjectDetailPackages project={project} />
+                    </div>
+                </section>
+            ) : null}
+
+            {startVisit && startQuote ? (
+                <section
+                    id="pd-start"
+                    data-section="detail-start"
+                    className="border-b border-ink-150 bg-white"
+                >
+                    <div className="container-page py-10 md:py-14">
+                        <h2 className="font-display text-h1 text-ink-950">
+                            {DETAIL_START_HEADING}
+                        </h2>
+                        <div className="mt-6">
+                            <ProjectDetailStart
+                                visit={startVisit}
+                                quote={startQuote}
+                            />
                         </div>
                     </div>
                 </section>
@@ -244,10 +245,14 @@ export function ProjectDetail({
                     className="border-t border-ink-150 bg-white py-12"
                 >
                     <div className="container-page">
-                        <div className="eyebrow text-accent">Ещё проекты</div>
-                        <h2 className="mt-2 font-display text-h1">
-                            Похожие проекты
-                        </h2>
+                        <div className="flex flex-wrap items-end justify-between gap-3">
+                            <h2 className="font-display text-h1">
+                                {DETAIL_SIMILAR}
+                            </h2>
+                            <Link href="/projects" className="text-sm font-semibold text-ink-700 hover:text-ink-950">
+                                {DETAIL_ALL_PROJECTS}
+                            </Link>
+                        </div>
                         <div className="mt-6">{similarCarousel}</div>
                     </div>
                 </section>

@@ -1,14 +1,37 @@
-import projectsJson from "@data/fixtures/projects.normalized.json";
-import objectsJson from "@data/fixtures/built-objects.normalized.json";
-import extrasJson from "@data/fixtures/built-objects.extras.json";
+import projectsJson from "@legacy-data/projects.normalized.json";
+import objectsJson from "@legacy-data/built-objects.normalized.json";
+import extrasJson from "@legacy-data/built-objects.extras.json";
+import showcaseJson from "@data/fixtures/detail-showcase.json";
 import type {
     BuiltObject,
+    CatalogHubPayload,
+    CatalogHubTechCard,
+    CatalogHubTypeCard,
+    CatalogNavPayload,
     EnrichedBuiltObject,
     MergedProject,
+    ProjectClass,
     RawProject,
+    ShowcasePayload,
     Technology,
 } from "@/types/catalog";
 import { settings } from "@/lib/settings";
+import {
+    HUB_CHOOSE,
+    HUB_HEADING,
+    HUB_INDIVIDUAL_LEAD,
+    HUB_INDIVIDUAL_TITLE,
+    HUB_LEAD,
+    HUB_MORE_TITLE,
+    HUB_SERIAL_LEAD,
+    HUB_SERIAL_TITLE,
+    HUB_TECH_LEAD,
+    HUB_TECH_TITLE,
+    HUB_TECHS_HEADING,
+    HUB_WATCH,
+    CATALOG_BATH_TILE,
+    POPULAR_ALL,
+} from "@/lib/copy";
 import {
     buildSubtitle,
     hasUsablePhoto,
@@ -18,6 +41,28 @@ import {
     pickBetterName,
     stripTechFromName,
 } from "@/lib/names";
+import { projectClass, projectIsIndividual } from "@/lib/catalogFilter";
+
+type ShowcaseFile = {
+    filledSlugs: string[];
+    pages: Record<
+        string,
+        {
+            class: ProjectClass;
+            lead: string;
+            about: ShowcasePayload["about"];
+            gallery: string[];
+            plans: ShowcasePayload["plans"];
+            facades: ShowcasePayload["facades"];
+            decor?: ShowcasePayload["decor"];
+            story: ShowcasePayload["story"];
+            priceHike?: ShowcasePayload["priceHike"];
+        }
+    >;
+};
+
+const showcaseFile = showcaseJson as ShowcaseFile;
+const FILLED_SLUGS = new Set(showcaseFile.filledSlugs);
 
 const rawProjects: RawProject[] = projectsJson as RawProject[];
 const rawObjects: BuiltObject[] = objectsJson as BuiltObject[];
@@ -43,6 +88,13 @@ const TECH_ORDER: Technology[] = [
     "sip",
     "fachwerk",
 ];
+
+const HERO_OVERRIDES: Record<string, string> = {
+    reyn: "/media/projects/reyn.jpg",
+    arkada: "/media/projects/arkada.jpg",
+    favor: "/media/projects/favor.jpg",
+    kasl: "/media/projects/kasl.jpg",
+};
 
 const LOCATION_LABELS: Record<string, string> = {
     Yukki: "Юкки",
@@ -83,16 +135,16 @@ function mergeProjects(list: RawProject[]): RawProject[] {
             continue;
         }
         const mergedTechs = Array.from(
-            new Set([...existing.technologies, ...p.technologies]),
+            new Set([...existing.technologies, ...p.technologies])
         );
         const mergedCategories = Array.from(
-            new Set([...existing.categories, ...p.categories]),
+            new Set([...existing.categories, ...p.categories])
         );
         const mergedFeatures = Array.from(
-            new Set([...existing.features, ...p.features]),
+            new Set([...existing.features, ...p.features])
         );
         const seenVariantKey = new Set(
-            existing.variants.map((v) => v.technology),
+            existing.variants.map((v) => v.technology)
         );
         const mergedVariants = [...existing.variants];
         for (const v of p.variants) {
@@ -134,7 +186,7 @@ function mergeProjects(list: RawProject[]): RawProject[] {
         p.variants.sort(
             (a, b) =>
                 TECH_ORDER.indexOf(a.technology) -
-                TECH_ORDER.indexOf(b.technology),
+                TECH_ORDER.indexOf(b.technology)
         );
         return p;
     });
@@ -173,7 +225,10 @@ function enrichProjects(list: RawProject[]): MergedProject[] {
         const priceFrom = prices.length > 0 ? Math.min(...prices) : null;
         const mortgages = variants
             .map((v) => v.mortgageFrom)
-            .filter((n): n is number => Number.isFinite(n as number) && (n as number) > 0);
+            .filter(
+                (n): n is number =>
+                    Number.isFinite(n as number) && (n as number) > 0
+            );
         const mortgageFrom =
             mortgages.length > 0 ? Math.min(...mortgages) : null;
 
@@ -181,23 +236,106 @@ function enrichProjects(list: RawProject[]): MergedProject[] {
         const baseName = multiTech
             ? stripTechFromName(p.name) || p.name
             : p.name;
+        const heroOverride = HERO_OVERRIDES[p.slug];
+        const renders = heroOverride
+            ? [heroOverride, ...p.renders.filter((src) => src !== heroOverride)]
+            : p.renders;
         return {
             ...p,
             variants,
+            renders,
             displayName: humanizeDisplayName(baseName, p.dimensions, p.area),
             subtitle: buildSubtitle(p),
             priceFrom,
             mortgageFrom,
-            heroImage: p.renders[0] ?? "",
+            heroImage: renders[0] ?? "",
             hasTerrace: p.features.includes("terrace"),
+            hasWardrobe: p.categories.includes("doma-s-garderobnoj"),
             warranty: settings.warrantyYears,
-            technologies: variants.map((v) => v.technology),
+            technologies:
+                variants.length > 0
+                    ? variants.map((v) => v.technology)
+                    : p.technologies,
+            projectClass: projectIsIndividual(p) ? "individual" : "serial",
+            detailFilled: false,
         };
     });
 }
 
-const projects: MergedProject[] = enrichProjects(mergeProjects(rawProjects));
+function applyShowcase(list: MergedProject[]): MergedProject[] {
+    return list.map((p) => {
+        const page = showcaseFile.pages[p.slug];
+        const projectClass: ProjectClass =
+            page?.class ?? (projectIsIndividual(p) ? "individual" : "serial");
+        const gallery = page?.gallery?.length ? page.gallery : p.renders;
+        const floorPlans = page?.plans?.length ? page.plans : p.floorPlans;
+        return {
+            ...p,
+            projectClass,
+            detailFilled: FILLED_SLUGS.has(p.slug),
+            renders: gallery,
+            floorPlans,
+            heroImage: gallery[0] ?? p.heroImage,
+        };
+    });
+}
+
+function injectBath(list: MergedProject[]): MergedProject[] {
+    if (list.some((p) => p.slug === "banya-levashovo")) return list;
+    const page = showcaseFile.pages["banya-levashovo"];
+    const raw: RawProject = {
+        slug: "banya-levashovo",
+        name: "Баня в Левашово",
+        dimensions: "6х8",
+        area: 45,
+        bedrooms: null,
+        bathrooms: 2,
+        floors: "1",
+        categories: [],
+        technologies: ["sip"],
+        features: ["terrace"],
+        description: null,
+        renders: page?.gallery ?? [],
+        floorPlans: page?.plans ?? [],
+        variants: [
+            {
+                technology: "sip",
+                slug: "banya-levashovo",
+                priceFrom: 0,
+                priceLow: 0,
+                priceHigh: 0,
+                offerCount: 0,
+                packages: [],
+                mortgageFrom: null,
+                category: "",
+                url: "",
+            },
+        ],
+    };
+    const [bath] = applyShowcase(enrichProjects([raw]));
+    return bath ? [...list, bath] : list;
+}
+
+const projects: MergedProject[] = injectBath(
+    applyShowcase(enrichProjects(mergeProjects(rawProjects))),
+);
 const projectBySlug = new Map(projects.map((p) => [p.slug, p]));
+
+export function getShowcase(slug: string): ShowcasePayload | null {
+    if (!FILLED_SLUGS.has(slug)) return null;
+    const page = showcaseFile.pages[slug];
+    if (!page) return null;
+    return {
+        lead: page.lead,
+        about: page.about,
+        plans: page.plans,
+        facades: page.facades,
+        decor: page.decor ?? [],
+        story: page.story,
+        gallery: page.gallery,
+        priceHike: page.priceHike ?? null,
+    };
+}
 
 function locationLabelFor(location: string | null): string | null {
     if (!location) return null;
@@ -210,11 +348,7 @@ function enrichObjects(list: BuiltObject[]): EnrichedBuiltObject[] {
         const location = o.location;
         const locationLabel =
             locationLabelFor(location) ?? inferLocationFromTitle(o.title);
-        const displayTitle = humanObjectTitle(
-            o.title,
-            locationLabel,
-            o.status,
-        );
+        const displayTitle = humanObjectTitle(o.title, locationLabel, o.status);
 
         const area =
             typeof extra.area === "number" && extra.area > 0
@@ -267,9 +401,7 @@ export function getCatalogProjects(): MergedProject[] {
 }
 
 export function getListedObjects(): EnrichedBuiltObject[] {
-    return objects.filter((o) =>
-        hasUsablePhoto(o.heroImage || o.gallery[0]),
-    );
+    return objects.filter((o) => hasUsablePhoto(o.heroImage || o.gallery[0]));
 }
 
 export function getProject(slug: string): MergedProject | undefined {
@@ -285,13 +417,13 @@ export function getObject(slug: string): EnrichedBuiltObject | undefined {
 }
 
 /**
- * Built objects related for UI on project detail (GWD «Построенные дома» on page).
+ * Built objects related for UI on project detail (GWD photogallery on page).
  * Fixtures have no design FK: match by shared technology, prefer rich galleries.
  * Callers must not claim “built from this project” without FK — label as material match.
  */
 export function getRelatedBuiltObjects(
     projectSlug: string,
-    limit = 6,
+    limit = 6
 ): EnrichedBuiltObject[] {
     const base = getProject(projectSlug);
     if (!base) return [];
@@ -316,14 +448,13 @@ export function getRelatedBuiltObjects(
         .map((x) => x.o);
 }
 
-export function getSimilarProjects(
-    slug: string,
-    limit = 12,
-): MergedProject[] {
+export function getSimilarProjects(slug: string, limit = 12): MergedProject[] {
     const base = getProject(slug);
     if (!base) return [];
     return projects
-        .filter((p) => p.slug !== slug)
+        .filter(
+            (p) => p.slug !== slug && p.projectClass === base.projectClass,
+        )
         .map((p) => {
             let score = 0;
             const areaDelta = Math.abs((p.area ?? 0) - (base.area ?? 0));
@@ -359,5 +490,158 @@ export function getCatalogStats() {
         maxPrice: prices.length ? Math.max(...prices) : 0,
         maxArea: areas.length ? Math.max(...areas) : 0,
         minArea: areas.length ? Math.min(...areas) : 0,
+    };
+}
+
+function uniquePhotos(urls: Array<string | null | undefined>, take: number) {
+    const out: string[] = [];
+    const seen = new Set<string>();
+    for (const url of urls) {
+        if (!hasUsablePhoto(url) || seen.has(url)) continue;
+        seen.add(url);
+        out.push(url);
+        if (out.length >= take) break;
+    }
+    return out;
+}
+
+export function getCatalogHub(): CatalogHubPayload {
+    const listed = getCatalogProjects();
+    const original = listed.filter(projectIsIndividual);
+
+    const types: CatalogHubTypeCard[] = [];
+    const serialImage = listed[0]?.heroImage;
+    if (hasUsablePhoto(serialImage)) {
+        types.push({
+            kind: "serial",
+            title: HUB_SERIAL_TITLE,
+            description: HUB_SERIAL_LEAD,
+            href: "/projects?kind=serial",
+            ctaLabel: HUB_WATCH,
+            image: serialImage,
+        });
+    }
+    if (original.length > 0) {
+        types.push({
+            kind: "individual",
+            title: HUB_INDIVIDUAL_TITLE,
+            description: HUB_INDIVIDUAL_LEAD,
+            href: "/projects?kind=individual",
+            ctaLabel: HUB_WATCH,
+            image: "/media/catalog/individual.jpg",
+        });
+    }
+
+    const allTechs: CatalogHubTechCard[] = [];
+    const usedHeroes = new Set<string>();
+    for (const tech of TECH_ORDER) {
+        const ofTech = listed.filter((p) => p.technologies.includes(tech));
+        const photos = uniquePhotos(
+            ofTech.map((p) => p.heroImage || p.renders[0]),
+            24
+        );
+        if (photos.length === 0) continue;
+        const unused = photos.filter((url) => !usedHeroes.has(url));
+        const image = unused[0] ?? photos[0];
+        usedHeroes.add(image);
+        allTechs.push({
+            tech,
+            title: HUB_TECH_TITLE[tech],
+            description: HUB_TECH_LEAD[tech],
+            href: `/projects?tech=${tech}`,
+            image,
+            thumbs: photos.filter((url) => url !== image).slice(0, 3),
+            count: ofTech.length,
+        });
+    }
+
+    const techs = allTechs.slice(0, 4);
+    const moreItems = allTechs.slice(4);
+
+    return {
+        heading: HUB_HEADING,
+        lead: HUB_LEAD,
+        chooseHref: "/projects",
+        chooseLabel: HUB_CHOOSE,
+        techsHeading: HUB_TECHS_HEADING,
+        types,
+        techs,
+        more:
+            moreItems.length > 0
+                ? { title: HUB_MORE_TITLE, items: moreItems }
+                : null,
+    };
+}
+
+function navHero(
+    listed: MergedProject[],
+    test: (p: MergedProject) => boolean,
+): string {
+    const filled = listed.find(
+        (p) => p.detailFilled && test(p) && hasUsablePhoto(p.heroImage),
+    );
+    if (filled) return filled.heroImage;
+    const any = listed.find((p) => test(p) && hasUsablePhoto(p.heroImage));
+    return any?.heroImage ?? "";
+}
+
+export function getCatalogNav(): CatalogNavPayload {
+    const listed = getCatalogProjects();
+    const serialImage = navHero(listed, (p) => projectClass(p) === "serial");
+    const individualImage = navHero(
+        listed,
+        (p) => projectClass(p) === "individual",
+    );
+    const bathImage = navHero(listed, (p) => projectClass(p) === "bath");
+    const types = [
+        {
+            id: "serial",
+            title: HUB_SERIAL_TITLE,
+            href: "/projects?kind=serial",
+            image: serialImage || undefined,
+        },
+        {
+            id: "individual",
+            title: HUB_INDIVIDUAL_TITLE,
+            href: "/projects?kind=individual",
+            image: individualImage || undefined,
+        },
+    ];
+    const tileTechs: Technology[] = ["gas_concrete", "brick", "frame"];
+    const tiles = [
+        ...tileTechs.flatMap((tech) => {
+            const image = navHero(listed, (p) =>
+                p.technologies.includes(tech),
+            );
+            if (!image) return [];
+            return [
+                {
+                    id: tech,
+                    title: HUB_TECH_TITLE[tech],
+                    href: `/projects?tech=${tech}`,
+                    image,
+                },
+            ];
+        }),
+        ...(bathImage
+            ? [
+                  {
+                      id: "bath",
+                      title: CATALOG_BATH_TILE,
+                      href: "/projects?kind=bath",
+                      image: bathImage,
+                  },
+              ]
+            : []),
+    ];
+    return {
+        all: {
+            id: "all",
+            title: POPULAR_ALL,
+            href: "/projects",
+        },
+        types,
+        tiles,
+        ctaLabel: HUB_WATCH,
     };
 }

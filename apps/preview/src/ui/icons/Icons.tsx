@@ -20,6 +20,18 @@ export function TelegramIcon(props: IconProps) {
     );
 }
 
+export function MaxIcon(props: IconProps) {
+    return (
+        <svg viewBox="0 0 21 21" fill="currentColor" aria-hidden {...props}>
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M10.2592 19.9429C8.28796 19.9429 7.37188 19.6551 5.77953 18.504C4.7723 19.799 1.58279 20.8111 1.44368 19.0796C1.44368 17.7798 1.1559 16.6815 0.829751 15.4824C0.441262 14.0051 0 12.36 0 9.97627C0 4.28307 4.67159 0 10.2065 0C15.7462 0 20.0868 4.49411 20.0868 10.029C20.1054 15.4783 15.7085 19.9139 10.2592 19.9429ZM10.3408 4.92097C7.64528 4.78189 5.5445 6.64765 5.07927 9.57338C4.69556 11.9955 5.37664 14.9452 5.95698 15.0987C6.23517 15.1658 6.93543 14.5999 7.37188 14.1634C8.0936 14.662 8.93403 14.9614 9.80841 15.0315C12.6014 15.1659 14.9879 13.0396 15.1754 10.2497C15.2846 7.45383 13.1342 5.08578 10.3408 4.92578V4.92097Z"
+            />
+        </svg>
+    );
+}
+
 export function WhatsappIcon(props: IconProps) {
     return (
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
@@ -56,6 +68,22 @@ export function ChevronRightIcon(props: IconProps) {
     return (
         <svg {...stroke} {...props}>
             <polyline points="9 18 15 12 9 6" />
+        </svg>
+    );
+}
+
+export function ChevronDownIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <polyline points="6 9 12 15 18 9" />
+        </svg>
+    );
+}
+
+export function ArrowUpIcon(props: IconProps) {
+    return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+            <path d="M18.922 11.328a1.05 1.05 0 01-1.344 1.344L13.2 8.294V18.5a.95.95 0 11-1.9 0V8.294L6.922 12.672a1.05 1.05 0 11-1.344-1.344l6-6a.95.95 0 011.344 0z" />
         </svg>
     );
 }
@@ -131,6 +159,60 @@ export function HouseIcon(props: IconProps) {
     );
 }
 
+export function SizeIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <rect x="5" y="7" width="14" height="10" rx="1" />
+            <path d="M5 4h14M5 20h14" />
+        </svg>
+    );
+}
+
+export function AreaIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <rect x="4" y="5" width="16" height="14" rx="1.5" />
+            <path d="M4 14h16" />
+        </svg>
+    );
+}
+
+export function DashedAreaIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <rect
+                x="5"
+                y="5"
+                width="14"
+                height="14"
+                rx="2"
+                strokeDasharray="2.4 2.2"
+            />
+        </svg>
+    );
+}
+
+export function WardrobeIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <rect x="5" y="3" width="14" height="18" rx="1.2" />
+            <path d="M12 3v18" />
+            <circle cx="10" cy="12" r="0.7" fill="currentColor" stroke="none" />
+            <circle cx="14" cy="12" r="0.7" fill="currentColor" stroke="none" />
+        </svg>
+    );
+}
+
+export function TerraceIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <path d="M12 3c5 0 8.5 2.4 8.5 3.6-3.2 1.2-13.8 1.2-17 0C3.5 5.4 7 3 12 3z" />
+            <path d="M12 6.6V20" />
+            <path d="M7 20h10" />
+        </svg>
+    );
+}
+
 export function RulerIcon(props: IconProps) {
     return (
         <svg {...stroke} {...props}>
@@ -155,6 +237,62 @@ export function BathIcon(props: IconProps) {
             <path d="M3 12h18v3a4 4 0 01-4 4H7a4 4 0 01-4-4z" />
             <path d="M6 12V6a2 2 0 012-2 2 2 0 012 2" />
             <path d="M3 19l-1 3M21 19l1 3" />
+        </svg>
+    );
+}
+
+export function InfoIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 11v5" />
+            <circle cx="12" cy="8" r="0.8" fill="currentColor" stroke="none" />
+        </svg>
+    );
+}
+
+export function LayoutPlanIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <rect x="4" y="4" width="16" height="16" rx="1.5" />
+            <path d="M4 14h16M12 14v6M12 4v6M8 4v4" />
+        </svg>
+    );
+}
+
+export function PercentIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <circle cx="7.5" cy="8" r="2.15" />
+            <circle cx="16.5" cy="16" r="2.15" />
+            <path d="M16.5 6.5L7.5 17.5" />
+        </svg>
+    );
+}
+
+export function SparklesIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <path d="M12 3l1.2 4.2L17 8.5l-3.8 1.3L12 14l-1.2-4.2L7 8.5l3.8-1.3z" />
+            <path d="M18.5 14l.6 2 2 .6-2 .6-.6 2-.6-2-2-.6 2-.6z" />
+        </svg>
+    );
+}
+
+export function BuiltHousesIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <path d="M3 12.5L9 7l6 5.5V20H3z" />
+            <path d="M12 11.5L18 6l4 5V20h-6" />
+        </svg>
+    );
+}
+
+export function ArrowUpRightIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <path d="M7 17L17 7" />
+            <path d="M9 7h8v8" />
         </svg>
     );
 }
@@ -192,6 +330,49 @@ export function GridViewIcon(props: IconProps) {
             <rect x="14" y="3" width="7" height="7" rx="1" />
             <rect x="3" y="14" width="7" height="7" rx="1" />
             <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+    );
+}
+
+export function HeartIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <path d="M12 20s-8-5.8-8-10.4A4.6 4.6 0 0112 6a4.6 4.6 0 018 3.6C20 14.2 12 20 12 20z" />
+        </svg>
+    );
+}
+
+export function HeartSolidIcon(props: IconProps) {
+    return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+            <path d="M12 21S3 14.2 3 8.8A5 5 0 0112 5.5 5 5 0 0121 8.8C21 14.2 12 21 12 21z" />
+        </svg>
+    );
+}
+
+export function ThumbUpIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <path d="M7 22H4a2 2 0 01-2-2v-9a2 2 0 012-2h3m5-6l3 6h5.2a2 2 0 011.95 2.45l-1.5 6A2 2 0 0018.7 21H9a2 2 0 01-2-2V9.6z" />
+        </svg>
+    );
+}
+
+export function ThumbUpSolidIcon(props: IconProps) {
+    return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+            <path d="M14.6 8.4V4.8A2.8 2.8 0 0011.8 2l-4 8.2V21h10.7a2.4 2.4 0 002.35-1.9l1.5-7.4A2.4 2.4 0 0020 8.4h-5.4zM2 10h4v11H2z" />
+        </svg>
+    );
+}
+
+export function TrashIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+            <line x1="10" y1="11" x2="10" y2="17" />
+            <line x1="14" y1="11" x2="14" y2="17" />
         </svg>
     );
 }

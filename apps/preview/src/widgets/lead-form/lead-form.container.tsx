@@ -3,19 +3,21 @@
 import { useState } from "react";
 import { submitLead } from "@/actions/leads/submit-lead";
 import { LeadForm } from "./lead-form";
-import type { LeadFormVariant } from "./lead-form.types";
+import type { LeadFormLayout, LeadFormVariant } from "./lead-form.types";
 
 export function LeadFormContainer({
     source,
     prefill,
     ctaLabel = "Перезвоните мне",
     variant = "light",
+    layout = "full",
     inline = false,
 }: {
     source: string;
     prefill?: string;
     ctaLabel?: string;
     variant?: LeadFormVariant;
+    layout?: LeadFormLayout;
     inline?: boolean;
 }) {
     const [name, setName] = useState("");
@@ -41,6 +43,7 @@ export function LeadFormContainer({
             prefill={prefill}
             ctaLabel={ctaLabel}
             variant={variant}
+            layout={layout}
             inline={inline}
             values={{ name, phone, consent }}
             sent={sent}
