@@ -6,6 +6,7 @@ import { CatalogConsultContainer } from "@/widgets/catalog-consult/catalog-consu
 import { CatalogPromoContainer } from "@/widgets/catalog-promo/catalog-promo.container";
 import { ProjectsCatalog } from "@/widgets/projects-catalog/projects-catalog";
 import { ProjectsCatalogContainer } from "@/widgets/projects-catalog/projects-catalog.container";
+import catalogStyles from "@/widgets/projects-catalog/projects-catalog.module.css";
 
 export const metadata = {
     title: `Проекты · Новый Коттедж`,
@@ -19,7 +20,7 @@ export default async function ProjectsPage() {
             filters={
                 <Suspense
                     fallback={
-                        <div className="py-12 text-center text-ink-500">
+                        <div className={catalogStyles.loading}>
                             {CATALOG_LOADING}
                         </div>
                     }

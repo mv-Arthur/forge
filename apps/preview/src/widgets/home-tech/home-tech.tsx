@@ -4,6 +4,7 @@ import { PillTabs } from "@/ui/pill-tabs";
 import { projectsWord } from "@/lib/format";
 import type { Technology } from "@/types/catalog";
 import type { HomeTechViewProps } from "./home-tech.types";
+import { Container } from "@/ui/container";
 import styles from "./home-tech.module.css";
 
 export function HomeTech({
@@ -18,8 +19,8 @@ export function HomeTech({
     if (!slide) return null;
 
     return (
-        <section data-section="tech" className={`section ${styles.root}`}>
-            <div className={`container-page ${styles.grid}`}>
+        <section data-section="tech" className={styles.root}>
+            <Container className={styles.grid}>
                 <div className={styles.intro}>
                     <h2 className={styles.title}>{heading}</h2>
                     <div className={styles.tabsWrap}>
@@ -93,7 +94,7 @@ export function HomeTech({
                         </div>
                     </div>
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

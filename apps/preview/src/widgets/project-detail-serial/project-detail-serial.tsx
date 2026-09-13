@@ -29,6 +29,8 @@ import { ProjectDetailPlans } from "@/widgets/project-detail/__plans/project-det
 import { ProjectDetailStart } from "@/widgets/project-detail/__start/project-detail__start";
 import { ProjectDetailSerialHero } from "./__hero/project-detail-serial__hero";
 import type { ProjectDetailSerialProps } from "./project-detail-serial.types";
+import { Container } from "@/ui/container";
+import layout from "../project-detail/project-detail.module.css";
 
 export function ProjectDetailSerial({
     project,
@@ -91,7 +93,7 @@ export function ProjectDetailSerial({
     }
 
     return (
-        <main className="pb-16">
+        <main className={layout.main}>
             <ProjectDetailSerialHero
                 project={project}
                 images={images}
@@ -105,22 +107,15 @@ export function ProjectDetailSerial({
             <ProjectDetailHike priceHike={showcase.priceHike} />
 
             {showcase.about.length > 0 ? (
-                <section
-                    data-section="detail-about"
-                    className="border-b border-ink-150 bg-white"
-                >
-                    <div className="container-page grid gap-8 py-10 md:grid-cols-2 md:py-14">
+                <section data-section="detail-about" className={layout.band}>
+                    <Container className={layout.aboutGrid}>
                         {showcase.about.map((block) => (
                             <article key={block.title}>
-                                <h2 className="font-display text-h1 text-ink-950">
-                                    {block.title}
-                                </h2>
-                                <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-600">
-                                    {block.text}
-                                </p>
+                                <h2 className={layout.heading}>{block.title}</h2>
+                                <p className={layout.aboutText}>{block.text}</p>
                             </article>
                         ))}
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
@@ -128,16 +123,16 @@ export function ProjectDetailSerial({
                 <section
                     id="pd-plans"
                     data-section="detail-plans"
-                    className="border-b border-ink-150 bg-ink-50/30"
+                    className={layout.bandMuted}
                     data-stub={
                         plans.some((p) => p.url.includes("/media/detail"))
                             ? "true"
                             : undefined
                     }
                 >
-                    <div className="container-page py-10 md:py-14">
+                    <Container className={layout.pad}>
                         <ProjectDetailPlans project={project} plans={plans} />
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
@@ -145,18 +140,18 @@ export function ProjectDetailSerial({
                 <section
                     id="pd-facades"
                     data-section="detail-facades"
-                    className="border-b border-ink-150 bg-white"
+                    className={layout.band}
                     data-stub={
                         facades.some((f) => f.src.includes("/media/detail"))
                             ? "true"
                             : undefined
                     }
                 >
-                    <div className="container-page py-10 md:py-14">
-                        <h2 className="font-display text-h1 text-ink-950">
+                    <Container className={layout.pad}>
+                        <h2 className={layout.heading}>
                             {DETAIL_FACADES_HEADING}
                         </h2>
-                        <div className="mt-6">
+                        <div className={layout.block}>
                             <ProjectDetailFacades
                                 facades={facades}
                                 stub={facades.some((f) =>
@@ -164,7 +159,7 @@ export function ProjectDetailSerial({
                                 )}
                             />
                         </div>
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
@@ -172,19 +167,17 @@ export function ProjectDetailSerial({
                 <section
                     id="pd-decor"
                     data-section="detail-decor"
-                    className="border-b border-ink-150 bg-ink-50/30"
+                    className={layout.bandMuted}
                 >
-                    <div className="container-page py-10 md:py-14">
-                        <h2 className="font-display text-h1 text-ink-950">
+                    <Container className={layout.pad}>
+                        <h2 className={layout.heading}>
                             {DETAIL_DECOR_HEADING}
                         </h2>
-                        <p className="mt-2 max-w-2xl text-sm text-ink-500">
-                            {DETAIL_DECOR_LEAD}
-                        </p>
-                        <div className="mt-6">
+                        <p className={layout.lead}>{DETAIL_DECOR_LEAD}</p>
+                        <div className={layout.block}>
                             <ProjectDetailDecor items={decor} />
                         </div>
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
@@ -192,29 +185,27 @@ export function ProjectDetailSerial({
                 <section
                     id="pd-built"
                     data-section="detail-built"
-                    className="border-b border-ink-150 bg-white"
+                    className={layout.band}
                 >
-                    <div className="container-page py-10 md:py-14">
-                        <div className="eyebrow text-accent">
+                    <Container className={layout.pad}>
+                        <div className={`eyebrow ${layout.eyebrow}`}>
                             {WORKS_EYEBROW}
                         </div>
-                        <h2 className="mt-2 font-display text-h1 text-ink-950">
+                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
                             Похожие дома
                         </h2>
-                        <p className="mt-2 max-w-2xl text-sm text-ink-500">
-                            {RELATED_HOUSES_LEAD}
-                        </p>
-                        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                        <p className={layout.lead}>{RELATED_HOUSES_LEAD}</p>
+                        <div className={layout.cards}>
                             {relatedBuilt.map((o) => (
                                 <BuiltObjectCard key={o.slug} object={o} />
                             ))}
                         </div>
-                        <div className="mt-6">
+                        <div className={layout.block}>
                             <Link href="/works" className="btn btn-light">
                                 {SEE_HOUSES}
                             </Link>
                         </div>
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
@@ -222,11 +213,11 @@ export function ProjectDetailSerial({
                 <section
                     id="complectation-section"
                     data-section="detail-packages"
-                    className="border-b border-ink-150 bg-ink-50/40"
+                    className={layout.bandSoft}
                 >
-                    <div className="container-page py-12 md:py-16">
+                    <Container className={layout.padLg}>
                         <ProjectDetailPackages project={project} />
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
@@ -234,62 +225,54 @@ export function ProjectDetailSerial({
                 <section
                     id="pd-start"
                     data-section="detail-start"
-                    className="border-b border-ink-150 bg-white"
+                    className={layout.band}
                 >
-                    <div className="container-page py-10 md:py-14">
-                        <h2 className="font-display text-h1 text-ink-950">
+                    <Container className={layout.pad}>
+                        <h2 className={layout.heading}>
                             {DETAIL_START_HEADING}
                         </h2>
-                        <div className="mt-6">
+                        <div className={layout.block}>
                             <ProjectDetailStart
                                 visit={startVisit}
                                 quote={startQuote}
                             />
                         </div>
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
             <section
                 id="detail-lead"
                 data-section="detail-lead"
-                className="bg-ink-50/40"
+                className={layout.leadBand}
             >
-                <div className="container-page grid gap-10 py-12 md:grid-cols-2 md:py-16">
+                <Container className={layout.leadGrid}>
                     <div>
-                        <div className="eyebrow text-accent">{LEAD_EYEBROW}</div>
-                        <h2 className="mt-2 font-display text-h1 text-ink-950">
+                        <div className={`eyebrow ${layout.eyebrow}`}>
+                            {LEAD_EYEBROW}
+                        </div>
+                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
                             Уточнить смету по этому проекту
                         </h2>
-                        <p className="mt-3 text-sm text-ink-500">
+                        <p className={layout.lead}>
                             Перезвоним по комплектации и срокам.
                         </p>
                     </div>
-                    <div className="rounded-2xl border border-ink-150 bg-white p-5 md:p-6">
-                        {leadForm}
-                    </div>
-                </div>
+                    <div className={layout.leadBox}>{leadForm}</div>
+                </Container>
             </section>
 
             {similar.length > 0 ? (
-                <section
-                    data-section="detail-similar"
-                    className="border-t border-ink-150 bg-white py-12"
-                >
-                    <div className="container-page">
-                        <div className="flex flex-wrap items-end justify-between gap-3">
-                            <h2 className="font-display text-h1">
-                                {DETAIL_SIMILAR}
-                            </h2>
-                            <Link
-                                href="/projects"
-                                className="text-sm font-semibold text-ink-700 hover:text-ink-950"
-                            >
+                <section data-section="detail-similar" className={layout.similar}>
+                    <Container>
+                        <div className={layout.similarHead}>
+                            <h2 className={layout.heading}>{DETAIL_SIMILAR}</h2>
+                            <Link href="/projects" className={layout.similarAll}>
                                 {DETAIL_ALL_PROJECTS}
                             </Link>
                         </div>
-                        <div className="mt-6">{similarCarousel}</div>
-                    </div>
+                        <div className={layout.block}>{similarCarousel}</div>
+                    </Container>
                 </section>
             ) : null}
         </main>

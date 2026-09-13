@@ -3,6 +3,7 @@
 import { useEffect, useId, useState } from "react";
 import { submitLead } from "@/actions/leads/submit-lead";
 import { LeadForm } from "@/widgets/lead-form/lead-form";
+import styles from "./visit-launcher.module.css";
 
 export function VisitLauncherContainer({
     buttonClassName = "btn btn-primary btn-lg",
@@ -55,27 +56,24 @@ export function VisitLauncherContainer({
             </button>
             {open ? (
                 <div
-                    className="fixed inset-0 z-[80] flex items-end justify-center p-0 sm:items-center sm:p-6"
+                    className={styles.overlay}
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby={titleId}
                 >
                     <button
                         type="button"
-                        className="absolute inset-0 bg-ink-950/50 backdrop-blur-[2px]"
+                        className={styles.backdrop}
                         aria-label="Закрыть"
                         onClick={() => setOpen(false)}
                     />
-                    <div className="relative z-10 w-full max-w-md rounded-t-2xl border border-ink-150 bg-white p-6 shadow-lift sm:rounded-2xl md:p-8">
-                        <div className="mb-4 flex items-start justify-between gap-3">
+                    <div className={styles.sheet}>
+                        <div className={styles.head}>
                             <div>
-                                <h2
-                                    id={titleId}
-                                    className="font-display text-2xl font-bold text-ink-950"
-                                >
+                                <h2 id={titleId} className={styles.title}>
                                     Запись на просмотр
                                 </h2>
-                                <p className="mt-1 text-sm text-ink-500">
+                                <p className={styles.lead}>
                                     Около часа. Покажем дом и ответим по срокам
                                     и смете.
                                 </p>
@@ -83,7 +81,7 @@ export function VisitLauncherContainer({
                             <button
                                 type="button"
                                 onClick={() => setOpen(false)}
-                                className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full border border-ink-150 text-ink-600 hover:border-ink-900 hover:text-ink-950"
+                                className={styles.close}
                                 aria-label="Закрыть"
                             >
                                 ×

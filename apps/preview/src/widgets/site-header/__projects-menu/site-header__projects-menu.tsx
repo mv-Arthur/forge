@@ -59,7 +59,7 @@ export function SiteHeaderProjectsMenu({
                         </span>
                     </span>
                     <span className={styles.icon}>
-                        <HouseIcon className="h-5 w-5" />
+                        <HouseIcon className={styles.iconSvg} />
                     </span>
                 </Link>
                 {nav.types.map((card) => (

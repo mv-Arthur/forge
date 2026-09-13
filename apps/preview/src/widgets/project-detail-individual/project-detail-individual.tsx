@@ -16,6 +16,8 @@ import { BuiltObjectCard } from "@/widgets/built-object-card/built-object-card";
 import { ProjectDetailIndividualHero } from "./__hero/project-detail-individual__hero";
 import { ProjectDetailIndividualStory } from "./__story/project-detail-individual__story";
 import type { ProjectDetailIndividualProps } from "./project-detail-individual.types";
+import { Container } from "@/ui/container";
+import layout from "../project-detail/project-detail.module.css";
 
 export function ProjectDetailIndividual({
     project,
@@ -31,7 +33,7 @@ export function ProjectDetailIndividual({
     const bath = project.projectClass === "bath";
 
     return (
-        <main className="pb-16">
+        <main className={layout.main}>
             <ProjectDetailIndividualHero
                 project={project}
                 images={images}
@@ -39,22 +41,15 @@ export function ProjectDetailIndividual({
             />
 
             {showcase.about.length > 0 ? (
-                <section
-                    data-section="detail-about"
-                    className="border-b border-ink-150 bg-white"
-                >
-                    <div className="container-page grid gap-8 py-10 md:grid-cols-2 md:py-14">
+                <section data-section="detail-about" className={layout.band}>
+                    <Container className={layout.aboutGrid}>
                         {showcase.about.map((block) => (
                             <article key={block.title}>
-                                <h2 className="font-display text-h1 text-ink-950">
-                                    {block.title}
-                                </h2>
-                                <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-600">
-                                    {block.text}
-                                </p>
+                                <h2 className={layout.heading}>{block.title}</h2>
+                                <p className={layout.aboutText}>{block.text}</p>
                             </article>
                         ))}
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
@@ -65,94 +60,74 @@ export function ProjectDetailIndividual({
                 />
             ) : null}
 
-            <section
-                data-section="detail-layout-cta"
-                className="border-b border-ink-150 bg-ink-50/40"
-            >
-                <div className="container-page flex flex-wrap items-end justify-between gap-6 py-10 md:py-14">
-                    <div className="max-w-xl">
-                        <h2 className="font-display text-h1 text-ink-950">
-                            {DETAIL_LAYOUT_TITLE}
-                        </h2>
-                        <p className="mt-3 text-sm text-ink-600">
-                            {DETAIL_LAYOUT_LEAD}
-                        </p>
+            <section data-section="detail-layout-cta" className={layout.bandSoft}>
+                <Container className={layout.layoutCta}>
+                    <div>
+                        <h2 className={layout.heading}>{DETAIL_LAYOUT_TITLE}</h2>
+                        <p className={layout.aboutText}>{DETAIL_LAYOUT_LEAD}</p>
                     </div>
                     <a href="#detail-lead" className="btn btn-primary">
                         {DETAIL_LAYOUT_CTA}
                     </a>
-                </div>
+                </Container>
             </section>
 
             {!bath && relatedBuilt.length > 0 ? (
-                <section
-                    data-section="detail-related"
-                    className="border-b border-ink-150 bg-white"
-                >
-                    <div className="container-page py-10 md:py-14">
-                        <div className="eyebrow text-accent">
+                <section data-section="detail-related" className={layout.band}>
+                    <Container className={layout.pad}>
+                        <div className={`eyebrow ${layout.eyebrow}`}>
                             {WORKS_EYEBROW}
                         </div>
-                        <h2 className="mt-2 font-display text-h1 text-ink-950">
+                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
                             Смотрите также
                         </h2>
-                        <p className="mt-2 max-w-2xl text-sm text-ink-500">
-                            {RELATED_HOUSES_LEAD}
-                        </p>
-                        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                        <p className={layout.lead}>{RELATED_HOUSES_LEAD}</p>
+                        <div className={layout.cards}>
                             {relatedBuilt.map((o) => (
                                 <BuiltObjectCard key={o.slug} object={o} />
                             ))}
                         </div>
-                        <div className="mt-6">
+                        <div className={layout.block}>
                             <Link href="/works" className="btn btn-light">
                                 {SEE_HOUSES}
                             </Link>
                         </div>
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
             <section
                 id="detail-lead"
                 data-section="detail-lead"
-                className="bg-white"
+                className={layout.leadBandWhite}
             >
-                <div className="container-page grid gap-10 py-12 md:grid-cols-2 md:py-16">
+                <Container className={layout.leadGrid}>
                     <div>
-                        <div className="eyebrow text-accent">{LEAD_EYEBROW}</div>
-                        <h2 className="mt-2 font-display text-h1 text-ink-950">
+                        <div className={`eyebrow ${layout.eyebrow}`}>
+                            {LEAD_EYEBROW}
+                        </div>
+                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
                             {bath ? DETAIL_LIKED_BATH : DETAIL_LIKED_HOUSE}
                         </h2>
-                        <p className="mt-3 text-sm text-ink-500">
+                        <p className={layout.lead}>
                             Перезвоним по комплектации и срокам.
                         </p>
                     </div>
-                    <div className="rounded-2xl border border-ink-150 bg-ink-50/50 p-5 md:p-6">
-                        {leadForm}
-                    </div>
-                </div>
+                    <div className={layout.leadBoxSoft}>{leadForm}</div>
+                </Container>
             </section>
 
             {similar.length > 0 ? (
-                <section
-                    data-section="detail-similar"
-                    className="border-t border-ink-150 bg-white py-12"
-                >
-                    <div className="container-page">
-                        <div className="flex flex-wrap items-end justify-between gap-3">
-                            <h2 className="font-display text-h1">
-                                {DETAIL_SIMILAR}
-                            </h2>
-                            <Link
-                                href="/projects"
-                                className="text-sm font-semibold text-ink-700 hover:text-ink-950"
-                            >
+                <section data-section="detail-similar" className={layout.similar}>
+                    <Container>
+                        <div className={layout.similarHead}>
+                            <h2 className={layout.heading}>{DETAIL_SIMILAR}</h2>
+                            <Link href="/projects" className={layout.similarAll}>
                                 {DETAIL_ALL_PROJECTS}
                             </Link>
                         </div>
-                        <div className="mt-6">{similarCarousel}</div>
-                    </div>
+                        <div className={layout.block}>{similarCarousel}</div>
+                    </Container>
                 </section>
             ) : null}
         </main>

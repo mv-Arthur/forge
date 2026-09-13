@@ -1,14 +1,13 @@
 import type { ReactNode } from "react";
 import { Breadcrumb } from "@/ui/breadcrumb";
+import { Container } from "@/ui/container";
+import styles from "./projects-catalog.module.css";
 
 export function ProjectsCatalog({ filters }: { filters: ReactNode }) {
     return (
         <main>
-            <section
-                data-section="catalog-header"
-                className="bg-white"
-            >
-                <div className="container-page">
+            <section data-section="catalog-header" className={styles.header}>
+                <Container>
                     <h1 className="sr-only">Проекты</h1>
                     <Breadcrumb
                         items={[
@@ -16,15 +15,15 @@ export function ProjectsCatalog({ filters }: { filters: ReactNode }) {
                             { label: "Проекты" },
                         ]}
                     />
-                </div>
+                </Container>
             </section>
 
             <section
                 data-section="catalog-grid"
                 id="catalog"
-                className="bg-white pb-10"
+                className={styles.grid}
             >
-                <div className="container-page pt-8">{filters}</div>
+                <Container className={styles.filters}>{filters}</Container>
             </section>
         </main>
     );

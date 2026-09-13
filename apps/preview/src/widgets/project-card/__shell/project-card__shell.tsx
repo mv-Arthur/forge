@@ -117,7 +117,7 @@ export function ProjectCardShell({
                     priority={priority && slide === 0}
                 />
             ) : (
-                <div className="grid h-full place-items-center text-ink-500">
+                <div className={styles.empty}>
                     нет фото
                 </div>
             )}

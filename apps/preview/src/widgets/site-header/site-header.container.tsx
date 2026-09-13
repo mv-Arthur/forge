@@ -139,7 +139,7 @@ export function SiteHeaderContainer({
         <header
             ref={stickyRef}
             data-section="site-header"
-            className="sticky top-0 z-50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90"
+            className={navStyles.sticky}
         >
             <div
                 className={`${navStyles.bar} ${scrolled ? navStyles.barScrolled : ""}`}
@@ -155,7 +155,7 @@ export function SiteHeaderContainer({
                             alt="Новый Коттедж"
                             width={220}
                             height={48}
-                            className="h-10 w-auto md:h-11"
+                            className={navStyles.logoImg}
                             priority
                         />
                     </Link>
@@ -228,7 +228,7 @@ export function SiteHeaderContainer({
                             className={navStyles.iconBtn}
                             aria-label="Позвонить"
                         >
-                            <PhoneIcon className="h-5 w-5" />
+                            <PhoneIcon className={navStyles.icon} />
                         </a>
                         <button
                             type="button"
@@ -238,9 +238,9 @@ export function SiteHeaderContainer({
                             onClick={() => setMobileOpen((v) => !v)}
                         >
                             {mobileOpen ? (
-                                <CloseIcon className="h-5 w-5" />
+                                <CloseIcon className={navStyles.icon} />
                             ) : (
-                                <MenuIcon className="h-5 w-5" />
+                                <MenuIcon className={navStyles.icon} />
                             )}
                         </button>
                     </div>
@@ -265,22 +265,22 @@ export function SiteHeaderContainer({
             {mounted && mobileOpen
                 ? createPortal(
                       <div
-                          className="fixed inset-0 z-[80] md:hidden"
+                          className={navStyles.overlay}
                           data-mobile-menu
                       >
                           <button
                               type="button"
                               data-mobile-menu-backdrop
-                              className="absolute inset-0 bg-ink-950/55 backdrop-blur-[2px]"
+                              className={navStyles.backdrop}
                               aria-label="Закрыть меню"
                               onClick={() => setMobileOpen(false)}
                           />
                           <div
                               data-mobile-menu-sheet
-                              className="absolute inset-y-0 right-0 flex w-[min(100%,22rem)] max-w-[86vw] flex-col bg-white shadow-lift"
+                              className={navStyles.sheet}
                           >
-                              <div className="flex h-16 shrink-0 items-center justify-between border-b border-ink-150 px-4">
-                                  <span className="font-display text-lg font-semibold text-ink-950">
+                              <div className={navStyles.sheetHead}>
+                                  <span className={navStyles.sheetTitle}>
                                       Меню
                                   </span>
                                   <button
@@ -289,15 +289,15 @@ export function SiteHeaderContainer({
                                       aria-label="Закрыть панель"
                                       onClick={() => setMobileOpen(false)}
                                   >
-                                      <CloseIcon className="h-5 w-5" />
+                                      <CloseIcon className={navStyles.icon} />
                                   </button>
                               </div>
-                              <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4">
+                              <nav className={navStyles.sheetNav}>
                                   {NAV.map((item) => (
                                       <div key={item.href}>
                                           <Link
                                               href={item.href}
-                                              className="rounded-xl px-3 py-3.5 text-base font-semibold text-ink-950 hover:bg-ink-50"
+                                              className={navStyles.sheetLink}
                                               onClick={() =>
                                                   setMobileOpen(false)
                                               }
@@ -305,7 +305,7 @@ export function SiteHeaderContainer({
                                               {item.label}
                                           </Link>
                                           {item.href === "/catalog" ? (
-                                              <div className="mb-2 ml-3 flex flex-col border-l border-ink-150 pl-3">
+                                              <div className={navStyles.sheetSub}>
                                                   {[
                                                       catalogNav.all,
                                                       ...catalogNav.types,
@@ -314,7 +314,9 @@ export function SiteHeaderContainer({
                                                       <Link
                                                           key={card.id}
                                                           href={card.href}
-                                                          className="rounded-lg px-2 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50 hover:text-ink-950"
+                                                          className={
+                                                              navStyles.sheetSubLink
+                                                          }
                                                           onClick={() =>
                                                               setMobileOpen(
                                                                   false,
@@ -330,13 +332,13 @@ export function SiteHeaderContainer({
                                   ))}
                                   <a
                                       href={`tel:${settings.phoneClean}`}
-                                      className="rounded-xl px-3 py-3.5 text-base font-semibold text-ink-950 hover:bg-ink-50"
+                                      className={navStyles.sheetLink}
                                   >
                                       {settings.phone}
                                   </a>
                                   <button
                                       type="button"
-                                      className="btn btn-primary btn-lg mt-4 w-full justify-center"
+                                      className={`btn btn-primary btn-lg ${navStyles.sheetCta}`}
                                       onClick={() => {
                                           setMobileOpen(false);
                                           setCallbackOpen(true);
@@ -354,28 +356,28 @@ export function SiteHeaderContainer({
             {callbackOpen && mounted
                 ? createPortal(
                       <div
-                          className="fixed inset-0 z-[80]"
+                          className={navStyles.dialog}
                           role="dialog"
                           aria-modal="true"
                           aria-labelledby="callback-title"
                       >
                           <button
                               type="button"
-                              className="absolute inset-0 bg-ink-950/50 backdrop-blur-[2px]"
+                              className={navStyles.backdrop}
                               aria-label="Закрыть"
                               onClick={() => setCallbackOpen(false)}
                           />
-                          <div className="pointer-events-none relative flex h-full items-center justify-center p-4">
-                              <div className="pointer-events-auto relative z-10 w-full max-w-md rounded-2xl border border-ink-150 bg-white p-6 shadow-lift">
-                                  <div className="mb-4 flex items-start justify-between gap-3">
+                          <div className={navStyles.dialogStage}>
+                              <div className={navStyles.dialogCard}>
+                                  <div className={navStyles.dialogHead}>
                                       <div>
                                           <h2
                                               id="callback-title"
-                                              className="font-display text-2xl font-bold text-ink-950"
+                                              className={navStyles.dialogTitle}
                                           >
                                               Заказать звонок
                                           </h2>
-                                          <p className="mt-1 text-sm text-ink-500">
+                                          <p className={navStyles.dialogLead}>
                                               Оставьте телефон — перезвоним в
                                               рабочие часы.
                                           </p>
@@ -383,7 +385,7 @@ export function SiteHeaderContainer({
                                       <button
                                           type="button"
                                           onClick={() => setCallbackOpen(false)}
-                                          className="grid h-9 w-9 place-items-center rounded-full border border-ink-150 text-ink-600 hover:border-ink-900 hover:text-ink-950"
+                                          className={navStyles.dialogClose}
                                           aria-label="Закрыть"
                                       >
                                           ×

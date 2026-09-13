@@ -5,6 +5,8 @@ import Image from "next/image";
 import { DETAIL_STORY_BUILT, DETAIL_STORY_PROJECT } from "@/lib/copy";
 import { PillTabs } from "@/ui/pill-tabs";
 import type { ShowcaseStory } from "@/types/catalog";
+import { Container } from "@/ui/container";
+import layout from "../../project-detail/project-detail.module.css";
 
 export function ProjectDetailIndividualStory({
     story,
@@ -24,13 +26,10 @@ export function ProjectDetailIndividualStory({
     if (story.project.length === 0 && !hasBuilt) return null;
 
     return (
-        <section
-            data-section="detail-story"
-            className="border-b border-ink-150 bg-white"
-        >
-            <div className="container-page py-10 md:py-14">
-                <div className="flex flex-wrap items-end justify-between gap-4">
-                    <h2 className="font-display text-h1 text-ink-950">
+        <section data-section="detail-story" className={layout.band}>
+            <Container className={layout.pad}>
+                <div className={layout.similarHead}>
+                    <h2 className={layout.heading}>
                         {DETAIL_STORY_PROJECT} и {DETAIL_STORY_BUILT.toLowerCase()}
                     </h2>
                     {items.length > 1 ? (
@@ -43,24 +42,21 @@ export function ProjectDetailIndividualStory({
                         />
                     ) : null}
                 </div>
-                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <div className={layout.photos}>
                     {active.map((src, i) => (
-                        <div
-                            key={src + i}
-                            className="relative aspect-[4/3] overflow-hidden rounded-xl bg-ink-100"
-                        >
+                        <div key={src + i} className={layout.photo}>
                             <Image
                                 src={src}
-                                alt={`${name} — ${i + 1}`}
+                                alt={`${name} - ${i + 1}`}
                                 fill
                                 unoptimized={src.startsWith("/media/")}
-                                className="object-cover"
+                                className={layout.photoImg}
                                 sizes="(min-width:1024px) 33vw, 100vw"
                             />
                         </div>
                     ))}
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

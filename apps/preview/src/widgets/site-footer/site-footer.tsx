@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { settings } from "@/lib/settings";
 import { MaxIcon, PhoneIcon, TelegramIcon } from "@/ui/icons";
+import { Container } from "@/ui/container";
+import styles from "./site-footer.module.css";
 
 const linkCols = [
     {
@@ -23,43 +25,40 @@ const linkCols = [
 
 export function SiteFooter() {
     return (
-        <footer
-            data-section="site-footer"
-            className="border-t border-ink-150 bg-ink-900 text-ink-300"
-        >
-            <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <footer data-section="site-footer" className={styles.root}>
+            <Container className={styles.grid}>
                 <div>
-                    <Link href="/" className="inline-flex items-center">
+                    <Link href="/" className={styles.logo}>
                         <Image
                             src="/images/logo-header.png"
                             alt="Новый Коттедж"
                             width={726}
                             height={300}
-                            className="h-9 w-auto brightness-0 invert"
+                            className={styles.logoImg}
                         />
                     </Link>
-                    <p className="mt-4 max-w-sm text-sm text-ink-300">
+                    <p className={styles.about}>
                         Строим дома под ключ в Санкт-Петербурге и Ленинградской
                         области с {settings.foundedYear} года. Договор с
                         фиксированной сметой, гарантия {settings.warrantyYears}{" "}
                         лет.
                     </p>
-                    <div className="mt-6 space-y-2">
+                    <div className={styles.contacts}>
                         <a
                             href={`tel:${settings.phoneClean}`}
-                            className="flex items-center gap-2 font-display text-lg font-semibold text-paper"
+                            className={styles.phone}
                         >
-                            <PhoneIcon className="h-4 w-4" />
+                            <PhoneIcon className={styles.icon} />
                             {settings.phone}
                         </a>
-                        <div className="flex gap-2">
+                        <div className={styles.messengers}>
                             <a
                                 href={settings.telegram}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-tg btn-sm"
                             >
-                                <TelegramIcon className="h-4 w-4" />
+                                <TelegramIcon className={styles.icon} />
                                 Telegram
                             </a>
                             <a
@@ -68,7 +67,7 @@ export function SiteFooter() {
                                 rel="noopener noreferrer"
                                 className="btn btn-max btn-sm"
                             >
-                                <MaxIcon className="h-4 w-4" />
+                                <MaxIcon className={styles.icon} />
                                 MAX
                             </a>
                         </div>
@@ -76,16 +75,11 @@ export function SiteFooter() {
                 </div>
                 {linkCols.map((col) => (
                     <div key={col.title}>
-                        <div className="font-semibold text-paper">
-                            {col.title}
-                        </div>
-                        <ul className="mt-4 space-y-2.5 text-sm">
+                        <div className={styles.colTitle}>{col.title}</div>
+                        <ul className={styles.colList}>
                             {col.links.map((l) => (
                                 <li key={l.href + l.label}>
-                                    <Link
-                                        href={l.href}
-                                        className="text-ink-300 transition-colors hover:text-white"
-                                    >
+                                    <Link href={l.href} className={styles.colLink}>
                                         {l.label}
                                     </Link>
                                 </li>
@@ -93,22 +87,18 @@ export function SiteFooter() {
                         </ul>
                     </div>
                 ))}
-            </div>
-            <div className="border-t border-white/5">
-                <div className="container-page flex flex-col items-start justify-between gap-2 py-5 text-xs text-ink-400 md:flex-row md:items-center">
+            </Container>
+            <div className={styles.legal}>
+                <Container className={styles.legalInner}>
                     <div>
                         © 2026 «Новый Коттедж» · ИНН {settings.inn} ·
                         Санкт-Петербург
                     </div>
-                    <div className="flex flex-wrap gap-4 text-[12px] text-ink-400">
-                        <Link href="/privacy" className="hover:text-white">
-                            Политика конфиденциальности
-                        </Link>
-                        <Link href="/offer" className="hover:text-white">
-                            Оферта
-                        </Link>
+                    <div className={styles.legalLinks}>
+                        <Link href="/privacy">Политика конфиденциальности</Link>
+                        <Link href="/offer">Оферта</Link>
                     </div>
-                </div>
+                </Container>
             </div>
         </footer>
     );

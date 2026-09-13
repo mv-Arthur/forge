@@ -11,6 +11,7 @@ import {
 import { formatArea } from "@/lib/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/ui/icons";
 import type { MergedProject } from "@/types/catalog";
+import { Container } from "@/ui/container";
 import styles from "./individual-hero.module.css";
 
 export function ProjectDetailIndividualHero({
@@ -34,11 +35,11 @@ export function ProjectDetailIndividualHero({
 
     return (
         <section data-section="detail-hero" className={styles.root}>
-            <div className={`container-page ${styles.inner}`}>
+            <Container className={styles.inner}>
                 <div className={styles.top}>
                     <div>
                         <Link href="/projects" className={styles.back}>
-                            <ChevronLeftIcon className="h-4 w-4" />
+                            <ChevronLeftIcon className={styles.icon} />
                             {DETAIL_BACK}
                         </Link>
                         <h1 className={styles.title}>{project.displayName}</h1>
@@ -78,7 +79,7 @@ export function ProjectDetailIndividualHero({
                                 onClick={() => go(-1)}
                                 aria-label="Предыдущее фото"
                             >
-                                <ChevronLeftIcon className="h-5 w-5" />
+                                <ChevronLeftIcon className={styles.iconMd} />
                             </button>
                             <button
                                 type="button"
@@ -86,7 +87,7 @@ export function ProjectDetailIndividualHero({
                                 onClick={() => go(1)}
                                 aria-label="Следующее фото"
                             >
-                                <ChevronRightIcon className="h-5 w-5" />
+                                <ChevronRightIcon className={styles.iconMd} />
                             </button>
                         </>
                     ) : null}
@@ -114,7 +115,7 @@ export function ProjectDetailIndividualHero({
                         ))}
                     </div>
                 ) : null}
-            </div>
+            </Container>
         </section>
     );
 }

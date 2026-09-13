@@ -1,4 +1,5 @@
 .root {
+    padding: var(--section-padding);
     background: rgb(var(--ink-50-rgb));
 }
 

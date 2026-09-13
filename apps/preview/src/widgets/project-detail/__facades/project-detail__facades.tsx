@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { DETAIL_FACADES_HEADING } from "@/lib/copy";
 import type { DetailFacade } from "../lib/illustrations";
+import styles from "./project-detail__facades.module.css";
 
 export function ProjectDetailFacades({
     facades,
@@ -18,29 +19,25 @@ export function ProjectDetailFacades({
 
     return (
         <div data-stub={stub ? "true" : undefined}>
-            <div className="mb-5 flex flex-wrap gap-2">
+            <div className={styles.tabs}>
                 {facades.map((f, i) => (
                     <button
                         key={f.id}
                         type="button"
                         onClick={() => setActive(i)}
-                        className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-                            i === active
-                                ? "bg-ink-950 text-paper"
-                                : "bg-ink-50 text-ink-700 hover:bg-ink-100"
-                        }`}
+                        className={`${styles.tab} ${i === active ? styles.tabOn : ""}`}
                     >
                         {f.label}
                     </button>
                 ))}
             </div>
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-ink-150 bg-[#f3eee4]">
+            <div className={styles.frame}>
                 <Image
                     src={current.src}
                     alt={`${DETAIL_FACADES_HEADING}: ${current.label}`}
                     fill
                     unoptimized={current.src.startsWith("/media/")}
-                    className="object-contain"
+                    className={styles.img}
                     sizes="(min-width:1024px) 70vw, 100vw"
                 />
             </div>

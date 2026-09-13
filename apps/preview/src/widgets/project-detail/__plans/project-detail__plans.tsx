@@ -9,13 +9,13 @@ import {
     bedroomsWord,
     bathroomsWord,
 } from "@/lib/format";
+import styles from "./project-detail__plans.module.css";
 
 interface Props {
     project: MergedProject;
     plans: ProjectFloorPlan[];
 }
 
-/** Floor plan images from fixtures, or illustration urls passed by the parent. */
 export function ProjectDetailPlans({ project, plans }: Props) {
     const [active, setActive] = useState(0);
     const grouped = useMemo(() => {
@@ -37,14 +37,12 @@ export function ProjectDetailPlans({ project, plans }: Props) {
     const plan = activeGroup.items[0];
 
     return (
-        <div className="rounded-2xl border border-ink-150 bg-white p-5 md:p-6">
-            <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+        <div className={styles.card}>
+            <div className={styles.head}>
                 <div>
                     <div className="eyebrow">Планировка</div>
-                    <h3 className="mt-1 font-display text-h2">
-                        Этажи и планы
-                    </h3>
-                    <p className="mt-2 text-[13px] text-ink-500">
+                    <h3 className={styles.title}>Этажи и планы</h3>
+                    <p className={styles.meta}>
                         {[
                             formatArea(project.area),
                             formatFloors(project.floors),
@@ -65,7 +63,7 @@ export function ProjectDetailPlans({ project, plans }: Props) {
             </div>
 
             {grouped.length > 1 ? (
-                <div className="mb-5 flex flex-wrap gap-1.5">
+                <div className={styles.tabs}>
                     {grouped.map((g, i) => (
                         <button
                             key={g.floor + i}
@@ -81,14 +79,14 @@ export function ProjectDetailPlans({ project, plans }: Props) {
                 </div>
             ) : null}
 
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-ink-150 bg-white">
+            <div className={styles.frame}>
                 <Image
                     src={plan.url}
                     alt={`Планировка · ${activeGroup.floor}`}
                     fill
                     unoptimized={plan.url.startsWith("/media/")}
                     sizes="(min-width:1024px) 55vw, 100vw"
-                    className="object-contain p-2"
+                    className={styles.img}
                 />
             </div>
         </div>

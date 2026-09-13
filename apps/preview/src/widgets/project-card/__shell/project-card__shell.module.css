@@ -13,6 +13,13 @@
     min-height: 240px;
 }
 
+.empty {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    color: rgb(var(--ink-500-rgb));
+}
+
 .photo {
     object-fit: cover;
     transition: transform 0.5s var(--ease);

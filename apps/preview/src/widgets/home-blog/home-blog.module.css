@@ -1,6 +1,7 @@
 .root {
-    background: #fff;
+    padding: var(--section-padding);
     padding-top: 40px;
+    background: #fff;
 }
 
 .inner {

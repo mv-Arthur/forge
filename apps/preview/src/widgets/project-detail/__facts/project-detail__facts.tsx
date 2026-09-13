@@ -11,6 +11,7 @@ import {
     DETAIL_PRICE_ON,
     DETAIL_PRICE_SINCE,
 } from "@/lib/copy";
+import { Container } from "@/ui/container";
 import {
     bathroomsWord,
     bedroomsWord,
@@ -167,7 +168,7 @@ export function ProjectDetailFacts({
             data-section="detail-params"
             className={styles.section}
         >
-            <div className="container-page py-6 md:py-8">
+            <Container className={styles.inner}>
                 <div className={styles.card}>
                     {metrics.length > 0 ? (
                         <div className={styles.metrics}>
@@ -252,7 +253,7 @@ export function ProjectDetailFacts({
                         </a>
                     </div>
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

@@ -9,6 +9,7 @@ import {
     LEAD_TG,
 } from "@/lib/copy";
 import { MaxIcon, TelegramIcon } from "@/ui/icons";
+import { Container } from "@/ui/container";
 import styles from "./home-lead.module.css";
 
 export function HomeLead({
@@ -21,8 +22,8 @@ export function HomeLead({
     form: ReactNode;
 }) {
     return (
-        <section id="lead" data-section="lead" className={`section ${styles.root}`}>
-            <div className={`container-page ${styles.grid}`}>
+        <section id="lead" data-section="lead" className={styles.root}>
+            <Container className={styles.grid}>
                 <div className={styles.card}>
                     <h2 className={styles.title}>{LEAD_HOME_HEADING}</h2>
                     <p className={styles.text}>{LEAD_HOME_TEXT}</p>
@@ -65,7 +66,7 @@ export function HomeLead({
                         </div>
                     </div>
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

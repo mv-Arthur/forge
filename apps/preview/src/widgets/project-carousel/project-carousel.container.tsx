@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { MergedProject } from "@/types/catalog";
 import { ProjectCard } from "@/widgets/project-card/project-card";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/ui/icons";
+import styles from "./project-carousel.module.css";
 
 export function ProjectCarouselContainer({
     projects,
@@ -50,38 +51,35 @@ export function ProjectCarouselContainer({
     const showControls = projects.length > 1;
 
     return (
-        <div className="relative">
+        <div className={styles.root}>
             {showControls ? (
-                <div className="mb-4 flex justify-end gap-2">
+                <div className={styles.controls}>
                     <button
                         type="button"
                         onClick={() => scrollByDir(-1)}
                         disabled={!canPrev}
-                        className="grid h-10 w-10 place-items-center rounded-full border border-ink-150 bg-white text-ink-900 shadow-sm transition hover:border-ink-900 disabled:pointer-events-none disabled:opacity-30"
+                        className={styles.btn}
                         aria-label="Предыдущие проекты"
                     >
-                        <ChevronLeftIcon className="h-5 w-5" />
+                        <ChevronLeftIcon className={styles.icon} />
                     </button>
                     <button
                         type="button"
                         onClick={() => scrollByDir(1)}
                         disabled={!canNext}
-                        className="grid h-10 w-10 place-items-center rounded-full border border-ink-150 bg-white text-ink-900 shadow-sm transition hover:border-ink-900 disabled:pointer-events-none disabled:opacity-30"
+                        className={styles.btn}
                         aria-label="Следующие проекты"
                     >
-                        <ChevronRightIcon className="h-5 w-5" />
+                        <ChevronRightIcon className={styles.icon} />
                     </button>
                 </div>
             ) : null}
-            <div
-                ref={scrollerRef}
-                className="scroll-hide -mx-1 flex gap-5 overflow-x-auto px-1 pb-2 snap-x snap-mandatory"
-            >
+            <div ref={scrollerRef} className={`scroll-hide ${styles.scroller}`}>
                 {projects.map((p) => (
                     <div
                         key={p.slug}
                         data-carousel-item
-                        className="w-[min(100%,340px)] flex-shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
+                        className={styles.item}
                     >
                         <ProjectCard project={p} layout="similar" />
                     </div>

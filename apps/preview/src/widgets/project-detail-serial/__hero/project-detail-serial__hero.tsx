@@ -130,7 +130,7 @@ export function ProjectDetailSerialHero({
                 <div className={styles.top}>
                     <div className={styles.intro}>
                         <Link href="/projects" className={styles.back}>
-                            <ChevronLeftIcon className="h-4 w-4" />
+                            <ChevronLeftIcon className={styles.icon} />
                             {DETAIL_BACK}
                         </Link>
                         <div className={styles.copy}>

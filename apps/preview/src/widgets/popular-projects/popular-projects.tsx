@@ -4,6 +4,7 @@ import type {
     PopularProjectsViewProps,
     PopularTab,
 } from "./popular-projects.types";
+import { Container } from "@/ui/container";
 import styles from "./popular-projects.module.css";
 
 function AllArrow() {
@@ -33,8 +34,8 @@ export function PopularProjects({
     cards,
 }: PopularProjectsViewProps) {
     return (
-        <section data-section="popular" className="section bg-ink-50/50">
-            <div className="container-page">
+        <section data-section="popular" className={styles.root}>
+            <Container>
                 <div className={styles.header}>
                     <h2 className={styles.title}>{heading}</h2>
                     <Link href={allHref} className={styles.all}>
@@ -56,7 +57,7 @@ export function PopularProjects({
                     <p className={styles.lead}>{lead}</p>
                 </div>
                 <div className={styles.grid}>{cards}</div>
-            </div>
+            </Container>
         </section>
     );
 }

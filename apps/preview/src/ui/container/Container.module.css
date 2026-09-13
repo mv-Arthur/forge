@@ -2,5 +2,15 @@
     width: 100%;
     max-width: var(--container-width);
     margin: 0 auto;
-    padding: 0 var(--container-padding);
+    padding-inline: 1rem;
+}
+
+.narrow {
+    max-width: 900px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding-inline: 1.5rem;
+    }
 }

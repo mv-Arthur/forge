@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CheckIcon } from "@/ui/icons";
 import { LEAD_PHONE_LABEL } from "@/lib/copy";
 import type { LeadFormProps } from "./lead-form.types";
+import styles from "./lead-form.module.css";
 
 export function LeadForm({
     source,
@@ -21,24 +22,22 @@ export function LeadForm({
 
     if (sent) {
         return (
-            <div
-                data-gwd-lead
-                className="flex items-start gap-3 rounded-xl border border-success/20 bg-success/5 p-5"
-            >
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-success text-white">
-                    <CheckIcon className="h-4 w-4" />
+            <div data-gwd-lead className={styles.sent}>
+                <span className={styles.sentIcon}>
+                    <CheckIcon className={styles.icon} />
                 </span>
-                <div className="text-sm">
-                    <div className="font-semibold text-success">
-                        Спасибо за заявку!
-                    </div>
-                    <p className="mt-1 text-ink-700">
+                <div className={styles.sentCopy}>
+                    <div className={styles.sentTitle}>Спасибо за заявку!</div>
+                    <p className={styles.sentText}>
                         В ближайшее время с вами свяжется менеджер.
                     </p>
                 </div>
             </div>
         );
     }
+
+    const formClass =
+        layout === "home" ? undefined : inline ? styles.inline : styles.stack;
 
     return (
         <form
@@ -47,13 +46,7 @@ export function LeadForm({
                 e.preventDefault();
                 onSubmit();
             }}
-            className={
-                layout === "home"
-                    ? undefined
-                    : inline
-                      ? "grid gap-3 md:grid-cols-[1fr_1fr_auto]"
-                      : "space-y-3"
-            }
+            className={formClass}
             data-source={source}
         >
             {prefill ? (
@@ -73,19 +66,16 @@ export function LeadForm({
                             required
                         />
                     </div>
-                    <label className="flex items-start gap-2 text-sm text-ink-500">
+                    <label className={styles.consent}>
                         <input
                             type="checkbox"
                             checked={values.consent}
                             onChange={(e) => onConsentChange(e.target.checked)}
-                            className="mt-0.5 h-4 w-4 accent-accent"
+                            className={styles.check}
                         />
                         <span>
                             Я согласен на{" "}
-                            <Link
-                                href="/personal-data"
-                                className="underline underline-offset-2"
-                            >
+                            <Link href="/personal-data" className={styles.link}>
                                 обработку персональных данных
                             </Link>
                         </span>
@@ -96,12 +86,12 @@ export function LeadForm({
                 </>
             ) : (
                 <>
-                    <div className="grid gap-3 sm:grid-cols-2">
+                    <div className={styles.row}>
                         <div>
                             <label
                                 className={
                                     dark
-                                        ? "field-label !text-ink-300"
+                                        ? `field-label ${styles.labelDark}`
                                         : "field-label"
                                 }
                             >
@@ -110,7 +100,7 @@ export function LeadForm({
                             <input
                                 className={
                                     dark
-                                        ? "field !border-white/10 !bg-white/5 !text-white placeholder:!text-ink-400"
+                                        ? `field ${styles.fieldDark}`
                                         : "field"
                                 }
                                 placeholder="Иван"
@@ -122,7 +112,7 @@ export function LeadForm({
                             <label
                                 className={
                                     dark
-                                        ? "field-label !text-ink-300"
+                                        ? `field-label ${styles.labelDark}`
                                         : "field-label"
                                 }
                             >
@@ -131,7 +121,7 @@ export function LeadForm({
                             <input
                                 className={
                                     dark
-                                        ? "field !border-white/10 !bg-white/5 !text-white placeholder:!text-ink-400"
+                                        ? `field ${styles.fieldDark}`
                                         : "field"
                                 }
                                 placeholder="+7 (___) ___-__-__"
@@ -144,28 +134,24 @@ export function LeadForm({
                     </div>
                     <button
                         type="submit"
-                        className="btn btn-primary btn-lg w-full uppercase tracking-[0.06em] shadow-cta"
+                        className={`btn btn-primary btn-lg ${styles.submitWide}`}
                     >
                         {ctaLabel}
                     </button>
                     <label
-                        className={
-                            "flex items-start gap-2 text-xs " +
-                            (dark ? "text-ink-400" : "text-ink-500")
-                        }
+                        className={`${styles.consent} ${styles.consentSm} ${
+                            dark ? styles.consentDark : ""
+                        }`}
                     >
                         <input
                             type="checkbox"
                             checked={values.consent}
                             onChange={(e) => onConsentChange(e.target.checked)}
-                            className="mt-0.5 h-4 w-4 accent-accent"
+                            className={styles.check}
                         />
                         <span>
                             Согласен на{" "}
-                            <Link
-                                href="/personal-data"
-                                className="underline underline-offset-2"
-                            >
+                            <Link href="/personal-data" className={styles.link}>
                                 обработку персональных данных
                             </Link>
                             .

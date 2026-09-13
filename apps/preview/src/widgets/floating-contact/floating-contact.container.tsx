@@ -11,13 +11,11 @@ import {
     MaxIcon,
     TelegramIcon,
 } from "@/ui/icons";
+import styles from "./floating-contact.module.css";
 
 const SHOW_TOP_AFTER = 200;
 const FAB_BOTTOM = 24;
 const FOOTER_GAP = 20;
-
-const fabClass =
-    "grid h-12 w-12 place-items-center rounded-full bg-accent text-accent-ink shadow-cta transition hover:scale-105 hover:bg-accent-hover md:h-14 md:w-14";
 
 export function FloatingContactContainer() {
     const [open, setOpen] = useState(false);
@@ -59,19 +57,17 @@ export function FloatingContactContainer() {
 
     return (
         <div
-            className="pointer-events-none fixed right-3 z-30 flex flex-col items-end gap-2 md:right-5 md:z-40"
+            className={styles.stack}
             style={{
                 bottom: `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`,
             }}
         >
             {open ? (
-                <div className="pointer-events-auto animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-ink-150 bg-white p-4 shadow-lift md:w-72">
-                    <div className="mb-3 flex items-start justify-between">
+                <div className={styles.panel}>
+                    <div className={styles.panelHead}>
                         <div>
-                            <div className="font-semibold text-ink-950">
-                                Написать нам
-                            </div>
-                            <p className="mt-0.5 text-xs text-ink-500">
+                            <div className={styles.panelTitle}>Написать нам</div>
+                            <p className={styles.panelLead}>
                                 Ответим в рабочие часы,{" "}
                                 {settings.officeHoursLabel.toLowerCase()}
                             </p>
@@ -79,34 +75,34 @@ export function FloatingContactContainer() {
                         <button
                             type="button"
                             onClick={() => setOpen(false)}
-                            className="rounded-md p-1 text-ink-500 hover:bg-ink-50"
+                            className={styles.close}
                             aria-label="Закрыть"
                         >
-                            <CloseIcon className="h-4 w-4" />
+                            <CloseIcon className={styles.icon} />
                         </button>
                     </div>
-                    <div className="grid gap-2">
+                    <div className={styles.actions}>
                         <a
                             href={settings.telegram}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn btn-tg justify-start"
+                            className="btn btn-tg"
                         >
-                            <TelegramIcon className="h-4 w-4" /> Telegram
+                            <TelegramIcon className={styles.icon} /> Telegram
                         </a>
                         <a
                             href={settings.max}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn btn-max justify-start"
+                            className="btn btn-max"
                         >
-                            <MaxIcon className="h-4 w-4" /> MAX
+                            <MaxIcon className={styles.icon} /> MAX
                         </a>
                         <a
                             href={`tel:${settings.phoneClean}`}
-                            className="btn btn-light justify-start"
+                            className="btn btn-light"
                         >
-                            <PhoneIcon className="h-4 w-4" /> {settings.phone}
+                            <PhoneIcon className={styles.icon} /> {settings.phone}
                         </a>
                     </div>
                 </div>
@@ -115,13 +111,13 @@ export function FloatingContactContainer() {
                 <button
                     type="button"
                     onClick={() => setOpen((v) => !v)}
-                    className={`pointer-events-auto ${fabClass}`}
+                    className={styles.fab}
                     aria-label="Связаться"
                 >
                     {open ? (
-                        <CloseIcon className="h-5 w-5" />
+                        <CloseIcon className={styles.iconMd} />
                     ) : (
-                        <MessageIcon className="h-5 w-5" />
+                        <MessageIcon className={styles.iconMd} />
                     )}
                 </button>
             ) : null}
@@ -131,15 +127,11 @@ export function FloatingContactContainer() {
                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                     e.currentTarget.blur();
                 }}
-                className={`${fabClass} duration-200 ${
-                    showTop
-                        ? "pointer-events-auto opacity-100"
-                        : "pointer-events-none opacity-0"
-                }`}
+                className={`${styles.fab} ${showTop ? "" : styles.fabHidden}`}
                 aria-label="Наверх"
                 tabIndex={showTop ? 0 : -1}
             >
-                <ArrowUpIcon className="h-6 w-6" />
+                <ArrowUpIcon className={styles.iconLg} />
             </button>
         </div>
     );

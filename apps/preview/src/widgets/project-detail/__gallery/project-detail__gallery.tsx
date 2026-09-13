@@ -17,6 +17,7 @@ import {
     ThumbUpIcon,
     ThumbUpSolidIcon,
 } from "@/ui/icons";
+import { Container } from "@/ui/container";
 import {
     formatLikeCount,
     isCompared,
@@ -25,6 +26,7 @@ import {
     toggleCompared,
     toggleLiked,
 } from "@/widgets/project-card/lib/prefs";
+import styles from "./project-detail__gallery.module.css";
 
 interface Props {
     project: MergedProject;
@@ -54,7 +56,7 @@ export function ProjectDetailGallery({ project }: Props) {
     };
 
     return (
-        <div className="relative min-h-[62vh] bg-ink-900 text-paper md:min-h-[78vh]">
+        <div className={styles.root}>
             {src ? (
                 <Image
                     src={src}
@@ -62,100 +64,93 @@ export function ProjectDetailGallery({ project }: Props) {
                     fill
                     priority
                     unoptimized={src.startsWith("/media/")}
-                    className="object-cover"
+                    className={styles.photo}
                     sizes="100vw"
                 />
             ) : null}
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-950/55 via-transparent to-ink-950/35" />
+            <div className={styles.veil} />
 
             {n > 1 ? (
                 <>
                     <button
                         type="button"
                         onClick={() => go(-1)}
-                        className="absolute left-3 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/40 text-paper backdrop-blur md:left-6"
+                        className={`${styles.hit} ${styles.prev}`}
                         aria-label="Предыдущее фото"
                     >
-                        <ChevronLeftIcon className="h-5 w-5" />
+                        <ChevronLeftIcon className={styles.iconMd} />
                     </button>
                     <button
                         type="button"
                         onClick={() => go(1)}
-                        className="absolute right-3 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/40 text-paper backdrop-blur md:right-6"
+                        className={`${styles.hit} ${styles.next}`}
                         aria-label="Следующее фото"
                     >
-                        <ChevronRightIcon className="h-5 w-5" />
+                        <ChevronRightIcon className={styles.iconMd} />
                     </button>
                 </>
             ) : null}
 
-            <div className="container-page relative z-[2] flex min-h-[62vh] flex-col pt-8 md:min-h-[78vh] md:pt-10">
-                <div className="flex items-start justify-between gap-3">
-                    <Link
-                        href="/projects"
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-paper/90 hover:text-paper"
-                    >
-                        <ChevronLeftIcon className="h-4 w-4" />
+            <Container className={styles.inner}>
+                <div className={styles.top}>
+                    <Link href="/projects" className={styles.back}>
+                        <ChevronLeftIcon className={styles.icon} />
                         {DETAIL_BACK}
                     </Link>
-                    <div className="flex shrink-0 gap-2">
+                    <div className={styles.acts}>
                         <button
                             type="button"
-                            className="inline-flex items-center gap-1.5 rounded-full bg-white/92 px-3 py-2 text-sm font-semibold text-ink-900 shadow-sm"
+                            className={styles.pill}
                             aria-pressed={compared}
                             onClick={() =>
                                 setCompared(toggleCompared(project.slug))
                             }
                         >
-                            <GridViewIcon className="h-4 w-4" />
+                            <GridViewIcon className={styles.icon} />
                             {compared ? DETAIL_COMPARED : DETAIL_COMPARE}
                         </button>
                         <button
                             type="button"
-                            className="inline-flex items-center gap-1.5 rounded-full bg-white/92 px-3 py-2 text-sm font-semibold text-ink-900 shadow-sm"
+                            className={styles.pill}
                             aria-pressed={liked}
                             aria-label={`${DETAIL_LIKE}, ${likes}`}
                             onClick={() => setLiked(toggleLiked(project.slug))}
                         >
                             {liked ? (
-                                <ThumbUpSolidIcon className="h-4 w-4" />
+                                <ThumbUpSolidIcon className={styles.icon} />
                             ) : (
-                                <ThumbUpIcon className="h-4 w-4" />
+                                <ThumbUpIcon className={styles.icon} />
                             )}
-                            <span className="tabular-nums">{likes}</span>
+                            <span className={styles.nums}>{likes}</span>
                         </button>
                     </div>
                 </div>
 
-                <div className="mt-10 max-w-3xl md:mt-16">
-                    <h1 className="font-display text-[clamp(2.4rem,5vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.03em] text-paper">
-                        {project.displayName}
-                    </h1>
+                <div className={styles.copy}>
+                    <h1 className={styles.name}>{project.displayName}</h1>
                     {project.subtitle ? (
-                        <p className="mt-3 max-w-xl text-base leading-relaxed text-paper/85 md:text-lg">
-                            {project.subtitle}
-                        </p>
+                        <p className={styles.lead}>{project.subtitle}</p>
                     ) : null}
                 </div>
 
                 {n > 1 ? (
-                    <div className="mt-auto flex justify-center gap-1.5 pb-6 md:pb-8">
+                    <div className={styles.dots}>
                         {images.map((img, idx) => (
                             <button
                                 key={img + idx}
                                 type="button"
                                 aria-label={`Слайд ${idx + 1}`}
                                 onClick={() => setI(idx)}
-                                className={`h-2 w-2 rounded-full ${
-                                    idx === i ? "bg-paper" : "bg-paper/40"
+                                className={`${styles.dot} ${
+                                    idx === i ? styles.dotOn : ""
                                 }`}
                             />
                         ))}
                     </div>
                 ) : (
-                    <div className="mt-auto pb-8" />
+                    <div className={styles.spacer} />
                 )}
-            </div>
+            </Container>
         </div>
     );
 }

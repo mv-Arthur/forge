@@ -7,6 +7,7 @@ import { CATALOG_CONSULT_CTA, CATALOG_CONSULT_TITLE } from "@/lib/copy";
 import { CloseIcon } from "@/ui/icons";
 import { LeadForm } from "@/widgets/lead-form/lead-form";
 import { CatalogConsult } from "./catalog-consult";
+import dialog from "@/ui/dialog/dialog.module.css";
 
 export function CatalogConsultContainer() {
     const [open, setOpen] = useState(false);
@@ -52,28 +53,28 @@ export function CatalogConsultContainer() {
             {open && mounted
                 ? createPortal(
                       <div
-                          className="fixed inset-0 z-[80]"
+                          className={dialog.overlay}
                           role="dialog"
                           aria-modal="true"
                           aria-labelledby="catalog-consult-title"
                       >
                           <button
                               type="button"
-                              className="absolute inset-0 bg-ink-950/50 backdrop-blur-[2px]"
+                              className={dialog.backdrop}
                               aria-label="Закрыть"
                               onClick={() => setOpen(false)}
                           />
-                          <div className="pointer-events-none relative flex h-full items-center justify-center p-4">
-                              <div className="pointer-events-auto relative z-10 w-full max-w-md rounded-2xl border border-ink-150 bg-white p-6 shadow-lift">
-                                  <div className="mb-4 flex items-start justify-between gap-3">
+                          <div className={dialog.stage}>
+                              <div className={dialog.card}>
+                                  <div className={dialog.head}>
                                       <div>
                                           <h2
                                               id="catalog-consult-title"
-                                              className="font-display text-2xl font-bold text-ink-950"
+                                              className={dialog.title}
                                           >
                                               {CATALOG_CONSULT_CTA}
                                           </h2>
-                                          <p className="mt-1 text-sm text-ink-500">
+                                          <p className={dialog.lead}>
                                               Оставьте телефон - перезвоним в
                                               рабочие часы.
                                           </p>
@@ -81,10 +82,10 @@ export function CatalogConsultContainer() {
                                       <button
                                           type="button"
                                           onClick={() => setOpen(false)}
-                                          className="grid h-9 w-9 place-items-center rounded-full border border-ink-150 text-ink-600 hover:border-ink-900 hover:text-ink-950"
+                                          className={dialog.close}
                                           aria-label="Закрыть"
                                       >
-                                          <CloseIcon className="h-4 w-4" />
+                                          <CloseIcon className={dialog.icon} />
                                       </button>
                                   </div>
                                   <LeadForm

@@ -24,6 +24,7 @@ import { HomeTechContainer } from "@/widgets/home-tech/home-tech.container";
 import { PopularProjectsContainer } from "@/widgets/popular-projects/popular-projects.container";
 import { ProjectCard } from "@/widgets/project-card/project-card";
 import { LeadFormContainer } from "@/widgets/lead-form/lead-form.container";
+import styles from "./page.module.css";
 
 export const metadata = {
     title: "Новый Коттедж — дома под ключ в СПб и Ленобласти",
@@ -71,13 +72,13 @@ export default async function HomePage() {
     const builtItems = buildBuiltStripItems(objects);
 
     return (
-        <main className="pb-16 md:pb-0">
+        <main className={styles.main}>
             <section data-section="hero">
                 <HeroContainer payload={hero.payload} />
             </section>
             <PopularProjectsContainer
                 serial={
-                    <div className="grid gap-6 sm:grid-cols-2">
+                    <>
                         {popular.map((p, i) => (
                             <ProjectCard
                                 key={p.slug}
@@ -86,15 +87,15 @@ export default async function HomePage() {
                                 priority={i < 2}
                             />
                         ))}
-                    </div>
+                    </>
                 }
                 individual={
                     individualProjects.length > 0 ? (
-                        <div className="grid gap-6 sm:grid-cols-2">
+                        <>
                             {individualProjects.map((p) => (
                                 <ProjectCard key={p.slug} project={p} />
                             ))}
-                        </div>
+                        </>
                     ) : null
                 }
             />

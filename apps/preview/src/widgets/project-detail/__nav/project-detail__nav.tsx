@@ -11,6 +11,7 @@ import {
     LayoutPlanIcon,
     SparklesIcon,
 } from "@/ui/icons";
+import { Container } from "@/ui/container";
 import styles from "./project-detail__nav.module.css";
 
 export type DetailNavItem = {
@@ -83,7 +84,7 @@ export function ProjectDetailNav({ items }: { items: DetailNavItem[] }) {
 
     return (
         <nav data-section="detail-nav" className={styles.root}>
-            <div className="container-page">
+            <Container>
                 <ul className={styles.list}>
                     {items.map((item) => {
                         const Icon = ICONS[item.icon];
@@ -107,7 +108,7 @@ export function ProjectDetailNav({ items }: { items: DetailNavItem[] }) {
                         );
                     })}
                 </ul>
-            </div>
+            </Container>
         </nav>
     );
 }

@@ -2,6 +2,16 @@
     background: #fff;
 }
 
+.inner {
+    padding-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .inner {
+        padding-bottom: 2rem;
+    }
+}
+
 .banner {
     position: relative;
     display: flex;

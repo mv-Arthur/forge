@@ -6,6 +6,7 @@ import {
 } from "@/lib/copy";
 import type { ShowcasePriceHike } from "@/types/catalog";
 import { PercentIcon } from "@/ui/icons";
+import { Container } from "@/ui/container";
 import styles from "./project-detail__hike.module.css";
 
 const SEAL_POINTS = Array.from({ length: 24 }, (_, i) => {
@@ -56,7 +57,7 @@ export function ProjectDetailHike({
 
     return (
         <section data-section="detail-hike" className={styles.section}>
-            <div className="container-page pb-6 md:pb-8">
+            <Container className={styles.inner}>
                 <div className={styles.banner}>
                     <span className={styles.icon} aria-hidden>
                         <svg
@@ -80,7 +81,7 @@ export function ProjectDetailHike({
                         {DETAIL_HIKE_CTA}
                     </a>
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

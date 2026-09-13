@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { BLOG_EYEBROW, BLOG_HEADING } from "@/lib/copy";
 import { BLOG_ITEMS } from "./lib/content";
+import { Container } from "@/ui/container";
 import styles from "./home-blog.module.css";
 
 export function HomeBlog() {
     return (
-        <section data-section="blog" className={`section ${styles.root}`}>
-            <div className={`container-page ${styles.inner}`}>
+        <section data-section="blog" className={styles.root}>
+            <Container className={styles.inner}>
                 <p className={styles.eyebrow}>{BLOG_EYEBROW}</p>
                 <h2 className={styles.title}>{BLOG_HEADING}</h2>
                 <div className={styles.list}>
@@ -35,7 +36,7 @@ export function HomeBlog() {
                         </a>
                     ))}
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

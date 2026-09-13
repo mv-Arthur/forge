@@ -11,6 +11,7 @@ import {
     SERVICES_VISIT_LEAD,
     SERVICES_VISIT_TITLE,
 } from "@/lib/copy";
+import { Container } from "@/ui/container";
 import styles from "./home-services.module.css";
 
 const KISKELOVO_HREF =
@@ -75,8 +76,8 @@ export function HomeServices({
     officeHoursLabel: string;
 }) {
     return (
-        <section data-section="services" className={`section ${styles.root}`}>
-            <div className={`container-page ${styles.grid}`}>
+        <section data-section="services" className={styles.root}>
+            <Container className={styles.grid}>
                 <Link href="/#lead" className={styles.photo}>
                     <Image
                         src="/media/services/visit-house.jpg"
@@ -129,7 +130,7 @@ export function HomeServices({
                         <Arrow />
                     </span>
                 </Link>
-            </div>
+            </Container>
         </section>
     );
 }

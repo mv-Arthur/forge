@@ -47,6 +47,7 @@ import {
     ProjectsCatalogSort,
     type CatalogSortMode,
 } from "./__sort/projects-catalog__sort";
+import ui from "./projects-catalog__ui.module.css";
 
 type FiltersState = CatalogFilterState;
 
@@ -234,7 +235,7 @@ export function ProjectsCatalogContainer({
         });
     const clearLines = () => setState((s) => ({ ...s, lines: [] }));
     const FilterBody = (
-        <div className="space-y-2.5">
+        <div className={ui.stack}>
             <FilterGroup
                 label="Тип проекта"
                 active={state.kind.length > 0 || state.lines.length > 0}
@@ -246,21 +247,21 @@ export function ProjectsCatalogContainer({
                     onToggleLine={toggleLine}
                     onClearLines={clearLines}
                 />
-                <label className="flex cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 text-sm text-ink-800 hover:bg-white/80">
+                <label className={ui.checkRow}>
                     <input
                         type="checkbox"
                         checked={kindOn("individual")}
                         onChange={() => toggleKind("individual")}
-                        className="h-4 w-4 shrink-0 accent-accent"
+                        className={ui.check}
                     />
                     {POPULAR_INDIVIDUAL_TAB}
                 </label>
-                <label className="flex cursor-pointer items-center gap-2 rounded-lg px-1 py-1.5 text-sm text-ink-800 hover:bg-white/80">
+                <label className={ui.checkRow}>
                     <input
                         type="checkbox"
                         checked={kindOn("bath")}
                         onChange={() => toggleKind("bath")}
-                        className="h-4 w-4 shrink-0 accent-accent"
+                        className={ui.check}
                     />
                     {POPULAR_BATH_TAB}
                 </label>
@@ -270,7 +271,7 @@ export function ProjectsCatalogContainer({
                 label="Технология строительства"
                 active={state.tech.length > 0}
             >
-                <div className="flex flex-wrap gap-1.5">
+                <div className={ui.chips}>
                     {TECH_OPTIONS.map((t) => (
                         <button
                             key={t}
@@ -380,7 +381,7 @@ export function ProjectsCatalogContainer({
             </FilterGroup>
 
             <FilterGroup label="Этажность" active={state.floors.length > 0}>
-                <div className="flex flex-wrap gap-1.5">
+                <div className={ui.chips}>
                     {FLOOR_OPTIONS.map((opt) => (
                         <button
                             key={opt.value}
@@ -420,7 +421,7 @@ export function ProjectsCatalogContainer({
                 <button
                     type="button"
                     onClick={reset}
-                    className="btn btn-ghost w-full text-sm"
+                    className={`btn btn-ghost ${ui.reset}`}
                 >
                     Сбросить всё ({activeChips})
                 </button>
@@ -430,12 +431,12 @@ export function ProjectsCatalogContainer({
 
     const toolbar = (
         <div>
-            <div className="mb-4 flex flex-wrap items-center gap-3 border-b border-ink-150 pb-3">
-                <div className="flex w-full min-w-0 flex-1 basis-full flex-wrap items-center gap-2 sm:flex-nowrap">
-                    <div className="relative min-w-0 w-full flex-1 basis-full sm:basis-0">
-                        <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" />
+            <div className={ui.toolbar}>
+                <div className={ui.searchRow}>
+                    <div className={ui.searchWrap}>
+                        <SearchIcon className={ui.searchIcon} />
                         <input
-                            className="field !py-2 !pl-9 text-sm"
+                            className={`field ${ui.searchField}`}
                             placeholder="название, площадь…"
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
@@ -444,53 +445,46 @@ export function ProjectsCatalogContainer({
                         />
                     </div>
 
-                    <div className="flex shrink-0 items-center gap-2">
+                    <div className={ui.sortRow}>
                         <ProjectsCatalogSort value={sort} onChange={setSort} />
 
                         <div
-                            className="inline-flex rounded-xl border border-ink-150 bg-white p-0.5"
+                            className={ui.viewToggle}
                             role="group"
                             aria-label="Вид списка"
                         >
                         <button
                             type="button"
                             onClick={() => setView("wide")}
-                            className={`grid h-9 w-9 place-items-center rounded-lg transition ${
-                                view === "wide"
-                                    ? "bg-ink-950 text-white"
-                                    : "text-ink-500 hover:text-ink-950"
+                            className={`${ui.viewBtn} ${
+                                view === "wide" ? ui.viewOn : ""
                             }`}
                             aria-pressed={view === "wide"}
                             title="Широкие карточки"
                             aria-label="Широкие карточки"
                         >
-                            <ListViewIcon className="h-4 w-4" />
+                            <ListViewIcon className={ui.icon} />
                         </button>
                         <button
                             type="button"
                             onClick={() => setView("grid")}
-                            className={`grid h-9 w-9 place-items-center rounded-lg transition ${
-                                view === "grid"
-                                    ? "bg-ink-950 text-white"
-                                    : "text-ink-500 hover:text-ink-950"
+                            className={`${ui.viewBtn} ${
+                                view === "grid" ? ui.viewOn : ""
                             }`}
                             aria-pressed={view === "grid"}
                             title="Сетка"
                             aria-label="Сетка"
                         >
-                            <GridViewIcon className="h-4 w-4" />
+                            <GridViewIcon className={ui.icon} />
                         </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex w-full shrink-0 flex-wrap items-center justify-end gap-3">
-                    <div
-                        className="text-[15px] text-ink-700"
-                        data-found-count={sorted.length}
-                    >
+                <div className={ui.metaRow}>
+                    <div className={ui.found} data-found-count={sorted.length}>
                         Найдено{" "}
-                        <strong className="text-ink-950">
+                        <strong>
                             {sorted.length}
                         </strong>{" "}
                         {projectsWord(sorted.length)}
@@ -506,22 +500,18 @@ export function ProjectsCatalogContainer({
                                 setMobileOpen(true);
                             }
                         }}
-                        className={`btn btn-sm ${open ? "btn-dark" : "btn-light"} max-lg:!bg-white max-lg:!text-ink-950 max-lg:!shadow-none`}
+                        className={`btn btn-sm ${open ? "btn-dark" : "btn-light"} ${ui.filterBtn}`}
                         aria-expanded={open || mobileOpen}
                         aria-controls="catalog-filters"
                     >
-                        <FilterIcon className="h-4 w-4" />
-                        <span className="lg:hidden">Фильтры</span>
-                        <span className="hidden lg:inline">
+                        <FilterIcon className={ui.icon} />
+                        <span className={ui.filterLabelMobile}>Фильтры</span>
+                        <span className={ui.filterLabelDesktop}>
                             {open ? "Скрыть" : "Фильтры"}
                         </span>
                         {activeChips > 0 ? (
                             <span
-                                className={`rounded-full px-1.5 py-0.5 text-xs font-bold tabular-nums ${
-                                    open
-                                        ? "bg-white/15 text-white max-lg:!bg-accent max-lg:!text-accent-ink"
-                                        : "bg-accent text-accent-ink"
-                                }`}
+                                className={`${ui.count} ${open ? ui.countOn : ""}`}
                             >
                                 {activeChips}
                             </span>
@@ -531,26 +521,26 @@ export function ProjectsCatalogContainer({
             </div>
 
             {filterTags.length > 0 ? (
-                <div className="mb-5 flex flex-wrap items-center gap-2">
+                <div className={ui.tags}>
                     {filterTags.map((tag) => (
                         <button
                             key={tag.key}
                             type="button"
                             onClick={() => clearTag(tag.key)}
-                            className="chip chip-btn px-3.5 py-2 text-sm"
+                            className={`chip chip-btn ${ui.chipTag}`}
                             aria-label={`Убрать фильтр: ${tag.label}`}
                         >
                             {tag.label}
-                            <CloseIcon className="h-4 w-4" />
+                            <CloseIcon className={ui.icon} />
                         </button>
                     ))}
                     <button
                         type="button"
                         onClick={reset}
-                        className="inline-flex items-center gap-1.5 rounded-xl bg-accent-soft px-3.5 py-2 text-sm font-semibold text-accent hover:bg-accent hover:text-accent-ink"
+                        className={ui.clear}
                     >
                         Сбросить
-                        <TrashIcon className="h-4 w-4" />
+                        <TrashIcon className={ui.icon} />
                     </button>
                 </div>
             ) : null}
@@ -560,14 +550,12 @@ export function ProjectsCatalogContainer({
     return (
         <div>
             <div
-                className={`grid gap-5 ${
-                    open ? "lg:grid-cols-[380px_minmax(0,1fr)]" : "grid-cols-1"
-                }`}
+                className={`${ui.layout} ${open ? ui.layoutOpen : ""}`}
             >
                 {open ? (
-                    <aside id="catalog-filters" className="hidden lg:block">
+                    <aside id="catalog-filters" className={ui.aside}>
                         <div
-                            className="sticky z-20 overflow-y-auto rounded-2xl border border-ink-150 bg-white p-5 shadow-card filters-scroll"
+                            className={`filters-scroll ${ui.panel}`}
                             style={{
                                 top: "calc(var(--site-header-height, 72px) + 12px)",
                                 maxHeight:
@@ -579,7 +567,7 @@ export function ProjectsCatalogContainer({
                     </aside>
                 ) : null}
 
-                <div className="min-w-0">
+                <div className={ui.mainCol}>
                     {toolbar}
                     {promo ? (
                         <div key="catalog-promo">{promo}</div>
@@ -670,37 +658,33 @@ export function ProjectsCatalogContainer({
             {/* Mobile / tablet: full-height sheet with all filters */}
             {mobileOpen ? (
                 <div
-                    className="fixed inset-0 z-50 flex items-end bg-black/55 lg:hidden"
+                    className={ui.drawer}
                     onClick={() => setMobileOpen(false)}
                 >
                     <div
                         id="catalog-filters-mobile"
-                        className="flex max-h-[92vh] w-full flex-col rounded-t-3xl bg-white shadow-lift"
+                        className={ui.sheet}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="flex flex-shrink-0 items-center justify-between border-b border-ink-150 px-5 py-4">
+                        <div className={ui.sheetHead}>
                             <div>
-                                <div className="font-display text-lg font-extrabold">
-                                    Фильтры
-                                </div>
+                                <div className={ui.sheetTitle}>Фильтры</div>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => setMobileOpen(false)}
                                 aria-label="Закрыть"
-                                className="grid h-10 w-10 place-items-center rounded-full border border-ink-150"
+                                className={ui.sheetClose}
                             >
-                                <CloseIcon className="h-4 w-4" />
+                                <CloseIcon className={ui.icon} />
                             </button>
                         </div>
-                        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-                            {FilterBody}
-                        </div>
-                        <div className="flex-shrink-0 border-t border-ink-150 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                        <div className={ui.sheetBody}>{FilterBody}</div>
+                        <div className={ui.sheetFoot}>
                             <button
                                 type="button"
                                 onClick={() => setMobileOpen(false)}
-                                className="btn btn-primary btn-lg w-full"
+                                className={`btn btn-primary btn-lg ${ui.full}`}
                             >
                                 Показать {sorted.length}{" "}
                                 {projectsWord(sorted.length)}
@@ -730,7 +714,7 @@ function LineCards({
 }) {
     if (view === "wide" || projects.length === 1) {
         return (
-            <div className="flex flex-col gap-4">
+            <div className={ui.wideList}>
                 {projects.map((p, i) => (
                     <ProjectCard
                         key={p.slug}
@@ -744,9 +728,7 @@ function LineCards({
     }
     return (
         <div
-            className={`grid gap-5 ${
-                dense ? "sm:grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-3"
-            }`}
+            className={`${ui.gridList} ${dense ? "" : ui.gridListWide}`}
         >
             {projects.map((p, i) => (
                 <ProjectCard
@@ -762,20 +744,18 @@ function LineCards({
 
 function EmptyState({ onReset }: { onReset: () => void }) {
     return (
-        <div className="rounded-2xl border border-dashed border-ink-200 bg-white p-10 text-center">
-            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-ink-50 text-ink-500">
-                <FilterIcon className="h-6 w-6" />
+        <div className={ui.empty}>
+            <div className={ui.emptyIcon}>
+                <FilterIcon className={ui.iconLg} />
             </div>
-            <div className="mt-4 font-display text-lg font-extrabold">
-                Ничего не нашлось
-            </div>
-            <p className="mt-2 text-sm text-ink-500">
+            <div className={ui.emptyTitle}>Ничего не нашлось</div>
+            <p className={ui.emptyText}>
                 Попробуйте ослабить фильтры или сбросить всё
             </p>
             <button
                 type="button"
                 onClick={onReset}
-                className="btn btn-light mt-4"
+                className={`btn btn-light ${ui.emptyBtn}`}
             >
                 Сбросить фильтры
             </button>
@@ -795,7 +775,7 @@ function FilterNumberRow({
     onToggle: (n: number) => void;
 }) {
     return (
-        <div className="flex flex-wrap gap-1.5">
+        <div className={ui.chips}>
             {values.map((n) => {
                 const on = selected.includes(n);
                 const label =
@@ -805,14 +785,9 @@ function FilterNumberRow({
                         key={n}
                         type="button"
                         onClick={() => onToggle(n)}
-                        className={
-                            "grid h-9 w-9 shrink-0 place-items-center rounded-full font-medium tabular-nums transition " +
-                            (label.length > 1 ? "text-[11px]" : "text-sm") +
-                            " " +
-                            (on
-                                ? "bg-accent text-white"
-                                : "bg-white text-ink-500 hover:text-ink-950")
-                        }
+                        className={`${ui.num} ${on ? ui.numOn : ""} ${
+                            label.length > 1 ? ui.numSm : ""
+                        }`}
                     >
                         {label}
                     </button>
@@ -847,51 +822,49 @@ function LineDropdown({
 
     return (
         <div>
-            <div className="flex items-center gap-1 rounded-lg hover:bg-white/80">
-                <label className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 px-1 py-1.5 text-sm text-ink-800">
+            <div className={ui.lineRow}>
+                <label className={ui.lineCheck}>
                     <input
                         type="checkbox"
                         checked={serialOn}
                         onChange={onToggleSerial}
-                        className="h-4 w-4 shrink-0 accent-accent"
+                        className={ui.check}
                     />
                     {POPULAR_SERIAL_TAB}
                 </label>
                 <button
                     type="button"
-                    className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-ink-500 hover:bg-white hover:text-ink-950"
+                    className={ui.chevronBtn}
                     aria-expanded={open}
                     aria-label="Линейки"
                     onClick={toggleOpen}
                 >
                     <ChevronDownIcon
-                        className={`h-4 w-4 transition ${
-                            open ? "rotate-180" : ""
-                        }`}
+                        className={`${ui.chevron} ${open ? ui.chevronOpen : ""}`}
                     />
                 </button>
             </div>
             {open ? (
-                <div className="ml-6 mt-0.5 space-y-0.5">
-                    <label className="flex cursor-pointer items-center gap-2 rounded-lg px-1 py-1 text-sm text-ink-700 hover:bg-white/80">
+                <div className={ui.lines}>
+                    <label className={`${ui.checkRow} ${ui.checkRowSm}`}>
                         <input
                             type="checkbox"
                             checked={lines.length === 0}
                             onChange={onClearLines}
-                            className="h-4 w-4 shrink-0 accent-accent"
+                            className={ui.check}
                         />
                         {LINE_ALL}
                     </label>
                     {LINE_ORDER.map((id) => (
                         <label
                             key={id}
-                            className="flex cursor-pointer items-center gap-2 rounded-lg px-1 py-1 text-sm text-ink-700 hover:bg-white/80"
+                            className={`${ui.checkRow} ${ui.checkRowSm}`}
                         >
                             <input
                                 type="checkbox"
                                 checked={lines.includes(id)}
                                 onChange={() => onToggleLine(id)}
-                                className="h-4 w-4 shrink-0 accent-accent"
+                                className={ui.check}
                             />
                             {LINE_TITLE[id]}
                         </label>
@@ -912,22 +885,8 @@ function FilterGroup({
     children: React.ReactNode;
 }) {
     return (
-        <div
-            className={
-                "rounded-xl border p-3 " +
-                (active
-                    ? "border-accent/40 bg-accent-soft"
-                    : "border-ink-150 bg-ink-50/80")
-            }
-        >
-            <div
-                className={
-                    "mb-2.5 text-[12px] font-semibold uppercase tracking-wider " +
-                    (active ? "text-accent" : "text-ink-500")
-                }
-            >
-                {label}
-            </div>
+        <div className={`${ui.group} ${active ? ui.groupOn : ""}`}>
+            <div className={ui.groupLabel}>{label}</div>
             {children}
         </div>
     );
@@ -949,7 +908,7 @@ function RangePresets({
     onApply: (min: number, max: number) => void;
 }) {
     return (
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
+        <div className={ui.presets}>
             {presets.map((preset) => {
                 const on = from === preset.min && to === preset.max;
                 return (
@@ -961,7 +920,7 @@ function RangePresets({
                                 ? onApply(openFrom, openTo)
                                 : onApply(preset.min, preset.max)
                         }
-                        className={`chip chip-btn !px-2.5 !py-1 !text-[12px] ${
+                        className={`chip chip-btn ${ui.chipPreset} ${
                             on ? "chip-active" : ""
                         }`}
                     >
@@ -989,8 +948,8 @@ function RangeSlider({
     onChange: (from: number, to: number) => void;
 }) {
     return (
-        <div className="grid grid-cols-2 gap-3">
-            <label className="text-[12px] text-ink-500">
+        <div className={ui.ranges}>
+            <label className={ui.rangeLabel}>
                 от
                 <input
                     type="range"
@@ -1004,11 +963,11 @@ function RangeSlider({
                             to
                         )
                     }
-                    className="mt-1 w-full accent-accent"
+                    className={ui.range}
                     suppressHydrationWarning
                 />
             </label>
-            <label className="text-[12px] text-ink-500">
+            <label className={ui.rangeLabel}>
                 до
                 <input
                     type="range"
@@ -1022,7 +981,7 @@ function RangeSlider({
                             Math.max(parseInt(e.target.value), from + step)
                         )
                     }
-                    className="mt-1 w-full accent-accent"
+                    className={ui.range}
                     suppressHydrationWarning
                 />
             </label>

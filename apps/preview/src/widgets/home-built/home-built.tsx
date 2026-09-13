@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { HomeBuiltViewProps } from "./home-built.types";
+import { Container } from "@/ui/container";
 import styles from "./home-built.module.css";
 
 function SquareArrow() {
@@ -49,8 +50,8 @@ export function HomeBuilt({
     if (items.length === 0) return null;
 
     return (
-        <section data-section="built" className={`section ${styles.root}`}>
-            <div className={`container-page ${styles.grid}`}>
+        <section data-section="built" className={styles.root}>
+            <Container className={styles.grid}>
                 <h2 className={styles.heading}>
                     {heading}
                     <Link
@@ -121,7 +122,7 @@ export function HomeBuilt({
                         <SquareArrow />
                     </Link>
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

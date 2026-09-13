@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { HomeStagesViewProps } from "./home-stages.types";
+import { Container } from "@/ui/container";
 import styles from "./home-stages.module.css";
 
 function Caret() {
@@ -28,8 +29,8 @@ export function HomeStages({
     onToggle,
 }: HomeStagesViewProps) {
     return (
-        <section data-section="stages" className={`section ${styles.root}`}>
-            <div className={`container-page ${styles.inner}`}>
+        <section data-section="stages" className={styles.root}>
+            <Container className={styles.inner}>
                 <div className={styles.head}>
                     <h2 className={styles.title}>{heading}</h2>
                     <p className={styles.lead}>{lead}</p>
@@ -98,7 +99,7 @@ export function HomeStages({
                         );
                     })}
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }

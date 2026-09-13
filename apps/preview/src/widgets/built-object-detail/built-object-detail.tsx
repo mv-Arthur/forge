@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { Breadcrumb } from "@/ui/breadcrumb";
+import { Container } from "@/ui/container";
 import {
     formatArea,
     formatFloors,
@@ -23,6 +24,8 @@ import {
 } from "@/ui/icons";
 import { BuiltObjectCard } from "@/widgets/built-object-card/built-object-card";
 import type { EnrichedBuiltObject } from "@/types/catalog";
+import layout from "../project-detail/project-detail.module.css";
+import styles from "./built-object-detail.module.css";
 
 export function BuiltObjectDetail({
     object: obj,
@@ -36,8 +39,8 @@ export function BuiltObjectDetail({
     const hero = obj.heroImage || obj.gallery[0] || null;
 
     return (
-        <main className="pb-16">
-            <div className="container-page">
+        <main className={layout.main}>
+            <Container>
                 <Breadcrumb
                     items={[
                         { label: "Главная", href: "/" },
@@ -45,11 +48,8 @@ export function BuiltObjectDetail({
                         { label: obj.displayTitle },
                     ]}
                 />
-            </div>
-            <section
-                data-section="object-hero"
-                className="relative min-h-[40vh] bg-ink-900 text-paper md:min-h-[48vh]"
-            >
+            </Container>
+            <section data-section="object-hero" className={styles.hero}>
                 {hero ? (
                     <Image
                         src={hero}
@@ -57,12 +57,12 @@ export function BuiltObjectDetail({
                         fill
                         priority
                         unoptimized={hero.startsWith("/media/")}
-                        className="object-cover opacity-75"
+                        className={styles.heroImg}
                         sizes="100vw"
                     />
                 ) : null}
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-900/35 to-transparent" />
-                <div className="container-page relative flex min-h-[40vh] flex-col justify-end pb-10 pt-24 md:min-h-[48vh]">
+                <div className={styles.veil} />
+                <Container className={styles.heroInner}>
                     <div>
                         <span
                             className={`badge ${
@@ -76,48 +76,43 @@ export function BuiltObjectDetail({
                                 : "Построен"}
                         </span>
                     </div>
-                    <h1 className="mt-3 max-w-3xl font-display text-display-2 text-paper">
-                        {obj.displayTitle}
-                    </h1>
+                    <h1 className={styles.title}>{obj.displayTitle}</h1>
                     {obj.locationLabel ? (
-                        <p className="mt-2 flex items-center gap-1.5 text-ink-300">
-                            <MapPinIcon className="h-4 w-4" />
+                        <p className={styles.loc}>
+                            <MapPinIcon className={styles.icon} />
                             {obj.locationLabel}
                         </p>
                     ) : null}
-                </div>
+                </Container>
             </section>
 
-            <section
-                data-section="object-facts"
-                className="border-b border-ink-150 bg-white"
-            >
-                <div className="container-page py-6 md:py-8">
-                    <div className="flex flex-wrap gap-4 md:gap-8">
+            <section data-section="object-facts" className={layout.band}>
+                <Container className={layout.pad}>
+                    <div className={styles.facts}>
                         {obj.area != null ? (
                             <Fact
-                                icon={<RulerIcon className="h-4 w-4" />}
+                                icon={<RulerIcon className={styles.icon} />}
                                 label="Площадь"
                                 value={formatArea(obj.area)}
                             />
                         ) : null}
                         {obj.floors ? (
                             <Fact
-                                icon={<StairsIcon className="h-4 w-4" />}
+                                icon={<StairsIcon className={styles.icon} />}
                                 label="Этажность"
                                 value={formatFloors(obj.floors)}
                             />
                         ) : null}
                         {obj.bedrooms != null ? (
                             <Fact
-                                icon={<BedIcon className="h-4 w-4" />}
+                                icon={<BedIcon className={styles.icon} />}
                                 label="Спальни"
                                 value={String(obj.bedrooms)}
                             />
                         ) : null}
                         {obj.bathrooms != null ? (
                             <Fact
-                                icon={<BathIcon className="h-4 w-4" />}
+                                icon={<BathIcon className={styles.icon} />}
                                 label="Санузлы"
                                 value={String(obj.bathrooms)}
                             />
@@ -138,72 +133,70 @@ export function BuiltObjectDetail({
                         ) : null}
                     </div>
                     {obj.metaDescription ? (
-                        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-ink-600 line-clamp-3 md:line-clamp-4">
-                            {obj.metaDescription}
-                        </p>
+                        <p className={styles.desc}>{obj.metaDescription}</p>
                     ) : null}
-                </div>
+                </Container>
             </section>
 
             {obj.gallery.length > 0 ? (
                 <section
                     data-section="object-gallery"
-                    className="border-b border-ink-150 bg-ink-50/40"
+                    className={layout.bandSoft}
                 >
-                    <div className="container-page py-10 md:py-14">
-                        <div className="eyebrow text-accent">Фото</div>
-                        <h2 className="mt-2 font-display text-h1 text-ink-950">
+                    <Container className={layout.pad}>
+                        <div className={`eyebrow ${layout.eyebrow}`}>Фото</div>
+                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
                             {OBJECT_GALLERY_HEADING}
                         </h2>
-                        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className={layout.photos}>
                             {obj.gallery.map((src, i) => (
-                                <div
-                                    key={src + i}
-                                    className="relative aspect-[4/3] overflow-hidden rounded-xl bg-ink-100"
-                                >
+                                <div key={src + i} className={layout.photo}>
                                     <Image
                                         src={src}
-                                        alt={`${obj.displayTitle} — ${i + 1}`}
+                                        alt={`${obj.displayTitle} - ${i + 1}`}
                                         fill
                                         unoptimized={src.startsWith("/media/")}
-                                        className="object-cover"
+                                        className={layout.photoImg}
                                         sizes="(min-width:1024px) 33vw, 100vw"
                                     />
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </Container>
                 </section>
             ) : null}
 
-            <section data-section="object-lead" className="bg-white">
-                <div className="container-page grid gap-10 py-12 md:grid-cols-2 md:py-16">
+            <section
+                data-section="object-lead"
+                className={layout.leadBandWhite}
+            >
+                <Container className={layout.leadGrid}>
                     <div>
-                        <div className="eyebrow text-accent">Показ</div>
-                        <h2 className="mt-2 font-display text-h1 text-ink-950">
+                        <div className={`eyebrow ${layout.eyebrow}`}>Показ</div>
+                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
                             {VISIT_HEADING}
                         </h2>
-                        <p className="mt-3 text-sm text-ink-500">{VISIT_LEAD}</p>
+                        <p className={layout.lead}>{VISIT_LEAD}</p>
                     </div>
-                    <div className="rounded-2xl border border-ink-150 bg-ink-50/50 p-5 md:p-6">
-                        {leadForm}
-                    </div>
-                </div>
+                    <div className={layout.leadBoxSoft}>{leadForm}</div>
+                </Container>
             </section>
 
             {others.length > 0 ? (
-                <section className="border-t border-ink-150 bg-ink-50/40 py-12">
-                    <div className="container-page">
-                        <div className="eyebrow text-accent">{MORE_HOUSES}</div>
-                        <h2 className="mt-2 font-display text-h1">
+                <section className={layout.similar}>
+                    <Container>
+                        <div className={`eyebrow ${layout.eyebrow}`}>
+                            {MORE_HOUSES}
+                        </div>
+                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
                             {MORE_HOUSES}
                         </h2>
-                        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className={layout.cards}>
                             {others.map((o) => (
                                 <BuiltObjectCard key={o.slug} object={o} />
                             ))}
                         </div>
-                    </div>
+                    </Container>
                 </section>
             ) : null}
         </main>
@@ -220,14 +213,12 @@ function Fact({
     value: string;
 }) {
     return (
-        <div className="min-w-[7rem]">
-            <div className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-ink-500">
+        <div className={styles.fact}>
+            <div className={styles.factLabel}>
                 {icon}
                 {label}
             </div>
-            <div className="mt-1 text-base font-semibold text-ink-950">
-                {value}
-            </div>
+            <div className={styles.factValue}>{value}</div>
         </div>
     );
 }

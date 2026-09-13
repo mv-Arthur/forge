@@ -1,0 +1,18 @@
+.header {
+    background: #fff;
+}
+
+.grid {
+    padding-bottom: 2.5rem;
+    background: #fff;
+}
+
+.filters {
+    padding-top: 2rem;
+}
+
+.loading {
+    padding-block: 3rem;
+    color: rgb(var(--ink-500-rgb));
+    text-align: center;
+}

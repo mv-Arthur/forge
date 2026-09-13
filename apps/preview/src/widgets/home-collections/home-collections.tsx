@@ -3,6 +3,7 @@ import Link from "next/link";
 import { projectsWord } from "@/lib/format";
 import type { CollectionId } from "@/lib/collections";
 import type { HomeCollectionsViewProps } from "./home-collections.types";
+import { Container } from "@/ui/container";
 import styles from "./home-collections.module.css";
 
 function Arrow({ back }: { back?: boolean }) {
@@ -38,9 +39,9 @@ export function HomeCollections({
     return (
         <section
             data-section="collections"
-            className={`section ${styles.root}`}
+            className={styles.root}
         >
-            <div className={`container-page ${styles.inner}`}>
+            <Container className={styles.inner}>
                 <h2 className={styles.title}>{heading}</h2>
                 <p className={styles.text}>{lead}</p>
                 <div className={styles.block}>
@@ -104,7 +105,7 @@ export function HomeCollections({
                         />
                     ))}
                 </div>
-            </div>
+            </Container>
         </section>
     );
 }
