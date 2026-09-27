@@ -55,6 +55,8 @@ jobs:
           printf '%s\n' "$SSH_KEY" > ~/.ssh/preview
           chmod 600 ~/.ssh/preview
           ssh-keyscan -H 83.222.24.12 >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/preview -o IdentitiesOnly=yes root@83.222.24.12 \
+            "mkdir -p /opt/ncottage-preview/data"
           rsync -az --delete --exclude data \
             -e "ssh -i ~/.ssh/preview -o IdentitiesOnly=yes" \
             "apps/preview/${APP}/" \

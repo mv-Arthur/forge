@@ -3,7 +3,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-server=$(find .next/standalone -name server.js -print -quit)
+server=$(find .next/standalone -path '*/node_modules' -prune -o -name server.js -print -quit)
 if [ -z "$server" ]; then
     echo "standalone server.js not found" >&2
     exit 1
