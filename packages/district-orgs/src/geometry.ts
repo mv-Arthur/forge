@@ -52,7 +52,7 @@ export function tightBounds(points: Array<[number, number]>): Bounds {
 export function padBoundsToAspect(
     bounds: Bounds,
     aspect: number,
-    edgePad = 0.16
+    edgePad = 0.06
 ): Bounds {
     const [lon, lat] = boundsCenter(bounds);
     let [spnLon, spnLat] = boundsToSpn(bounds);

@@ -60,6 +60,13 @@ describe("parseCliArgs", () => {
         assert.throws(() => parseCliArgs([URL, "-f", "csv"]), CliArgsError);
     });
 
+    it("allows --from-json without a URL", () => {
+        const args = parseCliArgs(["--from-json", "dump.json", "-f", "sheets"]);
+        assert.equal(args.fromJson, "dump.json");
+        assert.equal(args.url, "");
+        assert.equal(args.format, "sheets");
+    });
+
     it("collects repeatable --exclude patterns", () => {
         const args = parseCliArgs([
             URL,

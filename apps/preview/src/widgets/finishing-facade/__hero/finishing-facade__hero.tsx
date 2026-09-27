@@ -1,0 +1,41 @@
+import Image from "next/image";
+import { FACADE_CTA, FACADE_LEAD, FACADE_TITLE } from "@/lib/copy";
+import { CtaArrow } from "../cta-arrow";
+import { HERO_CHIPS, HERO_IMAGE } from "../lib/content";
+import styles from "./hero.module.css";
+
+export function FinishingFacadeHero() {
+    return (
+        <section data-section="facade-hero" className={styles.root}>
+            <div className={styles.stage}>
+                <Image
+                    src={HERO_IMAGE}
+                    alt=""
+                    fill
+                    priority
+                    unoptimized
+                    sizes="(min-width:1280px) 1280px, 100vw"
+                    className={styles.image}
+                />
+                <span className={styles.shade} />
+                <div className={styles.copy}>
+                    <h1 className={styles.title}>{FACADE_TITLE}</h1>
+                    <p className={styles.lead}>{FACADE_LEAD}</p>
+                    <a href="#lead" className={styles.cta}>
+                        {FACADE_CTA}
+                        <span className={styles.ctaIcon}>
+                            <CtaArrow />
+                        </span>
+                    </a>
+                </div>
+                <ul className={styles.chips}>
+                    {HERO_CHIPS.map((chip) => (
+                        <li key={chip.id} className={styles.chip}>
+                            {chip.label}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
+}

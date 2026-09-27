@@ -2,7 +2,15 @@
     "mcpServers": {
         "playwright": {
             "command": "npx",
-            "args": ["@playwright/mcp@0.0.76", "--browser", "chromium"]
+            "args": [
+                "@playwright/mcp@0.0.76",
+                "--headless",
+                "--browser",
+                "chromium",
+                "--isolated",
+                "--config",
+                "/Users/malakh-artur/.grok/playwright-mcp.config.json"
+            ]
         }
     }
 }

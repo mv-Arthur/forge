@@ -1,0 +1,53 @@
+.root {
+    padding: 2.5rem 1.25rem 2.75rem;
+    background: #fff;
+    text-align: center;
+}
+
+.inner {
+    max-width: 40rem;
+    margin-inline: auto;
+}
+
+.title {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: clamp(1.6rem, 3vw, 2.15rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+}
+
+.lead {
+    margin: 0.85rem auto 0;
+    max-width: 36rem;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.btn {
+    margin-top: 1.5rem;
+    min-width: 15.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: var(--radius-pill);
+}
+
+.card {
+    max-width: 26rem;
+    padding: 1.75rem 1.5rem 1.5rem;
+}
+
+.dialogTitle {
+    flex: 1;
+    padding-right: 0.5rem;
+    font-size: 1.65rem;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .root {
+        padding: 3.15rem 1.5rem 3.25rem;
+    }
+}

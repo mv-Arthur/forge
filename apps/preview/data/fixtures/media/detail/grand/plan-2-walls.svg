@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640">
+  <rect width="900" height="640" fill="#fbfaf7"/>
+  <defs><pattern id="wall-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="#b7a48c" stroke-width="3"/></pattern></defs>
+  <rect x="14" y="14" width="872" height="612" fill="url(#wall-hatch)" stroke="#2c2c2c" stroke-width="8"/>
+  <rect x="26" y="26" width="848" height="588" fill="#fbfaf7"/>
+  <rect x="31" y="31" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="168.66666666666666" y="125.33333333333333" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Гостевая спальня</text>
+  <rect x="312.3333333333333" y="31" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="450" y="125.33333333333333" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Детская</text>
+  <rect x="593.6666666666666" y="31" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="731.3333333333333" y="125.33333333333333" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Спальня</text>
+  <rect x="31" y="225.66666666666666" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="168.66666666666666" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Спальня 5</text>
+  <rect x="312.3333333333333" y="225.66666666666666" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="450" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Спальня 6</text>
+  <rect x="593.6666666666666" y="225.66666666666666" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="731.3333333333333" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Санузел</text>
+  <rect x="31" y="420.3333333333333" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="168.66666666666666" y="514.6666666666666" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Санузел 2</text>
+  <rect x="312.3333333333333" y="420.3333333333333" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="450" y="514.6666666666666" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Санузел 3</text>
+  <rect x="593.6666666666666" y="420.3333333333333" width="275.3333333333333" height="188.66666666666666" fill="#fff" stroke="#2c2c2c" stroke-width="6"/><text x="731.3333333333333" y="514.6666666666666" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="14" fill="#3f3a34">Холл</text>
+</svg>

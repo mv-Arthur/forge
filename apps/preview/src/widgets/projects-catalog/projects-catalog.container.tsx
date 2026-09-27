@@ -1,24 +1,48 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import type { MergedProject, Technology } from "@/types/catalog";
 import { ProjectCard } from "@/widgets/project-card/project-card";
 import { formatTechnologyBrand, projectsWord } from "@/lib/format";
 import {
     countActiveFilters,
+    catalogKindOn,
+    isAllCatalogKinds,
     openCatalogFilter,
+    parseCatalogKinds,
     projectPassesCatalogFilter,
+    toggleCatalogKind,
     type CatalogFilterState,
+    type CatalogKind,
 } from "@/lib/catalogFilter";
 import {
+    LINE_ALL,
+    LINE_TITLE,
+    POPULAR_BATH_TAB,
+    POPULAR_INDIVIDUAL_TAB,
+    POPULAR_SERIAL_TAB,
+} from "@/lib/copy";
+import { isCollectionId } from "@/lib/collections";
+import { LINE_ORDER, parseLineIds, type LineId } from "@/lib/lines";
+import { parseCatalogTechs } from "@/lib/techFamily";
+import { clearActiveFilterTag, listActiveFilterTags } from "./lib/active-tags";
+import { buildCatalogSections } from "./lib/sections";
+import { ProjectsCatalogSection } from "./__section/projects-catalog__section";
+import {
+    ChevronDownIcon,
     CloseIcon,
     FilterIcon,
     GridViewIcon,
     ListViewIcon,
     SearchIcon,
-    SortIcon,
+    TrashIcon,
 } from "@/ui/icons";
+import {
+    ProjectsCatalogSort,
+    type CatalogSortMode,
+} from "./__sort/projects-catalog__sort";
+import ui from "./projects-catalog__ui.module.css";
 
 type FiltersState = CatalogFilterState;
 
@@ -31,52 +55,37 @@ const TECH_OPTIONS: Technology[] = [
 ];
 const FLOOR_OPTIONS: Array<{ value: string; label: string }> = [
     { value: "1", label: "1 этаж" },
-    { value: "1.5", label: "1,5 этажа" },
     { value: "2", label: "2 этажа" },
-    { value: "mansard", label: "мансарда" },
+    { value: "mansard", label: "С мансардой" },
 ];
-const PRESETS: Array<{
-    key: string;
-    label: string;
-    apply: Partial<FiltersState>;
-}> = [
-    { key: "cheap", label: "Недорого до 8 млн", apply: { priceMax: 8 } },
-    { key: "mid", label: "8–15 млн", apply: { priceMin: 8, priceMax: 15 } },
-    { key: "small", label: "Компакт до 150 м²", apply: { areaMax: 150 } },
-    { key: "family", label: "Семейный от 3 спален", apply: { bedroomsMin: 3 } },
-    { key: "1story", label: "Одноэтажные", apply: { floors: ["1"] } },
-    { key: "gas", label: "Газобетон", apply: { tech: ["gas_concrete"] } },
-    { key: "frame", label: "Каркас", apply: { tech: ["frame"] } },
-];
-
-type SortMode =
-    | "priceAsc"
-    | "priceDesc"
-    | "areaAsc"
-    | "areaDesc"
-    | "recommended";
 
 interface Props {
     projects: MergedProject[];
     bounds: { maxArea: number; maxPrice: number };
+    promo?: ReactNode;
+    consult?: ReactNode;
 }
 
-const TECH_SET = new Set<string>(TECH_OPTIONS);
-
-export function ProjectsCatalogContainer({ projects, bounds }: Props) {
+export function ProjectsCatalogContainer({
+    projects,
+    bounds,
+    promo,
+    consult,
+}: Props) {
     const searchParams = useSearchParams();
     const catalogOpen = openCatalogFilter(bounds);
     const [state, setState] = useState<FiltersState>(catalogOpen);
-    const [sort, setSort] = useState<SortMode>("recommended");
-    const [open, setOpen] = useState(false);
+    const [sort, setSort] = useState<CatalogSortMode>("areaDesc");
+    const [open, setOpen] = useState(true);
+    const [mobileOpen, setMobileOpen] = useState(false);
     const [q, setQ] = useState("");
     /** grid = photo-first плитка (демо/маркетинг), wide = список */
     const [view, setView] = useState<"wide" | "grid">("grid");
 
     useEffect(() => {
         const next: Partial<FiltersState> = {};
-        const tech = searchParams.get("tech");
-        if (tech && TECH_SET.has(tech)) next.tech = [tech as Technology];
+        const techs = parseCatalogTechs(searchParams.get("tech"));
+        if (techs.length) next.tech = techs;
         const floors = searchParams.get("floors");
         if (floors) next.floors = [floors];
         const priceMin = searchParams.get("priceMin");
@@ -93,6 +102,14 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
         }
         if (areaMin) next.areaMin = Number(areaMin) || catalogOpen.areaMin;
         if (areaMax) next.areaMax = Number(areaMax) || catalogOpen.areaMax;
+        const collection = searchParams.get("collection");
+        if (collection && isCollectionId(collection)) {
+            next.collection = collection;
+        }
+        const kinds = parseCatalogKinds(searchParams.get("kind"));
+        if (kinds.length) next.kind = kinds;
+        const lines = parseLineIds(searchParams.get("line"));
+        if (lines.length) next.lines = lines;
         if (Object.keys(next).length) {
             setState((s) => ({ ...s, ...next }));
             setOpen(true);
@@ -100,18 +117,13 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
     }, [searchParams]);
 
     const filtered = useMemo(() => {
-        return projects.filter((p) =>
-            projectPassesCatalogFilter(p, state, q),
-        );
+        return projects.filter((p) => projectPassesCatalogFilter(p, state, q));
     }, [projects, state, q]);
 
     const sorted = useMemo(() => {
         const arr = [...filtered];
         const priceOf = (p: MergedProject) => p.priceFrom ?? 0;
         switch (sort) {
-            case "recommended":
-                arr.sort((a, b) => (b.area ?? 0) - (a.area ?? 0));
-                break;
             case "priceAsc":
                 arr.sort((a, b) => priceOf(a) - priceOf(b));
                 break;
@@ -128,14 +140,28 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
         return arr;
     }, [filtered, sort]);
 
-    const activeChips = countActiveFilters(state, catalogOpen) + (q.trim() ? 1 : 0);
+    const sections = useMemo(
+        () => buildCatalogSections(sorted, state.kind),
+        [sorted, state.kind]
+    );
+
+    const activeChips =
+        countActiveFilters(state, catalogOpen) + (q.trim() ? 1 : 0);
+    const filterTags = useMemo(
+        () => listActiveFilterTags(state, catalogOpen, q),
+        [state, catalogOpen, q]
+    );
     const reset = () => {
         setState(catalogOpen);
         setQ("");
     };
-
-    const applyPreset = (patch: Partial<FiltersState>) =>
-        setState((s) => ({ ...s, ...patch }));
+    const clearTag = (key: string) => {
+        if (key === "q") {
+            setQ("");
+            return;
+        }
+        setState((s) => clearActiveFilterTag(s, catalogOpen, key));
+    };
 
     const toggleTech = (t: Technology) =>
         setState((s) => ({
@@ -151,10 +177,79 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
                 ? s.floors.filter((x) => x !== f)
                 : [...s.floors, f],
         }));
+    const toggleNumber = (key: "rooms" | "baths", n: number) =>
+        setState((s) => ({
+            ...s,
+            [key]: s[key].includes(n)
+                ? s[key].filter((x) => x !== n)
+                : [...s[key], n],
+        }));
+    const kindOn = (kind: CatalogKind) => catalogKindOn(state.kind, kind);
+    const toggleKind = (kind: CatalogKind) =>
+        setState((s) => {
+            const next = toggleCatalogKind(s.kind, kind);
+            const lines = isAllCatalogKinds(next)
+                ? isAllCatalogKinds(s.kind)
+                    ? s.lines
+                    : []
+                : catalogKindOn(next, "serial")
+                  ? s.lines
+                  : [];
+            return { ...s, kind: next, lines };
+        });
+    const toggleLine = (id: LineId) =>
+        setState((s) => {
+            const on = s.lines.includes(id);
+            const lines = on
+                ? s.lines.filter((x) => x !== id)
+                : [...s.lines, id];
+            const kind: CatalogKind[] =
+                !on && !catalogKindOn(s.kind, "serial")
+                    ? [...s.kind, "serial"]
+                    : s.kind;
+            return { ...s, lines, kind };
+        });
+    const clearLines = () => setState((s) => ({ ...s, lines: [] }));
     const FilterBody = (
-        <div className="space-y-6">
-            <FilterGroup label="Материал стен">
-                <div className="flex flex-wrap gap-1.5">
+        <div className={ui.stack}>
+            <FilterGroup
+                label="Тип проекта"
+                active={
+                    !isAllCatalogKinds(state.kind) || state.lines.length > 0
+                }
+            >
+                <LineDropdown
+                    serialOn={kindOn("serial")}
+                    onToggleSerial={() => toggleKind("serial")}
+                    lines={state.lines}
+                    onToggleLine={toggleLine}
+                    onClearLines={clearLines}
+                />
+                <label className={ui.checkRow}>
+                    <input
+                        type="checkbox"
+                        checked={kindOn("individual")}
+                        onChange={() => toggleKind("individual")}
+                        className={ui.check}
+                    />
+                    {POPULAR_INDIVIDUAL_TAB}
+                </label>
+                <label className={ui.checkRow}>
+                    <input
+                        type="checkbox"
+                        checked={kindOn("bath")}
+                        onChange={() => toggleKind("bath")}
+                        className={ui.check}
+                    />
+                    {POPULAR_BATH_TAB}
+                </label>
+            </FilterGroup>
+
+            <FilterGroup
+                label="Технология строительства"
+                active={state.tech.length > 0}
+            >
+                <div className={ui.chips}>
                     {TECH_OPTIONS.map((t) => (
                         <button
                             key={t}
@@ -172,6 +267,10 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
 
             <FilterGroup
                 label={`Площадь: ${state.areaMin}–${state.areaMax} м²`}
+                active={
+                    state.areaMin !== catalogOpen.areaMin ||
+                    state.areaMax !== catalogOpen.areaMax
+                }
             >
                 <RangeSlider
                     min={0}
@@ -183,10 +282,38 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
                         setState((s) => ({ ...s, areaMin: from, areaMax: to }))
                     }
                 />
+                <RangePresets
+                    from={state.areaMin}
+                    to={state.areaMax}
+                    openFrom={catalogOpen.areaMin}
+                    openTo={catalogOpen.areaMax}
+                    presets={[
+                        { key: "to200", label: "до 200 м²", min: 0, max: 200 },
+                        {
+                            key: "200to500",
+                            label: "от 200 м² до 500 м²",
+                            min: 200,
+                            max: 500,
+                        },
+                        {
+                            key: "from500",
+                            label: "более 500 м²",
+                            min: 500,
+                            max: catalogOpen.areaMax,
+                        },
+                    ]}
+                    onApply={(min, max) =>
+                        setState((s) => ({ ...s, areaMin: min, areaMax: max }))
+                    }
+                />
             </FilterGroup>
 
             <FilterGroup
                 label={`Цена: ${state.priceMin}–${state.priceMax} млн ₽`}
+                active={
+                    state.priceMin !== catalogOpen.priceMin ||
+                    state.priceMax !== catalogOpen.priceMax
+                }
             >
                 <RangeSlider
                     min={0}
@@ -202,10 +329,37 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
                         }))
                     }
                 />
+                <RangePresets
+                    from={state.priceMin}
+                    to={state.priceMax}
+                    openFrom={catalogOpen.priceMin}
+                    openTo={catalogOpen.priceMax}
+                    presets={[
+                        {
+                            key: "to11",
+                            label: "до 11 млн ₽",
+                            min: 0,
+                            max: 11,
+                        },
+                        {
+                            key: "from11",
+                            label: "более 11 млн ₽",
+                            min: 11,
+                            max: catalogOpen.priceMax,
+                        },
+                    ]}
+                    onApply={(min, max) =>
+                        setState((s) => ({
+                            ...s,
+                            priceMin: min,
+                            priceMax: max,
+                        }))
+                    }
+                />
             </FilterGroup>
 
-            <FilterGroup label="Этажность">
-                <div className="flex flex-wrap gap-1.5">
+            <FilterGroup label="Этажность" active={state.floors.length > 0}>
+                <div className={ui.chips}>
                     {FLOOR_OPTIONS.map((opt) => (
                         <button
                             key={opt.value}
@@ -223,68 +377,29 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
                 </div>
             </FilterGroup>
 
-            <FilterGroup label="Спальни от">
-                <div className="flex gap-1.5">
-                    {[1, 2, 3, 4, 5].map((n) => (
-                        <button
-                            key={n}
-                            type="button"
-                            onClick={() =>
-                                setState((s) => ({
-                                    ...s,
-                                    bedroomsMin: s.bedroomsMin === n ? 0 : n,
-                                }))
-                            }
-                            className={`chip chip-btn min-w-9 justify-center ${
-                                state.bedroomsMin === n ? "chip-active" : ""
-                            }`}
-                        >
-                            {n}+
-                        </button>
-                    ))}
-                </div>
+            <FilterGroup label="Жилые комнаты" active={state.rooms.length > 0}>
+                <FilterNumberRow
+                    values={[1, 2, 3, 4, 5, 6, 7]}
+                    plusFrom={7}
+                    selected={state.rooms}
+                    onToggle={(n) => toggleNumber("rooms", n)}
+                />
             </FilterGroup>
 
-            <FilterGroup label="Санузлы от">
-                <div className="flex gap-1.5">
-                    {[1, 2, 3, 4].map((n) => (
-                        <button
-                            key={n}
-                            type="button"
-                            onClick={() =>
-                                setState((s) => ({
-                                    ...s,
-                                    bathroomsMin:
-                                        s.bathroomsMin === n ? 0 : n,
-                                }))
-                            }
-                            className={`chip chip-btn min-w-9 justify-center ${
-                                state.bathroomsMin === n ? "chip-active" : ""
-                            }`}
-                        >
-                            {n}+
-                        </button>
-                    ))}
-                </div>
-            </FilterGroup>
-
-            <FilterGroup label="Особенности">
-                <div className="flex flex-col gap-2">
-                    <FilterCheckbox
-                        label="С террасой"
-                        checked={state.hasTerrace}
-                        onChange={(v) =>
-                            setState((s) => ({ ...s, hasTerrace: v }))
-                        }
-                    />
-                </div>
+            <FilterGroup label="Санузлы" active={state.baths.length > 0}>
+                <FilterNumberRow
+                    values={[1, 2, 3, 4, 5, 6]}
+                    plusFrom={6}
+                    selected={state.baths}
+                    onToggle={(n) => toggleNumber("baths", n)}
+                />
             </FilterGroup>
 
             {activeChips > 0 ? (
                 <button
                     type="button"
                     onClick={reset}
-                    className="btn btn-ghost w-full text-sm"
+                    className={`btn btn-ghost ${ui.reset}`}
                 >
                     Сбросить всё ({activeChips})
                 </button>
@@ -292,59 +407,14 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
         </div>
     );
 
-    return (
+    const toolbar = (
         <div>
-            {/* Toolbar: count + filters toggle | sort */}
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-ink-150 pb-3">
-                <div className="flex flex-wrap items-center gap-3">
-                    <div
-                        className="text-[15px] text-ink-700"
-                        data-found-count={sorted.length}
-                    >
-                        Найдено{" "}
-                        <strong className="text-ink-950">
-                            {sorted.length}
-                        </strong>{" "}
-                        {projectsWord(sorted.length)}
-                    </div>
-                    <button
-                        type="button"
-                        onClick={() => setOpen((v) => !v)}
-                        className={`btn btn-sm ${open ? "btn-dark" : "btn-light"}`}
-                        aria-expanded={open}
-                        aria-controls="catalog-filters"
-                    >
-                        <FilterIcon className="h-4 w-4" />
-                        {open ? "Скрыть" : "Фильтры"}
-                        {activeChips > 0 ? (
-                            <span
-                                className={`rounded-full px-1.5 py-0.5 text-xs font-bold tabular-nums ${
-                                    open
-                                        ? "bg-white/15 text-white"
-                                        : "bg-accent text-accent-ink"
-                                }`}
-                            >
-                                {activeChips}
-                            </span>
-                        ) : null}
-                    </button>
-                    {activeChips > 0 ? (
-                        <button
-                            type="button"
-                            onClick={reset}
-                            className="text-[13px] text-accent hover:underline"
-                        >
-                            Сбросить
-                        </button>
-                    ) : null}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                    {/* поиск слева от сортировки */}
-                    <div className="relative min-w-[160px] flex-1 sm:min-w-[200px] sm:flex-none sm:w-[240px]">
-                        <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" />
+            <div className={ui.toolbar}>
+                <div className={ui.searchRow}>
+                    <div className={ui.searchWrap}>
+                        <SearchIcon className={ui.searchIcon} />
                         <input
-                            className="field !py-2 !pl-9 text-sm"
+                            className={`field ${ui.searchField}`}
                             placeholder="название, площадь…"
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
@@ -353,179 +423,172 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
                         />
                     </div>
 
-                    <label className="flex items-center gap-2 text-sm text-ink-700">
-                        <SortIcon className="h-4 w-4 text-ink-500" />
-                        <span className="hidden sm:inline">Сортировка:</span>
-                        <select
-                            className="field field-select !w-auto !py-2 !pr-9 text-sm"
-                            value={sort}
-                            onChange={(e) =>
-                                setSort(e.target.value as SortMode)
-                            }
-                        >
-                            <option value="recommended">по площади</option>
-                            <option value="priceAsc">цена ↑</option>
-                            <option value="priceDesc">цена ↓</option>
-                            <option value="areaAsc">площадь ↑</option>
-                            <option value="areaDesc">площадь ↓</option>
-                        </select>
-                    </label>
+                    <div className={ui.sortRow}>
+                        <ProjectsCatalogSort value={sort} onChange={setSort} />
 
-                    {/* list / grid как у GWD */}
-                    <div
-                        className="inline-flex rounded-xl border border-ink-150 bg-white p-0.5"
-                        role="group"
-                        aria-label="Вид списка"
-                    >
-                        <button
-                            type="button"
-                            onClick={() => setView("wide")}
-                            className={`grid h-9 w-9 place-items-center rounded-lg transition ${
-                                view === "wide"
-                                    ? "bg-ink-950 text-white"
-                                    : "text-ink-500 hover:text-ink-950"
-                            }`}
-                            aria-pressed={view === "wide"}
-                            title="Широкие карточки"
-                            aria-label="Широкие карточки"
+                        <div
+                            className={ui.viewToggle}
+                            role="group"
+                            aria-label="Вид списка"
                         >
-                            <ListViewIcon className="h-4 w-4" />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setView("grid")}
-                            className={`grid h-9 w-9 place-items-center rounded-lg transition ${
-                                view === "grid"
-                                    ? "bg-ink-950 text-white"
-                                    : "text-ink-500 hover:text-ink-950"
-                            }`}
-                            aria-pressed={view === "grid"}
-                            title="Сетка"
-                            aria-label="Сетка"
-                        >
-                            <GridViewIcon className="h-4 w-4" />
-                        </button>
+                            <button
+                                type="button"
+                                onClick={() => setView("wide")}
+                                className={`${ui.viewBtn} ${
+                                    view === "wide" ? ui.viewOn : ""
+                                }`}
+                                aria-pressed={view === "wide"}
+                                title="Широкие карточки"
+                                aria-label="Широкие карточки"
+                            >
+                                <ListViewIcon className={ui.icon} />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setView("grid")}
+                                className={`${ui.viewBtn} ${
+                                    view === "grid" ? ui.viewOn : ""
+                                }`}
+                                aria-pressed={view === "grid"}
+                                title="Сетка"
+                                aria-label="Сетка"
+                            >
+                                <GridViewIcon className={ui.icon} />
+                            </button>
+                        </div>
                     </div>
+                </div>
+
+                <div className={ui.metaRow}>
+                    <div className={ui.found} data-found-count={sorted.length}>
+                        Найдено <strong>{sorted.length}</strong>{" "}
+                        {projectsWord(sorted.length)}
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (
+                                window.matchMedia("(min-width: 1024px)").matches
+                            ) {
+                                setOpen((v) => !v);
+                            } else {
+                                setMobileOpen(true);
+                            }
+                        }}
+                        className={`btn btn-sm ${open ? "btn-dark" : "btn-light"} ${ui.filterBtn}`}
+                        aria-expanded={open || mobileOpen}
+                        aria-controls="catalog-filters"
+                    >
+                        <FilterIcon className={ui.icon} />
+                        <span className={ui.filterLabelMobile}>Фильтры</span>
+                        <span className={ui.filterLabelDesktop}>
+                            {open ? "Скрыть" : "Фильтры"}
+                        </span>
+                        {activeChips > 0 ? (
+                            <span
+                                className={`${ui.count} ${open ? ui.countOn : ""}`}
+                            >
+                                {activeChips}
+                            </span>
+                        ) : null}
+                    </button>
                 </div>
             </div>
 
-            <div className="mb-5 flex flex-wrap gap-1.5">
-                {PRESETS.map((p) => (
-                    <button
-                        key={p.key}
-                        type="button"
-                        onClick={() => applyPreset(p.apply)}
-                        className="chip chip-btn !px-2.5 !py-1 !text-[12px]"
-                    >
-                        {p.label}
+            {filterTags.length > 0 ? (
+                <div className={ui.tags}>
+                    {filterTags.map((tag) => (
+                        <button
+                            key={tag.key}
+                            type="button"
+                            onClick={() => clearTag(tag.key)}
+                            className={`chip chip-btn ${ui.chipTag}`}
+                            aria-label={`Убрать фильтр: ${tag.label}`}
+                        >
+                            {tag.label}
+                            <CloseIcon className={ui.icon} />
+                        </button>
+                    ))}
+                    <button type="button" onClick={reset} className={ui.clear}>
+                        Сбросить
+                        <TrashIcon className={ui.icon} />
                     </button>
-                ))}
-            </div>
+                </div>
+            ) : null}
+        </div>
+    );
 
-            <div
-                className={`grid gap-5 ${
-                    open
-                        ? "lg:grid-cols-[300px_minmax(0,1fr)]"
-                        : "grid-cols-1"
-                }`}
-            >
+    return (
+        <div>
+            <div className={`${ui.layout} ${open ? ui.layoutOpen : ""}`}>
                 {open ? (
-                    <aside id="catalog-filters" className="hidden lg:block">
+                    <aside id="catalog-filters" className={ui.aside}>
                         <div
-                            className="sticky z-20 overflow-y-auto rounded-2xl border border-ink-150 bg-white p-5 shadow-card filters-scroll"
+                            className={`filters-scroll ${ui.panel}`}
                             style={{
                                 top: "calc(var(--site-header-height, 72px) + 12px)",
                                 maxHeight:
                                     "calc(100vh - var(--site-header-height, 72px) - 24px)",
                             }}
                         >
-                            <div className="mb-5 border-b border-ink-150 pb-4">
-                                <div className="font-display text-lg font-semibold text-ink-950">
-                                    Фильтры
-                                </div>
-                                <div className="mt-0.5 text-[12px] text-ink-500">
-                                    {sorted.length}{" "}
-                                    {projectsWord(sorted.length)}
-                                </div>
-                            </div>
                             {FilterBody}
                         </div>
                     </aside>
                 ) : null}
 
-                <div className="min-w-0">
+                <div className={ui.mainCol}>
+                    {toolbar}
+                    {promo ? <div key="catalog-promo">{promo}</div> : null}
                     {sorted.length === 0 ? (
                         <EmptyState onReset={reset} />
-                    ) : view === "wide" ? (
-                        <div className="flex flex-col gap-4">
-                            {sorted.map((p, i) => (
-                                <ProjectCard
-                                    key={p.slug}
-                                    project={p}
-                                    layout="wide"
-                                    priority={i < 2}
-                                />
-                            ))}
-                        </div>
                     ) : (
-                        <div
-                            className={`grid gap-5 ${
-                                open
-                                    ? "sm:grid-cols-2 xl:grid-cols-2"
-                                    : "sm:grid-cols-2 xl:grid-cols-3"
-                            }`}
-                        >
-                            {sorted.map((p, i) => (
-                                <ProjectCard
-                                    key={p.slug}
-                                    project={p}
-                                    layout="grid"
-                                    priority={i < 2}
+                        sections.map((section) => (
+                            <ProjectsCatalogSection
+                                key={section.key}
+                                title={section.title}
+                                lead={section.lead}
+                            >
+                                <LineCards
+                                    projects={section.projects}
+                                    view={view}
+                                    dense={open}
                                 />
-                            ))}
-                        </div>
+                            </ProjectsCatalogSection>
+                        ))
                     )}
+                    {consult ? (
+                        <div key="catalog-consult">{consult}</div>
+                    ) : null}
                 </div>
             </div>
 
             {/* Mobile / tablet: full-height sheet with all filters */}
-            {open ? (
-                <div
-                    className="fixed inset-0 z-50 flex items-end bg-black/55 lg:hidden"
-                    onClick={() => setOpen(false)}
-                >
+            {mobileOpen ? (
+                <div className={ui.drawer} onClick={() => setMobileOpen(false)}>
                     <div
                         id="catalog-filters-mobile"
-                        className="flex max-h-[92vh] w-full flex-col rounded-t-3xl bg-white shadow-lift"
+                        className={ui.sheet}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="flex flex-shrink-0 items-center justify-between border-b border-ink-150 px-5 py-4">
+                        <div className={ui.sheetHead}>
                             <div>
-                                <div className="font-display text-lg font-extrabold">
-                                    Фильтры
-                                </div>
-                                <div className="text-[12px] text-ink-500">
-                                    {sorted.length}{" "}
-                                    {projectsWord(sorted.length)}
-                                </div>
+                                <div className={ui.sheetTitle}>Фильтры</div>
                             </div>
                             <button
                                 type="button"
-                                onClick={() => setOpen(false)}
+                                onClick={() => setMobileOpen(false)}
                                 aria-label="Закрыть"
-                                className="grid h-10 w-10 place-items-center rounded-full border border-ink-150"
+                                className={ui.sheetClose}
                             >
-                                <CloseIcon className="h-4 w-4" />
+                                <CloseIcon className={ui.icon} />
                             </button>
                         </div>
-                        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-                            {FilterBody}
-                        </div>
-                        <div className="flex-shrink-0 border-t border-ink-150 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                        <div className={ui.sheetBody}>{FilterBody}</div>
+                        <div className={ui.sheetFoot}>
                             <button
                                 type="button"
-                                onClick={() => setOpen(false)}
-                                className="btn btn-primary btn-lg w-full"
+                                onClick={() => setMobileOpen(false)}
+                                className={`btn btn-primary btn-lg ${ui.full}`}
                             >
                                 Показать {sorted.length}{" "}
                                 {projectsWord(sorted.length)}
@@ -538,22 +601,57 @@ export function ProjectsCatalogContainer({ projects, bounds }: Props) {
     );
 }
 
+function LineCards({
+    projects,
+    view,
+    dense,
+}: {
+    projects: MergedProject[];
+    view: "wide" | "grid";
+    dense: boolean;
+}) {
+    if (view === "wide" || projects.length === 1) {
+        return (
+            <div className={ui.wideList}>
+                {projects.map((p, i) => (
+                    <ProjectCard
+                        key={p.slug}
+                        project={p}
+                        layout="wide"
+                        priority={i < 1}
+                    />
+                ))}
+            </div>
+        );
+    }
+    return (
+        <div className={`${ui.gridList} ${dense ? "" : ui.gridListWide}`}>
+            {projects.map((p, i) => (
+                <ProjectCard
+                    key={p.slug}
+                    project={p}
+                    layout="grid"
+                    priority={i < 2}
+                />
+            ))}
+        </div>
+    );
+}
+
 function EmptyState({ onReset }: { onReset: () => void }) {
     return (
-        <div className="rounded-2xl border border-dashed border-ink-200 bg-white p-10 text-center">
-            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-ink-50 text-ink-500">
-                <FilterIcon className="h-6 w-6" />
+        <div className={ui.empty}>
+            <div className={ui.emptyIcon}>
+                <FilterIcon className={ui.iconLg} />
             </div>
-            <div className="mt-4 font-display text-lg font-extrabold">
-                Ничего не нашлось
-            </div>
-            <p className="mt-2 text-sm text-ink-500">
+            <div className={ui.emptyTitle}>Ничего не нашлось</div>
+            <p className={ui.emptyText}>
                 Попробуйте ослабить фильтры или сбросить всё
             </p>
             <button
                 type="button"
                 onClick={onReset}
-                className="btn btn-light mt-4"
+                className={`btn btn-light ${ui.emptyBtn}`}
             >
                 Сбросить фильтры
             </button>
@@ -561,42 +659,172 @@ function EmptyState({ onReset }: { onReset: () => void }) {
     );
 }
 
+function FilterNumberRow({
+    values,
+    plusFrom,
+    selected,
+    onToggle,
+}: {
+    values: number[];
+    plusFrom?: number;
+    selected: number[];
+    onToggle: (n: number) => void;
+}) {
+    return (
+        <div className={ui.chips}>
+            {values.map((n) => {
+                const on = selected.includes(n);
+                const label =
+                    plusFrom != null && n >= plusFrom ? `${n}+` : String(n);
+                return (
+                    <button
+                        key={n}
+                        type="button"
+                        onClick={() => onToggle(n)}
+                        className={`${ui.num} ${on ? ui.numOn : ""} ${
+                            label.length > 1 ? ui.numSm : ""
+                        }`}
+                    >
+                        {label}
+                    </button>
+                );
+            })}
+        </div>
+    );
+}
+
+function LineDropdown({
+    serialOn,
+    onToggleSerial,
+    lines,
+    onToggleLine,
+    onClearLines,
+}: {
+    serialOn: boolean;
+    onToggleSerial: () => void;
+    lines: LineId[];
+    onToggleLine: (id: LineId) => void;
+    onClearLines: () => void;
+}) {
+    const [open, setOpen] = useState(lines.length > 0);
+
+    const toggleOpen = () => {
+        setOpen((v) => {
+            const next = !v;
+            if (next && !serialOn) onToggleSerial();
+            return next;
+        });
+    };
+
+    return (
+        <div>
+            <div className={ui.lineRow}>
+                <label className={ui.lineCheck}>
+                    <input
+                        type="checkbox"
+                        checked={serialOn}
+                        onChange={onToggleSerial}
+                        className={ui.check}
+                    />
+                    {POPULAR_SERIAL_TAB}
+                </label>
+                <button
+                    type="button"
+                    className={ui.chevronBtn}
+                    aria-expanded={open}
+                    aria-label="Линейки"
+                    onClick={toggleOpen}
+                >
+                    <ChevronDownIcon
+                        className={`${ui.chevron} ${open ? ui.chevronOpen : ""}`}
+                    />
+                </button>
+            </div>
+            {open ? (
+                <div className={ui.lines}>
+                    <label className={`${ui.checkRow} ${ui.checkRowSm}`}>
+                        <input
+                            type="checkbox"
+                            checked={lines.length === 0}
+                            onChange={onClearLines}
+                            className={ui.check}
+                        />
+                        {LINE_ALL}
+                    </label>
+                    {LINE_ORDER.map((id) => (
+                        <label
+                            key={id}
+                            className={`${ui.checkRow} ${ui.checkRowSm}`}
+                        >
+                            <input
+                                type="checkbox"
+                                checked={lines.includes(id)}
+                                onChange={() => onToggleLine(id)}
+                                className={ui.check}
+                            />
+                            {LINE_TITLE[id]}
+                        </label>
+                    ))}
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
 function FilterGroup({
     label,
+    active,
     children,
 }: {
     label: string;
+    active?: boolean;
     children: React.ReactNode;
 }) {
     return (
-        <div>
-            <div className="mb-2.5 text-[12px] font-semibold uppercase tracking-wider text-ink-500">
-                {label}
-            </div>
+        <div className={`${ui.group} ${active ? ui.groupOn : ""}`}>
+            <div className={ui.groupLabel}>{label}</div>
             {children}
         </div>
     );
 }
 
-function FilterCheckbox({
-    label,
-    checked,
-    onChange,
+function RangePresets({
+    presets,
+    from,
+    to,
+    openFrom,
+    openTo,
+    onApply,
 }: {
-    label: string;
-    checked: boolean;
-    onChange: (v: boolean) => void;
+    presets: Array<{ key: string; label: string; min: number; max: number }>;
+    from: number;
+    to: number;
+    openFrom: number;
+    openTo: number;
+    onApply: (min: number, max: number) => void;
 }) {
     return (
-        <label className="flex cursor-pointer items-center gap-2 text-[14px] text-ink-700 hover:text-ink-950">
-            <input
-                type="checkbox"
-                checked={checked}
-                onChange={(e) => onChange(e.target.checked)}
-                className="h-4 w-4 accent-accent"
-            />
-            <span>{label}</span>
-        </label>
+        <div className={ui.presets}>
+            {presets.map((preset) => {
+                const on = from === preset.min && to === preset.max;
+                return (
+                    <button
+                        key={preset.key}
+                        type="button"
+                        onClick={() =>
+                            on
+                                ? onApply(openFrom, openTo)
+                                : onApply(preset.min, preset.max)
+                        }
+                        className={`chip chip-btn ${ui.chipPreset} ${
+                            on ? "chip-active" : ""
+                        }`}
+                    >
+                        {preset.label}
+                    </button>
+                );
+            })}
+        </div>
     );
 }
 
@@ -616,8 +844,8 @@ function RangeSlider({
     onChange: (from: number, to: number) => void;
 }) {
     return (
-        <div className="grid grid-cols-2 gap-3">
-            <label className="text-[12px] text-ink-500">
+        <div className={ui.ranges}>
+            <label className={ui.rangeLabel}>
                 от
                 <input
                     type="range"
@@ -628,14 +856,14 @@ function RangeSlider({
                     onChange={(e) =>
                         onChange(
                             Math.min(parseInt(e.target.value), to - step),
-                            to,
+                            to
                         )
                     }
-                    className="mt-1 w-full accent-accent"
+                    className={ui.range}
                     suppressHydrationWarning
                 />
             </label>
-            <label className="text-[12px] text-ink-500">
+            <label className={ui.rangeLabel}>
                 до
                 <input
                     type="range"
@@ -646,10 +874,10 @@ function RangeSlider({
                     onChange={(e) =>
                         onChange(
                             from,
-                            Math.max(parseInt(e.target.value), from + step),
+                            Math.max(parseInt(e.target.value), from + step)
                         )
                     }
-                    className="mt-1 w-full accent-accent"
+                    className={ui.range}
                     suppressHydrationWarning
                 />
             </label>

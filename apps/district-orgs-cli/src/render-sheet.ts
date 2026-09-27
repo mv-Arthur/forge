@@ -1,9 +1,19 @@
+import {
+    numberedGroups,
+    placeGroupsAroundMap,
+} from "@forge/district-orgs";
 import type {
-    AddressGroup,
     District,
     DistrictSheet,
+    NumberedGroup,
 } from "@forge/district-orgs";
-import type { MapMarker } from "./static-map.ts";
+
+export {
+    markersForGroups,
+    numberedGroups,
+    placeGroupsAroundMap,
+} from "@forge/district-orgs";
+export type { AroundSides, NumberedGroup } from "@forge/district-orgs";
 
 export function renderSheetsHtml(params: {
     district: District;
@@ -52,20 +62,49 @@ body { font: 7.5pt/1.15 "Helvetica Neue", Arial, sans-serif; color: #111; }
 }
 .body {
   flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110mm minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas:
+    "w n e"
+    "w map e"
+    "w s e";
+  gap: 2.2mm 3mm;
+}
+.cell-n { grid-area: n; align-content: end; justify-content: center; }
+.cell-s { grid-area: s; align-content: start; justify-content: center; }
+.cell-w { grid-area: w; }
+.cell-e { grid-area: e; }
+.cell-map {
+  grid-area: map;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cell {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.cell-w,
+.cell-e {
   display: flex;
   flex-direction: column;
-  gap: 3mm;
-  min-height: 0;
+  justify-content: center;
 }
-.cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4mm;
-  flex: 1;
-  min-height: 0;
+.cell-n,
+.cell-s {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6mm 3mm;
 }
-.col { overflow: visible; }
-.group { margin-bottom: 1.6mm; }
+.cell-n .group,
+.cell-s .group {
+  flex: 1 1 40mm;
+  min-width: 36mm;
+}
+.group { margin-bottom: 1.4mm; }
 .group-title { font-weight: 700; font-size: 7pt; }
 .group-title .n {
   display: inline-block;
@@ -76,9 +115,8 @@ ol.names { margin: 0.2mm 0 0 0; padding-left: 0; list-style: none; }
 ol.names li { display: flex; gap: 0.4em; }
 .idx { min-width: 2.2em; flex: 0 0 auto; }
 .map-wrap {
-  width: 100%;
+  width: 110mm;
   aspect-ratio: 650 / 450;
-  align-self: start;
 }
 .map-wrap img {
   display: block;
@@ -101,90 +139,27 @@ function renderSheet(params: {
     mapDataUri: string;
     sheetCount: number;
 }): string {
-    const numbered = numberedGroups(params.sheet.groups);
-    const [left, right] = packColumns(numbered);
+    const sides = placeGroupsAroundMap(numberedGroups(params.sheet.groups));
     return `<section class="sheet">
   <div class="hdr">
     <span>${esc(params.district.title)}</span>
     <span>лист ${params.sheet.index}/${params.sheetCount} · ${params.sheet.organizations.length} орг.</span>
   </div>
   <div class="body">
-    <div class="map-wrap">
-      ${params.mapDataUri ? `<img src="${params.mapDataUri}" alt="кроп района">` : ""}
+    <div class="cell cell-n">${renderGroups(sides.top)}</div>
+    <div class="cell cell-w">${renderGroups(sides.left)}</div>
+    <div class="cell cell-map">
+      <div class="map-wrap">
+        ${params.mapDataUri ? `<img src="${params.mapDataUri}" alt="кроп района">` : ""}
+      </div>
     </div>
-    <div class="cols">
-      <div class="col">${renderGroups(left)}</div>
-      <div class="col">${renderGroups(right)}</div>
-    </div>
+    <div class="cell cell-e">${renderGroups(sides.right)}</div>
+    <div class="cell cell-s">${renderGroups(sides.bottom)}</div>
   </div>
 </section>`;
 }
 
-export function numberedGroups(
-    groups: AddressGroup[]
-): Array<{ group: AddressGroup; start: number; index: number }> {
-    return numberGroups(sortGroups(groups));
-}
-
-export function markersForGroups(groups: AddressGroup[]): MapMarker[] {
-    return numberedGroups(groups)
-        .filter(
-            (item) =>
-                item.group.coordinates.lon !== 0 ||
-                item.group.coordinates.lat !== 0
-        )
-        .map((item) => ({
-            lon: item.group.coordinates.lon,
-            lat: item.group.coordinates.lat,
-            label: item.index,
-        }));
-}
-
-function sortGroups(groups: AddressGroup[]): AddressGroup[] {
-    return [...groups].sort((a, b) => {
-        const lat = b.coordinates.lat - a.coordinates.lat;
-        if (lat !== 0) return lat;
-        return a.coordinates.lon - b.coordinates.lon;
-    });
-}
-
-function numberGroups(
-    groups: AddressGroup[]
-): Array<{ group: AddressGroup; start: number; index: number }> {
-    let nameIndex = 1;
-    return groups.map((group, i) => {
-        const start = nameIndex;
-        nameIndex += group.organizations.length;
-        return { group, start, index: i + 1 };
-    });
-}
-
-function packColumns(
-    items: Array<{ group: AddressGroup; start: number; index: number }>
-): [
-    Array<{ group: AddressGroup; start: number; index: number }>,
-    Array<{ group: AddressGroup; start: number; index: number }>,
-] {
-    const left: typeof items = [];
-    const right: typeof items = [];
-    let leftCount = 0;
-    let rightCount = 0;
-    for (const item of items) {
-        const n = item.group.organizations.length;
-        if (leftCount <= rightCount) {
-            left.push(item);
-            leftCount += n;
-        } else {
-            right.push(item);
-            rightCount += n;
-        }
-    }
-    return [left, right];
-}
-
-function renderGroups(
-    items: Array<{ group: AddressGroup; start: number; index: number }>
-): string {
+function renderGroups(items: NumberedGroup[]): string {
     return items
         .map((item) => {
             const names = item.group.organizations

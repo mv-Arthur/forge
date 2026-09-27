@@ -1,0 +1,9 @@
+.main {
+    padding-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+    .main {
+        padding-bottom: 0;
+    }
+}

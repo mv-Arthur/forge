@@ -100,6 +100,42 @@ export async function openDistrict(
     };
 }
 
+export async function openMapsSession(
+    origin: string,
+    options: {
+        fetch: typeof fetch;
+        userAgent?: string;
+        signal?: AbortSignal;
+        path?: string;
+    }
+): Promise<MapsSession> {
+    const userAgent = options.userAgent ?? DEFAULT_USER_AGENT;
+    const path = options.path ?? "/maps/213/moscow/";
+    const response = await options.fetch(`${origin}${path}`, {
+        headers: {
+            Accept: "text/html",
+            "Accept-Language": "ru-RU,ru;q=0.9",
+            "User-Agent": userAgent,
+        },
+        signal: options.signal,
+        redirect: "follow",
+    });
+    if (!response.ok) {
+        throw new MapsRequestError(
+            `Maps page HTTP ${response.status}`,
+            response.status
+        );
+    }
+    const html = await response.text();
+    const state = extractPageState(html);
+    return {
+        origin,
+        csrfToken: csrfFromState(state),
+        cookieHeader: cookieHeaderFrom(response.headers),
+        userAgent,
+    };
+}
+
 export interface SearchToponym {
     type?: unknown;
     title?: unknown;

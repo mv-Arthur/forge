@@ -1,66 +1,74 @@
 import type { ReactNode } from "react";
-import { LEAD_EYEBROW, LEAD_HEADING } from "@/lib/copy";
+import Image from "next/image";
+import {
+    LEAD_HOME_HEADING,
+    LEAD_HOME_TEXT,
+    LEAD_MESSENGER_HEADING,
+    LEAD_MESSENGER_LEAD,
+    LEAD_MAX,
+    LEAD_TG,
+} from "@/lib/copy";
+import { MaxIcon, TelegramIcon } from "@/ui/icons";
+import { Container } from "@/ui/container";
+import styles from "./home-lead.module.css";
 
 export function HomeLead({
-    officeHoursLabel,
     telegram,
-    whatsapp,
-    phone,
-    phoneClean,
+    max,
     form,
+    officeImage,
 }: {
-    officeHoursLabel: string;
     telegram: string;
-    whatsapp: string;
-    phone: string;
-    phoneClean: string;
+    max: string;
     form: ReactNode;
+    officeImage: string;
 }) {
     return (
-        <section
-            id="lead"
-            data-section="lead"
-            className="section relative overflow-hidden border-t border-ink-150 bg-white"
-        >
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-accent-soft/40 to-transparent" />
-            <div className="container-page relative grid gap-10 md:grid-cols-2">
-                <div>
-                    <div className="eyebrow text-accent">{LEAD_EYEBROW}</div>
-                    <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.05] text-ink-950">
-                        {LEAD_HEADING}
-                    </h2>
-                    <p className="mt-4 text-base leading-relaxed text-ink-500 md:text-lg">
-                        Ответим по проекту, материалам и смете. {officeHoursLabel}.
-                    </p>
-                    <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium">
-                        <a
-                            href={telegram}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-ink-600 underline-offset-4 transition-colors hover:text-accent hover:underline"
-                        >
-                            Telegram
-                        </a>
-                        <a
-                            href={whatsapp}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-ink-600 underline-offset-4 transition-colors hover:text-accent hover:underline"
-                        >
-                            WhatsApp
-                        </a>
-                        <a
-                            href={`tel:${phoneClean}`}
-                            className="text-ink-950 underline-offset-4 transition-colors hover:text-accent hover:underline"
-                        >
-                            {phone}
-                        </a>
+        <section id="lead" data-section="lead" className={styles.root}>
+            <Container className={styles.grid}>
+                <div className={styles.card}>
+                    <h2 className={styles.title}>{LEAD_HOME_HEADING}</h2>
+                    <p className={styles.text}>{LEAD_HOME_TEXT}</p>
+                    <div className={styles.form}>{form}</div>
+                </div>
+                <div className={styles.photo}>
+                    <Image
+                        src={officeImage}
+                        alt=""
+                        fill
+                        unoptimized
+                        sizes="(min-width:992px) 60vw, 100vw"
+                        className={styles.photoImg}
+                    />
+                    <div className={styles.photoShade} />
+                    <div className={styles.photoCopy}>
+                        <h3 className={styles.photoTitle}>
+                            {LEAD_MESSENGER_HEADING}
+                        </h3>
+                        <p className={styles.photoLead}>{LEAD_MESSENGER_LEAD}</p>
+                        <div className={styles.messengers}>
+                            <a
+                                href={telegram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.msg}
+                            >
+                                <TelegramIcon className={styles.msgIcon} />
+                                {LEAD_TG}
+                            </a>
+                            <a
+                                href={max}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.msg}
+                            >
+                                <MaxIcon className={styles.msgMax} />
+                                {LEAD_MAX}
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div className="rounded-3xl border border-ink-150 bg-white p-6 shadow-lift md:p-8">
-                    {form}
-                </div>
-            </div>
+            </Container>
         </section>
     );
 }

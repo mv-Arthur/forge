@@ -1,0 +1,92 @@
+.root {
+    display: grid;
+    grid-template-rows: auto 240px;
+    overflow: hidden;
+    border-radius: 28px;
+    background: rgb(var(--ink-50-rgb));
+}
+
+.copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: var(--space-32) var(--space-24) var(--space-24);
+}
+
+.title {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: clamp(1.625rem, 2.5vw, 2.125rem);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.03em;
+}
+
+.line {
+    display: block;
+}
+
+.lead {
+    max-width: 28em;
+    margin: var(--space-16) 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.btn {
+    width: 100%;
+    margin-top: var(--space-28);
+    padding: 14px 28px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.btn:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+}
+
+.visual {
+    position: relative;
+    min-height: 240px;
+}
+
+.photo {
+    object-fit: cover;
+    object-position: 62% 55%;
+}
+
+@media (min-width: 768px) {
+    .root {
+        grid-template-rows: auto;
+        grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+        min-height: 300px;
+    }
+
+    .copy {
+        padding: var(--space-48) var(--space-24) var(--space-48) var(--space-48);
+    }
+
+    .btn {
+        width: auto;
+    }
+
+    .visual {
+        min-height: 100%;
+    }
+
+    .photo {
+        object-position: 58% 48%;
+    }
+}

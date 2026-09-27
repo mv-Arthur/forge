@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 900" width="1040" height="900">
+  <defs>
+    <pattern id="wood" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="10" height="10" fill="#f4ead6"/>
+      <path d="M0 0 H10" stroke="#e4d5b8" stroke-width="3"/>
+    </pattern>
+    <pattern id="deck" width="14" height="14" patternUnits="userSpaceOnUse">
+      <rect width="14" height="14" fill="#efe2c8"/>
+      <path d="M0 0 V14" stroke="#d9c7a4" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1040" height="900" fill="#f7f3ea"/>
+  <g font-family="system-ui, 'Segoe UI', sans-serif" fill="#2a2622">
+    <g transform="translate(160 90)">
+      <rect x="0" y="540" width="720" height="162" fill="url(#deck)" stroke="#2a2622" stroke-width="2.2"/>
+      <rect x="0" y="0" width="720" height="540" fill="#f7f1e6" stroke="#2a2622" stroke-width="3.2"/>
+      <rect x="0" y="162" width="450" height="378" fill="url(#wood)" stroke="#2a2622" stroke-width="1.8"/>
+      <rect x="450" y="162" width="270" height="234" fill="#efe6d4" stroke="#2a2622" stroke-width="1.8"/>
+      <rect x="450" y="396" width="270" height="144" fill="url(#wood)" stroke="#2a2622" stroke-width="1.8"/>
+      <rect x="0" y="0" width="234" height="162" fill="url(#wood)" stroke="#2a2622" stroke-width="1.8"/>
+      <rect x="234" y="0" width="144" height="162" fill="#f3eee4" stroke="#2a2622" stroke-width="1.8"/>
+      <rect x="378" y="0" width="162" height="162" fill="#e7eef0" stroke="#2a2622" stroke-width="1.8"/>
+      <rect x="540" y="0" width="180" height="162" fill="#f3eee4" stroke="#2a2622" stroke-width="1.8"/>
+      <rect x="18" y="18" width="54" height="90" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="250" y="22" width="50" height="70" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <circle cx="268" cy="48" r="10" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="396" y="22" width="48" height="78" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="404" y="30" width="32" height="40" fill="none" stroke="#2a2622" stroke-width="1"/>
+      <rect x="562" y="22" width="50" height="70" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <circle cx="580" cy="48" r="10" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="70" y="250" width="160" height="70" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="70" y="360" width="200" height="54" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="300" y="250" width="90" height="140" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="478" y="210" width="214" height="36" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <rect x="478" y="270" width="214" height="36" fill="none" stroke="#2a2622" stroke-width="1.2"/>
+      <circle cx="620" cy="340" r="22" fill="none" stroke="#2a2622" stroke-width="1.6"/>
+      <rect x="200" y="540" width="90" height="8" fill="#f7f3ea" stroke="#2a2622" stroke-width="1.4"/>
+      <rect x="90" y="154" width="54" height="16" fill="#f7f3ea" stroke="#2a2622" stroke-width="1.4"/>
+      <rect x="430" y="154" width="40" height="16" fill="#f7f3ea" stroke="#2a2622" stroke-width="1.4"/>
+      <text x="117" y="88" text-anchor="middle" font-size="13" font-weight="600">ПРИХОЖАЯ</text>
+      <text x="117" y="108" text-anchor="middle" font-size="12">4,7 м²</text>
+      <text x="306" y="82" text-anchor="middle" font-size="13" font-weight="600">С/У</text>
+      <text x="306" y="102" text-anchor="middle" font-size="12">2,6 м²</text>
+      <text x="459" y="82" text-anchor="middle" font-size="13" font-weight="600">МОЙКА</text>
+      <text x="459" y="102" text-anchor="middle" font-size="12">2,9 м²</text>
+      <text x="630" y="82" text-anchor="middle" font-size="13" font-weight="600">С/У</text>
+      <text x="630" y="102" text-anchor="middle" font-size="12">2,9 м²</text>
+      <text x="225" y="340" text-anchor="middle" font-size="15" font-weight="650">КОМНАТА ОТДЫХА</text>
+      <text x="225" y="362" text-anchor="middle" font-size="13">21,0 м²</text>
+      <text x="585" y="270" text-anchor="middle" font-size="14" font-weight="650">ПАРНАЯ</text>
+      <text x="585" y="290" text-anchor="middle" font-size="12">7,0 м²</text>
+      <text x="585" y="468" text-anchor="middle" font-size="13" font-weight="600">РАЗДЕВАЛКА</text>
+      <text x="585" y="488" text-anchor="middle" font-size="12">4,3 м²</text>
+      <text x="360" y="630" text-anchor="middle" font-size="14" font-weight="600">ТЕРРАСА</text>
+    </g>
+    <g stroke="#2a2622" fill="none" stroke-width="1.1">
+      <path d="M160 820 H880"/>
+      <path d="M160 812 V828"/>
+      <path d="M880 812 V828"/>
+      <path d="M100 90 V630"/>
+      <path d="M92 90 H108"/>
+      <path d="M92 630 H108"/>
+    </g>
+    <text x="520" y="858" text-anchor="middle" font-size="14">8 000</text>
+    <text x="64" y="370" text-anchor="middle" font-size="14" transform="rotate(-90 64 370)">6 000</text>
+  </g>
+</svg>

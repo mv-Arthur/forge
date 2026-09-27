@@ -44,12 +44,16 @@ export async function listDistrictOrgs(
     const seen = new Set<string>();
     const collected: Organization[] = [];
     let totalEstimate: number | null = null;
+    const reportSearch = () => {
+        options.onProgress?.(formatSearchProgress(collected.length, totalEstimate));
+    };
 
     const areas: Bounds[] = [opened.district.bounds];
     if (options.densify) {
         areas.push(...quadrants(opened.district.bounds));
     }
 
+    reportSearch();
     for (const area of areas) {
         if (collected.length >= limit) break;
         const estimate = await paginateArea({
@@ -68,10 +72,27 @@ export async function listDistrictOrgs(
             origin: opened.district.origin,
             fetch: http,
             signal: options.signal,
+            onPage: (pageEstimate) => {
+                if (pageEstimate != null) {
+                    totalEstimate = Math.max(totalEstimate ?? 0, pageEstimate);
+                }
+                reportSearch();
+            },
         });
-        if (estimate != null) totalEstimate = estimate;
+        if (estimate != null) {
+            totalEstimate = Math.max(totalEstimate ?? 0, estimate);
+        }
+        reportSearch();
     }
 
+    const acceptPoint = includeOutside
+        ? undefined
+        : (point: { lon: number; lat: number }) =>
+              pointInGeometry(
+                  [point.lon, point.lat],
+                  opened.geometry,
+                  opened.district.bounds
+              );
     const expanded = await resolveHouseAddresses(
         collected.slice(0, limit),
         opened.session,
@@ -79,9 +100,17 @@ export async function listDistrictOrgs(
             fetch: http,
             delayMs,
             signal: options.signal,
+            acceptPoint,
+            onProgress: options.onProgress,
         }
     );
-    const organizations = applyBlacklist(expanded, options.exclude ?? []);
+    const clipped =
+        includeOutside || !acceptPoint
+            ? expanded
+            : expanded.filter(
+                  (org) => !org.coordinates || acceptPoint(org.coordinates)
+              );
+    const organizations = applyBlacklist(clipped, options.exclude ?? []);
 
     return {
         district: opened.district,
@@ -108,6 +137,7 @@ async function paginateArea(params: {
     origin: string;
     fetch: typeof fetch;
     signal?: AbortSignal;
+    onPage?: (totalEstimate: number | null) => void;
 }): Promise<number | null> {
     const ll = boundsCenter(params.bounds);
     const spn = boundsToSpn(params.bounds);
@@ -160,11 +190,17 @@ async function paginateArea(params: {
             params.collected.push(org);
             if (params.collected.length >= params.limit) break;
         }
+        params.onPage?.(totalEstimate);
         if (newIds === 0) break;
         if (businesses.length < params.pageSize) break;
         skip += params.pageSize;
     }
     return totalEstimate;
+}
+
+function formatSearchProgress(count: number, total: number | null): string {
+    if (total != null && total > 0) return `search ${count}/${total}`;
+    return `search ${count}`;
 }
 
 function normalizeLimit(value: number | undefined): number {

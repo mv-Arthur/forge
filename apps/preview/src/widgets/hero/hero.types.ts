@@ -1,4 +1,3 @@
-import type { StaticImageData } from "next/image";
 import type {
     HeroAttributeIconId,
     HeroAttributePayload,
@@ -15,7 +14,7 @@ export type {
 
 export type HeroPromoCard = {
     href: string;
-    image: StaticImageData;
+    image: string;
     title: string;
     subtitle?: string;
     cta: string;
@@ -24,6 +23,7 @@ export type HeroPromoCard = {
 export type HeroContent = {
     heading: string;
     lead: string;
+    banner: string;
     cards: HeroPromoCard[];
     attributes: HeroAttributePayload[];
 };

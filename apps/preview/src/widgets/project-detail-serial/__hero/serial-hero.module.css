@@ -1,0 +1,285 @@
+.icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.root {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    max-height: min(810px, calc(100svh - var(--site-header-height, 76px) - 24px));
+    min-height: 380px;
+    overflow: hidden;
+    background: #8aa3b5;
+    color: #fff;
+    user-select: none;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 420ms var(--ease);
+}
+
+.slide[data-active="true"] {
+    opacity: 1;
+}
+
+.slide img,
+.photo {
+    object-fit: cover;
+    object-position: center center;
+}
+
+.veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgb(16 20 18 / 0.28) 0%, rgb(16 20 18 / 0.04) 40%, rgb(16 20 18 / 0.05) 68%, rgb(16 20 18 / 0.28) 100%);
+}
+
+.hit {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 50%;
+    cursor: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+.chrome {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.chrome a,
+.chrome button {
+    pointer-events: auto;
+}
+
+.top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 26px max(1.5rem, calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem)) 0;
+    pointer-events: none;
+}
+
+.top a,
+.top button {
+    pointer-events: auto;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    min-width: 0;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+}
+
+.back:hover {
+    color: rgb(255 255 255 / 0.82);
+}
+
+.acts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(20 24 22 / 0.48);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+.pill svg {
+    width: 18px;
+    height: 18px;
+}
+
+.count {
+    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.pill[aria-pressed="true"] {
+    background: rgb(255 255 255 / 0.92);
+    color: rgb(var(--ink-950-rgb));
+}
+
+.copy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px 18px;
+    max-width: min(52rem, 72vw);
+}
+
+.name {
+    margin: 0;
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+    font-size: clamp(2rem, 3.4vw, 3.1rem);
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-shadow: 0 1px 16px rgb(0 0 0 / 0.35);
+}
+
+.lead {
+    margin: 10px 0 0;
+    max-width: 22rem;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: rgb(255 255 255 / 0.92);
+}
+
+@media (min-width: 720px) {
+    .lead {
+        margin: 0 0 4px;
+        padding-bottom: 0.1em;
+    }
+}
+
+.dots {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(20 24 22 / 0.42);
+    transform: translateX(-50%);
+    backdrop-filter: blur(10px);
+    pointer-events: auto;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.38);
+    cursor: pointer;
+}
+
+.dot[data-active="true"] {
+    background: #fff;
+}
+
+.cursor {
+    position: fixed;
+    z-index: 40;
+    width: 48px;
+    height: 48px;
+    margin: -24px 0 0 -24px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: rgb(10 12 11 / 0.45);
+    color: #fff;
+    pointer-events: none;
+}
+
+.cursor svg {
+    width: 20px;
+    height: 20px;
+}
+
+@media (pointer: coarse) {
+    .hit {
+        cursor: pointer;
+    }
+
+    .cursor {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slide {
+        transition: none;
+    }
+
+    .hit {
+        cursor: pointer;
+    }
+
+    .cursor {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .top {
+        padding: 16px 20px 0;
+    }
+
+    .intro {
+        gap: 14px;
+    }
+
+    .copy {
+        max-width: 88vw;
+    }
+
+    .dots {
+        bottom: 16px;
+    }
+
+    .pill {
+        height: 42px;
+        padding: 0 14px;
+        font-size: 14px;
+    }
+}

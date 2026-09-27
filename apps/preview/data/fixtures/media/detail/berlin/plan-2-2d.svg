@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640">
+  <rect width="900" height="640" fill="#fbfaf7"/>
+  
+  <rect x="28" y="28" width="417" height="584" fill="#e4eef4" stroke="#8a8174" stroke-width="1.5"/><text x="236.5" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Санузел</text>
+  <rect x="455" y="28" width="417" height="584" fill="#f6f3ee" stroke="#8a8174" stroke-width="1.5"/><text x="663.5" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Холл</text>
+</svg>

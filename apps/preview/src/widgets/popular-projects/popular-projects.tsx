@@ -1,29 +1,63 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
-import { POPULAR_HEADING, POPULAR_LEAD } from "@/lib/copy";
+import { PillTabs } from "@/ui/pill-tabs";
+import type {
+    PopularProjectsViewProps,
+    PopularTab,
+} from "./popular-projects.types";
+import { Container } from "@/ui/container";
+import styles from "./popular-projects.module.css";
 
-export function PopularProjects({ cards }: { cards: ReactNode }) {
+function AllArrow() {
     return (
-        <section data-section="popular" className="section bg-ink-50/50">
-            <div className="container-page">
-                <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-                    <div className="max-w-2xl">
-                        <div className="eyebrow text-accent">
-                            Популярные проекты
-                        </div>
-                        <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.05] text-ink-950">
-                            {POPULAR_HEADING}
-                        </h2>
-                        <p className="mt-3 text-base leading-relaxed text-ink-500">
-                            {POPULAR_LEAD}
-                        </p>
-                    </div>
-                    <Link href="/projects" className="btn btn-light">
-                        Все проекты
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path
+                d="M5 12h12.5M13.5 6.5L20 12l-6.5 5.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+}
+
+export function PopularProjects({
+    tab,
+    onTab,
+    hasIndividual,
+    heading,
+    lead,
+    allHref,
+    allLabel,
+    serialLabel,
+    individualLabel,
+    cards,
+}: PopularProjectsViewProps) {
+    return (
+        <section data-section="popular" className={styles.root}>
+            <Container>
+                <div className={styles.header}>
+                    <h2 className={styles.title}>{heading}</h2>
+                    <Link href={allHref} className={styles.all}>
+                        {allLabel}
+                        <AllArrow />
                     </Link>
                 </div>
-                {cards}
-            </div>
+                <div className={styles.toolbar}>
+                    {hasIndividual ? (
+                        <PillTabs
+                            items={[
+                                { id: "serial", label: serialLabel },
+                                { id: "individual", label: individualLabel },
+                            ]}
+                            value={tab}
+                            onChange={(id) => onTab(id as PopularTab)}
+                        />
+                    ) : null}
+                    <p className={styles.lead}>{lead}</p>
+                </div>
+                <div className={styles.grid}>{cards}</div>
+            </Container>
         </section>
     );
 }

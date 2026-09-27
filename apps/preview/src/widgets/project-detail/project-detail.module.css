@@ -1,0 +1,260 @@
+.main {
+    padding-bottom: 4rem;
+}
+
+.band {
+    border-bottom: 1px solid rgb(var(--ink-150-rgb));
+    background: #fff;
+}
+
+.bandMuted {
+    border-bottom: 1px solid rgb(var(--ink-150-rgb));
+    background: rgb(var(--ink-50-rgb) / 0.3);
+}
+
+.bandSoft {
+    border-bottom: 1px solid rgb(var(--ink-150-rgb));
+    background: rgb(var(--ink-50-rgb) / 0.4);
+}
+
+.bleed {
+    border-bottom: 1px solid rgb(var(--ink-150-rgb));
+}
+
+.calcBand {
+    padding-top: 2.5rem;
+    background: #fff;
+}
+
+.pad {
+    padding-block: 2.5rem;
+}
+
+.padLg {
+    padding-block: 3rem;
+}
+
+@media (min-width: 768px) {
+    .pad {
+        padding-block: 3.5rem;
+    }
+
+    .padLg {
+        padding-block: 4rem;
+    }
+
+    .calcBand {
+        padding-top: 3.5rem;
+    }
+}
+
+.heading {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: clamp(1.375rem, 2.5vw, 2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
+
+.eyebrow {
+    color: rgb(var(--color-accent-rgb));
+}
+
+.headingGap {
+    margin-top: 0.5rem;
+}
+
+.lead {
+    margin: 0.5rem 0 0;
+    max-width: 42rem;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 0.875rem;
+}
+
+.note {
+    margin: 0 0 1rem;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 0.875rem;
+}
+
+.block {
+    margin-top: 1.5rem;
+}
+
+.photos {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .photos {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .photos {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: rgb(var(--ink-100-rgb));
+}
+
+.photoImg {
+    object-fit: cover;
+}
+
+.cards {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.leadBand {
+    background: rgb(var(--ink-50-rgb) / 0.4);
+}
+
+.leadGrid {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: 3rem;
+}
+
+@media (min-width: 768px) {
+    .leadGrid {
+        grid-template-columns: 1fr 1fr;
+        padding-block: 4rem;
+    }
+}
+
+.leadBox {
+    padding: 1.25rem;
+    border: 1px solid rgb(var(--ink-150-rgb));
+    border-radius: var(--radius-lg);
+    background: #fff;
+}
+
+@media (min-width: 768px) {
+    .leadBox {
+        padding: 1.5rem;
+    }
+}
+
+.similar {
+    padding-block: 3rem;
+    border-top: 1px solid rgb(var(--ink-150-rgb));
+    background: #fff;
+    scroll-margin-top: calc(var(--site-header-height, 72px) + 88px);
+}
+
+.similarHead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.similarAll {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-accent);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+}
+
+.similarAll:hover {
+    color: var(--color-accent-hover);
+}
+
+.similarAll svg {
+    width: 18px;
+    height: 18px;
+}
+
+.similarAllWide {
+    display: none;
+}
+
+.similarGrid {
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+@media (min-width: 576px) {
+    .similarAllWide {
+        display: inline;
+    }
+}
+
+@media (min-width: 768px) {
+    .similarGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px 20px;
+        margin-top: 32px;
+    }
+}
+
+.aboutText {
+    margin: 0.75rem 0 0;
+    max-width: 36rem;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 0.875rem;
+    line-height: 1.625;
+}
+
+.layoutCta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .layoutCta {
+        padding-block: 3.5rem;
+    }
+}
+
+.leadBoxSoft {
+    padding: 1.25rem;
+    border: 1px solid rgb(var(--ink-150-rgb));
+    border-radius: var(--radius-lg);
+    background: rgb(var(--ink-50-rgb) / 0.5);
+}
+
+@media (min-width: 768px) {
+    .leadBoxSoft {
+        padding: 1.5rem;
+    }
+}
+
+.leadBandWhite {
+    background: #fff;
+}

@@ -1,0 +1,24 @@
+.section {
+    margin-bottom: 40px;
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+.title {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.lead {
+    max-width: 40rem;
+    margin: 8px 0 20px;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 15px;
+    line-height: 1.45;
+}

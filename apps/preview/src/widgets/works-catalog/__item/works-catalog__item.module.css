@@ -1,0 +1,110 @@
+.root {
+    display: block;
+    min-width: 0;
+    color: rgb(var(--ink-900-rgb));
+}
+
+.preview {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    background: rgb(var(--ink-100-rgb));
+    cursor: pointer;
+}
+
+.image {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease);
+}
+
+.imageOn {
+    opacity: 1;
+}
+
+.markers {
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    height: 3px;
+    pointer-events: none;
+}
+
+.marker {
+    display: block;
+    width: 50px;
+    max-width: calc((100% - 20px) / 5);
+    height: 3px;
+    background: #fff;
+    opacity: 0.5;
+}
+
+.markerOn {
+    opacity: 1;
+}
+
+.counter {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    padding-bottom: 3px;
+    border-radius: 50%;
+    background: #fff;
+    color: rgb(var(--ink-900-rgb));
+    font-size: 16px;
+    line-height: 16px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.counter span {
+    display: block;
+}
+
+.name {
+    margin: 5px 0;
+    color: rgb(var(--ink-900-rgb));
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+}
+
+.props {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.prop {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgb(var(--ink-900-rgb));
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}

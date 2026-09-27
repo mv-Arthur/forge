@@ -1,6 +1,15 @@
 export type {
+    CatalogHubMore,
+    CatalogHubPayload,
+    CatalogHubTechCard,
+    CatalogHubTypeCard,
+    CatalogNavPayload,
     CatalogStats,
     EnrichedBuiltObject,
     MergedProject,
+    ShowcasePayload,
     Technology,
+    WorksHubPayload,
+    WorksStagePayload,
+    WorksStagesHubPayload,
 } from "@/types/catalog";

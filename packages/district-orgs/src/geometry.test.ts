@@ -69,6 +69,17 @@ describe("geometry", () => {
         assert.ok(Math.abs(spnLon / spnLat - 650 / 450) < 1e-9);
     });
 
+    it("uses a small default pad so the crop stays close to the points", () => {
+        const tight: [[number, number], [number, number]] = [
+            [37.6, 55.9],
+            [37.61, 55.91],
+        ];
+        const [tightLon, tightLat] = boundsToSpn(tight);
+        const [padLon, padLat] = boundsToSpn(padBoundsToAspect(tight, 1));
+        assert.ok(padLon / tightLon < 1.2);
+        assert.ok(padLat / tightLat < 1.2);
+    });
+
     it("keeps original corners inward of the padded frame", () => {
         const tight: [[number, number], [number, number]] = [
             [37.6, 55.9],

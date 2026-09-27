@@ -1,0 +1,129 @@
+.root {
+    padding: 2.5rem 1rem 2.75rem;
+    background: #fff;
+}
+
+.grid {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.item {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    background: rgb(var(--ink-100-rgb));
+    cursor: zoom-in;
+}
+
+.item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (min-width: 768px) {
+    .root {
+        padding: 3.75rem 0 4rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.875rem;
+        max-width: var(--container-width);
+        margin-inline: auto;
+        padding-inline: 1.5rem;
+    }
+
+    .item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    .grid:has(> :nth-child(5)):not(:has(> :nth-child(6))) .item:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    .grid:has(> :nth-child(5)):not(:has(> :nth-child(6))) .item:last-child {
+        grid-column: auto;
+    }
+}
+
+.dialog {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+    color: #fff;
+}
+
+.dialog::backdrop {
+    background: rgb(70 72 70 / 0.88);
+}
+
+.shot {
+    display: block;
+    width: auto;
+    max-width: min(92vw, 1280px);
+    height: auto;
+    max-height: 86vh;
+    object-fit: contain;
+}
+
+.close,
+.arrow {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.14);
+    color: #fff;
+}
+
+.close svg,
+.arrow svg {
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+.close {
+    top: 1rem;
+    right: 1rem;
+}
+
+.prev {
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+}
+
+.next {
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 767px) {
+    .prev {
+        left: 0.25rem;
+    }
+
+    .next {
+        right: 0.25rem;
+    }
+}

@@ -1,0 +1,51 @@
+.track {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 43px;
+    padding: 3px;
+    overflow-x: auto;
+    border-radius: var(--radius-pill);
+    background: rgb(var(--color-accent-rgb) / 0.08);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.track::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    flex: 0 0 auto;
+    padding: 8px 20px;
+    border-radius: var(--radius-pill);
+    color: rgb(var(--color-ink-rgb) / 0.5);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.tab:focus {
+    outline: none;
+}
+
+.tab:focus-visible {
+    outline: 2px solid rgb(var(--color-accent-rgb) / 0.45);
+    outline-offset: 1px;
+}
+
+.tab[aria-selected="true"] {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    box-shadow: 0 0 4px rgb(var(--color-ink-rgb) / 0.1);
+}
+
+@media (max-width: 767px) {
+    .tab {
+        padding: 10px 16px;
+    }
+}

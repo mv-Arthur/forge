@@ -1,0 +1,33 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    padding: 10px 10px 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(var(--color-accent-rgb));
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--color-accent-hover);
+}
+
+.icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: #fff;
+    color: rgb(var(--color-accent-rgb));
+}
+
+.icon svg {
+    width: 16px;
+    height: 16px;
+}

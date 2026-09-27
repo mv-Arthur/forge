@@ -2,27 +2,25 @@ import { Suspense } from "react";
 import { listCatalogProjects } from "@/actions/catalog/list-projects";
 import { unwrapAction } from "@/types/action";
 import { CATALOG_LOADING } from "@/lib/copy";
+import { CatalogConsultContainer } from "@/widgets/catalog-consult/catalog-consult.container";
+import { CatalogPromoContainer } from "@/widgets/catalog-promo/catalog-promo.container";
 import { ProjectsCatalog } from "@/widgets/projects-catalog/projects-catalog";
 import { ProjectsCatalogContainer } from "@/widgets/projects-catalog/projects-catalog.container";
+import catalogStyles from "@/widgets/projects-catalog/projects-catalog.module.css";
 
 export const metadata = {
-    title: `Готовые проекты · Новый Коттедж`,
+    title: `Проекты · Новый Коттедж`,
 };
 
 export default async function ProjectsPage() {
-    const { projects, techs, stats } = unwrapAction(
-        await listCatalogProjects(),
-    );
+    const { projects, stats } = unwrapAction(await listCatalogProjects());
 
     return (
         <ProjectsCatalog
-            projects={projects}
-            techs={techs}
-            stats={stats}
             filters={
                 <Suspense
                     fallback={
-                        <div className="py-12 text-center text-ink-500">
+                        <div className={catalogStyles.loading}>
                             {CATALOG_LOADING}
                         </div>
                     }
@@ -33,6 +31,8 @@ export default async function ProjectsPage() {
                             maxArea: stats.maxArea,
                             maxPrice: stats.maxPrice,
                         }}
+                        promo={<CatalogPromoContainer />}
+                        consult={<CatalogConsultContainer />}
                     />
                 </Suspense>
             }

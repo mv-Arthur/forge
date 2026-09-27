@@ -8,33 +8,82 @@ import { usePathname } from "next/navigation";
 import { Container } from "@/ui/container";
 import { CloseIcon, MenuIcon, PhoneIcon } from "@/ui/icons";
 import { settings } from "@/lib/settings";
-import { CTA_CALL, NAV_WORKS } from "@/lib/copy";
+import {
+    CTA_CALL,
+    NAV_ABOUT,
+    NAV_BUILD,
+    NAV_CONTACTS,
+    NAV_SERVICES,
+    NAV_WORKS,
+} from "@/lib/copy";
 import { submitLead } from "@/actions/leads/submit-lead";
+import { isCatalogNav, routes } from "@/lib/routes";
 import { LeadForm } from "@/widgets/lead-form/lead-form";
+import type { CatalogNavPayload } from "@/types/catalog";
+import { SiteHeaderListMenu } from "./__list-menu/site-header__list-menu";
+import { SiteHeaderProjectsMenu } from "./__projects-menu/site-header__projects-menu";
+import {
+    SiteHeaderWorksMenu,
+    WORKS_NAV_LINKS,
+} from "./__works-menu/site-header__works-menu";
+import {
+    flattenListMenu,
+    HEADER_LIST_MENUS,
+    type HeaderListMenuId,
+} from "./lib/list-menus";
 import navStyles from "./__nav/site-header__nav.module.css";
 
-const NAV = [
-    { href: "/projects", label: "Проекты" },
-    { href: "/works", label: NAV_WORKS },
-    { href: "/about", label: "О нас" },
-    { href: "/contacts", label: "Контакты" },
+type HeaderMenu = "projects" | "works" | HeaderListMenuId;
+
+const LIST_MENUS: HeaderListMenuId[] = [
+    "services",
+    "build",
+    "about",
+    "contacts",
 ];
 
-export function SiteHeaderContainer() {
+function isListMenu(menu: HeaderMenu | undefined): menu is HeaderListMenuId {
+    return menu != null && LIST_MENUS.includes(menu as HeaderListMenuId);
+}
+
+const NAV: {
+    href: string;
+    label: string;
+    menu?: HeaderMenu;
+}[] = [
+    { href: routes.catalog, label: "Проекты", menu: "projects" },
+    { href: routes.works, label: NAV_WORKS, menu: "works" },
+    { href: routes.services, label: NAV_SERVICES, menu: "services" },
+    { href: routes.technology, label: NAV_BUILD, menu: "build" },
+    { href: routes.about, label: NAV_ABOUT, menu: "about" },
+    { href: routes.contacts, label: NAV_CONTACTS, menu: "contacts" },
+];
+
+function navActive(href: string, pathname: string | null) {
+    if (!pathname) return false;
+    if (href === routes.catalog) return isCatalogNav(pathname);
+    return (
+        pathname === href ||
+        (href !== routes.home && pathname.startsWith(`${href}/`))
+    );
+}
+
+export function SiteHeaderContainer({
+    catalogNav,
+}: {
+    catalogNav: CatalogNavPayload;
+}) {
     const pathname = usePathname();
     const stickyRef = useRef<HTMLDivElement>(null);
+    const closeMegaTimer = useRef<number | null>(null);
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [openMenu, setOpenMenu] = useState<HeaderMenu | null>(null);
     const [callbackOpen, setCallbackOpen] = useState(false);
-    const [mounted, setMounted] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [consent, setConsent] = useState(true);
     const [sent, setSent] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     useEffect(() => {
         const node = stickyRef.current;
@@ -42,7 +91,7 @@ export function SiteHeaderContainer() {
         const update = () => {
             document.documentElement.style.setProperty(
                 "--site-header-height",
-                `${node.offsetHeight}px`,
+                `${node.offsetHeight}px`
             );
         };
         update();
@@ -60,7 +109,18 @@ export function SiteHeaderContainer() {
 
     useEffect(() => {
         setMobileOpen(false);
+        setOpenMenu(null);
     }, [pathname]);
+
+    const openNavMenu = (menu: HeaderMenu) => {
+        if (closeMegaTimer.current) window.clearTimeout(closeMegaTimer.current);
+        setOpenMenu(menu);
+    };
+    const closeNavMenu = () => {
+        closeMegaTimer.current = window.setTimeout(() => {
+            setOpenMenu(null);
+        }, 140);
+    };
 
     useEffect(() => {
         if (!mobileOpen) return;
@@ -105,14 +165,14 @@ export function SiteHeaderContainer() {
         <header
             ref={stickyRef}
             data-section="site-header"
-            className="sticky top-0 z-50 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90"
+            className={navStyles.sticky}
         >
             <div
                 className={`${navStyles.bar} ${scrolled ? navStyles.barScrolled : ""}`}
             >
                 <Container className={navStyles.inner}>
                     <Link
-                        href="/"
+                        href={routes.home}
                         className={navStyles.logo}
                         aria-label="Главная — Новый Коттедж"
                     >
@@ -121,7 +181,7 @@ export function SiteHeaderContainer() {
                             alt="Новый Коттедж"
                             width={220}
                             height={48}
-                            className="h-10 w-auto md:h-11"
+                            className={navStyles.logoImg}
                             priority
                         />
                     </Link>
@@ -131,22 +191,51 @@ export function SiteHeaderContainer() {
                         aria-label="Основная навигация"
                     >
                         {NAV.map((item) => {
-                            const isActive =
-                                pathname === item.href ||
-                                (item.href !== "/" &&
-                                    pathname?.startsWith(`${item.href}/`));
+                            const isActive = navActive(item.href, pathname);
+                            const menu = item.menu;
+                            const menuOpen = menu != null && openMenu === menu;
                             return (
                                 <div
                                     key={item.href}
                                     className={navStyles.navItem}
+                                    onMouseEnter={
+                                        menu
+                                            ? () => openNavMenu(menu)
+                                            : undefined
+                                    }
+                                    onMouseLeave={
+                                        menu ? closeNavMenu : undefined
+                                    }
                                 >
                                     <Link
                                         href={item.href}
                                         className={navStyles.navLink}
-                                        data-active={isActive || undefined}
+                                        data-active={
+                                            isActive || menuOpen || undefined
+                                        }
+                                        aria-expanded={
+                                            item.menu ? menuOpen : undefined
+                                        }
+                                        aria-haspopup={
+                                            item.menu ? "true" : undefined
+                                        }
                                     >
                                         {item.label}
                                     </Link>
+                                    {item.menu === "works" ? (
+                                        <SiteHeaderWorksMenu open={menuOpen} />
+                                    ) : null}
+                                    {isListMenu(item.menu) ? (
+                                        <SiteHeaderListMenu
+                                            open={menuOpen}
+                                            items={HEADER_LIST_MENUS[item.menu]}
+                                            align={
+                                                item.menu === "contacts"
+                                                    ? "end"
+                                                    : "start"
+                                            }
+                                        />
+                                    ) : null}
                                 </div>
                             );
                         })}
@@ -174,7 +263,7 @@ export function SiteHeaderContainer() {
                             className={navStyles.iconBtn}
                             aria-label="Позвонить"
                         >
-                            <PhoneIcon className="h-5 w-5" />
+                            <PhoneIcon className={navStyles.icon} />
                         </a>
                         <button
                             type="button"
@@ -184,34 +273,46 @@ export function SiteHeaderContainer() {
                             onClick={() => setMobileOpen((v) => !v)}
                         >
                             {mobileOpen ? (
-                                <CloseIcon className="h-5 w-5" />
+                                <CloseIcon className={navStyles.icon} />
                             ) : (
-                                <MenuIcon className="h-5 w-5" />
+                                <MenuIcon className={navStyles.icon} />
                             )}
                         </button>
                     </div>
                 </Container>
             </div>
 
-            {mounted && mobileOpen
+            <div
+                className={`${navStyles.mega} ${openMenu === "projects" ? navStyles.megaOpen : ""}`}
+                onMouseEnter={() => openNavMenu("projects")}
+                onMouseLeave={closeNavMenu}
+                aria-hidden={openMenu !== "projects"}
+                inert={openMenu !== "projects" ? true : undefined}
+            >
+                <Container>
+                    <SiteHeaderProjectsMenu
+                        nav={catalogNav}
+                        open={openMenu === "projects"}
+                    />
+                </Container>
+            </div>
+
+            {mobileOpen
                 ? createPortal(
-                      <div
-                          className="fixed inset-0 z-[80] md:hidden"
-                          data-mobile-menu
-                      >
+                      <div className={navStyles.overlay} data-mobile-menu>
                           <button
                               type="button"
                               data-mobile-menu-backdrop
-                              className="absolute inset-0 bg-ink-950/55 backdrop-blur-[2px]"
+                              className={navStyles.backdrop}
                               aria-label="Закрыть меню"
                               onClick={() => setMobileOpen(false)}
                           />
                           <div
                               data-mobile-menu-sheet
-                              className="absolute inset-y-0 right-0 flex w-[min(100%,22rem)] max-w-[86vw] flex-col bg-white shadow-lift"
+                              className={navStyles.sheet}
                           >
-                              <div className="flex h-16 shrink-0 items-center justify-between border-b border-ink-150 px-4">
-                                  <span className="font-display text-lg font-semibold text-ink-950">
+                              <div className={navStyles.sheetHead}>
+                                  <span className={navStyles.sheetTitle}>
                                       Меню
                                   </span>
                                   <button
@@ -220,29 +321,108 @@ export function SiteHeaderContainer() {
                                       aria-label="Закрыть панель"
                                       onClick={() => setMobileOpen(false)}
                                   >
-                                      <CloseIcon className="h-5 w-5" />
+                                      <CloseIcon className={navStyles.icon} />
                                   </button>
                               </div>
-                              <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4">
+                              <nav className={navStyles.sheetNav}>
                                   {NAV.map((item) => (
-                                      <Link
-                                          key={item.href}
-                                          href={item.href}
-                                          className="rounded-xl px-3 py-3.5 text-base font-semibold text-ink-950 hover:bg-ink-50"
-                                          onClick={() => setMobileOpen(false)}
-                                      >
-                                          {item.label}
-                                      </Link>
+                                      <div key={item.href}>
+                                          <Link
+                                              href={item.href}
+                                              className={navStyles.sheetLink}
+                                              onClick={() =>
+                                                  setMobileOpen(false)
+                                              }
+                                          >
+                                              {item.label}
+                                          </Link>
+                                          {item.href === routes.catalog ? (
+                                              <div
+                                                  className={navStyles.sheetSub}
+                                              >
+                                                  {[
+                                                      catalogNav.all,
+                                                      ...catalogNav.types,
+                                                      ...catalogNav.tiles,
+                                                  ].map((card) => (
+                                                      <Link
+                                                          key={card.id}
+                                                          href={card.href}
+                                                          className={
+                                                              navStyles.sheetSubLink
+                                                          }
+                                                          onClick={() =>
+                                                              setMobileOpen(
+                                                                  false
+                                                              )
+                                                          }
+                                                      >
+                                                          {card.title}
+                                                      </Link>
+                                                  ))}
+                                              </div>
+                                          ) : null}
+                                          {item.href === routes.works ? (
+                                              <div
+                                                  className={navStyles.sheetSub}
+                                              >
+                                                  {WORKS_NAV_LINKS.map(
+                                                      (link) => (
+                                                          <Link
+                                                              key={link.href}
+                                                              href={link.href}
+                                                              className={
+                                                                  navStyles.sheetSubLink
+                                                              }
+                                                              onClick={() =>
+                                                                  setMobileOpen(
+                                                                      false
+                                                                  )
+                                                              }
+                                                          >
+                                                              {link.label}
+                                                          </Link>
+                                                      )
+                                                  )}
+                                              </div>
+                                          ) : null}
+                                          {isListMenu(item.menu) ? (
+                                              <div
+                                                  className={navStyles.sheetSub}
+                                              >
+                                                  {flattenListMenu(
+                                                      HEADER_LIST_MENUS[
+                                                          item.menu
+                                                      ]
+                                                  ).map((link) => (
+                                                      <Link
+                                                          key={link.href}
+                                                          href={link.href}
+                                                          className={
+                                                              navStyles.sheetSubLink
+                                                          }
+                                                          onClick={() =>
+                                                              setMobileOpen(
+                                                                  false
+                                                              )
+                                                          }
+                                                      >
+                                                          {link.label}
+                                                      </Link>
+                                                  ))}
+                                              </div>
+                                          ) : null}
+                                      </div>
                                   ))}
                                   <a
                                       href={`tel:${settings.phoneClean}`}
-                                      className="rounded-xl px-3 py-3.5 text-base font-semibold text-ink-950 hover:bg-ink-50"
+                                      className={navStyles.sheetLink}
                                   >
                                       {settings.phone}
                                   </a>
                                   <button
                                       type="button"
-                                      className="btn btn-primary btn-lg mt-4 w-full justify-center"
+                                      className={`btn btn-primary btn-lg ${navStyles.sheetCta}`}
                                       onClick={() => {
                                           setMobileOpen(false);
                                           setCallbackOpen(true);
@@ -253,35 +433,35 @@ export function SiteHeaderContainer() {
                               </nav>
                           </div>
                       </div>,
-                      document.body,
+                      document.body
                   )
                 : null}
 
-            {callbackOpen && mounted
+            {callbackOpen
                 ? createPortal(
                       <div
-                          className="fixed inset-0 z-[80]"
+                          className={navStyles.dialog}
                           role="dialog"
                           aria-modal="true"
                           aria-labelledby="callback-title"
                       >
                           <button
                               type="button"
-                              className="absolute inset-0 bg-ink-950/50 backdrop-blur-[2px]"
+                              className={navStyles.backdrop}
                               aria-label="Закрыть"
                               onClick={() => setCallbackOpen(false)}
                           />
-                          <div className="pointer-events-none relative flex h-full items-center justify-center p-4">
-                              <div className="pointer-events-auto relative z-10 w-full max-w-md rounded-2xl border border-ink-150 bg-white p-6 shadow-lift">
-                                  <div className="mb-4 flex items-start justify-between gap-3">
+                          <div className={navStyles.dialogStage}>
+                              <div className={navStyles.dialogCard}>
+                                  <div className={navStyles.dialogHead}>
                                       <div>
                                           <h2
                                               id="callback-title"
-                                              className="font-display text-2xl font-bold text-ink-950"
+                                              className={navStyles.dialogTitle}
                                           >
                                               Заказать звонок
                                           </h2>
-                                          <p className="mt-1 text-sm text-ink-500">
+                                          <p className={navStyles.dialogLead}>
                                               Оставьте телефон — перезвоним в
                                               рабочие часы.
                                           </p>
@@ -289,7 +469,7 @@ export function SiteHeaderContainer() {
                                       <button
                                           type="button"
                                           onClick={() => setCallbackOpen(false)}
-                                          className="grid h-9 w-9 place-items-center rounded-full border border-ink-150 text-ink-600 hover:border-ink-900 hover:text-ink-950"
+                                          className={navStyles.dialogClose}
                                           aria-label="Закрыть"
                                       >
                                           ×
@@ -309,7 +489,7 @@ export function SiteHeaderContainer() {
                               </div>
                           </div>
                       </div>,
-                      document.body,
+                      document.body
                   )
                 : null}
         </header>

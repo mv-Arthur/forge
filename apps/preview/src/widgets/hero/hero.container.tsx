@@ -21,12 +21,14 @@ type Drag = {
 
 export function HeroContainer({
     payload,
+    slots,
     intervalMs = 5000,
 }: {
     payload: HeroPayload;
+    slots: Record<string, string>;
     intervalMs?: number;
 }) {
-    const content = toHeroContent(payload);
+    const content = toHeroContent(payload, slots);
     const n = content.cards.length;
     const [index, setIndex] = useState(0);
     const [paused, setPaused] = useState(false);

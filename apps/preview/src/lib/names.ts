@@ -46,7 +46,7 @@ export function buildSubtitle(project: {
     const bits: string[] = [];
     if (project.floors === "1") bits.push("1 этаж");
     else if (project.floors === "2") bits.push("2 этажа");
-    else if (project.floors === "1.5") bits.push("1,5 этажа");
+    else if (project.floors === "1.5") bits.push("с мансардой");
     else if (project.floors === "mansard") bits.push("мансарда");
     if (project.area != null && project.area > 0) {
         bits.push(`${project.area} м²`);
@@ -58,6 +58,10 @@ export function buildSubtitle(project: {
     }
     if (project.dimensions) bits.push(project.dimensions);
     return bits.join(" · ") || "Готовый проект";
+}
+
+export function isIndividualWorkTitle(title: string): boolean {
+    return /по индивидуальному проекту/i.test(title);
 }
 
 export function inferLocationFromTitle(title: string): string | null {

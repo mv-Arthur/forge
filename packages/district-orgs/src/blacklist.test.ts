@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { applyBlacklist } from "./blacklist.ts";
+import { applyBlacklist, WALK_SHEET_EXCLUDE } from "./blacklist.ts";
 import type { Organization } from "./types.ts";
 
 function org(title: string, categories: string[], id = title): Organization {
@@ -37,6 +37,20 @@ describe("applyBlacklist", () => {
         assert.deepEqual(
             kept.map((item) => item.title),
             ["Eurospar"]
+        );
+    });
+
+    it("drops street furniture from walk sheets", () => {
+        const orgs = [
+            org("Кафе", ["Кафе"]),
+            org("Детская площадка", ["Детская площадка"]),
+            org("Мусорная площадка", ["Мусорная площадка"]),
+            org("Бибирево", ["Станция метро"]),
+        ];
+        const kept = applyBlacklist(orgs, WALK_SHEET_EXCLUDE);
+        assert.deepEqual(
+            kept.map((item) => item.title),
+            ["Кафе"]
         );
     });
 });

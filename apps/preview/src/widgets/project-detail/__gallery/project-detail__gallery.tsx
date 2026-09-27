@@ -1,17 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { MergedProject } from "@/types/catalog";
-import { formatPrice } from "@/lib/format";
-import { ChevronLeftIcon, ChevronRightIcon } from "@/ui/icons";
+import {
+    DETAIL_BACK,
+    DETAIL_COMPARE,
+    DETAIL_COMPARED,
+    DETAIL_LIKE,
+} from "@/lib/copy";
+import { routes } from "@/lib/routes";
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    GridViewIcon,
+    ThumbUpIcon,
+    ThumbUpSolidIcon,
+} from "@/ui/icons";
+import { Container } from "@/ui/container";
+import {
+    formatLikeCount,
+    isCompared,
+    isLiked,
+    likeCount,
+    toggleCompared,
+    toggleLiked,
+} from "@/widgets/project-card/lib/prefs";
+import styles from "./project-detail__gallery.module.css";
 
 interface Props {
     project: MergedProject;
 }
 
-/** Full-bleed detail hero with multi-render gallery (GWD-like). */
 export function ProjectDetailGallery({ project }: Props) {
     const images = project.renders.length
         ? project.renders
@@ -19,8 +40,16 @@ export function ProjectDetailGallery({ project }: Props) {
           ? [project.heroImage]
           : [];
     const [i, setI] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const [compared, setCompared] = useState(false);
     const n = images.length;
     const src = images[i] || "";
+    const likes = formatLikeCount(likeCount(project.slug, liked));
+
+    useEffect(() => {
+        setLiked(isLiked(project.slug));
+        setCompared(isCompared(project.slug));
+    }, [project.slug]);
 
     const go = (dir: 1 | -1) => {
         if (n < 2) return;
@@ -28,91 +57,101 @@ export function ProjectDetailGallery({ project }: Props) {
     };
 
     return (
-        <div className="relative min-h-[62vh] bg-ink-900 text-paper md:min-h-[74vh]">
+        <div className={styles.root}>
             {src ? (
                 <Image
                     src={src}
                     alt={project.displayName}
                     fill
                     priority
-                    className="object-cover"
+                    unoptimized={src.startsWith("/media/")}
+                    className={styles.photo}
                     sizes="100vw"
                 />
             ) : null}
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-950/92 via-ink-900/40 to-ink-950/30" />
-            <div className="absolute inset-0 bg-gradient-to-r from-ink-950/55 via-transparent to-transparent" />
+            <div className={styles.veil} />
 
             {n > 1 ? (
                 <>
                     <button
                         type="button"
                         onClick={() => go(-1)}
-                        className="absolute left-3 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/40 text-paper backdrop-blur md:left-6"
+                        className={`${styles.hit} ${styles.prev}`}
                         aria-label="Предыдущее фото"
                     >
-                        <ChevronLeftIcon className="h-5 w-5" />
+                        <ChevronLeftIcon className={styles.iconMd} />
                     </button>
                     <button
                         type="button"
                         onClick={() => go(1)}
-                        className="absolute right-3 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/40 text-paper backdrop-blur md:right-6"
+                        className={`${styles.hit} ${styles.next}`}
                         aria-label="Следующее фото"
                     >
-                        <ChevronRightIcon className="h-5 w-5" />
+                        <ChevronRightIcon className={styles.iconMd} />
                     </button>
                 </>
             ) : null}
 
-            <div className="container-page relative z-[2] flex min-h-[62vh] flex-col justify-end pb-12 pt-28 md:min-h-[74vh] md:pb-16">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-onDark">
-                    <Link href="/projects" className="hover:text-paper">
-                        Проекты
+            <Container className={styles.inner}>
+                <div className={styles.top}>
+                    <Link href={routes.projects()} className={styles.back}>
+                        <ChevronLeftIcon className={styles.icon} />
+                        {DETAIL_BACK}
                     </Link>
-                    {project.dimensions ? (
-                        <>
-                            {" "}
-                            · {project.dimensions}
-                        </>
+                    <div className={styles.acts}>
+                        <button
+                            type="button"
+                            className={styles.pill}
+                            aria-pressed={compared}
+                            onClick={() =>
+                                setCompared(toggleCompared(project.slug))
+                            }
+                        >
+                            <GridViewIcon className={styles.icon} />
+                            {compared ? DETAIL_COMPARED : DETAIL_COMPARE}
+                        </button>
+                        <button
+                            type="button"
+                            className={styles.pill}
+                            aria-pressed={liked}
+                            aria-label={`${DETAIL_LIKE}, ${likes}`}
+                            onClick={() => setLiked(toggleLiked(project.slug))}
+                        >
+                            {liked ? (
+                                <ThumbUpSolidIcon className={styles.icon} />
+                            ) : (
+                                <ThumbUpIcon className={styles.icon} />
+                            )}
+                            <span className={styles.nums}>{likes}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div className={styles.copy}>
+                    <h1 className={styles.name}>{project.displayName}</h1>
+                    {project.subtitle ? (
+                        <p className={styles.lead}>{project.subtitle}</p>
                     ) : null}
                 </div>
-                <h1 className="mt-4 max-w-4xl font-display text-[clamp(2.5rem,5vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.02em] text-paper">
-                    {project.displayName}
-                </h1>
-                {project.subtitle ? (
-                    <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-300 md:text-lg">
-                        {project.subtitle}
-                    </p>
-                ) : null}
-                <div className="mt-6 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-none text-paper">
-                    {project.priceFrom
-                        ? `от ${formatPrice(project.priceFrom)}`
-                        : "цена по запросу"}
-                </div>
+
                 {n > 1 ? (
-                    <div className="mt-6 flex gap-2 overflow-x-auto pb-1">
-                        {images.slice(0, 8).map((img, idx) => (
+                    <div className={styles.dots}>
+                        {images.map((img, idx) => (
                             <button
                                 key={img + idx}
                                 type="button"
+                                aria-label={`Слайд ${idx + 1}`}
                                 onClick={() => setI(idx)}
-                                className={`relative h-14 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 ${
-                                    idx === i
-                                        ? "border-accent"
-                                        : "border-transparent opacity-70 hover:opacity-100"
+                                className={`${styles.dot} ${
+                                    idx === i ? styles.dotOn : ""
                                 }`}
-                            >
-                                <Image
-                                    src={img}
-                                    alt=""
-                                    fill
-                                    className="object-cover"
-                                    sizes="80px"
-                                />
-                            </button>
+                            />
                         ))}
                     </div>
-                ) : null}
-            </div>
+                ) : (
+                    <div className={styles.spacer} />
+                )}
+            </Container>
         </div>
     );
 }

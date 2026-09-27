@@ -1,0 +1,133 @@
+.header {
+    display: flex;
+    flex-flow: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+    .header {
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+    }
+}
+
+.heading {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+@media (min-width: 992px) {
+    .heading {
+        font-size: 40px;
+    }
+}
+
+.cta {
+    flex-shrink: 0;
+    align-self: flex-start;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: rgb(var(--color-accent-rgb));
+    color: var(--color-ink-on-accent);
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.cta:hover {
+    background: var(--color-accent-hover);
+}
+
+.tabs {
+    display: flex;
+    flex-shrink: 0;
+    width: fit-content;
+    max-width: 100%;
+    padding: 4px;
+    overflow-x: auto;
+    border-radius: 999px;
+    background: rgb(var(--ink-100-rgb));
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    flex: 0 0 auto;
+    padding: 8px 16px;
+    border-radius: 999px;
+    color: rgb(var(--ink-950-rgb) / 0.5);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.tab[aria-selected="true"] {
+    background: #fff;
+    color: rgb(var(--ink-950-rgb));
+    box-shadow: 0 0 4px rgb(0 0 0 / 0.1);
+}
+
+.split,
+.single {
+    margin-top: 32px;
+}
+
+.split {
+    display: grid;
+    gap: 24px;
+}
+
+@media (min-width: 992px) {
+    .split {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        align-items: start;
+    }
+}
+
+.sectionCol {
+    display: flex;
+    flex-flow: column;
+    gap: 16px;
+}
+
+.frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #fff;
+}
+
+.img {
+    object-fit: contain;
+}
+
+.note {
+    margin: 0;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+    .note {
+        max-width: 28rem;
+        margin-inline: auto;
+    }
+}

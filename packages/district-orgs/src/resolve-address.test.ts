@@ -80,16 +80,22 @@ describe("resolveHouseAddresses", () => {
                 { status: 200 }
             );
         };
+        const progress: string[] = [];
         const resolved = await resolveHouseAddresses(
             [
                 org("Темп", "Шенкурский пр., 3А"),
                 org("Диана", "Шенкурский пр., 3Б"),
             ],
             SESSION,
-            { fetch: fetchMock, delayMs: 0 }
+            {
+                fetch: fetchMock,
+                delayMs: 0,
+                onProgress: (message) => progress.push(message),
+            }
         );
         assert.equal(resolved[0]?.address, "Шенкурский проезд, 3");
         assert.equal(resolved[1]?.address, "Шенкурский проезд, 3Б");
+        assert.deepEqual(progress, ["house 1/2", "house 2/2"]);
     });
 
     it("adds organizations listed inside the house", async () => {
@@ -142,6 +148,7 @@ describe("resolveHouseAddresses", () => {
                 {
                     ...org("Плещеев", "ул. Плещеева, 4, корп. 1, стр. 5"),
                     id: "already",
+                    coordinates: { lon: 37.6048, lat: 55.8829 },
                 },
             ],
             SESSION,
@@ -166,5 +173,47 @@ describe("resolveHouseAddresses", () => {
             { fetch: fetchMock, delayMs: 0 }
         );
         assert.equal(resolved[0]?.address, "Шенкурский пр., 3А");
+    });
+
+    it("does not pull indoor orgs from a house outside the search point", async () => {
+        const fetchMock: typeof fetch = async () =>
+            new Response(
+                JSON.stringify({
+                    data: {
+                        items: [
+                            {
+                                type: "toponym",
+                                kind: "house",
+                                title: "МКАД, 47-й километр, вл2",
+                                address: "Москва, МКАД, 47-й километр, вл2",
+                                coordinates: [37.43, 55.66],
+                                businesses: {
+                                    items: [
+                                        {
+                                            type: "business",
+                                            id: "govorovo-1",
+                                            title: "Бизнес-центр Говорово",
+                                            address: "МКАД, 47-й километр, вл2",
+                                            coordinates: [37.4301, 55.6601],
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                }),
+                { status: 200 }
+            );
+        const source = org("Ajm", "МКАД, 47-й километр, вл2");
+        const resolved = await resolveHouseAddresses([source], SESSION, {
+            fetch: fetchMock,
+            delayMs: 0,
+            acceptPoint: (point) =>
+                point.lat > 55.85 && point.lon > 37.55,
+        });
+        assert.equal(resolved.length, 1);
+        assert.equal(resolved[0]?.title, "Ajm");
+        assert.equal(resolved[0]?.address, "МКАД, 47-й километр, вл2");
+        assert.deepEqual(resolved[0]?.coordinates, source.coordinates);
     });
 });

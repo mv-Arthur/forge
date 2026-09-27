@@ -3,6 +3,7 @@ export const settings = {
     phoneClean: "+78123093818",
     telegram: "https://t.me/ncottage",
     whatsapp: "https://wa.me/78125003818",
+    max: "https://max.ru/ncottage",
     mortgageRate: 6,
     mortgageTermYears: 20,
     warrantyYears: 7,

@@ -1,4 +1,6 @@
 packages:
     - "apps/*"
     - "!apps/preview"
+    - "!apps/gwd-capture-cli"
+    - "!apps/ncottage-legacy-data"
     - "packages/*"

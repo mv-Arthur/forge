@@ -190,4 +190,78 @@ describe("runCli", () => {
         const mapUrl = new URL(staticMapUrls[0] ?? "");
         assert.match(mapUrl.searchParams.get("pt") ?? "", /pmrds1/);
     });
+
+    it("rebuilds sheets from a JSON dump", async () => {
+        staticMapUrls.length = 0;
+        const dump = {
+            district: {
+                geoId: "53211689",
+                title: "район Бибирево",
+                slug: "rayon_bibirevo",
+                cityId: "213",
+                citySlug: "moscow",
+                address: null,
+                coordinates: { lon: 37.6, lat: 55.9 },
+                bounds: [
+                    [37.58, 55.88],
+                    [37.65, 55.92],
+                ],
+                origin: "https://yandex.ru",
+                url: DISTRICT_URL,
+            },
+            query: "",
+            totalEstimate: 2,
+            count: 2,
+            organizations: [
+                {
+                    id: "1",
+                    title: "Кафе внутри",
+                    address: "ул. Лескова, 1",
+                    fullAddress: null,
+                    categories: ["Кафе"],
+                    phones: [],
+                    websites: [],
+                    rating: null,
+                    reviewCount: null,
+                    coordinates: { lon: 37.6, lat: 55.9 },
+                    url: null,
+                    workingTimeText: null,
+                    isOpenNow: null,
+                },
+                {
+                    id: "2",
+                    title: "Детская площадка",
+                    address: "ул. Лескова, 1",
+                    fullAddress: null,
+                    categories: ["Детская площадка"],
+                    phones: [],
+                    websites: [],
+                    rating: null,
+                    reviewCount: null,
+                    coordinates: { lon: 37.6, lat: 55.9 },
+                    url: null,
+                    workingTimeText: null,
+                    isOpenNow: null,
+                },
+            ],
+        };
+        const files = new Map<string, string>();
+        const code = await runCli(
+            ["--from-json", "dump.json", "-f", "sheets", "-o", "out.html"],
+            {
+                stdout: { write: () => undefined },
+                stderr: { write: () => undefined },
+                fetch: mockFetch,
+                cwd: "/tmp/district-out",
+                readFile: async () => JSON.stringify(dump),
+                writeFile: async (filePath, data) => {
+                    files.set(filePath, data);
+                },
+            }
+        );
+        assert.equal(code, 0);
+        const html = files.get("/tmp/district-out/out.html") ?? "";
+        assert.match(html, /Кафе внутри/);
+        assert.doesNotMatch(html, /Детская площадка/);
+    });
 });

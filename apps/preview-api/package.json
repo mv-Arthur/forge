@@ -1,0 +1,50 @@
+{
+    "name": "@forge/preview-api",
+    "version": "0.0.0",
+    "private": true,
+    "description": "Preview media API: files on disk, metadata in Postgres",
+    "scripts": {
+        "dev": "nest start --watch",
+        "build": "nest build",
+        "start": "node dist/main.js",
+        "typecheck": "tsc --noEmit",
+        "test": "tsx --test src/media/media-path.test.ts src/pages/home-slots.test.ts",
+        "prisma:seed-home": "tsx prisma/seed-home-slots.ts",
+        "clean": "rm -rf dist",
+        "prisma:generate": "prisma generate",
+        "prisma:migrate": "prisma migrate dev",
+        "prisma:deploy": "prisma migrate deploy"
+    },
+    "dependencies": {
+        "@fastify/multipart": "^10.0.0",
+        "@nestjs/common": "^11.1.14",
+        "@nestjs/config": "^4.0.2",
+        "@nestjs/core": "^11.1.14",
+        "@nestjs/jwt": "^11.0.0",
+        "@nestjs/passport": "^11.0.5",
+        "@nestjs/platform-fastify": "^11.1.14",
+        "@prisma/client": "^6.7.0",
+        "bcryptjs": "^2.4.3",
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.14.2",
+        "fastify": "^5.7.4",
+        "image-size": "^2.0.2",
+        "nodemailer": "^7.0.13",
+        "passport": "^0.7.0",
+        "passport-jwt": "^4.0.1",
+        "reflect-metadata": "^0.2.0"
+    },
+    "devDependencies": {
+        "@nestjs/cli": "^11.0.16",
+        "@nestjs/schematics": "^11.0.9",
+        "@swc/cli": "^0.8.0",
+        "@swc/core": "^1.15.13",
+        "@types/bcryptjs": "^2.4.6",
+        "@types/node": "^25.3.0",
+        "@types/nodemailer": "^7.0.12",
+        "@types/passport-jwt": "^4.0.1",
+        "prisma": "^6.7.0",
+        "tsx": "^4.20.0",
+        "typescript": "^5.9.3"
+    }
+}

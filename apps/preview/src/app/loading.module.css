@@ -1,0 +1,41 @@
+.slot {
+    min-height: 70vh;
+}
+
+.bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 60;
+    height: 2px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bar::before {
+    content: "";
+    display: block;
+    width: 40%;
+    height: 100%;
+    background: var(--color-accent);
+    animation: route-loader 0.9s ease-in-out infinite;
+}
+
+@keyframes route-loader {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bar::before {
+        width: 100%;
+        animation: none;
+        opacity: 0.85;
+    }
+}

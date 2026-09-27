@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" width="1100" height="620">
+  <g fill="none" stroke="#2a2622" stroke-width="1.5" stroke-linejoin="miter">
+    <path d="M40 520 H1060" stroke-width="2"/>
+    <path d="M80 520 V300 H180 V520"/>
+    <path d="M180 300 H920 V520 H180"/>
+    <path d="M180 410 H920"/>
+    <path d="M80 300 L550 90 L1020 300" stroke-width="2"/>
+    <path d="M180 300 L550 130 L920 300"/>
+    <path d="M550 90 V520" stroke-width="2.2"/>
+    <path d="M520 410 V250 H580 V410"/>
+    <path d="M535 250 V410 M565 250 V410"/>
+    <path d="M520 270 H580 M520 290 H580 M520 310 H580 M520 330 H580 M520 350 H580 M520 370 H580 M520 390 H580"/>
+    <rect x="220" y="430" width="90" height="38"/>
+    <rect x="640" y="445" width="70" height="28"/>
+    <rect x="760" y="430" width="50" height="70"/>
+    <rect x="820" y="455" width="40" height="24"/>
+    <rect x="240" y="320" width="70" height="70"/>
+    <rect x="360" y="335" width="50" height="55"/>
+    <rect x="660" y="320" width="70" height="70"/>
+    <rect x="780" y="335" width="50" height="55"/>
+    <path d="M80 520 V545 H180 V520"/>
+    <path d="M920 300 H1020 V520"/>
+    <path d="M80 300 H180"/>
+  </g>
+</svg>

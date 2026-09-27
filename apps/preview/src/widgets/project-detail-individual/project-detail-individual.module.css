@@ -1,0 +1,72 @@
+.promo {
+    position: relative;
+}
+
+@media (min-width: 960px) {
+    .promo {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: 72rem;
+    }
+
+    .promo .promoHero {
+        position: absolute;
+        inset: 0;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+    }
+
+    .promo .promoAbout {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        padding-top: 1.75rem;
+        padding-bottom: 3.5rem;
+    }
+}
+
+.lead {
+    padding: 1rem 1rem 3rem;
+    background: #fff;
+}
+
+.leadBox {
+    max-width: var(--container-width);
+    margin-inline: auto;
+    padding: 2rem 1.25rem 2.25rem;
+    border-radius: 1.25rem;
+    background: rgb(var(--ink-50-rgb));
+}
+
+.leadHead {
+    max-width: 38rem;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+}
+
+.leadTitle {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+}
+
+.leadText {
+    margin: 0.5rem 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    .lead {
+        padding: 1.25rem 1.5rem 4rem;
+    }
+
+    .leadBox {
+        padding: 2.75rem 2.5rem 3rem;
+    }
+}

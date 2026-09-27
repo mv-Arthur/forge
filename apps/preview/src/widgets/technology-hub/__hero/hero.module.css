@@ -1,0 +1,33 @@
+.root {
+    display: grid;
+    gap: var(--space-16);
+    padding: var(--space-28) 0 var(--space-32);
+}
+
+.title {
+    margin: 0;
+    max-width: 11em;
+    color: var(--color-ink);
+    font-size: clamp(2.15rem, 5vw, 3.75rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+}
+
+.lead {
+    max-width: 36rem;
+    margin: 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+@media (min-width: 992px) {
+    .root {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        align-items: end;
+        column-gap: var(--space-48);
+        padding: var(--space-40) 0 var(--space-48);
+    }
+}

@@ -1,30 +1,73 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { settings } from "@/lib/settings";
 import {
+    ArrowUpIcon,
     CloseIcon,
     MessageIcon,
     PhoneIcon,
+    MaxIcon,
     TelegramIcon,
-    WhatsappIcon,
 } from "@/ui/icons";
+import styles from "./floating-contact.module.css";
+
+const SHOW_TOP_AFTER = 200;
+const FAB_BOTTOM = 24;
+const FOOTER_GAP = 20;
 
 export function FloatingContactContainer() {
     const [open, setOpen] = useState(false);
+    const [showTop, setShowTop] = useState(false);
+    const [bottom, setBottom] = useState(FAB_BOTTOM);
     const pathname = usePathname();
-    if (pathname === "/") return null;
+    const showChat = pathname !== "/";
+
+    useEffect(() => {
+        const footer = document.querySelector("[data-section='site-footer']");
+        const update = () => {
+            setShowTop(window.scrollY > SHOW_TOP_AFTER);
+            if (!footer) {
+                setBottom(FAB_BOTTOM);
+                return;
+            }
+            const footerTop = footer.getBoundingClientRect().top;
+            if (footerTop >= window.innerHeight) {
+                setBottom(FAB_BOTTOM);
+                return;
+            }
+            const lift = window.innerHeight - footerTop + FOOTER_GAP;
+            setBottom(lift > FAB_BOTTOM ? lift : FAB_BOTTOM);
+        };
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update, { passive: true });
+        const ro = new ResizeObserver(update);
+        ro.observe(document.documentElement);
+        if (footer) ro.observe(footer);
+        return () => {
+            window.removeEventListener("scroll", update);
+            window.removeEventListener("resize", update);
+            ro.disconnect();
+        };
+    }, []);
+
+    if (!showChat && !showTop) return null;
+
     return (
-        <div className="pointer-events-none fixed bottom-5 right-3 z-30 flex flex-col items-end gap-2 max-md:bottom-6 max-md:mb-[env(safe-area-inset-bottom)] md:bottom-6 md:right-5 md:z-40">
+        <div
+            className={styles.stack}
+            style={{
+                bottom: `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`,
+            }}
+        >
             {open ? (
-                <div className="pointer-events-auto animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-ink-150 bg-white p-4 shadow-lift md:w-72">
-                    <div className="mb-3 flex items-start justify-between">
+                <div className={styles.panel}>
+                    <div className={styles.panelHead}>
                         <div>
-                            <div className="font-semibold text-ink-950">
-                                Написать нам
-                            </div>
-                            <p className="mt-0.5 text-xs text-ink-500">
+                            <div className={styles.panelTitle}>Написать нам</div>
+                            <p className={styles.panelLead}>
                                 Ответим в рабочие часы,{" "}
                                 {settings.officeHoursLabel.toLowerCase()}
                             </p>
@@ -32,49 +75,63 @@ export function FloatingContactContainer() {
                         <button
                             type="button"
                             onClick={() => setOpen(false)}
-                            className="rounded-md p-1 text-ink-500 hover:bg-ink-50"
+                            className={styles.close}
                             aria-label="Закрыть"
                         >
-                            <CloseIcon className="h-4 w-4" />
+                            <CloseIcon className={styles.icon} />
                         </button>
                     </div>
-                    <div className="grid gap-2">
+                    <div className={styles.actions}>
                         <a
                             href={settings.telegram}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn btn-tg justify-start"
+                            className="btn btn-tg"
                         >
-                            <TelegramIcon className="h-4 w-4" /> Telegram
+                            <TelegramIcon className={styles.icon} /> Telegram
                         </a>
                         <a
-                            href={settings.whatsapp}
+                            href={settings.max}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn btn-wa justify-start"
+                            className="btn btn-max"
                         >
-                            <WhatsappIcon className="h-4 w-4" /> WhatsApp
+                            <MaxIcon className={styles.icon} /> MAX
                         </a>
                         <a
                             href={`tel:${settings.phoneClean}`}
-                            className="btn btn-light justify-start"
+                            className="btn btn-light"
                         >
-                            <PhoneIcon className="h-4 w-4" /> {settings.phone}
+                            <PhoneIcon className={styles.icon} /> {settings.phone}
                         </a>
                     </div>
                 </div>
             ) : null}
+            {showChat ? (
+                <button
+                    type="button"
+                    onClick={() => setOpen((v) => !v)}
+                    className={styles.fab}
+                    aria-label="Связаться"
+                >
+                    {open ? (
+                        <CloseIcon className={styles.iconMd} />
+                    ) : (
+                        <MessageIcon className={styles.iconMd} />
+                    )}
+                </button>
+            ) : null}
             <button
                 type="button"
-                onClick={() => setOpen((v) => !v)}
-                className="pointer-events-auto grid h-12 w-12 place-items-center rounded-full bg-accent text-accent-ink shadow-cta transition hover:scale-105 hover:bg-accent-hover md:h-14 md:w-14"
-                aria-label="Связаться"
+                onClick={(e) => {
+                    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+                    e.currentTarget.blur();
+                }}
+                className={`${styles.fab} ${showTop ? "" : styles.fabHidden}`}
+                aria-label="Наверх"
+                tabIndex={showTop ? 0 : -1}
             >
-                {open ? (
-                    <CloseIcon className="h-5 w-5" />
-                ) : (
-                    <MessageIcon className="h-5 w-5" />
-                )}
+                <ArrowUpIcon className={styles.iconLg} />
             </button>
         </div>
     );

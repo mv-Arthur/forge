@@ -1,12 +1,20 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { listDistrictOrgs, tileOrganizations } from "@forge/district-orgs";
+import {
+    applyBlacklist,
+    listDistrictOrgs,
+    tileOrganizations,
+    WALK_SHEET_EXCLUDE,
+} from "@forge/district-orgs";
+import type { DistrictOrgsResult } from "@forge/district-orgs";
 import { artifactFileName } from "./artifact-path.ts";
 import { formatResult } from "./format.ts";
 import { CliArgsError, parseCliArgs, USAGE } from "./parse-cli-args.ts";
 import type { CliArgs } from "./parse-cli-args.ts";
 import { markersForGroups, renderSheetsHtml } from "./render-sheet.ts";
 import { fetchStaticMapPng } from "./static-map.ts";
+
+const MAP_GAP_MS = 150;
 
 export interface CliIo {
     stdout: { write(chunk: string): void };
@@ -39,15 +47,25 @@ export async function runCli(argv: string[], io: CliIo): Promise<number> {
             args.format === "sheets" && !args.limitSpecified
                 ? 5000
                 : args.limit;
-        const result = await listDistrictOrgs(args.url, {
-            query: args.query,
-            limit,
-            delayMs: args.delayMs,
-            includeOutside: args.includeOutside,
-            densify: args.format === "sheets" && !args.noDensify,
-            exclude,
-            fetch: io.fetch,
-        });
+        const result = args.fromJson
+            ? await loadDump(args, io)
+            : await listDistrictOrgs(args.url, {
+                  query: args.query,
+                  limit,
+                  delayMs: args.delayMs,
+                  includeOutside: args.includeOutside,
+                  densify: args.format === "sheets" && !args.noDensify,
+                  exclude,
+                  fetch: io.fetch,
+                  onProgress: (message) => io.stderr.write(`${message}\n`),
+              });
+        if (args.fromJson && exclude.length > 0) {
+            result.organizations = applyBlacklist(
+                result.organizations,
+                exclude
+            );
+            result.count = result.organizations.length;
+        }
 
         const text =
             args.format === "sheets"
@@ -101,6 +119,11 @@ async function buildSheets(
     args: CliArgs,
     io: CliIo
 ): Promise<string> {
+    result.organizations = applyBlacklist(
+        result.organizations,
+        WALK_SHEET_EXCLUDE
+    );
+    result.count = result.organizations.length;
     const sheets = tileOrganizations(
         result.organizations,
         result.district.bounds,
@@ -108,7 +131,17 @@ async function buildSheets(
     );
     const http = io.fetch ?? fetch;
     const maps: string[] = [];
-    for (const sheet of sheets) {
+    for (const [index, sheet] of sheets.entries()) {
+        if (
+            index === 0 ||
+            (index + 1) % 10 === 0 ||
+            index + 1 === sheets.length
+        ) {
+            io.stderr.write(`map ${index + 1}/${sheets.length}\n`);
+        }
+        if (index > 0) {
+            await sleep(Math.max(args.delayMs, MAP_GAP_MS));
+        }
         maps.push(
             await fetchStaticMapPng(
                 sheet.bounds,
@@ -122,5 +155,31 @@ async function buildSheets(
         sheets,
         maps,
         query: result.query,
+    });
+}
+
+async function loadDump(args: CliArgs, io: CliIo): Promise<DistrictOrgsResult> {
+    const cwd = io.cwd ?? process.cwd();
+    const filePath = path.resolve(cwd, args.fromJson ?? "");
+    const read = io.readFile ?? ((p: string) => readFile(p, "utf8"));
+    const parsed: unknown = JSON.parse(await read(filePath));
+    if (
+        !parsed ||
+        typeof parsed !== "object" ||
+        !("district" in parsed) ||
+        !("organizations" in parsed) ||
+        !Array.isArray((parsed as DistrictOrgsResult).organizations)
+    ) {
+        throw new Error(`Not a district-orgs dump: ${filePath}`);
+    }
+    const dump = parsed as DistrictOrgsResult;
+    dump.count = dump.organizations.length;
+    return dump;
+}
+
+function sleep(ms: number): Promise<void> {
+    if (ms <= 0) return Promise.resolve();
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
     });
 }
