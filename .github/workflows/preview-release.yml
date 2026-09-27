@@ -38,7 +38,9 @@ jobs:
       - name: Assemble
         id: assemble
         working-directory: apps/preview
-        run: echo "app=$(bash deploy/assemble.sh)" >> "$GITHUB_OUTPUT"
+        run: |
+          app=$(bash deploy/assemble.sh)
+          echo "app=$app" >> "$GITHUB_OUTPUT"
 
       - name: Deploy
         env:
