@@ -1,0 +1,16 @@
+[Unit]
+Description=ncottage preview
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ncottage-preview
+Environment=NODE_ENV=production
+Environment=PORT=4000
+Environment=HOSTNAME=127.0.0.1
+ExecStart=/usr/local/bin/node server.js
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
