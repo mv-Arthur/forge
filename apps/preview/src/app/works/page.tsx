@@ -1,20 +1,26 @@
-import { listListedObjects } from "@/actions/catalog/list-objects";
+import { getWorksHub } from "@/actions/catalog/get-works-hub";
 import { unwrapAction } from "@/types/action";
-import { WorksCatalog } from "@/widgets/works-catalog/works-catalog";
-import { VisitLauncherContainer } from "@/widgets/visit-launcher/visit-launcher.container";
+import { WORKS_VISIT_CTA } from "@/lib/copy";
+import { LeadFormContainer } from "@/widgets/lead-form/lead-form.container";
+import { WorksHub } from "@/widgets/works-hub/works-hub";
 
 export const metadata = {
     title: "Фотогалерея · Новый Коттедж",
 };
 
 export default async function WorksPage() {
-    const { objects } = unwrapAction(await listListedObjects());
+    const { hub } = unwrapAction(await getWorksHub());
 
     return (
-        <WorksCatalog
-            objects={objects}
-            visit={
-                <VisitLauncherContainer buttonLabel="Записаться на показ" />
+        <WorksHub
+            payload={hub}
+            form={
+                <LeadFormContainer
+                    source="works-hub-visit"
+                    prefill="Запись на просмотр дома"
+                    ctaLabel={WORKS_VISIT_CTA}
+                    layout="works"
+                />
             }
         />
     );

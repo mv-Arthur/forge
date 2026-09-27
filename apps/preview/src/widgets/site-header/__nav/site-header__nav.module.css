@@ -18,6 +18,7 @@
 }
 
 .inner {
+    position: relative;
     display: flex;
     align-items: center;
     gap: var(--space-32);
@@ -40,7 +41,6 @@
 }
 
 .wordmark {
-    font-family: var(--font-display);
     font-size: 1.35rem;
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -63,8 +63,10 @@
     display: flex;
     align-self: stretch;
     align-items: stretch;
-    gap: var(--space-4);
-    margin: 0 auto;
+    justify-content: center;
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
 }
 
 .navItem {
@@ -123,23 +125,22 @@
 .navLink {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-6);
-    padding: var(--space-10) 16px;
+    height: 100%;
     white-space: nowrap;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     letter-spacing: 0.01em;
     color: var(--color-ink);
-    border-radius: var(--radius-pill);
-    transition:
-        background-color var(--transition),
-        color var(--transition);
+    transition: color var(--transition);
 }
 
-.navLink:hover,
-.navLink[data-active="true"] {
-    background: var(--color-accent-soft);
+.navLink:hover {
     color: var(--color-accent);
+}
+
+.navLink[data-active="true"] {
+    color: var(--color-accent);
+    font-weight: 500;
 }
 
 .chevron {
@@ -156,6 +157,8 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .iconBtn {
@@ -486,7 +489,6 @@
 
 .sheetTitle {
     color: rgb(var(--ink-950-rgb));
-    font-family: var(--font-display);
     font-size: 1.125rem;
     font-weight: 600;
 }
@@ -580,7 +582,6 @@
 .dialogTitle {
     margin: 0;
     color: rgb(var(--ink-950-rgb));
-    font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
 }

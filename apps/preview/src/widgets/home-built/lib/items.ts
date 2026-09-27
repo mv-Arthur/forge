@@ -1,4 +1,5 @@
 import type { EnrichedBuiltObject } from "@/types/catalog";
+import { routes } from "@/lib/routes";
 import type { HomeBuiltItem } from "../home-built.types";
 
 const STRIP_COVERS: { slug: string; image: string }[] = [
@@ -33,17 +34,18 @@ const STRIP_COVERS: { slug: string; image: string }[] = [
 ];
 
 export function buildBuiltStripItems(
-    objects: EnrichedBuiltObject[]
+    objects: EnrichedBuiltObject[],
+    slots: Record<string, string> = {}
 ): HomeBuiltItem[] {
     const bySlug = new Map(objects.map((o) => [o.slug, o]));
-    return STRIP_COVERS.flatMap(({ slug, image }) => {
+    return STRIP_COVERS.flatMap(({ slug, image }, index) => {
         const object = bySlug.get(slug);
         if (!object) return [];
         return [
             {
                 slug,
-                href: `/works/${slug}`,
-                image,
+                href: routes.worksGallery(),
+                image: slots[`built.${index}`] ?? image,
                 alt: object.displayTitle || object.locationLabel || "Дом",
             },
         ];

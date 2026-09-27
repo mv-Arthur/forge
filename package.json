@@ -20,7 +20,9 @@
         "format:check": "prettier --check .",
         "clean": "pnpm -r clean && rm -rf node_modules",
         "dev:preview": "npm --prefix apps/preview run dev",
-        "build:preview": "npm --prefix apps/preview run build"
+        "build:preview": "npm --prefix apps/preview run build",
+        "dev:preview-api": "pnpm --filter @forge/preview-api dev",
+        "dev:preview-admin": "pnpm --filter @forge/preview-admin dev"
     },
     "devDependencies": {
         "@types/node": "^25.3.0",

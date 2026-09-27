@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { fontManager } from "@/fonts";
 import "@/styles/www-tokens.css";
 import "@/styles/globals.css";
 import { unwrapAction } from "@/types/action";
@@ -7,13 +7,6 @@ import { getCatalogNav } from "@/actions/catalog/get-catalog-nav";
 import { SiteHeaderContainer } from "@/widgets/site-header/site-header.container";
 import { FloatingContactContainer } from "@/widgets/floating-contact/floating-contact.container";
 import { SiteFooter } from "@/widgets/site-footer/site-footer";
-
-const manrope = Manrope({
-    subsets: ["latin", "cyrillic"],
-    weight: ["400", "500", "600", "700", "800"],
-    display: "swap",
-    variable: "--font-manrope",
-});
 
 export const metadata: Metadata = {
     title: "Новый Коттедж — дома под ключ в СПб и Ленобласти",
@@ -34,8 +27,8 @@ export default async function RootLayout({
 }) {
     const { nav } = unwrapAction(await getCatalogNav());
     return (
-        <html lang="ru" className={manrope.variable}>
-            <body className={manrope.className}>
+        <html lang="ru" className={fontManager.vars()}>
+            <body className={fontManager.body()}>
                 <SiteHeaderContainer catalogNav={nav} />
                 {children}
                 <SiteFooter />

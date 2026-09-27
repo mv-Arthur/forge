@@ -8,12 +8,6 @@ export const TECH_ORDER: Technology[] = [
     "fachwerk",
 ];
 
-export const TECH_THUMBS = [
-    "/media/projects/reyn.jpg",
-    "/media/projects/arkada.jpg",
-    "/media/projects/kasl.jpg",
-] as const;
-
 const IMG = "/media/tech";
 
 export const TECH_COPY: Record<

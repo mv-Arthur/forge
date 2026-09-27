@@ -1,0 +1,320 @@
+.page {
+    padding-bottom: 80px;
+}
+
+.heading {
+    margin: 0 0 30px;
+    color: rgb(var(--ink-950-rgb));
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.hero {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    color: #fff;
+}
+
+.hero::before {
+    content: "";
+    display: block;
+    padding-top: 48%;
+}
+
+.heroImage {
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s ease;
+}
+
+.hero:hover .heroImage {
+    transform: scale(1.03);
+}
+
+.heroLabel {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    padding: 48px 0 24px 30px;
+    background: linear-gradient(
+        transparent,
+        rgb(0 0 0 / 0.49),
+        rgb(0 0 0 / 0.6)
+    );
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.blockTitle {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.stages {
+    margin-top: 50px;
+}
+
+.stageGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.stage {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 263 / 240;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.stageImage {
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+a.stage:hover .stageImage {
+    transform: scale(1.04);
+}
+
+.stageName {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    padding: 36px 16px 16px;
+    background: linear-gradient(transparent, rgb(0 0 0 / 0.55));
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.stageSeeWrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.stageSee {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+    height: 44px;
+    padding: 10px 36px;
+    border-radius: var(--radius-pill);
+    background: rgb(var(--color-accent-rgb));
+    color: var(--color-ink-on-accent);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.stageSee:hover {
+    background: var(--color-accent-hover);
+}
+
+.map {
+    margin-top: 56px;
+}
+
+.mapHead {
+    margin-bottom: 16px;
+}
+
+.mapPills {
+    margin-bottom: 16px;
+}
+
+.mapBoard {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgb(var(--ink-150-rgb));
+    border-radius: 8px;
+    background: #fff;
+    height: 520px;
+}
+
+.mapMenu {
+    height: auto;
+    max-height: 280px;
+    padding: 16px 20px 20px;
+    overflow: auto;
+    border-bottom: 1px solid rgb(var(--ink-150-rgb));
+}
+
+.mapMenuHead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-bottom: 12px;
+}
+
+.mapMenuTitle {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mapMenuActions {
+    display: flex;
+    gap: 16px;
+}
+
+.mapMenuAction {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-accent);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.mapMenuAction:hover {
+    text-decoration: underline;
+}
+
+.workList {
+    list-style: none;
+}
+
+.workItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    color: rgb(var(--ink-800-rgb));
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.workCheck {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: var(--color-accent);
+}
+
+.mapEmpty,
+.mapEmptyOverlay {
+    margin: 16px;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 14px;
+}
+
+.mapEmptyOverlay {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 500;
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: rgb(255 255 255 / 0.92);
+}
+
+.mapCanvas {
+    position: relative;
+    flex: 1;
+    min-height: 240px;
+    background: rgb(var(--ink-50-rgb));
+}
+
+.mapRoot {
+    width: 100%;
+    height: 100%;
+}
+
+.mapCanvas :global(.ymaps-2-1-79-map) {
+    width: 100%;
+    height: 100%;
+}
+
+.visit {
+    margin-top: 64px;
+    padding: 48px 24px 40px;
+    border-radius: 24px;
+    background: #fff;
+    text-align: center;
+}
+
+.visitTitle {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.visitLead {
+    max-width: 40rem;
+    margin: 12px auto 28px;
+    color: rgb(var(--ink-800-rgb));
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.visitForm {
+    text-align: left;
+}
+
+@media (min-width: 768px) {
+    .stageGrid {
+        grid-template-columns: repeat(2, minmax(0, 280px));
+    }
+
+    .visit {
+        padding: 56px 40px 48px;
+    }
+}
+
+@media (min-width: 960px) {
+    .mapBoard {
+        flex-direction: row;
+        height: 604px;
+    }
+
+    .mapMenu {
+        width: 388px;
+        min-width: 388px;
+        max-height: none;
+        height: auto;
+        border-bottom: 0;
+        border-right: 1px solid rgb(var(--ink-150-rgb));
+    }
+
+    .mapCanvas {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .heading,
+    .blockTitle {
+        font-size: 32px;
+    }
+
+    .heroLabel {
+        padding: 32px 0 16px 16px;
+        font-size: 22px;
+    }
+
+    .stageSee {
+        width: 100%;
+        min-width: 0;
+    }
+}

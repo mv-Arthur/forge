@@ -22,7 +22,6 @@
 .title {
     margin: 0;
     color: var(--color-ink);
-    font-family: var(--font-display);
     font-size: 32px;
     font-weight: 600;
     line-height: 1.2;
@@ -102,7 +101,6 @@
     margin: 0 0 8px;
     max-width: 16ch;
     color: #fff;
-    font-family: var(--font-display);
     font-size: 28px;
     font-weight: 600;
     line-height: 1.2;

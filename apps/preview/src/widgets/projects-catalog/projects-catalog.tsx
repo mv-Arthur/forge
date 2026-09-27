@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Breadcrumb } from "@/ui/breadcrumb";
 import { Container } from "@/ui/container";
+import { routes } from "@/lib/routes";
 import styles from "./projects-catalog.module.css";
 
 export function ProjectsCatalog({ filters }: { filters: ReactNode }) {
@@ -11,7 +12,7 @@ export function ProjectsCatalog({ filters }: { filters: ReactNode }) {
                     <h1 className="sr-only">Проекты</h1>
                     <Breadcrumb
                         items={[
-                            { label: "Главная", href: "/" },
+                            { label: "Главная", href: routes.home },
                             { label: "Проекты" },
                         ]}
                     />

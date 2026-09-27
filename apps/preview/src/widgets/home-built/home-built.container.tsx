@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BUILT_STRIP_HEADING, BUILT_STRIP_SEE } from "@/lib/copy";
+import { routes } from "@/lib/routes";
 import { HomeBuilt } from "./home-built";
 import type { HomeBuiltItem, HomeBuiltStat } from "./home-built.types";
 
@@ -50,7 +51,7 @@ export function HomeBuiltContainer({
         <HomeBuilt
             heading={BUILT_STRIP_HEADING}
             seeLabel={BUILT_STRIP_SEE}
-            seeHref="/works"
+            seeHref={routes.worksGallery()}
             stats={stats}
             items={items}
             trackRef={trackRef}

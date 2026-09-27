@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ComponentType, SVGProps } from "react";
 import {
-    ArrowUpRightIcon,
     BuiltHousesIcon,
     CheckIcon,
     HouseIcon,
@@ -23,8 +22,7 @@ export type DetailNavItem = {
         | "facades"
         | "decor"
         | "built"
-        | "packages"
-        | "start";
+        | "package";
 };
 
 const ICONS: Record<
@@ -36,8 +34,7 @@ const ICONS: Record<
     facades: HouseIcon,
     decor: SparklesIcon,
     built: BuiltHousesIcon,
-    packages: CheckIcon,
-    start: ArrowUpRightIcon,
+    package: CheckIcon,
 };
 
 export function ProjectDetailNav({ items }: { items: DetailNavItem[] }) {

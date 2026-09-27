@@ -7,32 +7,27 @@ import { ProjectCard } from "@/widgets/project-card/project-card";
 import { formatTechnologyBrand, projectsWord } from "@/lib/format";
 import {
     countActiveFilters,
-    CATALOG_KINDS,
+    catalogKindOn,
+    isAllCatalogKinds,
     openCatalogFilter,
     parseCatalogKinds,
-    projectClass,
     projectPassesCatalogFilter,
+    toggleCatalogKind,
     type CatalogFilterState,
     type CatalogKind,
 } from "@/lib/catalogFilter";
 import {
-    HIT_SALES,
-    HIT_SALES_LEAD,
     LINE_ALL,
-    LINE_LEAD,
     LINE_TITLE,
-    POPULAR_BATH_LEAD,
     POPULAR_BATH_TAB,
-    POPULAR_INDIVIDUAL_LEAD,
     POPULAR_INDIVIDUAL_TAB,
     POPULAR_SERIAL_TAB,
 } from "@/lib/copy";
 import { isCollectionId } from "@/lib/collections";
-import { LINE_ORDER, groupByLine, parseLineIds, type LineId } from "@/lib/lines";
-import {
-    clearActiveFilterTag,
-    listActiveFilterTags,
-} from "./lib/active-tags";
+import { LINE_ORDER, parseLineIds, type LineId } from "@/lib/lines";
+import { parseCatalogTechs } from "@/lib/techFamily";
+import { clearActiveFilterTag, listActiveFilterTags } from "./lib/active-tags";
+import { buildCatalogSections } from "./lib/sections";
 import { ProjectsCatalogSection } from "./__section/projects-catalog__section";
 import {
     ChevronDownIcon,
@@ -71,8 +66,6 @@ interface Props {
     consult?: ReactNode;
 }
 
-const TECH_SET = new Set<string>(TECH_OPTIONS);
-
 export function ProjectsCatalogContainer({
     projects,
     bounds,
@@ -91,8 +84,8 @@ export function ProjectsCatalogContainer({
 
     useEffect(() => {
         const next: Partial<FiltersState> = {};
-        const tech = searchParams.get("tech");
-        if (tech && TECH_SET.has(tech)) next.tech = [tech as Technology];
+        const techs = parseCatalogTechs(searchParams.get("tech"));
+        if (techs.length) next.tech = techs;
         const floors = searchParams.get("floors");
         if (floors) next.floors = [floors];
         const priceMin = searchParams.get("priceMin");
@@ -147,26 +140,16 @@ export function ProjectsCatalogContainer({
         return arr;
     }, [filtered, sort]);
 
-    const allKindsOn = state.kind.length === 0;
-    const hitsTop = useMemo(() => {
-        if (!allKindsOn) return [];
-        const order = { serial: 0, individual: 1, bath: 2 };
-        return sorted
-            .filter((p) => p.detailFilled)
-            .sort(
-                (a, b) =>
-                    (order[a.projectClass] ?? 9) - (order[b.projectClass] ?? 9),
-            );
-    }, [sorted, allKindsOn]);
-    const listed = allKindsOn
-        ? sorted.filter((p) => !p.detailFilled)
-        : sorted;
+    const sections = useMemo(
+        () => buildCatalogSections(sorted, state.kind),
+        [sorted, state.kind]
+    );
 
     const activeChips =
         countActiveFilters(state, catalogOpen) + (q.trim() ? 1 : 0);
     const filterTags = useMemo(
         () => listActiveFilterTags(state, catalogOpen, q),
-        [state, catalogOpen, q],
+        [state, catalogOpen, q]
     );
     const reset = () => {
         setState(catalogOpen);
@@ -201,25 +184,18 @@ export function ProjectsCatalogContainer({
                 ? s[key].filter((x) => x !== n)
                 : [...s[key], n],
         }));
-    const kindOn = (kind: CatalogKind) =>
-        state.kind.length === 0 || state.kind.includes(kind);
+    const kindOn = (kind: CatalogKind) => catalogKindOn(state.kind, kind);
     const toggleKind = (kind: CatalogKind) =>
         setState((s) => {
-            const allOn = s.kind.length === 0;
-            const on = allOn || s.kind.includes(kind);
-            if (on) {
-                const current = allOn ? CATALOG_KINDS : s.kind;
-                return {
-                    ...s,
-                    kind: current.filter((x) => x !== kind),
-                    lines: kind === "serial" ? [] : s.lines,
-                };
-            }
-            const next = [...s.kind, kind];
-            if (CATALOG_KINDS.every((k) => next.includes(k))) {
-                return { ...s, kind: [], lines: [] };
-            }
-            return { ...s, kind: next };
+            const next = toggleCatalogKind(s.kind, kind);
+            const lines = isAllCatalogKinds(next)
+                ? isAllCatalogKinds(s.kind)
+                    ? s.lines
+                    : []
+                : catalogKindOn(next, "serial")
+                  ? s.lines
+                  : [];
+            return { ...s, kind: next, lines };
         });
     const toggleLine = (id: LineId) =>
         setState((s) => {
@@ -228,7 +204,7 @@ export function ProjectsCatalogContainer({
                 ? s.lines.filter((x) => x !== id)
                 : [...s.lines, id];
             const kind: CatalogKind[] =
-                !on && !s.kind.includes("serial")
+                !on && !catalogKindOn(s.kind, "serial")
                     ? [...s.kind, "serial"]
                     : s.kind;
             return { ...s, lines, kind };
@@ -238,7 +214,9 @@ export function ProjectsCatalogContainer({
         <div className={ui.stack}>
             <FilterGroup
                 label="Тип проекта"
-                active={state.kind.length > 0 || state.lines.length > 0}
+                active={
+                    !isAllCatalogKinds(state.kind) || state.lines.length > 0
+                }
             >
                 <LineDropdown
                     serialOn={kindOn("serial")}
@@ -453,40 +431,37 @@ export function ProjectsCatalogContainer({
                             role="group"
                             aria-label="Вид списка"
                         >
-                        <button
-                            type="button"
-                            onClick={() => setView("wide")}
-                            className={`${ui.viewBtn} ${
-                                view === "wide" ? ui.viewOn : ""
-                            }`}
-                            aria-pressed={view === "wide"}
-                            title="Широкие карточки"
-                            aria-label="Широкие карточки"
-                        >
-                            <ListViewIcon className={ui.icon} />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setView("grid")}
-                            className={`${ui.viewBtn} ${
-                                view === "grid" ? ui.viewOn : ""
-                            }`}
-                            aria-pressed={view === "grid"}
-                            title="Сетка"
-                            aria-label="Сетка"
-                        >
-                            <GridViewIcon className={ui.icon} />
-                        </button>
+                            <button
+                                type="button"
+                                onClick={() => setView("wide")}
+                                className={`${ui.viewBtn} ${
+                                    view === "wide" ? ui.viewOn : ""
+                                }`}
+                                aria-pressed={view === "wide"}
+                                title="Широкие карточки"
+                                aria-label="Широкие карточки"
+                            >
+                                <ListViewIcon className={ui.icon} />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setView("grid")}
+                                className={`${ui.viewBtn} ${
+                                    view === "grid" ? ui.viewOn : ""
+                                }`}
+                                aria-pressed={view === "grid"}
+                                title="Сетка"
+                                aria-label="Сетка"
+                            >
+                                <GridViewIcon className={ui.icon} />
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div className={ui.metaRow}>
                     <div className={ui.found} data-found-count={sorted.length}>
-                        Найдено{" "}
-                        <strong>
-                            {sorted.length}
-                        </strong>{" "}
+                        Найдено <strong>{sorted.length}</strong>{" "}
                         {projectsWord(sorted.length)}
                     </div>
                     <button
@@ -534,11 +509,7 @@ export function ProjectsCatalogContainer({
                             <CloseIcon className={ui.icon} />
                         </button>
                     ))}
-                    <button
-                        type="button"
-                        onClick={reset}
-                        className={ui.clear}
-                    >
+                    <button type="button" onClick={reset} className={ui.clear}>
                         Сбросить
                         <TrashIcon className={ui.icon} />
                     </button>
@@ -549,9 +520,7 @@ export function ProjectsCatalogContainer({
 
     return (
         <div>
-            <div
-                className={`${ui.layout} ${open ? ui.layoutOpen : ""}`}
-            >
+            <div className={`${ui.layout} ${open ? ui.layoutOpen : ""}`}>
                 {open ? (
                     <aside id="catalog-filters" className={ui.aside}>
                         <div
@@ -569,85 +538,23 @@ export function ProjectsCatalogContainer({
 
                 <div className={ui.mainCol}>
                     {toolbar}
-                    {promo ? (
-                        <div key="catalog-promo">{promo}</div>
-                    ) : null}
+                    {promo ? <div key="catalog-promo">{promo}</div> : null}
                     {sorted.length === 0 ? (
                         <EmptyState onReset={reset} />
                     ) : (
-                        <>
-                            {hitsTop.length > 0 ? (
-                                <ProjectsCatalogSection
-                                    key="hits"
-                                    title={HIT_SALES}
-                                    lead={HIT_SALES_LEAD}
-                                >
-                                    <LineCards
-                                        projects={hitsTop}
-                                        view={view}
-                                        dense={open}
-                                    />
-                                </ProjectsCatalogSection>
-                            ) : null}
-                            {groupByLine(
-                                pinFilled(
-                                    listed.filter(
-                                        (p) => projectClass(p) === "serial",
-                                    ),
-                                ),
-                            ).map((group) => (
-                                <ProjectsCatalogSection
-                                    key={group.id}
-                                    title={LINE_TITLE[group.id]}
-                                    lead={LINE_LEAD[group.id]}
-                                >
-                                    <LineCards
-                                        projects={pinFilled(group.projects)}
-                                        view={view}
-                                        dense={open}
-                                    />
-                                </ProjectsCatalogSection>
-                            ))}
-                            {listed.some(
-                                (p) => projectClass(p) === "individual",
-                            ) ? (
-                                <ProjectsCatalogSection
-                                    key="individual"
-                                    title={POPULAR_INDIVIDUAL_TAB}
-                                    lead={POPULAR_INDIVIDUAL_LEAD}
-                                >
-                                    <LineCards
-                                        projects={pinFilled(
-                                            listed.filter(
-                                                (p) =>
-                                                    projectClass(p) ===
-                                                    "individual",
-                                            ),
-                                        )}
-                                        view={view}
-                                        dense={open}
-                                    />
-                                </ProjectsCatalogSection>
-                            ) : null}
-                            {listed.some((p) => projectClass(p) === "bath") ? (
-                                <ProjectsCatalogSection
-                                    key="bath"
-                                    title={POPULAR_BATH_TAB}
-                                    lead={POPULAR_BATH_LEAD}
-                                >
-                                    <LineCards
-                                        projects={pinFilled(
-                                            listed.filter(
-                                                (p) =>
-                                                    projectClass(p) === "bath",
-                                            ),
-                                        )}
-                                        view={view}
-                                        dense={open}
-                                    />
-                                </ProjectsCatalogSection>
-                            ) : null}
-                        </>
+                        sections.map((section) => (
+                            <ProjectsCatalogSection
+                                key={section.key}
+                                title={section.title}
+                                lead={section.lead}
+                            >
+                                <LineCards
+                                    projects={section.projects}
+                                    view={view}
+                                    dense={open}
+                                />
+                            </ProjectsCatalogSection>
+                        ))
                     )}
                     {consult ? (
                         <div key="catalog-consult">{consult}</div>
@@ -657,10 +564,7 @@ export function ProjectsCatalogContainer({
 
             {/* Mobile / tablet: full-height sheet with all filters */}
             {mobileOpen ? (
-                <div
-                    className={ui.drawer}
-                    onClick={() => setMobileOpen(false)}
-                >
+                <div className={ui.drawer} onClick={() => setMobileOpen(false)}>
                     <div
                         id="catalog-filters-mobile"
                         className={ui.sheet}
@@ -697,12 +601,6 @@ export function ProjectsCatalogContainer({
     );
 }
 
-function pinFilled(projects: MergedProject[]): MergedProject[] {
-    const hits = projects.filter((p) => p.detailFilled);
-    const rest = projects.filter((p) => !p.detailFilled);
-    return hits.length ? [...hits, ...rest] : projects;
-}
-
 function LineCards({
     projects,
     view,
@@ -727,9 +625,7 @@ function LineCards({
         );
     }
     return (
-        <div
-            className={`${ui.gridList} ${dense ? "" : ui.gridListWide}`}
-        >
+        <div className={`${ui.gridList} ${dense ? "" : ui.gridListWide}`}>
             {projects.map((p, i) => (
                 <ProjectCard
                     key={p.slug}

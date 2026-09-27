@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Breadcrumb } from "@/ui/breadcrumb";
 import { Container } from "@/ui/container";
 import { NAV_WORKS } from "@/lib/copy";
+import { routes } from "@/lib/routes";
 import styles from "./out-of-scope.module.css";
 
 interface Props {
@@ -15,7 +16,7 @@ export function OutOfScope({ title, topic }: Props) {
             <Container className={styles.main}>
                 <Breadcrumb
                     items={[
-                        { label: "Главная", href: "/" },
+                        { label: "Главная", href: routes.home },
                         { label: title },
                     ]}
                 />
@@ -36,12 +37,12 @@ export function OutOfScope({ title, topic }: Props) {
                         <div className={styles.boxLabel}>Что можно посмотреть</div>
                         <div className={styles.actions}>
                             <Link
-                                href="/projects"
+                                href={routes.projects()}
                                 className="btn btn-primary btn-lg"
                             >
                                 Проекты
                             </Link>
-                            <Link href="/works" className="btn btn-light btn-lg">
+                            <Link href={routes.works} className="btn btn-light btn-lg">
                                 {NAV_WORKS}
                             </Link>
                         </div>

@@ -7,16 +7,10 @@ import { projectLine, type LineId } from "./lines";
 
 export type CatalogKind = "serial" | "individual" | "bath";
 
-export const CATALOG_KINDS: CatalogKind[] = [
-    "serial",
-    "individual",
-    "bath",
-];
+export const CATALOG_KINDS: CatalogKind[] = ["serial", "individual", "bath"];
 
 export function isCatalogKind(value: string): value is CatalogKind {
-    return (
-        value === "serial" || value === "individual" || value === "bath"
-    );
+    return value === "serial" || value === "individual" || value === "bath";
 }
 
 export function parseCatalogKinds(raw: string | null): CatalogKind[] {
@@ -27,6 +21,34 @@ export function parseCatalogKinds(raw: string | null): CatalogKind[] {
         if (isCatalogKind(value) && !out.includes(value)) out.push(value);
     }
     return out;
+}
+
+export function isAllCatalogKinds(kind: CatalogKind[]): boolean {
+    return kind.length === 0 || CATALOG_KINDS.every((k) => kind.includes(k));
+}
+
+export function catalogKindOn(
+    selected: CatalogKind[],
+    kind: CatalogKind
+): boolean {
+    return isAllCatalogKinds(selected) || selected.includes(kind);
+}
+
+export function toggleCatalogKind(
+    selected: CatalogKind[],
+    kind: CatalogKind
+): CatalogKind[] {
+    if (isAllCatalogKinds(selected)) {
+        return CATALOG_KINDS.filter((x) => x !== kind);
+    }
+    if (selected.includes(kind)) {
+        return selected.filter((x) => x !== kind);
+    }
+    const next = [...selected, kind];
+    if (CATALOG_KINDS.every((k) => next.includes(k))) {
+        return [];
+    }
+    return next;
 }
 
 export const INDIVIDUAL_CATEGORY = "doma-originalnie";
@@ -111,7 +133,7 @@ export function isOpenCatalogFilter(
     open: CatalogFilterState
 ): boolean {
     return (
-        state.kind.length === 0 &&
+        isAllCatalogKinds(state.kind) &&
         state.lines.length === 0 &&
         state.tech.length === 0 &&
         state.areaMin === open.areaMin &&
@@ -144,7 +166,7 @@ export function projectPassesCatalogFilter(
     if (state.lines.length > 0) {
         const rowKind = projectClass(p);
         if (rowKind !== "serial") {
-            if (!state.kind.includes(rowKind)) return false;
+            if (!catalogKindOn(state.kind, rowKind)) return false;
         } else {
             const line = p.slug ? projectLine(p.slug) : "classic";
             if (!state.lines.includes(line)) return false;
@@ -203,7 +225,7 @@ export function countActiveFilters(
     open: CatalogFilterState
 ): number {
     let n = 0;
-    if (state.kind.length) n += 1;
+    if (state.kind.length && !isAllCatalogKinds(state.kind)) n += 1;
     if (state.lines.length) n += 1;
     if (state.tech.length) n += 1;
     if (state.areaMin !== open.areaMin || state.areaMax !== open.areaMax) {

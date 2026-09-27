@@ -12,10 +12,10 @@ import {
     SERVICES_VISIT_TITLE,
 } from "@/lib/copy";
 import { Container } from "@/ui/container";
+import { routes } from "@/lib/routes";
 import styles from "./home-services.module.css";
 
-const KISKELOVO_HREF =
-    "/works/dvuhetazhnyi-dom-iz-gazobetonnyh-blokov-v-derevne-kiskelovo";
+const SITE_HREF = routes.worksGallery();
 
 function Arrow() {
     return (
@@ -72,15 +72,17 @@ function OfficeIcon() {
 
 export function HomeServices({
     officeHoursLabel,
+    visitImage,
 }: {
     officeHoursLabel: string;
+    visitImage: string;
 }) {
     return (
         <section data-section="services" className={styles.root}>
             <Container className={styles.grid}>
-                <Link href="/#lead" className={styles.photo}>
+                <Link href={routes.lead} className={styles.photo}>
                     <Image
-                        src="/media/services/visit-house.jpg"
+                        src={visitImage}
                         unoptimized
                         alt=""
                         fill
@@ -103,7 +105,7 @@ export function HomeServices({
                         </span>
                     </span>
                 </Link>
-                <Link href={KISKELOVO_HREF} className={styles.card}>
+                <Link href={SITE_HREF} className={styles.card}>
                     <span className={styles.iconWrap}>
                         <SiteIcon />
                     </span>
@@ -114,7 +116,7 @@ export function HomeServices({
                         <Arrow />
                     </span>
                 </Link>
-                <Link href="/#lead" className={styles.card}>
+                <Link href={routes.lead} className={styles.card}>
                     <span className={styles.iconWrap}>
                         <OfficeIcon />
                     </span>

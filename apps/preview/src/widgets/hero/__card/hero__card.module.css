@@ -47,7 +47,6 @@
 
 .title {
     margin: 0 0 4px;
-    font-family: var(--font-sans);
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
@@ -56,7 +55,6 @@
 
 .sub {
     margin: 0;
-    font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 500;
     line-height: 18.2px;
@@ -68,7 +66,6 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 600;
     line-height: 18.2px;

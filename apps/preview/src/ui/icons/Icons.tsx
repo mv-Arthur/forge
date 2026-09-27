@@ -97,6 +97,46 @@ export function CloseIcon(props: IconProps) {
     );
 }
 
+export function PlayCircleIcon(props: IconProps) {
+    return (
+        <svg viewBox="0 0 72 72" fill="none" aria-hidden {...props}>
+            <circle
+                cx="36"
+                cy="36"
+                r="34"
+                stroke="currentColor"
+                strokeWidth="2"
+            />
+            <path d="M30 22.5v27L51 36z" fill="currentColor" />
+        </svg>
+    );
+}
+
+export function VideoIcon(props: IconProps) {
+    return (
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
+            <path
+                d="M15 12V16.4c0 .331-.269.6-.6.6H3.6a.6.6 0 0 1-.6-.6V7.6c0-.331.269-.6.6-.6h10.8c.331 0 .6.269.6.6V12Zm0 0 5.016-4.18c.391-.326.984-.048.984.461v7.438c0 .509-.593.787-.984.461L15 12Z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+}
+
+export function MaximizeIcon(props: IconProps) {
+    return (
+        <svg {...stroke} {...props}>
+            <polyline points="15 3 21 3 21 9" />
+            <polyline points="9 21 3 21 3 15" />
+            <line x1="21" y1="3" x2="14" y2="10" />
+            <line x1="3" y1="21" x2="10" y2="14" />
+        </svg>
+    );
+}
+
 export function MenuIcon(props: IconProps) {
     return (
         <svg {...stroke} {...props}>

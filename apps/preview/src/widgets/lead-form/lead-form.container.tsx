@@ -22,7 +22,9 @@ export function LeadFormContainer({
 }) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const [consent, setConsent] = useState(true);
+    const [email, setEmail] = useState("");
+    const withEmail = layout === "works" || layout === "unique";
+    const [consent, setConsent] = useState(layout !== "works");
     const [sent, setSent] = useState(false);
 
     async function onSubmit() {
@@ -31,6 +33,7 @@ export function LeadFormContainer({
             source,
             name,
             phone,
+            email: withEmail ? email : undefined,
             consent,
             prefill,
         });
@@ -45,10 +48,11 @@ export function LeadFormContainer({
             variant={variant}
             layout={layout}
             inline={inline}
-            values={{ name, phone, consent }}
+            values={{ name, phone, email, consent }}
             sent={sent}
             onNameChange={setName}
             onPhoneChange={setPhone}
+            onEmailChange={setEmail}
             onConsentChange={setConsent}
             onSubmit={onSubmit}
         />

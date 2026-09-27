@@ -1,7 +1,11 @@
 import { listCatalogProjects } from "@/actions/catalog/list-projects";
 import { listListedObjects } from "@/actions/catalog/list-objects";
 import { getHero } from "@/actions/hero/get-hero";
+import { getHomeSlots } from "@/actions/home/get-home-slots";
 import { unwrapAction } from "@/types/action";
+import { slotUrl } from "@/lib/homeSlots";
+import { BLOG_ITEMS } from "@/widgets/home-blog/lib/content";
+import { STAGE_ITEMS } from "@/widgets/home-stages/lib/content";
 import { projectIsIndividual } from "@/lib/catalogFilter";
 import { settings } from "@/lib/settings";
 import type { Technology } from "@/types/catalog";
@@ -39,20 +43,21 @@ const TECHS: Technology[] = [
 ];
 
 export default async function HomePage() {
-    const catalog = unwrapAction(await listCatalogProjects());
-    const listed = unwrapAction(await listListedObjects());
-    const hero = unwrapAction(await getHero());
-    const popular = catalog.projects.slice(0, 4);
-    const objects = listed.objects;
-    const individualProjects = catalog.projects
+    const { projects: catalogProjects } = unwrapAction(
+        await listCatalogProjects()
+    );
+    const { objects } = unwrapAction(await listListedObjects());
+    const { payload: heroPayload } = unwrapAction(await getHero());
+    const { slots } = unwrapAction(await getHomeSlots());
+    const popular = catalogProjects.slice(0, 4);
+    const individualProjects = catalogProjects
         .filter(projectIsIndividual)
         .slice(0, 4);
     const techCounts = TECHS.map((t) => ({
         tech: t,
-        count: catalog.projects.filter((p) => p.technologies.includes(t))
-            .length,
+        count: catalogProjects.filter((p) => p.technologies.includes(t)).length,
     })).filter((row) => row.count > 0);
-    const collections = buildCollectionItems(catalog.projects);
+    const collections = buildCollectionItems(catalogProjects, slots);
     const builtCount = objects.filter((o) => o.status === "built").length;
     const buildingCount = objects.filter(
         (o) => o.status === "in-progress"
@@ -69,12 +74,20 @@ export default async function HomePage() {
             ? [{ value: String(sinceYears), hint: BUILT_STAT_YEARS }]
             : []),
     ];
-    const builtItems = buildBuiltStripItems(objects);
+    const builtItems = buildBuiltStripItems(objects, slots);
+    const blogItems = BLOG_ITEMS.map((item, index) => ({
+        ...item,
+        image: slotUrl(slots, `blog.${index}`) || item.image,
+    }));
+    const stageItems = STAGE_ITEMS.map((item) => ({
+        ...item,
+        image: slotUrl(slots, `stages.${item.id}`) || item.image,
+    }));
 
     return (
         <main className={styles.main}>
             <section data-section="hero">
-                <HeroContainer payload={hero.payload} />
+                <HeroContainer payload={heroPayload} slots={slots} />
             </section>
             <PopularProjectsContainer
                 serial={
@@ -85,6 +98,7 @@ export default async function HomePage() {
                                 project={p}
                                 layout="grid"
                                 priority={i < 2}
+                                cover={slots[`popular.serial.${i}`]}
                             />
                         ))}
                     </>
@@ -92,22 +106,30 @@ export default async function HomePage() {
                 individual={
                     individualProjects.length > 0 ? (
                         <>
-                            {individualProjects.map((p) => (
-                                <ProjectCard key={p.slug} project={p} />
+                            {individualProjects.map((p, i) => (
+                                <ProjectCard
+                                    key={p.slug}
+                                    project={p}
+                                    cover={slots[`popular.individual.${i}`]}
+                                />
                             ))}
                         </>
                     ) : null
                 }
             />
-            <HomeTechContainer techCounts={techCounts} />
+            <HomeTechContainer techCounts={techCounts} slots={slots} />
             <HomeCollectionsContainer items={collections} />
-            <HomeServices officeHoursLabel={settings.officeHoursLabel} />
+            <HomeServices
+                officeHoursLabel={settings.officeHoursLabel}
+                visitImage={slotUrl(slots, "services.visit")}
+            />
             <HomeBuiltContainer items={builtItems} stats={builtStats} />
-            <HomeBlog />
-            <HomeStagesContainer />
+            <HomeBlog items={blogItems} />
+            <HomeStagesContainer items={stageItems} />
             <HomeLead
                 telegram={settings.telegram}
                 max={settings.max}
+                officeImage={slotUrl(slots, "lead.office")}
                 form={
                     <LeadFormContainer
                         source="home-lead"

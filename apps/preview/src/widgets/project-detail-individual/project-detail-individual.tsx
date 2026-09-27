@@ -1,135 +1,88 @@
-import Link from "next/link";
-import {
-    DETAIL_ALL_PROJECTS,
-    DETAIL_LAYOUT_CTA,
-    DETAIL_LAYOUT_LEAD,
-    DETAIL_LAYOUT_TITLE,
-    DETAIL_LIKED_BATH,
-    DETAIL_LIKED_HOUSE,
-    DETAIL_SIMILAR,
-    LEAD_EYEBROW,
-    RELATED_HOUSES_LEAD,
-    SEE_HOUSES,
-    WORKS_EYEBROW,
-} from "@/lib/copy";
-import { BuiltObjectCard } from "@/widgets/built-object-card/built-object-card";
+import { DETAIL_LIKED_HOUSE, DETAIL_LIKED_LEAD } from "@/lib/copy";
 import { ProjectDetailIndividualHero } from "./__hero/project-detail-individual__hero";
-import { ProjectDetailIndividualStory } from "./__story/project-detail-individual__story";
+import { ProjectDetailIndividualAbout } from "./__about/project-detail-individual__about";
+import { ProjectDetailIndividualGallery } from "./__gallery/project-detail-individual__gallery";
+import { ProjectDetailIndividualDrawings } from "./__drawings/project-detail-individual__drawings";
+import { ProjectDetailIndividualOther } from "./__other/project-detail-individual__other";
+import { ProjectDetailIndividualLayoutCta } from "./__layout-cta/project-detail-individual__layout-cta";
+import { ProjectDetailIndividualSeeAlso } from "./__see-also/project-detail-individual__see-also";
+import { uniqueSeeAlso } from "@/lib/uniqueSeeAlso";
+import { routes } from "@/lib/routes";
 import type { ProjectDetailIndividualProps } from "./project-detail-individual.types";
-import { Container } from "@/ui/container";
 import layout from "../project-detail/project-detail.module.css";
+import styles from "./project-detail-individual.module.css";
 
 export function ProjectDetailIndividual({
     project,
     showcase,
-    similar,
-    relatedBuilt,
+    architectWorks,
+    architectMore,
     leadForm,
-    similarCarousel,
 }: ProjectDetailIndividualProps) {
     const images = showcase.gallery.length
         ? showcase.gallery
         : project.renders;
-    const bath = project.projectClass === "bath";
+    const gallery = images.slice(1);
+    const seeAlso = uniqueSeeAlso(project);
 
     return (
         <main className={layout.main}>
-            <ProjectDetailIndividualHero
-                project={project}
-                images={images}
-                lead={showcase.lead}
+            <div className={styles.promo}>
+                <ProjectDetailIndividualHero
+                    project={project}
+                    images={images}
+                    className={styles.promoHero}
+                />
+                <ProjectDetailIndividualAbout
+                    about={showcase.about}
+                    portfolioHref={routes.projects({
+                        kind:
+                            project.projectClass === "bath"
+                                ? "bath"
+                                : "individual",
+                    })}
+                    className={styles.promoAbout}
+                />
+            </div>
+
+            <ProjectDetailIndividualGallery
+                images={gallery}
+                name={project.displayName}
             />
 
-            {showcase.about.length > 0 ? (
-                <section data-section="detail-about" className={layout.band}>
-                    <Container className={layout.aboutGrid}>
-                        {showcase.about.map((block) => (
-                            <article key={block.title}>
-                                <h2 className={layout.heading}>{block.title}</h2>
-                                <p className={layout.aboutText}>{block.text}</p>
-                            </article>
-                        ))}
-                    </Container>
-                </section>
-            ) : null}
+            <ProjectDetailIndividualDrawings
+                plans={showcase.plans ?? []}
+                facades={showcase.facades ?? []}
+                sections={showcase.sectionDrawings ?? []}
+                fallbackArea={project.area}
+            />
 
-            {showcase.story ? (
-                <ProjectDetailIndividualStory
-                    story={showcase.story}
-                    name={project.displayName}
-                />
-            ) : null}
+            <ProjectDetailIndividualLayoutCta
+                source={`project-${project.slug}-layout`}
+                prefill={`Изменить планировку: ${project.displayName}`}
+            />
 
-            <section data-section="detail-layout-cta" className={layout.bandSoft}>
-                <Container className={layout.layoutCta}>
-                    <div>
-                        <h2 className={layout.heading}>{DETAIL_LAYOUT_TITLE}</h2>
-                        <p className={layout.aboutText}>{DETAIL_LAYOUT_LEAD}</p>
-                    </div>
-                    <a href="#detail-lead" className="btn btn-primary">
-                        {DETAIL_LAYOUT_CTA}
-                    </a>
-                </Container>
-            </section>
+            <ProjectDetailIndividualOther
+                project={project}
+                works={architectWorks}
+                moreCount={architectMore}
+            />
 
-            {!bath && relatedBuilt.length > 0 ? (
-                <section data-section="detail-related" className={layout.band}>
-                    <Container className={layout.pad}>
-                        <div className={`eyebrow ${layout.eyebrow}`}>
-                            {WORKS_EYEBROW}
-                        </div>
-                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
-                            Смотрите также
-                        </h2>
-                        <p className={layout.lead}>{RELATED_HOUSES_LEAD}</p>
-                        <div className={layout.cards}>
-                            {relatedBuilt.map((o) => (
-                                <BuiltObjectCard key={o.slug} object={o} />
-                            ))}
-                        </div>
-                        <div className={layout.block}>
-                            <Link href="/works" className="btn btn-light">
-                                {SEE_HOUSES}
-                            </Link>
-                        </div>
-                    </Container>
-                </section>
-            ) : null}
+            <ProjectDetailIndividualSeeAlso links={seeAlso} />
 
             <section
                 id="detail-lead"
                 data-section="detail-lead"
-                className={layout.leadBandWhite}
+                className={styles.lead}
             >
-                <Container className={layout.leadGrid}>
-                    <div>
-                        <div className={`eyebrow ${layout.eyebrow}`}>
-                            {LEAD_EYEBROW}
-                        </div>
-                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
-                            {bath ? DETAIL_LIKED_BATH : DETAIL_LIKED_HOUSE}
-                        </h2>
-                        <p className={layout.lead}>
-                            Перезвоним по комплектации и срокам.
-                        </p>
+                <div className={styles.leadBox}>
+                    <div className={styles.leadHead}>
+                        <h2 className={styles.leadTitle}>{DETAIL_LIKED_HOUSE}</h2>
+                        <p className={styles.leadText}>{DETAIL_LIKED_LEAD}</p>
                     </div>
-                    <div className={layout.leadBoxSoft}>{leadForm}</div>
-                </Container>
+                    {leadForm}
+                </div>
             </section>
-
-            {similar.length > 0 ? (
-                <section data-section="detail-similar" className={layout.similar}>
-                    <Container>
-                        <div className={layout.similarHead}>
-                            <h2 className={layout.heading}>{DETAIL_SIMILAR}</h2>
-                            <Link href="/projects" className={layout.similarAll}>
-                                {DETAIL_ALL_PROJECTS}
-                            </Link>
-                        </div>
-                        <div className={layout.block}>{similarCarousel}</div>
-                    </Container>
-                </section>
-            ) : null}
         </main>
     );
 }

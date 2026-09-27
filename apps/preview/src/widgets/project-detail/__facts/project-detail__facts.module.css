@@ -84,7 +84,6 @@
 .priceValue,
 .priceNext {
     color: rgb(var(--ink-950-rgb));
-    font-family: var(--font-display);
     font-size: 36px;
     font-weight: 800;
     letter-spacing: -0.03em;
@@ -101,7 +100,6 @@
 
 .priceCustom {
     color: rgb(var(--ink-950-rgb));
-    font-family: var(--font-display);
     font-size: 22px;
     font-weight: 700;
     line-height: 1.2;

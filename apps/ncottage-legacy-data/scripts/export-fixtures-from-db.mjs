@@ -754,14 +754,18 @@ function transform(data) {
             : null;
         if (thumb && !gallery.includes(thumb)) gallery.unshift(thumb);
 
-        // location from built_table
         let location = null;
+        let area = null;
         const tableN = parseInt(meta.built_item_built_table || "0", 10) || 0;
         for (let i = 0; i < tableN; i++) {
             const lab = meta[`built_item_built_table_${i}_built_table_lable`];
             const val = meta[`built_item_built_table_${i}_built_table_value`];
-            if (lab && /местополож|локац|адрес|район/i.test(lab) && val) {
+            if (!lab || !val) continue;
+            if (/местополож|локац|адрес|район/i.test(lab)) {
                 location = val;
+            }
+            if (/площад/i.test(lab)) {
+                area = parseArea(val);
             }
         }
 
@@ -795,7 +799,7 @@ function transform(data) {
             url: `https://ncottage.ru/objects/${o.post_name}/`,
         });
         extras[o.post_name] = {
-            area: null,
+            area,
             floors: floors ? (floors === "2" ? 2 : floors === "1" ? 1 : null) : null,
             bedrooms: null,
             bathrooms: null,

@@ -1,0 +1,74 @@
+.root {
+    padding: 40px 0 8px;
+}
+
+.heading {
+    margin: 0;
+    max-width: 16ch;
+    color: var(--color-ink);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+}
+
+.lead {
+    max-width: 38rem;
+    margin: 14px 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 1.0625rem;
+    line-height: 1.5;
+}
+
+.grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.card {
+    padding: 22px 20px 24px;
+    border: 1px solid rgb(var(--color-line-rgb));
+    border-radius: 24px;
+    background: var(--color-surface);
+}
+
+.n {
+    color: var(--color-accent);
+    font-size: 1.125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+}
+
+.title {
+    margin: 12px 0 0;
+    color: var(--color-ink);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+.text {
+    margin: 8px 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 0.975rem;
+    line-height: 1.45;
+}
+
+@media (min-width: 768px) {
+    .root {
+        padding-top: 56px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 32px;
+    }
+
+    .card {
+        padding: 28px 24px 32px;
+    }
+}

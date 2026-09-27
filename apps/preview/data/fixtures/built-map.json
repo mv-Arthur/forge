@@ -1,0 +1,1117 @@
+{
+  "workTypes": [
+    {
+      "id": "construction",
+      "label": "Строительство"
+    },
+    {
+      "id": "foundation",
+      "label": "Фундамент"
+    },
+    {
+      "id": "fence",
+      "label": "Ограждение"
+    },
+    {
+      "id": "reconstruction",
+      "label": "Реконструкция"
+    },
+    {
+      "id": "finishing",
+      "label": "Отделка"
+    },
+    {
+      "id": "landscaping",
+      "label": "Благоустройство"
+    },
+    {
+      "id": "completed",
+      "label": "Строительство завершено"
+    }
+  ],
+  "points": [
+    {
+      "slug": "dom-iz-gazobetona-s-garazhom-der-oliki",
+      "lat": 60.1,
+      "lng": 30.8,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-v-p-severnaya-zhemchuzhina",
+      "lat": 60.18,
+      "lng": 30.58,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "Поселок \"Северная жемчужина\"",
+      "term": "55 дней",
+      "area": "184 м2"
+    },
+    {
+      "slug": "karkasnyj-dom-v-p-priyutino",
+      "lat": 60.04,
+      "lng": 30.68,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "п. Приютино",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-v-p-severnaya-zhemchuzhina-2",
+      "lat": 60.18,
+      "lng": 30.58,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-v-p-fedorovskoe",
+      "lat": 59.68044,
+      "lng": 30.1147,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Федоровское",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-v-p-kirillovskoe",
+      "lat": 60.4192,
+      "lng": 29.27294,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Кирилловское",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-s-otdelkoj-fasadnym-kamnem-kanon",
+      "lat": 60.04096,
+      "lng": 30.4596,
+      "workTypes": [
+        "finishing",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-s-otdelkoj-izoplatom-p-aleksandrijskij-park",
+      "lat": 59.88416,
+      "lng": 29.89252,
+      "workTypes": [
+        "finishing",
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Александрийский парк",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-s-otdelkoj-fasada-pod-kamen",
+      "lat": 60.05432,
+      "lng": 30.42822,
+      "workTypes": [
+        "finishing",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasnyj-dom-obshityj-osb-panelyami",
+      "lat": 60.06148,
+      "lng": 30.44346,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-sip-panelej-v-p-novaya-pustosh",
+      "lat": 59.72716,
+      "lng": 30.53034,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Новая Пустошь",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "sip-dom-v-p-druzhnaya-gorka",
+      "lat": 59.2894,
+      "lng": 30.10226,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Дружная Горка",
+      "term": "3 месяца",
+      "area": "112 м2"
+    },
+    {
+      "slug": "sip-dom-po-tipovomu-proektu-garden-v-p-nizhnie-oselki",
+      "lat": 60.215,
+      "lng": 30.61,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Нижние осельки",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "sip-dom-po-individualnomu-proektu-p-kuttuzi",
+      "lat": 60.03676,
+      "lng": 30.47328,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Куттузи",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-sip-panelej-v-g-vyborg",
+      "lat": 60.71,
+      "lng": 28.73,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "г. Выборг",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "banya-iz-sip-panelej-p-levashovo",
+      "lat": 60.107,
+      "lng": 30.18,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Левашово",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "domokomplekt-sip-doma-v-p-mednoe-ozero",
+      "lat": 60.27884,
+      "lng": 30.4983,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-sip-panelej-p-agalatovo",
+      "lat": 60.04404,
+      "lng": 30.43104,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Агалатово",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-sip-panelej-der-korpikyulya",
+      "lat": 60.0632,
+      "lng": 30.42672,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "деревня Корпикюля",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-sip-panelej-pod-kryshu-p-druzhnaya-gorka",
+      "lat": 59.27248,
+      "lng": 30.14774,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "посёлок Дружная Горка",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-sip-panelej-otdelannyj-blok-hausom-i-vinilovym-sajdingom",
+      "lat": 60.04752,
+      "lng": 30.47964,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "sip-dom-bez-vneshnej-otdelki",
+      "lat": 60.06612,
+      "lng": 30.45018,
+      "workTypes": [
+        "finishing",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-kp-morskie-sezony",
+      "lat": 60.17932,
+      "lng": 29.18068,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-kopore",
+      "lat": 60.05676,
+      "lng": 30.43806,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-so-vstroennym-garazhom",
+      "lat": 60.03028,
+      "lng": 30.42858,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-kopore-2",
+      "lat": 59.7196,
+      "lng": 29.01476,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-sosnovskie-ozyora-2",
+      "lat": 60.55008,
+      "lng": 30.27346,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-der-podmoshe",
+      "lat": 58.38,
+      "lng": 33.3,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-s-obliczovkoj",
+      "lat": 60.0326,
+      "lng": 30.4224,
+      "workTypes": [
+        "finishing",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-ust-izhora",
+      "lat": 59.80192,
+      "lng": 30.57284,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-i-gazobetona-s-garazhom-der-oliki",
+      "lat": 60.1,
+      "lng": 30.8,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkas-doma-iz-gazobetona",
+      "lat": 60.04392,
+      "lng": 30.44994,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-pod-kryshu",
+      "lat": 60.05708,
+      "lng": 30.44496,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-obliczovannyj-kirpichyom",
+      "lat": 60.04868,
+      "lng": 30.44358,
+      "workTypes": [
+        "finishing",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-v-domodedovo",
+      "lat": 55.42732,
+      "lng": 37.73294,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-v-pos-severnaya-zhemchuzhina",
+      "lat": 60.17448,
+      "lng": 30.58708,
+      "workTypes": [
+        "landscaping",
+        "construction",
+        "completed"
+      ],
+      "place": "Пос. Северная Жемчужина",
+      "term": "4 месяца",
+      "area": "200 м²"
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-po-karkasnoj-tehnologii-v-pos-sertolovo",
+      "lat": 60.132,
+      "lng": 30.21242,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "пос. Сертолово",
+      "term": "6 мес.",
+      "area": "1134 м²"
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-v-gorode-kommunar",
+      "lat": 59.6346,
+      "lng": 30.38226,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-gazobetona",
+      "lat": 59.66456,
+      "lng": 30.14188,
+      "workTypes": [
+        "construction"
+      ],
+      "place": "Поселок Федоровское",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-karkasnyj-dom-idet-stroitelstvo",
+      "lat": 60.04832,
+      "lng": 30.47628,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-favor-idet-stroitelstvo",
+      "lat": 60.06424,
+      "lng": 30.4683,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-gazobetona-po-proektu-bergen",
+      "lat": 60.03996,
+      "lng": 30.4482,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-gazobetona-po-individualnomu-proektu",
+      "lat": 60.03512,
+      "lng": 30.43746,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-karkasnyj-dom-na-zhelezobetonnyh-svayah",
+      "lat": 60.03628,
+      "lng": 30.43116,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-na-ushp",
+      "lat": 60.06508,
+      "lng": 30.42,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-s-otdelkoj-iz-kirpicha",
+      "lat": 60.04936,
+      "lng": 30.45576,
+      "workTypes": [
+        "finishing",
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-gazobetona-na-fundamente-plite-po-individualnomu-proektu",
+      "lat": 59.84088,
+      "lng": 29.43802,
+      "workTypes": [
+        "foundation",
+        "construction",
+        "completed"
+      ],
+      "place": "Райкузи, Ломоносовский район, Ленинградская область",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-v-moskovskoj-oblasti",
+      "lat": 60.04296,
+      "lng": 30.47454,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-gazobetona-po-individualnomu-proektu-v-poselke-istinka",
+      "lat": 59.50112,
+      "lng": 30.07392,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-karkasnyj-dom-na-zhelezobetonnoj-plite-v-poselke-romashkovo",
+      "lat": 55.74392,
+      "lng": 37.3078,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-gazobetona-po-proektu-forest",
+      "lat": 60.04128,
+      "lng": 30.42504,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-na-usht-v-poselke-vartemyagi",
+      "lat": 60.19488,
+      "lng": 30.376,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-v-poselke-mistolovo-po-proektu-bavariya",
+      "lat": 60.13848,
+      "lng": 30.44436,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "Поселок Мистолово, Санкт-Петербург",
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-sip-panelej-v-derevne-annino",
+      "lat": 59.55008,
+      "lng": 30.0315,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": "Аннино, Гатчиский район",
+      "term": "февраль 2022 - июль 2022",
+      "area": null
+    },
+    {
+      "slug": "fundament-kobrino",
+      "lat": 59.41772,
+      "lng": 30.09202,
+      "workTypes": [
+        "foundation",
+        "completed"
+      ],
+      "place": null,
+      "term": "май 2022- июнь 2022",
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-gazobetona-v-ogonkovo",
+      "lat": 56.32212,
+      "lng": 37.5285,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "март 2022 - август 2022",
+      "area": "138 м2"
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-v-kp-solnechnoe",
+      "lat": 60.13028,
+      "lng": 29.9496,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "март 2022 - июль 2023",
+      "area": "158 м2"
+    },
+    {
+      "slug": "rekonstrukcziya-doma-iz-gazobetona-razliv",
+      "lat": 60.05528,
+      "lng": 30.4236,
+      "workTypes": [
+        "reconstruction",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "апрель 2022 - сентябрь 2022",
+      "area": null
+    },
+    {
+      "slug": "rekonstrukcziya-doma-iz-gazobetona-knyazevo",
+      "lat": 60.03676,
+      "lng": 30.43704,
+      "workTypes": [
+        "reconstruction",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "май 2022 - август 2022",
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-v-virkino",
+      "lat": 59.61796,
+      "lng": 30.23234,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "февраль 2022 - февраль 2023",
+      "area": "130 м2"
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-yukki",
+      "lat": 60.11,
+      "lng": 30.45506,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "июнь 2022 -  октябрь 2023",
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-toksovo",
+      "lat": 60.1352,
+      "lng": 30.5538,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "сентябрь 2022 - март 2023",
+      "area": "125 м2"
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-v-p-pogi",
+      "lat": 59.40444,
+      "lng": 30.02268,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "октябрь 2022 - апрель 2023",
+      "area": "165 м2"
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-lodejnoe-pole",
+      "lat": 60.71504,
+      "lng": 33.53904,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "апрель 2023 - июль 2023 года",
+      "area": null
+    },
+    {
+      "slug": "fundament-i-zabor-v-p-kabaczkoe",
+      "lat": 59.54792,
+      "lng": 30.22982,
+      "workTypes": [
+        "foundation",
+        "fence",
+        "completed"
+      ],
+      "place": null,
+      "term": "март-апрель 2023",
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-p-mga",
+      "lat": 60.04536,
+      "lng": 30.43728,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "май 2023 - строительство идёт",
+      "area": "135 м2"
+    },
+    {
+      "slug": "odnoetazhnyj-dom-iz-sip-v-kp-ladoga",
+      "lat": 60.10204,
+      "lng": 32.28174,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "апрель 2023 - август 2023",
+      "area": "121 м2"
+    },
+    {
+      "slug": "objects-odnoetajniy-dom-iz-karkasa-v-kellozi",
+      "lat": 59.7866,
+      "lng": 29.98402,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": "Февраль 2022 - июль 2022",
+      "area": "130 м2"
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-gazobetona-10x10-v-sovremennom-stile-v-gorode-lodejnoe-pole",
+      "lat": 60.71192,
+      "lng": 33.55692,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyi-dom-iz-gazobetona-v-derevne-nizino",
+      "lat": 59.86152,
+      "lng": 29.86358,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyi-dom-iz-gazobetona-so-sbornymi-zh-b-perekrytiyami-na-sklone-i-slozhnom-grunte",
+      "lat": 60.03408,
+      "lng": 30.46368,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyi-dom-iz-gazobetonnyh-blokov-v-derevne-kiskelovo",
+      "lat": 60.21656,
+      "lng": 30.41222,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": "175.8"
+    },
+    {
+      "slug": "dvuhetazhnyi-dom-iz-gazobetonnyh-blokov-v-p-pervomaiskoe",
+      "lat": 60.36308,
+      "lng": 29.74794,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dvuhetazhnyj-dom-iz-keramzitobetonnyh-blokov-v-p-starye-nizkoviczy",
+      "lat": 59.56204,
+      "lng": 29.8828,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": "295.3"
+    },
+    {
+      "slug": "dvuhetazhnyi-dom-iz-porizovannogo-keramicheskogo-kirpicha-v-p-romanovka",
+      "lat": 59.68344,
+      "lng": 30.7066,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyi-dom-iz-gazobetona-v-snt-veteran",
+      "lat": 59.93656,
+      "lng": 30.21008,
+      "workTypes": [
+        "construction"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyi-dom-iz-gazobetonnyh-blokov-v-g-sertolovo-snt-modul",
+      "lat": 60.1632,
+      "lng": 30.21896,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhnyj-dom-s-mansardoj-iz-gazobetona-v-kp-solnechnoe",
+      "lat": 60.15384,
+      "lng": 29.92404,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": "205.75"
+    },
+    {
+      "slug": "dvuhetazhnyi-dom-iz-gazobetonnyh-blokov-v-kp-petergofskie-dachi",
+      "lat": 59.87312,
+      "lng": 29.93058,
+      "workTypes": [
+        "landscaping",
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": "500.8"
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-solnechnoe",
+      "lat": 60.16724,
+      "lng": 29.92656,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "karkasniy-dom-v-p-pobeda",
+      "lat": 60.0394,
+      "lng": 30.17206,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-p-lintulovo",
+      "lat": 60.2306,
+      "lng": 29.5285,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "stroyka-doma-iz-gazobetona-v-der-anemnyasevo",
+      "lat": 55.62124,
+      "lng": 38.18976,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "stroitelstvo-karkasnogo-doma-v-p-rozhdestveno",
+      "lat": 59.3112,
+      "lng": 29.93002,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "stroitelstvo-doma-iz-gazobetona-v-p-sosnoviy-bor",
+      "lat": 59.8838,
+      "lng": 29.08276,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-kirpicha-v-p-romanovka",
+      "lat": 59.70852,
+      "lng": 30.72124,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-soykino",
+      "lat": 59.77444,
+      "lng": 28.58072,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "dom-iz-gazobetona-v-p-troitskaya-gora",
+      "lat": 59.41204,
+      "lng": 28.6188,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "odnoetazhniy-dom-iz-gazobetona-v-p-porzolovo",
+      "lat": 60.09148,
+      "lng": 30.0963,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    },
+    {
+      "slug": "sip-dom-v-p-losevo",
+      "lat": 60.68488,
+      "lng": 29.9729,
+      "workTypes": [
+        "construction",
+        "completed"
+      ],
+      "place": null,
+      "term": null,
+      "area": null
+    }
+  ]
+}

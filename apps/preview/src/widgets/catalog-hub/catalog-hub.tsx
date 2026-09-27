@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Breadcrumb } from "@/ui/breadcrumb";
 import { Container } from "@/ui/container";
 import { HUB_BREADCRUMB } from "@/lib/copy";
+import { routes } from "@/lib/routes";
 import type { CatalogHubPayload } from "./catalog-hub.types";
 import { CatalogHubIllustration } from "./__illustration/catalog-hub__illustration";
 import { CatalogHubSection } from "./__section/catalog-hub__section";
@@ -29,7 +30,7 @@ export function CatalogHub({ payload }: { payload: CatalogHubPayload }) {
             <Container>
                 <Breadcrumb
                     items={[
-                        { label: "Главная", href: "/" },
+                        { label: "Главная", href: routes.home },
                         { label: HUB_BREADCRUMB },
                     ]}
                 />

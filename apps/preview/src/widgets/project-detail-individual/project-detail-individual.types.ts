@@ -1,15 +1,10 @@
 import type { ReactNode } from "react";
-import type {
-    EnrichedBuiltObject,
-    MergedProject,
-    ShowcasePayload,
-} from "@/types/catalog";
+import type { MergedProject, ShowcasePayload } from "@/types/catalog";
 
 export type ProjectDetailIndividualProps = {
     project: MergedProject;
     showcase: ShowcasePayload;
-    similar: MergedProject[];
-    relatedBuilt: EnrichedBuiltObject[];
+    architectWorks: MergedProject[];
+    architectMore: number;
     leadForm: ReactNode;
-    similarCarousel: ReactNode;
 };

@@ -1,0 +1,96 @@
+.root {
+    padding: var(--section-padding-y-mobile) 0 8px;
+}
+
+.head {
+    max-width: 40rem;
+}
+
+.title {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+}
+
+.lead {
+    margin: 10px 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 0.975rem;
+    line-height: 1.45;
+}
+
+.grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 28px;
+}
+
+.card {
+    min-width: 0;
+}
+
+.imageWrap {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    aspect-ratio: 5 / 4;
+}
+
+.image {
+    object-fit: cover;
+    object-position: center;
+}
+
+.name {
+    margin: 14px 0 0;
+    color: var(--color-ink);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.text {
+    margin: 6px 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 0.9375rem;
+    line-height: 1.4;
+}
+
+.ctaWrap {
+    margin-top: 28px;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-accent);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.cta:hover {
+    color: var(--color-accent-hover);
+}
+
+@media (min-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 992px) {
+    .root {
+        padding-top: var(--section-padding-y);
+    }
+
+    .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px;
+    }
+}

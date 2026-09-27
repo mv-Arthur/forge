@@ -1,59 +1,41 @@
 .header {
-    border-bottom: 1px solid rgb(var(--ink-150-rgb));
     background: #fff;
 }
 
 .headerInner {
-    padding-block: 3rem;
-}
-
-@media (min-width: 768px) {
-    .headerInner {
-        padding-block: 4rem;
-    }
-}
-
-.headerRow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.5rem;
-}
-
-.copy {
-    max-width: 42rem;
-}
-
-.eyebrow {
-    color: rgb(var(--color-accent-rgb));
+    padding-bottom: 1.5rem;
 }
 
 .title {
-    margin: 0.75rem 0 0;
-    color: rgb(var(--ink-950-rgb));
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-    font-weight: 600;
-    line-height: 1.02;
+    margin: 0 0 30px;
+    color: rgb(var(--ink-900-rgb));
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.15;
 }
 
-.lead {
-    margin: 1rem 0 0;
+@media (max-width: 767px) {
+    .title {
+        margin-bottom: 20px;
+        font-size: 30px;
+    }
+}
+
+.extra {
+    margin: 8px 0 0;
     color: rgb(var(--ink-500-rgb));
-    font-size: 1rem;
-    line-height: 1.625;
+    font-size: 16px;
 }
 
-.visit {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+.clear {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .gridSection {
     padding-bottom: 7rem;
-    background: rgb(var(--ink-50-rgb) / 0.4);
+    background: #fff;
 }
 
 @media (min-width: 768px) {
@@ -63,28 +45,30 @@
 }
 
 .gridInner {
-    padding-top: 2.5rem;
+    padding-top: 1.25rem;
 }
 
 .grid {
     display: grid;
-    gap: 1.25rem;
+    gap: 30px;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
     .grid {
         grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (min-width: 1024px) {
-    .grid {
-        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 30px;
+        row-gap: 30px;
     }
 }
 
 .empty {
     padding-block: 4rem;
+    color: rgb(var(--ink-500-rgb));
+    text-align: center;
+}
+
+.loading {
+    padding: 4rem 1rem;
     color: rgb(var(--ink-500-rgb));
     text-align: center;
 }

@@ -42,6 +42,31 @@ export function formatArea(value: number | null | undefined): string {
     return `${value} м²`;
 }
 
+export function formatAreaTenths(value: number | null | undefined): string {
+    if (value == null || !Number.isFinite(value)) return "—";
+    return `${value.toFixed(1).replace(".", ",")} м²`;
+}
+
+export function parseArea(raw: unknown): number | null {
+    if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
+        return Math.round(raw);
+    }
+    if (typeof raw !== "string") return null;
+    const normalized = raw.replace(",", ".").trim();
+    const tagged = normalized.match(
+        /(\d+(?:\.\d+)?)\s*м(?:\.?\s*кв|\s*2|²)/i,
+    );
+    if (tagged) {
+        const n = Number(tagged[1]);
+        return Number.isFinite(n) && n > 0 ? Math.round(n) : null;
+    }
+    if (/^\d+(?:\.\d+)?$/.test(normalized)) {
+        const n = Number(normalized);
+        return Number.isFinite(n) && n > 0 ? Math.round(n) : null;
+    }
+    return null;
+}
+
 export function formatFloors(floors: string | null | undefined): string {
     if (!floors) return "—";
     switch (floors) {
@@ -92,6 +117,8 @@ export const bedroomsWord = (n: number) =>
     pluralize(n, ["спальня", "спальни", "спален"]);
 export const bathroomsWord = (n: number) =>
     pluralize(n, ["санузел", "санузла", "санузлов"]);
+export const roomsWord = (n: number) =>
+    pluralize(n, ["комната", "комнаты", "комнат"]);
 export const photosWord = (n: number) =>
     pluralize(n, ["фото", "фото", "фото"]);
 

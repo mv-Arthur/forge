@@ -7,7 +7,8 @@ export type ProjectCardMetricIcon =
     | "size"
     | "area"
     | "bed"
-    | "bath";
+    | "bath"
+    | "tech";
 
 export type ProjectCardMetric = {
     icon: ProjectCardMetricIcon;
@@ -17,6 +18,7 @@ export type ProjectCardMetric = {
 type ProjectCardBase = {
     priority?: boolean;
     layout?: ProjectCardLayout;
+    cover?: string;
 };
 
 export type ProjectCardProps = ProjectCardBase &

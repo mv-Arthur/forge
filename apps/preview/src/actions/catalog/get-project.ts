@@ -8,6 +8,7 @@ import type {
     ShowcasePayload,
 } from "./catalog.types";
 import {
+    getArchitectWorks,
     getProject,
     getRelatedBuiltObjects,
     getShowcase,
@@ -20,6 +21,8 @@ export async function getProjectPage(slug: string): Promise<
         similar: MergedProject[];
         relatedBuilt: EnrichedBuiltObject[];
         showcase: ShowcasePayload | null;
+        architectWorks: MergedProject[];
+        architectMore: number;
     }>
 > {
     const project = getProject(slug) ?? null;
@@ -30,13 +33,18 @@ export async function getProjectPage(slug: string): Promise<
             similar: [],
             relatedBuilt: [],
             showcase: null,
+            architectWorks: [],
+            architectMore: 0,
         };
     }
+    const architect = getArchitectWorks(slug, 3);
     return {
         success: true,
         project,
         similar: getSimilarProjects(slug, 6),
         relatedBuilt: getRelatedBuiltObjects(slug, 6),
         showcase: getShowcase(slug),
+        architectWorks: architect.items,
+        architectMore: architect.moreCount,
     };
 }

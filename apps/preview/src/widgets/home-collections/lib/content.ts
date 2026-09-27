@@ -1,4 +1,5 @@
 import { COLLECTION_TITLE } from "@/lib/copy";
+import { routes } from "@/lib/routes";
 import {
     COLLECTION_ORDER,
     projectInCollection,
@@ -11,7 +12,8 @@ export function collectionImage(id: CollectionId): string {
 }
 
 export function buildCollectionItems(
-    projects: Array<{ features: string[]; categories: string[] }>
+    projects: Array<{ features: string[]; categories: string[] }>,
+    slots: Record<string, string> = {}
 ): HomeCollectionItem[] {
     return COLLECTION_ORDER.flatMap((id) => {
         const count = projects.filter((p) => projectInCollection(p, id)).length;
@@ -22,8 +24,8 @@ export function buildCollectionItems(
                 id,
                 title,
                 count,
-                href: `/projects?collection=${id}`,
-                image: collectionImage(id),
+                href: routes.projects({ collection: id }),
+                image: slots[`collection.${id}`] ?? collectionImage(id),
                 imageAlt: title,
             },
         ];

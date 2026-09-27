@@ -1,0 +1,668 @@
+.page {
+    padding-bottom: 8px;
+}
+
+.hero {
+    display: grid;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.heroCopy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 36px 28px 28px;
+    border-radius: 24px;
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.heroEyebrow {
+    margin: 0 0 28px;
+    color: rgb(var(--ink-50-rgb) / 0.62);
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.heroHeading {
+    margin: 0;
+    color: inherit;
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    white-space: pre-line;
+}
+
+.heroLead {
+    max-width: 36rem;
+    margin: 20px 0 0;
+    color: rgb(var(--ink-50-rgb) / 0.78);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.55;
+}
+
+.heroActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 40px;
+}
+
+.heroPrimary,
+.heroGhost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 28px;
+    border-radius: var(--radius-pill);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.heroPrimary {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+}
+
+.heroPrimary:hover {
+    background: #fff;
+}
+
+.heroGhost {
+    border: 1px solid rgb(var(--ink-50-rgb) / 0.38);
+    color: var(--color-ink-on-accent);
+}
+
+.heroGhost:hover {
+    border-color: rgb(var(--ink-50-rgb) / 0.7);
+    background: rgb(var(--ink-50-rgb) / 0.08);
+}
+
+.heroGhost svg {
+    width: 16px;
+    height: 16px;
+}
+
+.heroPhoto {
+    position: relative;
+    overflow: hidden;
+    min-height: 280px;
+    border-radius: 24px;
+    background: rgb(var(--ink-200-rgb));
+}
+
+.heroImage {
+    object-fit: cover;
+    object-position: 42% 48%;
+}
+
+.block {
+    margin-top: 72px;
+}
+
+.blockTitle {
+    margin: 0;
+    font-size: clamp(28px, 3.2vw, 40px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.blockLead {
+    max-width: 36rem;
+    margin: 12px 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.situationTabs {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.situationTabs::-webkit-scrollbar {
+    display: none;
+}
+
+.situationTab {
+    position: relative;
+    flex: 0 0 78%;
+    overflow: hidden;
+    min-height: 220px;
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    background: rgb(var(--ink-800-rgb));
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.situationTabImage {
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.situationTab:hover .situationTabImage {
+    transform: scale(1.04);
+}
+
+.situationTabShade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgb(16 20 18 / 0.05) 20%,
+        rgb(16 20 18 / 0.72) 100%
+    );
+}
+
+.situationTabCopy {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 44px;
+}
+
+.situationTabTitle {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.situationTabLead {
+    color: rgb(255 255 255 / 0.86);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.35;
+}
+
+.situationTabIcon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.92);
+    color: var(--color-accent);
+}
+
+.situationTabIcon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.situationTab[aria-selected="true"] .situationTabIcon {
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.situationPanel,
+.pathPanel {
+    display: grid;
+    gap: 28px;
+    margin-top: 16px;
+    padding: 28px 20px;
+    border-radius: 24px;
+    background: var(--color-accent-soft);
+}
+
+.panelTitle {
+    margin: 0;
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.panelLead {
+    max-width: 36rem;
+    margin: 12px 0 0;
+    color: rgb(var(--ink-700-rgb));
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.panelCta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+    min-height: 52px;
+    margin-top: 24px;
+    padding: 0 22px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.panelCta:hover {
+    background: var(--color-accent-hover);
+}
+
+.panelCta svg {
+    width: 16px;
+    height: 16px;
+}
+
+.offerGrid {
+    display: grid;
+    gap: 12px;
+}
+
+.offer,
+.pathOfferPhoto {
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+    padding: 16px;
+    border-radius: 20px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+}
+
+.offerMeta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 28px;
+}
+
+.offerKicker {
+    color: rgb(var(--ink-500-rgb));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.offerBadge {
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: rgb(var(--color-accent-rgb) / 0.1);
+    color: var(--color-accent);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.offerMark {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin: 28px auto 16px;
+    border-radius: 999px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+}
+
+.offerMark svg {
+    width: 22px;
+    height: 22px;
+}
+
+.offerTitle {
+    margin-top: auto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.offerMore {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    color: var(--color-accent);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.offerMore svg {
+    width: 14px;
+    height: 14px;
+}
+
+.pathTabs {
+    display: flex;
+    gap: 6px;
+    margin-top: 24px;
+    padding: 6px;
+    overflow-x: auto;
+    border-radius: var(--radius-pill);
+    background: rgb(var(--ink-100-rgb));
+    scrollbar-width: none;
+}
+
+.pathTabs::-webkit-scrollbar {
+    display: none;
+}
+
+.pathTab {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.pathTab[aria-selected="true"] {
+    background: #fff;
+    color: var(--color-ink);
+    box-shadow: 0 1px 4px rgb(var(--ink-900-rgb) / 0.08);
+}
+
+.pathTabIcon {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    color: var(--color-accent);
+}
+
+.pathTabIcon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.checks {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0 0;
+    padding: 20px 0 0;
+    border-top: 1px solid rgb(var(--ink-200-rgb));
+    list-style: none;
+}
+
+.checks li {
+    padding-left: 28px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M4 10.5 8 14.5 16 6' stroke='%232c4a3a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+        left 1px / 18px 18px no-repeat;
+    color: rgb(var(--ink-800-rgb));
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.pathOffers {
+    display: grid;
+    gap: 12px;
+}
+
+.pathOfferPhoto {
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.pathOfferMedia {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+}
+
+.pathOfferImage {
+    object-fit: cover;
+}
+
+.pathOfferBadge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 0.94);
+    color: var(--color-accent);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.pathOfferBody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+}
+
+.lead {
+    margin-top: 72px;
+    padding: 40px 20px 36px;
+    border-radius: 24px;
+    background: #fff;
+    text-align: center;
+}
+
+.leadTitle {
+    margin: 0;
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 500;
+}
+
+.leadText {
+    max-width: 36rem;
+    margin: 12px auto 28px;
+    color: rgb(var(--ink-700-rgb));
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.leadForm {
+    text-align: left;
+}
+
+.statsBleed {
+    margin-top: 64px;
+    padding: 48px 0;
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 20px;
+}
+
+.statValue {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+}
+
+.statHint {
+    max-width: 12rem;
+    margin-top: 8px;
+    color: rgb(var(--ink-50-rgb) / 0.78);
+    font-size: 14px;
+    line-height: 1.35;
+    white-space: pre-line;
+}
+
+.worksWrap {
+    padding-top: 56px;
+    padding-bottom: 80px;
+}
+
+.works {
+    display: grid;
+    gap: 16px;
+}
+
+.worksCard {
+    display: grid;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+}
+
+.worksMedia {
+    position: relative;
+    display: block;
+    min-height: 200px;
+    aspect-ratio: 16 / 10;
+}
+
+.worksImage {
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.worksCard:hover .worksImage {
+    transform: scale(1.03);
+}
+
+.worksCopy {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+}
+
+.worksTitle {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.worksLead {
+    color: rgb(var(--ink-600-rgb));
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.worksCta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    color: var(--color-accent);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.worksCta svg {
+    width: 18px;
+    height: 18px;
+}
+
+@media (min-width: 768px) {
+    .heroCopy {
+        padding: 48px 44px 40px;
+        min-height: 480px;
+    }
+
+    .heroPhoto {
+        min-height: 480px;
+    }
+
+    .situationTab {
+        flex-basis: 48%;
+    }
+
+    .offerGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pathOffers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .lead {
+        padding: 56px 40px 48px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .works {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 992px) {
+    .hero {
+        grid-template-columns: 1fr 1fr;
+        min-height: 560px;
+    }
+
+    .heroCopy {
+        padding: 52px 44px 40px;
+    }
+
+    .heroCopy,
+    .heroPhoto {
+        min-height: 560px;
+    }
+
+    .situationTabs {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        overflow: visible;
+    }
+
+    .situationTab {
+        flex-basis: auto;
+        min-height: 260px;
+    }
+
+    .situationPanel,
+    .pathPanel {
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        align-items: start;
+        padding: 36px;
+        gap: 36px;
+    }
+
+    .pathTabs {
+        justify-content: space-between;
+    }
+
+    .pathTab {
+        flex: 1 1 0;
+        justify-content: center;
+    }
+}

@@ -16,10 +16,12 @@ export function HomeLead({
     telegram,
     max,
     form,
+    officeImage,
 }: {
     telegram: string;
     max: string;
     form: ReactNode;
+    officeImage: string;
 }) {
     return (
         <section id="lead" data-section="lead" className={styles.root}>
@@ -31,7 +33,7 @@ export function HomeLead({
                 </div>
                 <div className={styles.photo}>
                     <Image
-                        src="/media/lead/office.jpg"
+                        src={officeImage}
                         alt=""
                         fill
                         unoptimized

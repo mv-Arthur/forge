@@ -60,12 +60,6 @@
     --color-danger-rgb: 179 64 47;
     --color-brand-green-rgb: 71 145 50;
 
-    /* Typography — Manrope for body and display */
-    --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
-    --font-display: var(--font-sans);
-    --font-sans-stack: var(--font-sans);
-    --font-display-stack: var(--font-display);
-
     --text-xs: 0.75rem; /* 12 */
     --text-sm: 0.875rem; /* 14 */
     --text-base: 1rem; /* 16 */
@@ -158,7 +152,6 @@ html {
 }
 
 body {
-    font-family: var(--font-sans-stack);
     background-color: var(--color-bg);
     color: var(--color-ink);
     font-weight: 400;

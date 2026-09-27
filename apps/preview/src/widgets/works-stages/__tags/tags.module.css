@@ -1,0 +1,51 @@
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list li {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.tag {
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: rgb(var(--ink-100-rgb));
+    color: rgb(var(--ink-800-rgb));
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+    white-space: normal;
+    cursor: pointer;
+}
+
+.tag:hover {
+    background: rgb(var(--ink-150-rgb));
+}
+
+.tagOn {
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+}
+
+.tagOn:hover {
+    background: var(--color-accent-hover);
+}
+
+@media (max-width: 767px) {
+    .list {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .list li,
+    .tag {
+        width: 100%;
+    }
+}

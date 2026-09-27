@@ -8,6 +8,7 @@ import {
     formatPrice,
     formatTechnologyBrand,
 } from "@/lib/format";
+import { routes } from "@/lib/routes";
 import { ProjectCardShell } from "./__shell/project-card__shell";
 import type { ProjectCardMetric, ProjectCardProps } from "./project-card.types";
 
@@ -22,10 +23,11 @@ export function ProjectCard({
     object,
     priority = false,
     layout = "grid",
+    cover,
 }: ProjectCardProps) {
     if (object) {
         const images = object.gallery.filter(Boolean).slice(0, 8);
-        const hero = object.heroImage || images[0] || "";
+        const hero = cover || object.heroImage || images[0] || "";
         const techLabel = object.technology
             ? formatTechnologyBrand(object.technology)
             : null;
@@ -51,7 +53,7 @@ export function ProjectCard({
 
         return (
             <ProjectCardShell
-                href={`/works/${object.slug}`}
+                href={routes.worksGallery()}
                 slug={object.slug}
                 name={object.displayTitle}
                 hero={hero}
@@ -68,8 +70,8 @@ export function ProjectCard({
     }
 
     const images = project.renders.slice(0, 8);
-    const href = `/projects/${project.slug}`;
-    const hero = project.heroImage || images[0] || "";
+    const href = routes.project(project.slug);
+    const hero = cover || project.heroImage || images[0] || "";
     const primaryTech =
         project.variants[0]?.technology ?? project.technologies[0] ?? null;
     const techLabel = primaryTech
@@ -89,7 +91,9 @@ export function ProjectCard({
     if (project.bedrooms != null) {
         metrics.push({
             icon: "bed",
-            label: `${project.bedrooms} ${bedroomsWord(project.bedrooms)}`,
+            label: similar
+                ? String(project.bedrooms)
+                : `${project.bedrooms} ${bedroomsWord(project.bedrooms)}`,
         });
     }
     if (!similar && project.bathrooms != null) {
@@ -97,6 +101,9 @@ export function ProjectCard({
             icon: "bath",
             label: `${project.bathrooms} ${bathroomsWord(project.bathrooms)}`,
         });
+    }
+    if (similar && techLabel && techLabel !== "—") {
+        metrics.push({ icon: "tech", label: techLabel });
     }
 
     const cls = projectClass(project);
@@ -116,8 +123,8 @@ export function ProjectCard({
             images={images}
             layout={layout}
             priority={priority}
-            floorsLabel={kindLabel}
-            techLabel={techLabel === "—" ? null : techLabel}
+            floorsLabel={similar ? null : kindLabel}
+            techLabel={similar ? null : techLabel === "—" ? null : techLabel}
             priceKicker={null}
             price={
                 similar && !(project.priceFrom != null && project.priceFrom > 0)

@@ -2,13 +2,11 @@ import { notFound } from "next/navigation";
 import { getProjectPage } from "@/actions/catalog/get-project";
 import { listProjectSlugs } from "@/actions/catalog/list-project-slugs";
 import { unwrapAction } from "@/types/action";
-import { DETAIL_CTA_PRICE } from "@/lib/copy";
+import { DETAIL_PACKAGE_CTA } from "@/lib/copy";
 import { LeadFormContainer } from "@/widgets/lead-form/lead-form.container";
-import { ProjectCarouselContainer } from "@/widgets/project-carousel/project-carousel.container";
 import { ProjectDetail } from "@/widgets/project-detail/project-detail";
 import { ProjectDetailIndividual } from "@/widgets/project-detail-individual/project-detail-individual";
 import { ProjectDetailSerial } from "@/widgets/project-detail-serial/project-detail-serial";
-import { VisitLauncherContainer } from "@/widgets/visit-launcher/visit-launcher.container";
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -31,39 +29,17 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProjectPage({ params }: Props) {
     const { slug } = await params;
-    const { project, similar, relatedBuilt, showcase } = unwrapAction(
-        await getProjectPage(slug),
-    );
+    const { project, similar, relatedBuilt, showcase, architectWorks, architectMore } =
+        unwrapAction(await getProjectPage(slug));
     if (!project) notFound();
-
-    const leadForm = (
-        <LeadFormContainer
-            source={`project-${project.slug}`}
-            prefill={`Проект: ${project.displayName}`}
-        />
-    );
-    const similarCarousel =
-        similar.length > 0 ? (
-            <ProjectCarouselContainer projects={similar} />
-        ) : null;
 
     if (showcase && project.projectClass === "serial") {
         return (
             <ProjectDetailSerial
                 project={project}
                 showcase={showcase}
-                similar={similar}
                 relatedBuilt={relatedBuilt}
-                leadForm={leadForm}
-                similarCarousel={similarCarousel}
-                startVisit={
-                    <VisitLauncherContainer buttonLabel="Записаться на просмотр" />
-                }
-                startQuote={
-                    <a href="#detail-lead" className="btn btn-primary">
-                        {DETAIL_CTA_PRICE}
-                    </a>
-                }
+                similar={similar.slice(0, 4)}
             />
         );
     }
@@ -77,29 +53,21 @@ export default async function ProjectPage({ params }: Props) {
             <ProjectDetailIndividual
                 project={project}
                 showcase={showcase}
-                similar={similar}
-                relatedBuilt={relatedBuilt}
-                leadForm={leadForm}
-                similarCarousel={similarCarousel}
+                architectWorks={architectWorks}
+                architectMore={architectMore}
+                leadForm={
+                    <LeadFormContainer
+                        source={`project-${project.slug}`}
+                        prefill={`Проект: ${project.displayName}`}
+                        ctaLabel={DETAIL_PACKAGE_CTA}
+                        layout="unique"
+                    />
+                }
             />
         );
     }
 
     return (
-        <ProjectDetail
-            project={project}
-            similar={similar}
-            relatedBuilt={relatedBuilt}
-            leadForm={leadForm}
-            similarCarousel={similarCarousel}
-            startVisit={
-                <VisitLauncherContainer buttonLabel="Записаться на просмотр" />
-            }
-            startQuote={
-                <a href="#detail-lead" className="btn btn-primary">
-                    {DETAIL_CTA_PRICE}
-                </a>
-            }
-        />
+        <ProjectDetail project={project} relatedBuilt={relatedBuilt} />
     );
 }

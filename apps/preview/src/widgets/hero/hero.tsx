@@ -9,6 +9,7 @@ import styles from "./hero.module.css";
 export function Hero({
     heading,
     lead,
+    banner,
     cards,
     attributes,
     index,
@@ -19,7 +20,7 @@ export function Hero({
     return (
         <div className={styles.banner}>
             <div className={styles.main} data-hero-slider>
-                <HeroBackground />
+                <HeroBackground src={banner} />
                 <div className={styles.info}>
                     <HeroText heading={heading} lead={lead} />
                     <HeroMoreLink variant="mobile" />

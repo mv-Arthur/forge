@@ -9,6 +9,7 @@ import {
     POPULAR_LEAD,
     POPULAR_SERIAL_TAB,
 } from "@/lib/copy";
+import { routes } from "@/lib/routes";
 import { PopularProjects } from "./popular-projects";
 import type { PopularTab } from "./popular-projects.types";
 
@@ -31,7 +32,9 @@ export function PopularProjectsContainer({
             heading={POPULAR_HEADING}
             lead={individualOn ? POPULAR_INDIVIDUAL_LEAD : POPULAR_LEAD}
             allHref={
-                individualOn ? "/projects?kind=individual" : "/projects"
+                individualOn
+                    ? routes.projects({ kind: "individual" })
+                    : routes.projects()
             }
             allLabel={POPULAR_ALL}
             serialLabel={POPULAR_SERIAL_TAB}

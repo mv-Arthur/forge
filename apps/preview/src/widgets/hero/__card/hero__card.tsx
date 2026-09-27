@@ -25,6 +25,7 @@ export function HeroCard({
                     src={card.image}
                     alt=""
                     fill
+                    unoptimized
                     draggable={false}
                     sizes="(min-width: 1601px) 165px, 115px"
                 />

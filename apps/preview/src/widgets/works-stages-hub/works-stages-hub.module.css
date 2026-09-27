@@ -1,0 +1,288 @@
+.page {
+    padding-bottom: 80px;
+}
+
+.heading {
+    margin: 8px 0 28px;
+    color: rgb(var(--ink-950-rgb));
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #fff;
+}
+
+.copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 28px 24px 12px;
+}
+
+.cardTitle {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.cardLead {
+    max-width: 12.5em;
+    margin: 16px 0 0;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.35;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 168px;
+    height: 48px;
+    margin-top: 28px;
+    padding: 0 28px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-ink-on-accent);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color var(--transition);
+}
+
+.cta:hover {
+    background: var(--color-accent-hover);
+}
+
+.photo {
+    position: relative;
+    height: 220px;
+    margin-top: auto;
+}
+
+.photoImg {
+    object-fit: contain;
+    object-position: right bottom;
+    transform: scale(1.42);
+    transform-origin: 92% 100%;
+}
+
+@media (min-width: 900px) {
+    .heading {
+        font-size: 48px;
+        margin-bottom: 32px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .card {
+        min-height: 300px;
+    }
+
+    .copy {
+        max-width: 48%;
+        min-height: 300px;
+        padding: 40px 16px 32px 36px;
+    }
+
+    .cardTitle {
+        font-size: 36px;
+    }
+
+    .cta {
+        margin-top: auto;
+    }
+
+    .photo {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
+        width: 56%;
+        height: auto;
+        margin: 0;
+        pointer-events: none;
+    }
+
+    .photoImg {
+        transform: scale(1.36);
+        transform-origin: 96% 108%;
+    }
+
+    .card[data-tech="frame"] .photo {
+        width: 54%;
+    }
+
+    .card[data-tech="frame"] .photoImg {
+        transform: scale(1.28);
+        transform-origin: 100% 108%;
+    }
+
+    .visit {
+        min-height: 300px;
+    }
+
+    .visitCopy {
+        min-height: 300px;
+        padding: 48px 40px;
+    }
+
+    .visitTitle {
+        font-size: 40px;
+    }
+
+    .visitLead {
+        font-size: 18px;
+    }
+}
+
+.visit {
+    position: relative;
+    overflow: hidden;
+    min-height: 280px;
+    margin-top: 20px;
+    border-radius: 24px;
+}
+
+.visitImage {
+    object-fit: cover;
+    object-position: 68% center;
+}
+
+.visitShade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgb(16 20 18 / 0.62) 0%,
+        rgb(16 20 18 / 0.32) 42%,
+        rgb(16 20 18 / 0.12) 100%
+    );
+}
+
+.visitCopy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 40rem;
+    min-height: 280px;
+    padding: 40px 28px;
+}
+
+.visitTitle {
+    margin: 0;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+}
+
+.visitLead {
+    margin: 12px 0 0;
+    color: rgb(255 255 255 / 0.88);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.visitCta {
+    margin-top: auto;
+    padding-top: 28px;
+}
+
+.visitCta > button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 22px 0 18px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: rgb(232 238 233);
+    box-shadow: none;
+    color: var(--color-accent);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    transform: none;
+    cursor: pointer;
+}
+
+.visitCta > button:hover {
+    background: #fff;
+    transform: none;
+}
+
+.visitCta > button svg {
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 899px) {
+    .photoImg {
+        transform: scale(1.18);
+        transform-origin: center bottom;
+    }
+
+    .visitShade {
+        background: linear-gradient(
+            180deg,
+            rgb(16 20 18 / 0.2) 0%,
+            rgb(16 20 18 / 0.55) 55%,
+            rgb(16 20 18 / 0.7) 100%
+        );
+    }
+
+    .visitCopy {
+        justify-content: flex-end;
+        max-width: none;
+        padding: 28px 20px 24px;
+    }
+
+    .visitTitle {
+        font-size: 26px;
+    }
+
+    .visitLead {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .heading {
+        font-size: 32px;
+    }
+
+    .cardTitle {
+        font-size: 26px;
+    }
+}

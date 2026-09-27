@@ -10,6 +10,7 @@ import {
     DETAIL_COMPARED,
     DETAIL_LIKE,
 } from "@/lib/copy";
+import { routes } from "@/lib/routes";
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -93,7 +94,7 @@ export function ProjectDetailGallery({ project }: Props) {
 
             <Container className={styles.inner}>
                 <div className={styles.top}>
-                    <Link href="/projects" className={styles.back}>
+                    <Link href={routes.projects()} className={styles.back}>
                         <ChevronLeftIcon className={styles.icon} />
                         {DETAIL_BACK}
                     </Link>

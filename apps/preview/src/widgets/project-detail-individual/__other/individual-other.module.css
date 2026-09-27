@@ -1,0 +1,147 @@
+.root {
+    padding: 2.5rem 1rem 1.5rem;
+    background: #fff;
+}
+
+.inner {
+    max-width: var(--container-width);
+    margin-inline: auto;
+}
+
+.head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.title {
+    margin: 0;
+    color: rgb(var(--ink-950-rgb));
+    font-size: clamp(1.6rem, 3vw, 2.15rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+}
+
+.moreDesk {
+    display: none;
+    flex: 0 0 auto;
+    color: rgb(var(--color-accent-rgb));
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    white-space: nowrap;
+}
+
+.moreDesk:hover,
+.moreMob:hover {
+    color: var(--color-accent-hover);
+}
+
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.card {
+    min-width: 0;
+}
+
+.media {
+    position: relative;
+}
+
+.shot {
+    position: relative;
+    display: block;
+    aspect-ratio: 750 / 588;
+    overflow: hidden;
+    background: rgb(var(--ink-100-rgb));
+}
+
+.shot img {
+    object-fit: cover;
+}
+
+.like {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 8px rgb(16 20 18 / 0.55);
+}
+
+.like svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    filter: drop-shadow(0 1px 4px rgb(16 20 18 / 0.45));
+}
+
+.like[aria-pressed="true"] {
+    color: rgb(var(--color-accent-rgb));
+    text-shadow: none;
+}
+
+.info {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.85rem;
+    color: rgb(var(--ink-950-rgb));
+}
+
+.name {
+    min-width: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.area {
+    flex: 0 0 auto;
+    color: rgb(var(--color-accent-rgb));
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+}
+
+.moreMob {
+    display: inline-block;
+    margin-top: 1.25rem;
+    color: rgb(var(--color-accent-rgb));
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+@media (min-width: 768px) {
+    .root {
+        padding: 3rem 1.5rem 2rem;
+    }
+
+    .moreDesk {
+        display: inline;
+    }
+
+    .moreMob {
+        display: none;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1.5rem 1.75rem;
+    }
+}

@@ -8,6 +8,5 @@ export const metadata = {
 
 export default async function CatalogPage() {
     const { hub } = unwrapAction(await getCatalogHub());
-
     return <CatalogHub payload={hub} />;
 }

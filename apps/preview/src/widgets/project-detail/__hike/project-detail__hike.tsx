@@ -1,5 +1,5 @@
 import {
-    DETAIL_HIKE_CTA,
+    CATALOG_PROMO_CTA,
     DETAIL_HIKE_LEAD,
     DETAIL_HIKE_RISE,
     DETAIL_HIKE_TITLE,
@@ -41,8 +41,10 @@ function formatDayMonth(date: Date): string {
 
 export function ProjectDetailHike({
     priceHike,
+    onCta,
 }: {
     priceHike: ShowcasePriceHike | null;
+    onCta: () => void;
 }) {
     if (!priceHike) return null;
     const from = parseDay(priceHike.from);
@@ -51,7 +53,7 @@ export function ProjectDetailHike({
     const startToday = new Date(
         today.getFullYear(),
         today.getMonth(),
-        today.getDate(),
+        today.getDate()
     );
     if (startToday >= from) return null;
 
@@ -60,10 +62,7 @@ export function ProjectDetailHike({
             <Container className={styles.inner}>
                 <div className={styles.banner}>
                     <span className={styles.icon} aria-hidden>
-                        <svg
-                            className={styles.seal}
-                            viewBox="0 0 48 48"
-                        >
+                        <svg className={styles.seal} viewBox="0 0 48 48">
                             <polygon points={SEAL_POINTS} />
                         </svg>
                         <PercentIcon />
@@ -77,9 +76,13 @@ export function ProjectDetailHike({
                         </p>
                         <p className={styles.lead}>{DETAIL_HIKE_LEAD}</p>
                     </div>
-                    <a href="#detail-lead" className={styles.cta}>
-                        {DETAIL_HIKE_CTA}
-                    </a>
+                    <button
+                        type="button"
+                        className={styles.cta}
+                        onClick={onCta}
+                    >
+                        {CATALOG_PROMO_CTA}
+                    </button>
                 </div>
             </Container>
         </section>

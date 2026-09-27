@@ -57,7 +57,6 @@
     margin: 0;
     width: 100%;
     min-width: 0;
-    font-family: var(--font-display);
     font-size: clamp(1.15rem, 1.45vw, 1.55rem);
     font-weight: 650;
     line-height: 1.18;
@@ -178,7 +177,6 @@
 
 .caption {
     padding: 14px 16px 16px;
-    font-family: var(--font-display);
     font-size: 1.02rem;
     font-weight: 650;
     line-height: 1.25;

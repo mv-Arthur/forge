@@ -1,0 +1,414 @@
+.page {
+    padding-bottom: 80px;
+}
+
+.block {
+    margin-top: 56px;
+}
+
+.blockTitle {
+    margin: 0 0 24px;
+    font-size: clamp(28px, 3.2vw, 40px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.techs {
+    display: grid;
+    gap: 12px;
+}
+
+.stages {
+    display: grid;
+    gap: 12px;
+}
+
+.stage {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    aspect-ratio: 3 / 4;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: rgb(var(--ink-800-rgb));
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.stageMedia {
+    position: absolute;
+    inset: 0;
+}
+
+.stageImage {
+    object-fit: cover;
+    object-position: center;
+    transition: transform var(--duration-slow) var(--ease);
+}
+
+.stage:hover .stageImage,
+.stage[data-open] .stageImage {
+    transform: scale(1.04);
+}
+
+.stageShade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgb(16 20 18 / 0.08) 24%,
+        rgb(16 20 18 / 0.78) 100%
+    );
+}
+
+.stageFooter {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stageTitle {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(24px, 2.6vw, 30px);
+    font-weight: 600;
+    line-height: 1.15;
+    white-space: pre-line;
+}
+
+.stageMore {
+    width: fit-content;
+    color: rgb(255 255 255 / 0.9);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.stageMore:hover {
+    color: #fff;
+}
+
+.stagePanel {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 20px;
+    background: rgb(16 20 18 / 0.88);
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s var(--ease);
+}
+
+.stage[data-open] .stagePanel {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.stagePanelTitle {
+    margin: 0;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: pre-line;
+}
+
+.stageList {
+    display: grid;
+    gap: 8px;
+    overflow: auto;
+    list-style: none;
+}
+
+.stageList a,
+.stageCta {
+    color: rgb(255 255 255 / 0.92);
+    font-size: 15px;
+    line-height: 1.35;
+    text-decoration: none;
+}
+
+.stageList a:hover,
+.stageCta:hover {
+    color: #fff;
+}
+
+.stageLead {
+    margin: 0;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.stageCta {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-top: auto;
+    padding: 10px 16px;
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 0.14);
+    font-weight: 500;
+}
+
+.articles {
+    display: grid;
+    gap: 12px;
+}
+
+.article {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+}
+
+.articleMedia {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: rgb(var(--ink-100-rgb));
+}
+
+.articleImage {
+    object-fit: cover;
+}
+
+.articleBody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 18px 20px;
+}
+
+.articleTitle {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.articleHint {
+    display: block;
+    color: rgb(var(--ink-600-rgb));
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.calc {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    padding: 28px 20px;
+    border: 0;
+    border-radius: 20px;
+    background-color: rgb(var(--ink-900-rgb));
+    background-image:
+        linear-gradient(90deg, rgb(16 20 18 / 0.55), rgb(16 20 18 / 0.2)),
+        url("/media/calc/calc-mob.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.calcTitle {
+    display: block;
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: clamp(24px, 2.8vw, 32px);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.calcLead {
+    display: block;
+    margin: 0;
+    max-width: 40rem;
+    color: rgb(255 255 255 / 0.9);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.calcBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 48px;
+    padding: 0 22px;
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 0.94);
+    color: var(--color-accent);
+    font-size: 16px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.faq {
+    display: grid;
+    gap: 8px;
+}
+
+.faqItem {
+    overflow: hidden;
+    border-radius: 16px;
+    background: #fff;
+}
+
+.faqItem summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.faqItem summary::-webkit-details-marker {
+    display: none;
+}
+
+.faqItem summary::after {
+    content: "";
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid var(--color-ink);
+    border-bottom: 2px solid var(--color-ink);
+    transform: rotate(45deg);
+    transition: transform 0.2s var(--ease);
+}
+
+.faqItem[open] summary::after {
+    transform: rotate(225deg);
+}
+
+.faqAnswer {
+    margin: 0;
+    padding: 0 20px 20px;
+    color: rgb(var(--ink-700-rgb));
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.leadBox {
+    margin-top: 72px;
+    padding: 40px 20px 36px;
+    border-radius: 24px;
+    background: #fff;
+    text-align: center;
+}
+
+.leadTitle {
+    margin: 0;
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 500;
+}
+
+.leadText {
+    max-width: 36rem;
+    margin: 12px auto 28px;
+    color: rgb(var(--ink-700-rgb));
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.leadForm {
+    text-align: left;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .stage:hover .stagePanel {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .stage:hover .stageFooter {
+        opacity: 0;
+    }
+}
+
+.stage[data-open] .stageFooter {
+    opacity: 0;
+}
+
+@media (min-width: 768px) {
+    .techs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .stages {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .articles {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .calc {
+        flex-direction: row;
+        align-items: center;
+        padding: 36px 40px;
+        background-image:
+            linear-gradient(90deg, rgb(16 20 18 / 0.5), rgb(16 20 18 / 0.15)),
+            url("/media/calc/calc-992.png");
+        background-position: center;
+        background-size: cover;
+    }
+
+    .leadBox {
+        padding: 56px 40px 48px;
+    }
+}
+
+@media (min-width: 992px) {
+    .block {
+        margin-top: 72px;
+    }
+
+    .techs {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .stage {
+        min-height: 460px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stageImage {
+        transition: none;
+    }
+
+    .stage:hover .stageImage,
+    .stage[data-open] .stageImage {
+        transform: none;
+    }
+}

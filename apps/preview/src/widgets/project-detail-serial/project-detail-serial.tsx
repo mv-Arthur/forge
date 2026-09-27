@@ -1,32 +1,32 @@
 import Link from "next/link";
 import {
-    DETAIL_ALL_PROJECTS,
-    DETAIL_DECOR_HEADING,
-    DETAIL_DECOR_LEAD,
-    DETAIL_FACADES_HEADING,
     DETAIL_NAV_ABOUT,
     DETAIL_NAV_BUILT,
     DETAIL_NAV_DECOR,
     DETAIL_NAV_FACADES,
-    DETAIL_NAV_PACKAGES,
+    DETAIL_NAV_PACKAGE,
     DETAIL_NAV_PLANS,
-    DETAIL_NAV_START,
     DETAIL_SIMILAR,
-    DETAIL_START_HEADING,
-    LEAD_EYEBROW,
-    RELATED_HOUSES_LEAD,
-    SEE_HOUSES,
-    WORKS_EYEBROW,
 } from "@/lib/copy";
-import { BuiltObjectCard } from "@/widgets/built-object-card/built-object-card";
+import { routes } from "@/lib/routes";
+import { ArrowUpRightIcon } from "@/ui/icons";
+import { ProjectCard } from "@/widgets/project-card/project-card";
+import { ProjectDetailBuilt } from "@/widgets/project-detail/__built/project-detail__built";
 import { ProjectDetailDecor } from "@/widgets/project-detail/__decor/project-detail__decor";
 import { ProjectDetailFacades } from "@/widgets/project-detail/__facades/project-detail__facades";
 import { ProjectDetailFacts } from "@/widgets/project-detail/__facts/project-detail__facts";
-import { ProjectDetailHike } from "@/widgets/project-detail/__hike/project-detail__hike";
-import { ProjectDetailNav, type DetailNavItem } from "@/widgets/project-detail/__nav/project-detail__nav";
-import { ProjectDetailPackages } from "@/widgets/project-detail/__packages/project-detail__packages";
+import { ProjectDetailHikeContainer } from "@/widgets/project-detail-hike/project-detail-hike.container";
+import { ProjectDetailMosaic } from "@/widgets/project-detail/__mosaic/project-detail__mosaic";
+import {
+    ProjectDetailNav,
+    type DetailNavItem,
+} from "@/widgets/project-detail/__nav/project-detail__nav";
+import { PackageCtaContainer } from "@/widgets/package-cta/package-cta.container";
+import { ProjectDetailPackage } from "@/widgets/project-detail/__package/project-detail__package";
+import { ProjectDetailCalcContainer } from "@/widgets/project-detail-calc/project-detail-calc.container";
+import { ProjectDetailServicesContainer } from "@/widgets/project-detail-services/project-detail-services.container";
 import { ProjectDetailPlans } from "@/widgets/project-detail/__plans/project-detail__plans";
-import { ProjectDetailStart } from "@/widgets/project-detail/__start/project-detail__start";
+import { ProjectDetailVideos } from "@/widgets/project-detail/__videos/project-detail__videos";
 import { ProjectDetailSerialHero } from "./__hero/project-detail-serial__hero";
 import type { ProjectDetailSerialProps } from "./project-detail-serial.types";
 import { Container } from "@/ui/container";
@@ -35,21 +35,15 @@ import layout from "../project-detail/project-detail.module.css";
 export function ProjectDetailSerial({
     project,
     showcase,
-    similar,
     relatedBuilt,
-    leadForm,
-    similarCarousel,
-    startVisit,
-    startQuote,
+    similar,
 }: ProjectDetailSerialProps) {
-    const images = showcase.gallery.length
-        ? showcase.gallery
-        : project.renders;
-    const plans = showcase.plans.length
-        ? showcase.plans
-        : project.floorPlans;
+    const images = showcase.gallery.length ? showcase.gallery : project.renders;
+    const plans = showcase.plans.length ? showcase.plans : project.floorPlans;
     const facades = showcase.facades;
     const decor = showcase.decor;
+    const builtPhotos = showcase.builtPhotos;
+    const showBuilt = builtPhotos.length > 0 || relatedBuilt.length > 0;
     const nav: DetailNavItem[] = [
         { href: "#pd-about", label: DETAIL_NAV_ABOUT, icon: "about" },
     ];
@@ -70,25 +64,18 @@ export function ProjectDetailSerial({
             icon: "decor",
         });
     }
-    if (relatedBuilt.length > 0) {
+    if (showBuilt) {
         nav.push({
             href: "#pd-built",
             label: DETAIL_NAV_BUILT,
             icon: "built",
         });
     }
-    if (project.variants.length > 0) {
+    if (showcase.complectation) {
         nav.push({
-            href: "#complectation-section",
-            label: DETAIL_NAV_PACKAGES,
-            icon: "packages",
-        });
-    }
-    if (startVisit && startQuote) {
-        nav.push({
-            href: "#pd-start",
-            label: DETAIL_NAV_START,
-            icon: "start",
+            href: "#pd-package",
+            label: DETAIL_NAV_PACKAGE,
+            icon: "package",
         });
     }
 
@@ -104,34 +91,30 @@ export function ProjectDetailSerial({
                 project={project}
                 priceHike={showcase.priceHike}
             />
-            <ProjectDetailHike priceHike={showcase.priceHike} />
-
-            {showcase.about.length > 0 ? (
-                <section data-section="detail-about" className={layout.band}>
-                    <Container className={layout.aboutGrid}>
-                        {showcase.about.map((block) => (
-                            <article key={block.title}>
-                                <h2 className={layout.heading}>{block.title}</h2>
-                                <p className={layout.aboutText}>{block.text}</p>
-                            </article>
-                        ))}
-                    </Container>
-                </section>
-            ) : null}
+            <ProjectDetailHikeContainer
+                priceHike={showcase.priceHike}
+                source={`hike-${project.slug}`}
+            />
 
             {plans.length > 0 ? (
                 <section
                     id="pd-plans"
                     data-section="detail-plans"
-                    className={layout.bandMuted}
-                    data-stub={
-                        plans.some((p) => p.url.includes("/media/detail"))
-                            ? "true"
-                            : undefined
-                    }
+                    className={layout.band}
                 >
                     <Container className={layout.pad}>
-                        <ProjectDetailPlans project={project} plans={plans} />
+                        <ProjectDetailPlans
+                            plans={plans}
+                            alts={showcase.customerAlts}
+                        />
+                    </Container>
+                </section>
+            ) : null}
+
+            {showcase.mosaic ? (
+                <section data-section="detail-mosaic" className={layout.band}>
+                    <Container className={layout.pad}>
+                        <ProjectDetailMosaic mosaic={showcase.mosaic} />
                     </Container>
                 </section>
             ) : null}
@@ -148,17 +131,28 @@ export function ProjectDetailSerial({
                     }
                 >
                     <Container className={layout.pad}>
-                        <h2 className={layout.heading}>
-                            {DETAIL_FACADES_HEADING}
-                        </h2>
-                        <div className={layout.block}>
-                            <ProjectDetailFacades
-                                facades={facades}
-                                stub={facades.some((f) =>
-                                    f.src.includes("/media/detail"),
-                                )}
-                            />
-                        </div>
+                        <ProjectDetailFacades
+                            facades={facades}
+                            alts={showcase.customerAlts}
+                            stub={facades.some((f) =>
+                                f.src.includes("/media/detail")
+                            )}
+                        />
+                    </Container>
+                </section>
+            ) : null}
+
+            {showcase.heatCalc ? (
+                <section
+                    id="pd-calc"
+                    data-section="detail-calc"
+                    className={layout.calcBand}
+                >
+                    <Container>
+                        <ProjectDetailCalcContainer
+                            projectName={project.displayName}
+                            envelope={showcase.heatCalc}
+                        />
                     </Container>
                 </section>
             ) : null}
@@ -167,111 +161,106 @@ export function ProjectDetailSerial({
                 <section
                     id="pd-decor"
                     data-section="detail-decor"
-                    className={layout.bandMuted}
+                    className={layout.bleed}
                 >
-                    <Container className={layout.pad}>
-                        <h2 className={layout.heading}>
-                            {DETAIL_DECOR_HEADING}
-                        </h2>
-                        <p className={layout.lead}>{DETAIL_DECOR_LEAD}</p>
-                        <div className={layout.block}>
-                            <ProjectDetailDecor items={decor} />
-                        </div>
-                    </Container>
+                    <ProjectDetailDecor items={decor} />
                 </section>
             ) : null}
 
-            {relatedBuilt.length > 0 ? (
+            {showBuilt ? (
                 <section
                     id="pd-built"
                     data-section="detail-built"
                     className={layout.band}
                 >
                     <Container className={layout.pad}>
-                        <div className={`eyebrow ${layout.eyebrow}`}>
-                            {WORKS_EYEBROW}
-                        </div>
-                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
-                            Похожие дома
-                        </h2>
-                        <p className={layout.lead}>{RELATED_HOUSES_LEAD}</p>
-                        <div className={layout.cards}>
-                            {relatedBuilt.map((o) => (
-                                <BuiltObjectCard key={o.slug} object={o} />
-                            ))}
-                        </div>
-                        <div className={layout.block}>
-                            <Link href="/works" className="btn btn-light">
-                                {SEE_HOUSES}
-                            </Link>
-                        </div>
+                        <ProjectDetailBuilt
+                            objects={relatedBuilt}
+                            photos={builtPhotos}
+                        />
                     </Container>
                 </section>
             ) : null}
 
-            {project.variants.length > 0 ? (
+            {showcase.videos.length > 0 ? (
                 <section
-                    id="complectation-section"
-                    data-section="detail-packages"
-                    className={layout.bandSoft}
-                >
-                    <Container className={layout.padLg}>
-                        <ProjectDetailPackages project={project} />
-                    </Container>
-                </section>
-            ) : null}
-
-            {startVisit && startQuote ? (
-                <section
-                    id="pd-start"
-                    data-section="detail-start"
+                    id="pd-video"
+                    data-section="detail-videos"
                     className={layout.band}
                 >
                     <Container className={layout.pad}>
-                        <h2 className={layout.heading}>
-                            {DETAIL_START_HEADING}
-                        </h2>
-                        <div className={layout.block}>
-                            <ProjectDetailStart
-                                visit={startVisit}
-                                quote={startQuote}
-                            />
-                        </div>
+                        <ProjectDetailVideos
+                            videos={showcase.videos}
+                            projectName={project.displayName}
+                            alts={showcase.customerAlts}
+                        />
+                    </Container>
+                </section>
+            ) : null}
+
+            {showcase.complectation ? (
+                <section
+                    id="pd-package"
+                    data-section="detail-package"
+                    className={layout.band}
+                >
+                    <Container className={layout.pad}>
+                        <ProjectDetailPackage
+                            complectation={showcase.complectation}
+                            price={project.priceFrom}
+                            cta={
+                                <PackageCtaContainer
+                                    source={`project-${project.slug}-presentation`}
+                                    prefill={`Презентация: ${project.displayName}`}
+                                />
+                            }
+                        />
                     </Container>
                 </section>
             ) : null}
 
             <section
-                id="detail-lead"
-                data-section="detail-lead"
-                className={layout.leadBand}
+                id="pd-services"
+                data-section="detail-services"
+                className={layout.band}
             >
-                <Container className={layout.leadGrid}>
-                    <div>
-                        <div className={`eyebrow ${layout.eyebrow}`}>
-                            {LEAD_EYEBROW}
-                        </div>
-                        <h2 className={`${layout.heading} ${layout.headingGap}`}>
-                            Уточнить смету по этому проекту
-                        </h2>
-                        <p className={layout.lead}>
-                            Перезвоним по комплектации и срокам.
-                        </p>
-                    </div>
-                    <div className={layout.leadBox}>{leadForm}</div>
+                <Container className={layout.pad}>
+                    <ProjectDetailServicesContainer
+                        source={`project-${project.slug}-services`}
+                        projectName={project.displayName}
+                    />
                 </Container>
             </section>
 
             {similar.length > 0 ? (
-                <section data-section="detail-similar" className={layout.similar}>
+                <section
+                    id="pd-similar"
+                    data-section="detail-similar"
+                    className={layout.similar}
+                >
                     <Container>
                         <div className={layout.similarHead}>
                             <h2 className={layout.heading}>{DETAIL_SIMILAR}</h2>
-                            <Link href="/projects" className={layout.similarAll}>
-                                {DETAIL_ALL_PROJECTS}
+                            <Link
+                                href={routes.projects()}
+                                className={layout.similarAll}
+                            >
+                                Все{" "}
+                                <span className={layout.similarAllWide}>
+                                    проекты
+                                </span>
+                                <ArrowUpRightIcon />
                             </Link>
                         </div>
-                        <div className={layout.block}>{similarCarousel}</div>
+                        <div className={layout.similarGrid}>
+                            {similar.map((p) => (
+                                <ProjectCard
+                                    key={p.slug}
+                                    project={p}
+                                    layout="similar"
+                                />
+                            ))}
+                        </div>
                     </Container>
                 </section>
             ) : null}

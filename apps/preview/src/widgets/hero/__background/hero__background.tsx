@@ -1,12 +1,11 @@
 import Image from "next/image";
-import banner from "../assets/banner.jpg";
 import styles from "./hero__background.module.css";
 
-export function HeroBackground() {
+export function HeroBackground({ src }: { src: string }) {
     return (
         <div className={styles.root}>
             <Image
-                src={banner}
+                src={src}
                 alt=""
                 fill
                 priority

@@ -9,6 +9,7 @@ import {
     DETAIL_COMPARED,
     DETAIL_LIKE,
 } from "@/lib/copy";
+import { routes } from "@/lib/routes";
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -129,7 +130,7 @@ export function ProjectDetailSerialHero({
             <div className={styles.chrome}>
                 <div className={styles.top}>
                     <div className={styles.intro}>
-                        <Link href="/projects" className={styles.back}>
+                        <Link href={routes.projects()} className={styles.back}>
                             <ChevronLeftIcon className={styles.icon} />
                             {DETAIL_BACK}
                         </Link>

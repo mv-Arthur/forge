@@ -1,10 +1,8 @@
 import {
-    DETAIL_CONSULT,
     DETAIL_FACT_AREA,
     DETAIL_FACT_SIZE,
     DETAIL_FACT_TECH,
     DETAIL_FACT_WARDROBE,
-    DETAIL_GET_QUOTE,
     DETAIL_PRICE_CUSTOM,
     DETAIL_PRICE_CUSTOM_LEAD,
     DETAIL_PRICE_HURRY,
@@ -24,7 +22,6 @@ import type { MergedProject, ShowcasePriceHike } from "@/types/catalog";
 import {
     BathIcon,
     BedIcon,
-    ChevronRightIcon,
     DashedAreaIcon,
     InfoIcon,
     TerraceIcon,
@@ -155,11 +152,6 @@ export function ProjectDetailFacts({
         : hikeNext && hikeFrom && startOfToday() >= hikeFrom
           ? hikeNext
           : displayPrice;
-    const quoteHref =
-        project.variants.length > 0
-            ? "#complectation-section"
-            : "#detail-lead";
-
     if (metrics.length === 0 && rows.length === 0 && !priced) return null;
 
     return (
@@ -240,18 +232,6 @@ export function ProjectDetailFacts({
                             ))}
                         </dl>
                     ) : null}
-
-                    <div className={styles.actions}>
-                        <a href="#detail-lead" className={styles.consult}>
-                            {DETAIL_CONSULT}
-                        </a>
-                        <a href={quoteHref} className={styles.quote}>
-                            {DETAIL_GET_QUOTE}
-                            <span className={styles.quoteArrow} aria-hidden>
-                                <ChevronRightIcon />
-                            </span>
-                        </a>
-                    </div>
                 </div>
             </Container>
         </section>

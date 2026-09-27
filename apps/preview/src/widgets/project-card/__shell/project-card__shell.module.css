@@ -304,3 +304,150 @@
         transform: none;
     }
 }
+
+.similar {
+    display: block;
+    color: rgb(var(--ink-950-rgb));
+}
+
+.similarMedia {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 20 / 11;
+    border-radius: 12px;
+    background: rgb(var(--ink-100-rgb));
+}
+
+.similarPhoto {
+    object-fit: cover;
+}
+
+.similarHit {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.similarLike {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.similarLike svg {
+    width: 16px;
+    height: 16px;
+}
+
+.similarLike[aria-pressed="true"] {
+    background: var(--color-accent);
+}
+
+.similarStats {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    padding: 12px 0 0;
+    color: rgb(var(--ink-950-rgb));
+    text-decoration: none;
+}
+
+.similarStats:hover {
+    color: rgb(var(--ink-950-rgb));
+}
+
+.similarName {
+    width: 100%;
+    flex-basis: 100%;
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.similarStat {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 12px;
+    font-size: 12px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.similarStat:first-of-type {
+    margin-left: 0;
+}
+
+.similarStat svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.similarPrice {
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+@media (max-width: 375px) {
+    .similarPrice {
+        position: relative;
+        top: 0;
+        margin-left: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .similarName {
+        font-size: 18px;
+    }
+
+    .similarPrice {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 992px) {
+    .similarStats {
+        flex-flow: row nowrap;
+    }
+
+    .similarName {
+        width: auto;
+        flex-basis: auto;
+        margin: 0 12px 0 0;
+    }
+
+    .similarStat:first-of-type {
+        margin-left: 0;
+    }
+
+    .similarPrice {
+        margin-left: auto;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 767px) {
+    .similarMedia {
+        aspect-ratio: 100 / 61;
+    }
+}

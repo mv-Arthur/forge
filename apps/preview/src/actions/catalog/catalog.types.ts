@@ -9,4 +9,7 @@ export type {
     MergedProject,
     ShowcasePayload,
     Technology,
+    WorksHubPayload,
+    WorksStagePayload,
+    WorksStagesHubPayload,
 } from "@/types/catalog";

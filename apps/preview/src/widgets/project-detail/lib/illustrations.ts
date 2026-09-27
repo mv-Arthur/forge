@@ -2,6 +2,7 @@ export type DetailFacade = {
     id: string;
     label: string;
     src: string;
+    sectionSrc?: string;
 };
 
 export type DetailIllustrations = {

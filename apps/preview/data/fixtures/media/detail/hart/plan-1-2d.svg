@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640">
+  <rect width="900" height="640" fill="#fbfaf7"/>
+  
+  <rect x="28" y="28" width="203.5" height="188" fill="#efe6d6" stroke="#8a8174" stroke-width="1.5"/><text x="129.75" y="122" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Кухня</text>
+  <rect x="241.5" y="28" width="203.5" height="188" fill="#efe6d6" stroke="#8a8174" stroke-width="1.5"/><text x="343.25" y="122" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Гостиная</text>
+  <rect x="455" y="28" width="203.5" height="188" fill="#f6f3ee" stroke="#8a8174" stroke-width="1.5"/><text x="556.75" y="122" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Терраса</text>
+  <rect x="668.5" y="28" width="203.5" height="188" fill="#f3eadc" stroke="#8a8174" stroke-width="1.5"/><text x="770.25" y="122" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Главная спальня</text>
+  <rect x="28" y="226" width="203.5" height="188" fill="#f3eadc" stroke="#8a8174" stroke-width="1.5"/><text x="129.75" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Гостевая спальня</text>
+  <rect x="241.5" y="226" width="203.5" height="188" fill="#f3eadc" stroke="#8a8174" stroke-width="1.5"/><text x="343.25" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Детская</text>
+  <rect x="455" y="226" width="203.5" height="188" fill="#e4eef4" stroke="#8a8174" stroke-width="1.5"/><text x="556.75" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Санузел</text>
+  <rect x="668.5" y="226" width="203.5" height="188" fill="#e4eef4" stroke="#8a8174" stroke-width="1.5"/><text x="770.25" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Санузел 2</text>
+  <rect x="28" y="424" width="203.5" height="188" fill="#e4eef4" stroke="#8a8174" stroke-width="1.5"/><text x="129.75" y="518" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Санузел 3</text>
+  <rect x="241.5" y="424" width="203.5" height="188" fill="#f6f3ee" stroke="#8a8174" stroke-width="1.5"/><text x="343.25" y="518" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, serif" font-size="18" fill="#3f3a34">Холл</text>
+</svg>

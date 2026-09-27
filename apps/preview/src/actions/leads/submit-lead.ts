@@ -10,6 +10,11 @@ export async function submitLead(
     if (!input.phone?.trim()) {
         return { success: false, error: "Укажите телефон" };
     }
+    if (input.email != null && input.email.trim()) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email.trim())) {
+            return { success: false, error: "Введен неверный email" };
+        }
+    }
     if (!input.consent) {
         return { success: false, error: "Нужно согласие на обработку данных" };
     }

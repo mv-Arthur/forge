@@ -10,6 +10,7 @@ const TYPES: Record<string, string> = {
     ".png": "image/png",
     ".svg": "image/svg+xml",
     ".webp": "image/webp",
+    ".mp4": "video/mp4",
 };
 
 export async function GET(
@@ -31,7 +32,7 @@ export async function GET(
         return new NextResponse(buf, {
             headers: {
                 "Content-Type": TYPES[ext] ?? "application/octet-stream",
-                "Cache-Control": "public, max-age=3600",
+                "Cache-Control": "public, max-age=0, must-revalidate",
             },
         });
     } catch {

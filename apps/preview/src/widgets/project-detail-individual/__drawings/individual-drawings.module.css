@@ -1,0 +1,138 @@
+.root {
+    padding: 2.5rem 1rem 3rem;
+    background: #fff;
+    scroll-margin-top: calc(var(--site-header-height, 76px) + 12px);
+}
+
+.inner {
+    max-width: var(--container-width);
+    margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+    .inner {
+        padding-inline: 1.5rem;
+    }
+}
+
+.tabs {
+    display: flex;
+    gap: 2rem;
+    margin: 0 0 2.25rem;
+    padding: 0;
+    border-bottom: 1px solid rgb(var(--ink-150-rgb));
+    list-style: none;
+}
+
+.tab {
+    position: relative;
+    padding: 0 0 0.85rem;
+    border: 0;
+    background: transparent;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.tab[aria-selected="true"] {
+    color: rgb(var(--ink-950-rgb));
+}
+
+.tab[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    background: rgb(var(--color-accent-rgb));
+}
+
+.plan {
+    display: grid;
+    justify-items: start;
+    gap: 1.75rem;
+}
+
+.floors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+}
+
+.floor {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.floor[data-active="true"] {
+    color: rgb(var(--ink-950-rgb));
+    box-shadow: inset 0 -2px 0 rgb(var(--color-accent-rgb));
+}
+
+.shot {
+    display: block;
+    width: 100%;
+    max-width: 36rem;
+    height: auto;
+}
+
+.area {
+    display: grid;
+    gap: 0.65rem;
+    justify-items: start;
+}
+
+.areaBar {
+    width: 2.75rem;
+    height: 4px;
+    background: rgb(var(--color-accent-rgb));
+}
+
+.areaHint {
+    margin: 0;
+    color: rgb(var(--ink-500-rgb));
+    font-size: 0.95rem;
+}
+
+.areaValue {
+    margin: 0;
+    color: rgb(var(--color-accent-rgb));
+    font-size: clamp(2.1rem, 4vw, 2.85rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.facades {
+    display: grid;
+    gap: 2rem 2.5rem;
+    justify-items: center;
+}
+
+.facades .shot {
+    max-width: 28rem;
+}
+
+@media (min-width: 768px) {
+    .root {
+        padding: 3rem 0 4.5rem;
+    }
+
+    .plan .shot {
+        max-width: min(50%, 38rem);
+    }
+
+    .facades {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+    }
+
+    .facades .shot {
+        max-width: 100%;
+    }
+}

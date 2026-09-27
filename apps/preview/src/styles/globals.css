@@ -10,8 +10,6 @@
     color-scheme: light;
     --stroke: rgb(var(--color-ink-rgb) / 0.08);
     --stroke-strong: rgb(var(--color-ink-rgb) / 0.14);
-    --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
-    --font-display: var(--font-sans);
 }
 
 * {
@@ -27,7 +25,6 @@ body {
     margin: 0;
     background: var(--color-bg);
     color: var(--color-ink);
-    font-family: var(--font-sans);
     font-size: 16px;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
@@ -54,7 +51,6 @@ h2,
 h3,
 h4 {
     margin: 0;
-    font-family: var(--font-display);
     color: var(--color-ink);
     font-weight: 600;
     letter-spacing: -0.01em;

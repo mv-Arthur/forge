@@ -10,6 +10,7 @@ import {
     ChevronLeftIcon,
     ChevronRightIcon,
     GridViewIcon,
+    HouseIcon,
     MapPinIcon,
     SizeIcon,
     ThumbUpIcon,
@@ -40,6 +41,7 @@ const METRIC_ICONS: Record<
     area: AreaIcon,
     bed: BedIcon,
     bath: BathIcon,
+    tech: HouseIcon,
 };
 
 function MetricIcon({ icon }: { icon: ProjectCardMetricIcon }) {
@@ -79,15 +81,19 @@ export function ProjectCardShell({
     stub?: boolean;
 }) {
     const [slide, setSlide] = useState(0);
+    const [skip, setSkip] = useState(0);
     const [liked, setLiked] = useState(false);
     const [compared, setCompared] = useState(false);
     const total = images.length;
     const src = images[slide] || hero;
+    const similarSrc = images[skip] || (skip === 0 ? hero : "");
     const likes = formatLikeCount(likeCount(slug, liked));
 
     useEffect(() => {
         setLiked(isLiked(slug));
         setCompared(isCompared(slug));
+        setSkip(0);
+        setSlide(0);
     }, [slug]);
 
     const advance = (dir: 1 | -1) => (e: React.MouseEvent) => {
@@ -96,6 +102,59 @@ export function ProjectCardShell({
         if (total < 2) return;
         setSlide((n) => (n + dir + total) % total);
     };
+
+    if (layout === "similar") {
+        return (
+            <article className={styles.similar}>
+                <div className={styles.similarMedia}>
+                    {similarSrc ? (
+                        <Image
+                            src={similarSrc}
+                            alt={name}
+                            fill
+                            unoptimized
+                            sizes="(min-width:768px) 50vw, 100vw"
+                            className={styles.similarPhoto}
+                            priority={priority}
+                            onError={() => setSkip((n) => n + 1)}
+                        />
+                    ) : (
+                        <div className={styles.empty}>нет фото</div>
+                    )}
+                    <Link href={href} className={styles.similarHit} aria-label={name} />
+                    <button
+                        type="button"
+                        className={styles.similarLike}
+                        aria-pressed={liked}
+                        aria-label={`Нравится, ${likes}`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setLiked(toggleLiked(slug));
+                        }}
+                    >
+                        {liked ? <ThumbUpSolidIcon /> : <ThumbUpIcon />}
+                        <span>{likes}</span>
+                    </button>
+                </div>
+                <Link href={href} className={styles.similarStats}>
+                    <h3 className={styles.similarName}>{name}</h3>
+                    {metrics.map((m) => (
+                        <span
+                            key={m.icon + m.label}
+                            className={styles.similarStat}
+                        >
+                            <MetricIcon icon={m.icon} />
+                            {m.label}
+                        </span>
+                    ))}
+                    {price ? (
+                        <span className={styles.similarPrice}>{price}</span>
+                    ) : null}
+                </Link>
+            </article>
+        );
+    }
 
     return (
         <article

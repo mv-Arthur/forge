@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { routes } from "@/lib/routes";
 import { HeroArrow } from "../__arrow/hero__arrow";
 import styles from "./hero__more-link.module.css";
 
@@ -9,7 +10,7 @@ export function HeroMoreLink({
 }) {
     return (
         <Link
-            href="/projects"
+            href={routes.projects()}
             className={`${styles.root} ${styles[variant]}`}
         >
             <span>Подробнее</span>

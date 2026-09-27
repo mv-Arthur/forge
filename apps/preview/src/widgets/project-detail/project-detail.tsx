@@ -1,30 +1,18 @@
-import Link from "next/link";
 import Image from "next/image";
 import {
-    DETAIL_ALL_PROJECTS,
-    DETAIL_FACADES_HEADING,
     DETAIL_NAV_BUILT,
     DETAIL_NAV_FACADES,
-    DETAIL_NAV_PACKAGES,
     DETAIL_NAV_PLANS,
-    DETAIL_NAV_START,
     DETAIL_PLANS_LEAD,
-    DETAIL_SIMILAR,
-    DETAIL_START_HEADING,
-    LEAD_EYEBROW,
     PROJECT_GALLERY_HEADING,
-    RELATED_HOUSES_LEAD,
-    SEE_HOUSES,
-    WORKS_EYEBROW,
 } from "@/lib/copy";
-import { BuiltObjectCard } from "@/widgets/built-object-card/built-object-card";
+import { routes } from "@/lib/routes";
+import { ProjectDetailBuilt } from "./__built/project-detail__built";
 import { ProjectDetailGallery } from "./__gallery/project-detail__gallery";
 import { ProjectDetailPlans } from "./__plans/project-detail__plans";
-import { ProjectDetailPackages } from "./__packages/project-detail__packages";
 import { ProjectDetailNav, type DetailNavItem } from "./__nav/project-detail__nav";
 import { ProjectDetailFacts } from "./__facts/project-detail__facts";
 import { ProjectDetailFacades } from "./__facades/project-detail__facades";
-import { ProjectDetailStart } from "./__start/project-detail__start";
 import { getDetailIllustrations } from "./lib/illustrations";
 import type { ProjectDetailProps } from "./project-detail.types";
 import { Container } from "@/ui/container";
@@ -32,12 +20,7 @@ import styles from "./project-detail.module.css";
 
 export function ProjectDetail({
     project,
-    similar,
     relatedBuilt,
-    leadForm,
-    similarCarousel,
-    startVisit,
-    startQuote,
 }: ProjectDetailProps) {
     const renders = project.renders.slice(0, 12);
     const illustrations = getDetailIllustrations(project.slug);
@@ -69,21 +52,6 @@ export function ProjectDetail({
             icon: "built",
         });
     }
-    if (project.variants.length > 0) {
-        nav.push({
-            href: "#complectation-section",
-            label: DETAIL_NAV_PACKAGES,
-            icon: "packages",
-        });
-    }
-    if (startVisit && startQuote) {
-        nav.push({
-            href: "#pd-start",
-            label: DETAIL_NAV_START,
-            icon: "start",
-        });
-    }
-
     return (
         <main className={styles.main}>
             <section data-section="detail-hero">
@@ -103,7 +71,7 @@ export function ProjectDetail({
                         {project.floorPlans.length === 0 ? (
                             <p className={styles.note}>{DETAIL_PLANS_LEAD}</p>
                         ) : null}
-                        <ProjectDetailPlans project={project} plans={plans} />
+                        <ProjectDetailPlans plans={plans} />
                     </Container>
                 </section>
             ) : null}
@@ -115,12 +83,11 @@ export function ProjectDetail({
                     className={styles.band}
                 >
                     <Container className={styles.pad}>
-                        <h2 className={styles.heading}>
-                            {DETAIL_FACADES_HEADING}
-                        </h2>
-                        <div className={styles.block}>
-                            <ProjectDetailFacades facades={facades} stub />
-                        </div>
+                        <ProjectDetailFacades
+                            facades={facades}
+                            customersHref={routes.worksGallery()}
+                            stub
+                        />
                     </Container>
                 </section>
             ) : null}
@@ -157,88 +124,7 @@ export function ProjectDetail({
                     className={styles.band}
                 >
                     <Container className={styles.pad}>
-                        <div className={`eyebrow ${styles.eyebrow}`}>
-                            {WORKS_EYEBROW}
-                        </div>
-                        <h2 className={`${styles.heading} ${styles.headingGap}`}>
-                            Похожие дома
-                        </h2>
-                        <p className={styles.lead}>{RELATED_HOUSES_LEAD}</p>
-                        <div className={styles.cards}>
-                            {relatedBuilt.map((o) => (
-                                <BuiltObjectCard key={o.slug} object={o} />
-                            ))}
-                        </div>
-                        <div className={styles.block}>
-                            <Link href="/works" className="btn btn-light">
-                                {SEE_HOUSES}
-                            </Link>
-                        </div>
-                    </Container>
-                </section>
-            ) : null}
-
-            {project.variants.length > 0 ? (
-                <section
-                    id="complectation-section"
-                    data-section="detail-packages"
-                    className={styles.bandSoft}
-                >
-                    <Container className={styles.padLg}>
-                        <ProjectDetailPackages project={project} />
-                    </Container>
-                </section>
-            ) : null}
-
-            {startVisit && startQuote ? (
-                <section
-                    id="pd-start"
-                    data-section="detail-start"
-                    className={styles.band}
-                >
-                    <Container className={styles.pad}>
-                        <h2 className={styles.heading}>{DETAIL_START_HEADING}</h2>
-                        <div className={styles.block}>
-                            <ProjectDetailStart
-                                visit={startVisit}
-                                quote={startQuote}
-                            />
-                        </div>
-                    </Container>
-                </section>
-            ) : null}
-
-            <section
-                id="detail-lead"
-                data-section="detail-lead"
-                className={styles.leadBand}
-            >
-                <Container className={styles.leadGrid}>
-                    <div>
-                        <div className={`eyebrow ${styles.eyebrow}`}>
-                            {LEAD_EYEBROW}
-                        </div>
-                        <h2 className={`${styles.heading} ${styles.headingGap}`}>
-                            Уточнить смету по этому проекту
-                        </h2>
-                        <p className={styles.lead}>
-                            Перезвоним по комплектации и срокам.
-                        </p>
-                    </div>
-                    <div className={styles.leadBox}>{leadForm}</div>
-                </Container>
-            </section>
-
-            {similar.length > 0 ? (
-                <section data-section="detail-similar" className={styles.similar}>
-                    <Container>
-                        <div className={styles.similarHead}>
-                            <h2 className={styles.heading}>{DETAIL_SIMILAR}</h2>
-                            <Link href="/projects" className={styles.similarAll}>
-                                {DETAIL_ALL_PROJECTS}
-                            </Link>
-                        </div>
-                        <div className={styles.block}>{similarCarousel}</div>
+                        <ProjectDetailBuilt objects={relatedBuilt} />
                     </Container>
                 </section>
             ) : null}

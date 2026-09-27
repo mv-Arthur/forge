@@ -3,23 +3,24 @@ import Image from "next/image";
 import { settings } from "@/lib/settings";
 import { MaxIcon, PhoneIcon, TelegramIcon } from "@/ui/icons";
 import { Container } from "@/ui/container";
+import { routes } from "@/lib/routes";
 import styles from "./site-footer.module.css";
 
 const linkCols = [
     {
         title: "Проекты",
         links: [
-            { href: "/catalog", label: "Каталог" },
-            { href: "/projects", label: "Все проекты" },
-            { href: "/projects?tech=gas_concrete", label: "Газобетон" },
-            { href: "/projects?tech=brick", label: "Кирпич" },
-            { href: "/projects?tech=frame", label: "Каркас" },
-            { href: "/projects?tech=sip", label: "СИП" },
+            { href: routes.catalog, label: "Каталог" },
+            { href: routes.projects(), label: "Все проекты" },
+            { href: routes.projects({ tech: "gas_concrete" }), label: "Газобетон" },
+            { href: routes.projects({ tech: "brick" }), label: "Кирпич" },
+            { href: routes.projects({ tech: "frame" }), label: "Каркас" },
+            { href: routes.projects({ tech: "sip" }), label: "СИП" },
         ],
     },
     {
         title: "Портфолио",
-        links: [{ href: "/works", label: "Фотогалерея" }],
+        links: [{ href: routes.works, label: "Фотогалерея" }],
     },
 ];
 
@@ -28,7 +29,7 @@ export function SiteFooter() {
         <footer data-section="site-footer" className={styles.root}>
             <Container className={styles.grid}>
                 <div>
-                    <Link href="/" className={styles.logo}>
+                    <Link href={routes.home} className={styles.logo}>
                         <Image
                             src="/images/logo-header.png"
                             alt="Новый Коттедж"
@@ -95,8 +96,10 @@ export function SiteFooter() {
                         Санкт-Петербург
                     </div>
                     <div className={styles.legalLinks}>
-                        <Link href="/privacy">Политика конфиденциальности</Link>
-                        <Link href="/offer">Оферта</Link>
+                        <Link href={routes.privacy}>
+                            Политика конфиденциальности
+                        </Link>
+                        <Link href={routes.offer}>Оферта</Link>
                     </div>
                 </Container>
             </div>
